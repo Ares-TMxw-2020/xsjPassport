@@ -3,6 +3,8 @@ package com.zjrb.passport;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 
+import com.zjrb.passport.constant.ZbConstants;
+
 /**
  * Function: ZbConfig
  * <p>
