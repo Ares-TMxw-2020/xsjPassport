@@ -1,6 +1,11 @@
 package com.zjrb.passport.net;
 
+import com.zjrb.passport.net.interfaces.IRequestHandler;
+
 import java.io.IOException;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 
 /**
  * Date: 2018/6/28 下午11:35
@@ -14,6 +19,8 @@ public class HttpCall implements Call {
 
     final ZbHttpClient.Config config;
 
+    IRequestHandler requestHandler = new RequestHandler();
+
     public HttpCall(ZbHttpClient.Config config, Request request) {
         this.config = config;
         this.request = request;
@@ -26,7 +33,21 @@ public class HttpCall implements Call {
      */
     @Override
     public Response execute() throws IOException {
-        return null;
+        SyncTask task = new SyncTask();
+        Response response;
+        try {
+            response = HttpThreadPool.getInstance().submit(task);
+            return response;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return new Response.Builder()
+                .code(400)
+                .message("同步请求异常中断")
+                .body(new ResponseBody(null))
+                .build();
     }
 
     /**
@@ -35,6 +56,15 @@ public class HttpCall implements Call {
      */
     @Override
     public void enqueue(CallBack callBack) {
+        HttpAsyncTask task = new HttpAsyncTask(HttpCall.this, callBack, requestHandler);
+        HttpThreadPool.getInstance().execute(new FutureTask<>(task, null));
+    }
 
+    public class SyncTask implements Callable<Response> {
+
+        @Override
+        public Response call() throws Exception {
+            return requestHandler.handleRequest(HttpCall.this);
+        }
     }
 }

@@ -14,7 +14,7 @@ import java.util.Set;
  * Date: 2018/6/29 上午10:57
  * Email: sisq@8531.cn
  * Author: sishuqun
- * Description: 表单封装,参照okhttp
+ * Description: 表单封装,参照okhttp 这里get请求的参数也使用FormBody来保存
  */
 public class FormBody extends RequestBody {
 

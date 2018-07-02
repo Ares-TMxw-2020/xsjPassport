@@ -33,12 +33,14 @@ public class Request {
         HttpMethod method;
         String url;
         Map<String, String> headers;
+        Map<String, String> paramsMap; // 用于记录get请求的参数集合
         RequestBody body;
 
         public Builder() {
             this.method = HttpMethod.GET; // 默认get请求
             this.headers = new ArrayMap<>();
             this.url = ApiManager.getBaseUri();
+            this.paramsMap = new ArrayMap<>();
         }
 
         /**
@@ -75,7 +77,10 @@ public class Request {
             return this;
         }
 
-        public Builder get() {
+        public Builder get(FormBody body) {
+            if (body != null) {
+                this.paramsMap = body.map;
+            }
             method(HttpMethod.GET, null);
             return this;
         }
@@ -111,7 +116,9 @@ public class Request {
 
         public Request build() {
             if (url == null) throw new IllegalStateException("url == null");
-
+            if (this.method.equals(HttpMethod.GET) && this.paramsMap != null && this.paramsMap.size() != 0) { // get请求url拼装
+                this.url = Util.buildGetUrl(url, this.paramsMap);
+            }
             // 初始化headers
             if (body != null && !TextUtils.isEmpty(body.contentType())) {
                 headers.put("Content-Type", body.contentType());

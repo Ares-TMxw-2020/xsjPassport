@@ -14,7 +14,7 @@ public class ZbHttpClient {
         this.config = new Config(builder);
     }
 
-    public Call newCall(Config config, Request request) {
+    public Call newCall(Request request) {
         return new HttpCall(config, request);
     }
 
@@ -25,7 +25,7 @@ public class ZbHttpClient {
 
         public Config(Builder builder) {
             this.connTimeout = builder.connTimeout;
-            this.readTimeout = builder.connTimeout;
+            this.readTimeout = builder.readTimeout;
             this.writeTimeout = builder.writeTimeout;
         }
     }
