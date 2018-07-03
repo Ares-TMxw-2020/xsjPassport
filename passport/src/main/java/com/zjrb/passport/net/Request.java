@@ -54,13 +54,13 @@ public class Request {
         }
 
         /**
-         * 设置接口名,并拼接url
+         * 设置接口名,并拼接url(如果需要设置host,在host方法后调用)
          * @param api
          * @return
          */
         public Builder api(String api) {
             if (!TextUtils.isEmpty(api) && api.startsWith("/")) {
-                this.url = ApiManager.jointUrl(api);
+                this.url = ApiManager.joinUrl(api);
             }
             return this;
         }
@@ -86,6 +86,9 @@ public class Request {
         }
 
         public Builder post(RequestBody body) {
+            if (body == null) { // post无参数的情况
+                body = new FormBody.Builder().build();
+            }
             method(HttpMethod.POST, body);
             return this;
         }

@@ -26,7 +26,7 @@ public class FormBody extends RequestBody {
 
     @Override
     String contentType() {
-        return "application/x-www-form-urlencoded; charset=UTF-8";
+        return "application/x-www-form-urlencoded;charset=UTF-8";
     }
 
     @Override

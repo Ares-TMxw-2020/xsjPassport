@@ -39,8 +39,10 @@ public class HttpCall implements Call {
             response = HttpThreadPool.getInstance().submit(task);
             return response;
         } catch (InterruptedException e) {
+            // TODO: 2018/7/3
             e.printStackTrace();
         } catch (ExecutionException e) {
+            // TODO: 2018/7/3
             e.printStackTrace();
         }
         return new Response.Builder()

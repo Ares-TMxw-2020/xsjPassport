@@ -1,6 +1,8 @@
 package com.zjrb.passport.net;
 
 import com.zjrb.passport.net.interfaces.IRequestHandler;
+import com.zjrb.passport.net.util.SslUtils;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,6 +61,13 @@ public class RequestHandler implements IRequestHandler {
     
     private HttpURLConnection setHttpConfig(HttpCall call) throws IOException{
         URL url = new URL(call.request.url);
+        if("https".equalsIgnoreCase(url.getProtocol())){
+            try {
+                SslUtils.ignoreSsl();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setConnectTimeout(call.config.connTimeout);
         connection.setReadTimeout(call.config.readTimeout);
