@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     public void syncGetTest(View view) {
         Request request = null;
         try {
-
             FormBody body = new FormBody.Builder()
                     .add("menu", "土豆")
                     .add("rn", "15")
@@ -63,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             request = new Request.Builder()
                     .post(null)
-                    .url("http://apibeta.8531.cn/api/account/init")
+                    .url("https://apibeta.8531.cn/api/account/init")
                     .build();
         } catch (Exception e) {
             e.printStackTrace();
