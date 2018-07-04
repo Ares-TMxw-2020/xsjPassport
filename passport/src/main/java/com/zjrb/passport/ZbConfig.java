@@ -12,7 +12,7 @@ import com.zjrb.passport.constant.ZbConstants;
  * Author: chen.h
  * Date: 2018/6/28
  */
-final class ZbConfig {
+public final class ZbConfig {
 
     private int appId;
     private String appKey;

@@ -36,10 +36,10 @@ public class ZbHttpClient {
         private int writeTimeout;
 
         public Builder() {
-            // TODO: 2018/6/28 确定超时时长
-            this.connTimeout = 10 * 1000;
-            this.readTimeout = 10 * 1000;
-            this.writeTimeout = 10 * 1000;
+            // 参考浙江新闻超时时长的设置
+            this.connTimeout = 5 * 1000;
+            this.readTimeout = 20 * 1000;
+            this.writeTimeout = 20 * 1000;
         }
 
 

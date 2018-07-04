@@ -50,7 +50,7 @@ public class ApiManager {
      * @param host
      * @return
      */
-    public static String changeHost(String host) {
+    public static String changeHost(String host, Request.HttpMethod method) {
         // TODO: 2018/6/29 增加判断使用http的条件
         if (TextUtils.isEmpty(host)) {
             return getBaseUri();

@@ -32,6 +32,11 @@ public class ZbPassport {
         builder.build(zbConfig);
     }
 
+
+    public static ZbConfig getZbConfig() {
+        return zbConfig;
+    }
+
     private static void checkInfo() {
         //TODO 验证配置参数
     }
