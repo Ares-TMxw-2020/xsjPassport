@@ -49,9 +49,12 @@ public class FormBody extends RequestBody {
                 if (!TextUtils.isEmpty(sb)) {
                     sb.append("&");
                 }
+                if (TextUtils.isEmpty(s)) {
+                    continue;
+                }
                 sb.append(URLEncoder.encode(s, "UTF-8"));
                 sb.append("=");
-                sb.append(URLEncoder.encode(map.get(s), "UTF-8"));
+                sb.append(URLEncoder.encode(map.get(s) == null ? "" : map.get(s), "UTF-8"));
             }
             return sb.toString();
         }
