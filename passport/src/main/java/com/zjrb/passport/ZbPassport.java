@@ -20,6 +20,8 @@ public class ZbPassport {
 
     private static ZbConfig zbConfig;
 
+    private static NetWork netWork;
+
     private ZbPassport() {
     }
 
