@@ -20,10 +20,10 @@
             android:value="1"/>
         <meta-data
             android:name="ZBP_APP_KEY"
-            android:value="app_key"/>
+            android:value="fQNZBzR9ej"/>
         <meta-data
             android:name="ZBP_APP_SECRET"
-            android:value="app_secret"/>
+            android:value="E1v9TSMLLit2VHTTl0i9"/>
         <meta-data
             android:name="ZBP_APP_ENV"
             android:value="1"/>

@@ -14,17 +14,9 @@ public class ZbConfigBuilder {
     private String appSecret;
     private int envType;
 
-    public int getAppId() {
-        return appId;
-    }
-
     public ZbConfigBuilder setAppId(int appId) {
         this.appId = appId;
         return this;
-    }
-
-    public String getAppKey() {
-        return appKey;
     }
 
     public ZbConfigBuilder setAppKey(String appKey) {
@@ -32,17 +24,9 @@ public class ZbConfigBuilder {
         return this;
     }
 
-    public String getAppSecret() {
-        return appSecret;
-    }
-
     public ZbConfigBuilder setAppSecret(String appSecret) {
         this.appSecret = appSecret;
         return this;
-    }
-
-    public int getEnvType() {
-        return envType;
     }
 
     public ZbConfigBuilder setEnvType(int envType) {

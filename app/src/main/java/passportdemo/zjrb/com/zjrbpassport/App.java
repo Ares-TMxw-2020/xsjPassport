@@ -2,7 +2,6 @@ package passportdemo.zjrb.com.zjrbpassport;
 
 import android.app.Application;
 
-import com.zjrb.passport.ZbConfigBuilder;
 import com.zjrb.passport.ZbPassport;
 
 /**
@@ -16,7 +15,8 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        ZbPassport.init(this,
-                        new ZbConfigBuilder().setAppId(2).setAppSecret("World").setEnvType(2));
+        ZbPassport.init(this);
+//        ZbPassport.init(this,
+//                        new ZbConfigBuilder().setAppId(2).setAppKey("").setAppSecret("World").setEnvType(2));
     }
 }

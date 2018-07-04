@@ -12,20 +12,18 @@ import com.zjrb.passport.constant.ZbConstants;
  * Author: chen.h
  * Date: 2018/6/28
  */
-public final class ZbConfig {
+final class ZbConfig {
 
     private int appId;
     private String appKey;
     private String appSecret;
     private int envType;
 
-    public ZbConfig() {}
-
-    public ZbConfig(Context context) {
+    ZbConfig(Context context) {
         ApplicationInfo info = null;
         try {
             info = context.getPackageManager()
-                    .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+                          .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }

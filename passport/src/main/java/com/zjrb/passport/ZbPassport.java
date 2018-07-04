@@ -27,15 +27,17 @@ public class ZbPassport {
 
     public static void init(Context context) {
         zbConfig = new ZbConfig(context);
+        netWork = new NetWork();
     }
 
     public static void init(Context context, ZbConfigBuilder builder) {
         zbConfig = new ZbConfig(context);
         builder.build(zbConfig);
+        netWork = new NetWork();
     }
 
 
-    public static ZbConfig getZbConfig() {
+    static ZbConfig getZbConfig() {
         return zbConfig;
     }
 
@@ -48,7 +50,7 @@ public class ZbPassport {
     }
 
     public static void sendRegisterCaptcha(String phoneNumber, ZbCaptchaListener listener) {
-
+        netWork.sendRegisterCaptcha(phoneNumber, listener);
     }
 
     public static void sendLoginCaptcha(String phoneNumber, ZbCaptchaListener listener) {

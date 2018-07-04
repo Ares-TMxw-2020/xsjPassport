@@ -31,25 +31,31 @@ import java.util.Map;
 public class NetWork {
     ZbHttpClient client;
 
+    public NetWork() {
+        client = new ZbHttpClient.Builder().connTimeOut(10 * 1000)
+                                           .readTimeOut(10 * 1000)
+                                           .writeTimeOut(10 * 1000)
+                                           .build();
+    }
+
     public void checkPhone(String phoneNumber, ZbCheckListener listener) {
 
     }
 
     public void sendRegisterCaptcha(String phoneNumber, final ZbCaptchaListener listener) {
-        client.newCall(getRequest(ApiManager.EndPoint.SMS_SEND_REGISTER_TOKEN,
-                                  new ParamsBuild().add("phone_number", phoneNumber)
-                                                   .build(ApiManager.EndPoint.SMS_SEND_REGISTER_TOKEN)))
-              .enqueue(new CallBack() {
-                  @Override
-                  public void onSuccess(Response response) throws IOException {
-                      listener.onSuccess();
-                  }
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.SMS_SEND_REGISTER_TOKEN).add("phone_number",
+                                                                                                   phoneNumber);
+        client.newCall(getRequest(builder)).enqueue(new CallBack() {
+            @Override
+            public void onSuccess(Response response) throws IOException {
+                listener.onSuccess();
+            }
 
-                  @Override
-                  public void onFail(Request call, IOException e) {
-                      listener.onFailure(0, "");
-                  }
-              });
+            @Override
+            public void onFail(Request call, IOException e) {
+                listener.onFailure(0, "");
+            }
+        });
     }
 
     public void sendLoginCaptcha(String phoneNumber, ZbCaptchaListener listener) {
@@ -98,36 +104,42 @@ public class NetWork {
     public void unbindThird(String thirdUniqueId, ZbUnbindListener listener) {}
 
 
-    public static Request getRequest(String api, Map<String, String> params) {
+    public static Request getRequest(ParamsBuilder builder) {
         Request request = null;
         try {
-            FormBody body = new FormBody.Builder().map(params).build();
-            request = new Request.Builder().post(body).url(ApiManager.joinUrl(api)).build();
+            FormBody body = new FormBody.Builder().map(builder.build()).build();
+            request = new Request.Builder().post(body).url(builder.getUrl()).build();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return request;
     }
 
-    public static class ParamsBuild {
+    public static class ParamsBuilder {
         private Map<String, String> map;
+        private String api;
 
-        public ParamsBuild() {
+        public ParamsBuilder(String api) {
             map = new LinkedHashMap<>();
+            this.api = api;
             ZbConfig zbConfig = ZbPassport.getZbConfig();
             map.put(K.APP_ID, "" + zbConfig.getAppId());
             map.put(K.APP_KEY, zbConfig.getAppKey());
             map.put(K.APP_SECRET, zbConfig.getAppSecret());
         }
 
-        public ParamsBuild add(String key, String value) {
+        public ParamsBuilder add(String key, String value) {
             if (!TextUtils.isEmpty(key)) {
                 map.put(key, value);
             }
             return this;
         }
 
-        public Map<String, String> build(String api) {
+        public String getUrl() {
+            return ApiManager.joinUrl(api);
+        }
+
+        public Map<String, String> build() {
             map.put(K.SIGN, EncryptUtil.encrypt(api, map));
             return map;
         }
