@@ -130,29 +130,7 @@ public class Request {
             if (url == null) throw new IllegalStateException("url == null");
             // 这里每个请求要根据get/post类型的不同,将querystring加到url或者requestbody中
             if (this.method.equals(HttpMethod.GET) && this.paramsMap != null && this.paramsMap.size() != 0) { // get请求url拼装
-                ZbConfig zbConfig = ZbPassport.getZbConfig();
-                if (zbConfig != null) { // 拼接queryString
-                    this.paramsMap.put("app_id", String.valueOf(zbConfig.getAppId()));
-                    this.paramsMap.put("app_key", zbConfig.getAppKey());
-                    this.paramsMap.put("app_secret", zbConfig.getAppSecret());
-                    // TODO: 2018/7/4 修改
-                    this.paramsMap.put("signature", zbConfig.getAppSecret());
-                    this.url = Util.buildGetUrl(url, this.paramsMap);
-                }
-            }
-            if (body != null && this.method.equals(HttpMethod.POST)) { // post请求拼接queryString
-                if (body instanceof FormBody) {
-                    FormBody body = (FormBody) this.body;
-                    Map<String, String> map = body.map;
-                    ZbConfig zbConfig = ZbPassport.getZbConfig();
-                    if (zbConfig != null) { // 拼接queryString
-                        map.put("app_id", String.valueOf(zbConfig.getAppId()));
-                        map.put("app_key", zbConfig.getAppKey());
-                        map.put("app_secret", zbConfig.getAppSecret());
-                        map.put("signature", zbConfig.getAppSecret());
-                    }
-                    this.body = new FormBody.Builder().map(map).build();
-                }
+                this.url = Util.buildGetUrl(url, this.paramsMap);
             }
             // 初始化headers
             if (body != null && !TextUtils.isEmpty(body.contentType())) {
