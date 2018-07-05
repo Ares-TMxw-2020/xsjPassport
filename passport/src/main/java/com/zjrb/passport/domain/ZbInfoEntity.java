@@ -3,19 +3,19 @@ package com.zjrb.passport.domain;
 import java.util.List;
 
 /**
- * Function: ZbInfo  注册,登录,获取详情接口都使用该实体类
+ * Function: ZbInfoEntity  注册,登录,获取详情接口都使用该实体类
  * <p>
  * Author: chen.h
  * Date: 2018/6/28
  */
-public class ZbInfo {
+public class ZbInfoEntity {
 
     private int passport_id;
     private String phone_number;
     private String access_token;
     private int current_auth_type;
     private boolean is_new;
-    private List<BindingListBean> binding_list;
+    private List<BindingListEntity> binding_list;
 
     public int getPassport_id() { return passport_id;}
 
@@ -37,8 +37,8 @@ public class ZbInfo {
 
     public void setIs_new(boolean is_new) { this.is_new = is_new;}
 
-    public List<BindingListBean> getBinding_list() { return binding_list;}
+    public List<BindingListEntity> getBinding_list() { return binding_list;}
 
-    public void setBinding_list(List<BindingListBean> binding_list) { this.binding_list = binding_list;}
+    public void setBinding_list(List<BindingListEntity> binding_list) { this.binding_list = binding_list;}
 
 }

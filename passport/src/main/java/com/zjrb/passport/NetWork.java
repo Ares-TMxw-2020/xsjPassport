@@ -4,7 +4,7 @@ import android.text.TextUtils;
 
 import com.zjrb.passport.constant.K;
 import com.zjrb.passport.domain.BaseData;
-import com.zjrb.passport.domain.LoginData;
+import com.zjrb.passport.domain.LoginDataEntity;
 import com.zjrb.passport.listener.ZbBindListener;
 import com.zjrb.passport.listener.ZbChangePasswordListener;
 import com.zjrb.passport.listener.ZbCheckListener;
@@ -214,7 +214,7 @@ public class NetWork {
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
-                LoginData data = JsonUtil.jsonLoginData(response);
+                LoginDataEntity data = JsonUtil.jsonLoginData(response);
                 if (data.code == StatusCode.SUCCESS) {
                     listener.onSuccess(data.data);
                 } else {

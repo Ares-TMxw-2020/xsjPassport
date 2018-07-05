@@ -6,7 +6,7 @@ package com.zjrb.passport.domain;
  * Author: sishuqun
  * Description: 注册及登录接口返回的binding_list实体类
  */
-public class BindingListBean {
+public class BindingListEntity {
 
 
     private int binding_id;
