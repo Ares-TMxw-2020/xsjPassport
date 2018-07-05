@@ -1,0 +1,91 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/color_bg">
+
+    <TextView
+        android:id="@+id/tv_logo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/shape"
+        android:gravity="center"
+        android:text="App logo"/>
+
+    <EditText
+        android:id="@+id/et_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_logo"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/color_white"
+        android:digits="0123456789"
+        android:hint="请输入手机号（浙报通行证）"
+        android:inputType="phone"
+        android:maxLength="11"
+        android:padding="10dp"/>
+
+
+    <EditText
+        android:id="@+id/et_captcha"
+        android:layout_width="261dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/et_phone"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_toLeftOf="@+id/tv_send"
+        android:background="@color/color_white"
+        android:digits="0123456789"
+        android:hint="请输入验证码"
+        android:inputType="number"
+        android:padding="10dp"/>
+
+
+    <TextView
+        android:id="@+id/tv_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/et_phone"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/color_blue"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="发送验证码"
+        android:textColor="@color/color_white"/>
+
+    <TextView
+        android:id="@+id/tv_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/et_password"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/color_blue"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="登录"
+        android:textColor="@color/color_white"/>
+
+    <TextView
+        android:id="@+id/tv_normal_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_login"
+        android:layout_centerHorizontal="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="30dp"
+        android:text="账号密码登录"
+        android:textColor="@color/color_blue"/>
+
+</RelativeLayout>

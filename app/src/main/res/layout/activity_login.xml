@@ -1,0 +1,120 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/color_bg">
+
+    <TextView
+        android:id="@+id/tv_logo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/shape"
+        android:gravity="center"
+        android:text="App logo"/>
+
+    <EditText
+        android:id="@+id/et_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_logo"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/color_white"
+        android:digits="0123456789"
+        android:hint="请输入手机号（浙报通行证）"
+        android:inputType="phone"
+        android:maxLength="11"
+        android:padding="10dp"/>
+
+
+    <EditText
+        android:id="@+id/et_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/et_phone"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/color_white"
+        android:hint="请输入密码"
+        android:inputType="textPassword"
+        android:padding="10dp"/>
+
+
+    <TextView
+        android:id="@+id/tv_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/et_password"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/color_blue"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="登录"
+        android:textColor="@color/color_white"/>
+
+    <TextView
+        android:id="@+id/tv_quick_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tv_login"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="20dp"
+        android:text="手机号快捷登录"
+        android:textColor="@color/color_blue"/>
+
+
+    <TextView
+        android:id="@+id/tv_third"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_quick_login"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="使用其它登录方式"/>
+
+    <View
+        android:id="@+id/v_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/tv_third"
+        android:layout_margin="16dp"
+        android:background="@color/color_line"/>
+
+    <ImageView
+        android:id="@+id/iv_sina"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/v_line"
+        android:layout_marginLeft="16dp"
+        android:scaleType="center"
+        android:src="@mipmap/ic_sina"/>
+
+    <ImageView
+        android:id="@+id/iv_wechat"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/v_line"
+        android:layout_centerHorizontal="true"
+        android:scaleType="center"
+        android:src="@mipmap/ic_wechat"/>
+
+    <ImageView
+        android:id="@+id/iv_qq"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/v_line"
+        android:layout_marginRight="16dp"
+        android:scaleType="center"
+        android:src="@mipmap/ic_qq"/>
+</RelativeLayout>
