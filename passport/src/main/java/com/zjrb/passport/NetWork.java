@@ -145,7 +145,7 @@ public class NetWork {
      * @param listener
      */
     public void register(String phoneNumber, String password, String captcha, final ZbRegisterListener listener) {
-        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_REGISTER).add("phone_number",
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_REGISTER).inject().add("phone_number",
                 phoneNumber).add("password", password).add("sms_token", captcha);
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
@@ -168,7 +168,7 @@ public class NetWork {
      * @param listener
      */
     public void login(String phoneNumber, String password, final ZbLoginListener listener) {
-        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_PASSWORD_LOGIN).add("phone_number",
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_PASSWORD_LOGIN).inject().add("phone_number",
                 phoneNumber).add("password", password);
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
@@ -191,7 +191,7 @@ public class NetWork {
      * @param listener
      */
     public void loginCaptcha(String phoneNumber, String captcha, final ZbLoginListener listener) {
-        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_SMS_TOKEN_LOGIN).add("phone_number",
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_SMS_TOKEN_LOGIN).inject().add("phone_number",
                 phoneNumber).add("sms_token", captcha);
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
@@ -232,12 +232,10 @@ public class NetWork {
     /**
      * 获取通行证详情
      *
-     * @param token
      * @param listener
      */
-    public void getInfo(String token, final ZbGetInfoListener listener) {
-        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_DETAIL).add("access_token",
-                token);
+    public void getInfo(final ZbGetInfoListener listener) {
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_DETAIL).injectWithToken();
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
@@ -252,16 +250,14 @@ public class NetWork {
     }
 
     /**
-     * 绑定浙报通信证手机号
+     * 绑定浙报通行证手机号
      *
-     * @param token
      * @param phoneNumber
      * @param captcha
      * @param listener
      */
-    public void bindPhone(String token, String phoneNumber, String captcha, final ZbBindListener listener) {
-        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_BIND_PHONE_NUMBER).add("access_token",
-                token).add("new_phone_number", phoneNumber).add("sms_token", captcha);
+    public void bindPhone(String phoneNumber, String captcha, final ZbBindListener listener) {
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_BIND_PHONE_NUMBER).injectWithToken().add("new_phone_number", phoneNumber).add("sms_token", captcha);
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
@@ -278,14 +274,12 @@ public class NetWork {
     /**
      * 更改通行证密码
      *
-     * @param token
      * @param oldPassWord
      * @param newPassWord
      * @param listener
      */
-    public void changePassword(String token, String oldPassWord, String newPassWord, final ZbChangePasswordListener listener) {
-        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_CHANGE_PASSWORD).add("access_token",
-                token).add("old_password", oldPassWord).add("new_password", newPassWord);
+    public void changePassword(String oldPassWord, String newPassWord, final ZbChangePasswordListener listener) {
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_CHANGE_PASSWORD).injectWithToken().add("old_password", oldPassWord).add("new_password", newPassWord);
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
@@ -308,7 +302,7 @@ public class NetWork {
      * @param listener
      */
     public void resetPassword(String phoneNumber, String captcha, String newPassword, final ZbResetPasswordListener listener) {
-        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_RESET_PASSWORD).add("phone_number",
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_RESET_PASSWORD).inject().add("phone_number",
                 phoneNumber).add("sms_token", captcha).add("new_password", newPassword);
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
@@ -326,13 +320,11 @@ public class NetWork {
     /**
      * 检测手机号是否已经绑定浙报通行证接口
      *
-     * @param token
      * @param phoneNumber
      * @param listener
      */
-    public void checkBindState(String token, String phoneNumber, final ZbCheckListener listener) {
-        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_CHECK_BINDING).add("access_token",
-                token).add("phone_number", phoneNumber);
+    public void checkBindState(String phoneNumber, final ZbCheckListener listener) {
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_CHECK_BINDING).injectWithToken().add("phone_number", phoneNumber);
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
@@ -349,12 +341,10 @@ public class NetWork {
     /**
      * 退出登录
      *
-     * @param token
      * @param listener
      */
-    public void logout(String token, final ZbLogoutListener listener) {
-        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_LOGOUT).add("access_token",
-                token);
+    public void logout(final ZbLogoutListener listener) {
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_LOGOUT).injectWithToken();
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {

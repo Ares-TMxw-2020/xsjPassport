@@ -115,52 +115,54 @@ public class ZbPassport {
     /**
      * 获取通行证详情
      *
-     * @param token
      * @param listener
      */
-    public static void getInfo(String token, ZbGetInfoListener listener) {
-        netWork.getInfo(token, listener);
+    public static void getInfo(ZbGetInfoListener listener) {
+        netWork.getInfo(listener);
     }
 
     /**
      * 更改通行证密码
      *
-     * @param token
      * @param oldPassWord
      * @param newPassWord
      * @param listener
      */
-    public static void changePassword(String token, String oldPassWord, String newPassWord, final ZbChangePasswordListener listener) {
-        netWork.changePassword(token, oldPassWord, newPassWord, listener);
+    public static void changePassword(String oldPassWord, String newPassWord, final ZbChangePasswordListener listener) {
+        netWork.changePassword(oldPassWord, newPassWord, listener);
     }
 
     public static void resetPassword(String phoneNumber, String captcha, String newPassword, ZbResetPasswordListener listener) {
         netWork.resetPassword(phoneNumber, captcha, newPassword, listener);
     }
 
+    /**
+     * 绑定浙报通行证手机号
+     * @param phoneNumber
+     * @param captcha
+     * @param listener
+     */
     public static void bindPhone(String phoneNumber, String captcha, ZbBindListener listener) {
-
+        netWork.bindPhone(phoneNumber, captcha, listener);
     }
 
     /**
      * 检查手机号是否绑定浙报通行证
      *
-     * @param token
      * @param phoneNumber
      * @param listener
      */
-    public void checkBindState(String token, String phoneNumber, ZbCheckListener listener) {
-        netWork.checkBindState(token, phoneNumber, listener);
+    public void checkBindState(String phoneNumber, ZbCheckListener listener) {
+        netWork.checkBindState(phoneNumber, listener);
     }
 
     /**
      * 退出登录
      *
-     * @param token
      * @param listener
      */
-    public void logout(String token, ZbLogoutListener listener) {
-        netWork.logout(token, listener);
+    public void logout(ZbLogoutListener listener) {
+        netWork.logout(listener);
     }
 
 
