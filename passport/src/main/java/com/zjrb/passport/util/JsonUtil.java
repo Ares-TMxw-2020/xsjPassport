@@ -1,10 +1,10 @@
 package com.zjrb.passport.util;
 
-import com.zjrb.passport.domain.BindingListBean;
-import com.zjrb.passport.domain.ZbInfo;
+import com.zjrb.passport.domain.BindingListEntity;
+import com.zjrb.passport.domain.LoginDataEntity;
+import com.zjrb.passport.domain.ZbInfoEntity;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.domain.BaseData;
-import com.zjrb.passport.domain.LoginData;
 import com.zjrb.passport.net.Response;
 
 import org.json.JSONArray;
@@ -37,18 +37,18 @@ public class JsonUtil {
         return data;
     }
 
-    public static LoginData jsonLoginData(Response response) {
+    public static LoginDataEntity jsonLoginData(Response response) {
         String jsonString = response.body().string();
         JSONObject jsonObject;
-        LoginData loginData = null;
+        LoginDataEntity loginDataEntity = null;
         try {
             jsonObject = new JSONObject(jsonString);
-            loginData = new LoginData();
-            loginData.code = jsonObject.optInt("code");
-            loginData.message = jsonObject.optString("message");
+            loginDataEntity = new LoginDataEntity();
+            loginDataEntity.code = jsonObject.optInt("code");
+            loginDataEntity.message = jsonObject.optString("message");
             JSONObject innerObject = jsonObject.optJSONObject("data");
             if (innerObject != null) {
-                ZbInfo info = new ZbInfo();
+                ZbInfoEntity info = new ZbInfoEntity();
                 info.setPassport_id(innerObject.optInt("passport_id"));
                 info.setPhone_number(innerObject.optString("phone_number"));
                 info.setAccess_token(innerObject.optString("access_token"));
@@ -58,10 +58,10 @@ public class JsonUtil {
 
                 JSONArray jsonArray = innerObject.getJSONArray("binding_list");
                 if (jsonArray != null) {
-                    List<BindingListBean> list = new ArrayList<>();
+                    List<BindingListEntity> list = new ArrayList<>();
                     for (int i = 0, length = jsonArray.length(); i < length; i++) {
                         JSONObject object = jsonArray.optJSONObject(i);
-                        BindingListBean bean = new BindingListBean();
+                        BindingListEntity bean = new BindingListEntity();
                         bean.setBinding_id(object.optInt("binding_id"));
                         bean.setAuth_type(object.optInt("auth_type"));
                         bean.setAuth_uid(object.optString("auth_uid"));
@@ -71,12 +71,13 @@ public class JsonUtil {
                     }
                     info.setBinding_list(list);
                 }
+                loginDataEntity.data = info;
             }
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return loginData;
+        return loginDataEntity;
     }
 
     private static void interceptToken(String token) {
