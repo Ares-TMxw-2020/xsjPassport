@@ -15,6 +15,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        BaseInit.init(this,"bianfeng");
         ZbPassport.init(this);
 //        ZbPassport.init(this,
 //                        new ZbConfigBuilder().setAppId(2).setAppKey("").setAppSecret("World").setEnvType(2));

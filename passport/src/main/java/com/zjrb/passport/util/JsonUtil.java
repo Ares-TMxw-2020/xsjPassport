@@ -1,7 +1,9 @@
 package com.zjrb.passport.util;
 
 import com.zjrb.passport.domain.BindingListEntity;
+import com.zjrb.passport.domain.CheckBindingEntity;
 import com.zjrb.passport.domain.LoginDataEntity;
+import com.zjrb.passport.domain.PhoneNumEntity;
 import com.zjrb.passport.domain.ZbInfoEntity;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.domain.BaseData;
@@ -78,6 +80,36 @@ public class JsonUtil {
             e.printStackTrace();
         }
         return loginDataEntity;
+    }
+
+    /**
+     * 手机号是否绑定通行证实体类解析
+     * @param response
+     * @return
+     */
+    public static CheckBindingEntity parseCheckBinding(Response response) {
+        if (response == null || response.body() == null) {
+            return null;
+        }
+        String jsonString = response.body().string();
+        JSONObject jsonObject;
+        CheckBindingEntity checkBindingEntity = null;
+        try {
+            jsonObject = new JSONObject(jsonString);
+            checkBindingEntity = new CheckBindingEntity();
+            checkBindingEntity.code = jsonObject.optInt("code");
+            checkBindingEntity.message = jsonObject.optString("message");
+            JSONObject innerObject = jsonObject.optJSONObject("data");
+            if (innerObject != null) {
+                PhoneNumEntity info = new PhoneNumEntity();
+                info.setPhone_number(innerObject.optString("phone_number"));
+                info.setPhone_number_taken(innerObject.optBoolean("phone_number_taken"));
+                checkBindingEntity.data = info;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return checkBindingEntity;
     }
 
     private static void interceptToken(String token) {

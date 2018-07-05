@@ -28,7 +28,7 @@
             android:name="ZBP_APP_ENV"
             android:value="1"/>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".TestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

@@ -8,6 +8,6 @@ package com.zjrb.passport.domain;
  */
 public class CheckBindingEntity extends BaseData {
 
-    public PhoneNumEntity phoneNumEntity;
+    public PhoneNumEntity data;
 
 }
