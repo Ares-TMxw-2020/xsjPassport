@@ -1,6 +1,7 @@
 package com.zjrb.passport.util;
 
 import com.zjrb.passport.ZbInfo;
+import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.domain.BaseData;
 import com.zjrb.passport.domain.LoginData;
 import com.zjrb.passport.net.Response;
@@ -50,6 +51,7 @@ public class JsonUtil {
                 info.setPassport_id(innerObject.getInt("passport_id"));
                 info.setPhone_number(innerObject.getString("phone_number"));
                 info.setAccess_token(innerObject.getString("access_token"));
+                interceptToken(info.getAccess_token());
                 info.setCurrent_auth_type(innerObject.getInt("current_auth_type"));
                 info.setIs_new(innerObject.getBoolean("is_new"));
 
@@ -74,5 +76,9 @@ public class JsonUtil {
             e.printStackTrace();
         }
         return loginData;
+    }
+
+    private static void interceptToken(String token) {
+        ZbPassport.setToken(token);
     }
 }

@@ -39,6 +39,9 @@ public class ZbPassport {
         netWork = new NetWork();
     }
 
+    public static void setToken(String token) {
+        zbConfig.setToken(token);
+    }
 
     static ZbConfig getZbConfig() {
         return zbConfig;
@@ -57,15 +60,15 @@ public class ZbPassport {
     }
 
     public static void sendLoginCaptcha(String phoneNumber, ZbListener listener) {
-
+        netWork.sendLoginCaptcha(phoneNumber, listener);
     }
 
     public static void sendRetrieveCaptcha(String phoneNumber, ZbListener listener) {
-
+        netWork.sendRetrieveCaptcha(phoneNumber, listener);
     }
 
     public static void sendBindCaptcha(String phoneNumber, ZbListener listener) {
-
+        netWork.sendBindCaptcha(phoneNumber, listener);
     }
 
     public static void register(String phoneNumber, String password, String captcha, ZbRegisterListener listener) {
@@ -80,8 +83,8 @@ public class ZbPassport {
 
     }
 
-    public static void loginThird(String thirdUniqueId, ZbLoginListener listener) {
-
+    public static void loginThird(@ThirdType int thirdType, String thirdUniqueId, ZbLoginListener listener) {
+        netWork.loginThird(thirdType, thirdUniqueId, listener);
     }
 
     public static void getInfo(String token, ZbGetInfoListener listener) {
@@ -99,7 +102,9 @@ public class ZbPassport {
     public static void bindPhone(String phoneNumber, String captcha, ZbBindListener listener) {}
 
 
-    public static void bindThird(@ThirdType int thirdType, String thirdUnionId, ZbListener listener) {}
+    public static void bindThird(@ThirdType int thirdType, String thirdUnionId, ZbListener listener) {
+        netWork.bindThird(thirdType, thirdUnionId, listener);
+    }
 
     public static void unbindThird(@ThirdType int thirdType, ZbListener listener) {
         netWork.unbindThird(thirdType, listener);
