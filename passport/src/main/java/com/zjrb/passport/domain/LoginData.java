@@ -1,7 +1,5 @@
 package com.zjrb.passport.domain;
 
-import com.zjrb.passport.ZbInfo;
-
 /**
  * Function: LoginData
  * <p>

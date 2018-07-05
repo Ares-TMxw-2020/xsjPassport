@@ -1,6 +1,6 @@
 package com.zjrb.passport.listener;
 
-import com.zjrb.passport.ZbInfo;
+import com.zjrb.passport.domain.ZbInfo;
 
 /**
  * Function: ZbRegisterListener

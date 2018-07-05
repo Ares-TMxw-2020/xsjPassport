@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
     public void aSyncGetTest(View view) {
         Request request = null;
         try {
-
             FormBody body = new FormBody.Builder().add("menu", "土豆").add("rn", "15").add("start", "1").build();
             request = new Request.Builder().get(body).url("http://caipu.yjghost.com/index.php/query/read").build();
         } catch (Exception e) {
