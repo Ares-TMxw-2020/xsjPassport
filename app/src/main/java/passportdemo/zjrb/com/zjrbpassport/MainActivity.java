@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.zjrb.passport.ZbPassport;
-import com.zjrb.passport.listener.ZbCaptchaListener;
+import com.zjrb.passport.listener.ZbListener;
 import com.zjrb.passport.net.CallBack;
 import com.zjrb.passport.net.FormBody;
 import com.zjrb.passport.net.Request;
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sendRegisterCaptcha(View view) {
-        ZbPassport.sendRegisterCaptcha("13758284975", new ZbCaptchaListener() {
+        ZbPassport.sendRegisterCaptcha("13758284975", new ZbListener() {
             @Override
             public void onSuccess() {
                 Toast.makeText(MainActivity.this, "Success", Toast.LENGTH_SHORT).show();

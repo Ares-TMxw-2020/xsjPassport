@@ -1,14 +1,17 @@
 package com.zjrb.passport;
 
 import android.content.Context;
+import android.support.annotation.IntDef;
 
 import com.zjrb.passport.listener.ZbBindListener;
-import com.zjrb.passport.listener.ZbCaptchaListener;
 import com.zjrb.passport.listener.ZbCheckListener;
 import com.zjrb.passport.listener.ZbGetInfoListener;
+import com.zjrb.passport.listener.ZbListener;
 import com.zjrb.passport.listener.ZbLoginListener;
 import com.zjrb.passport.listener.ZbRegisterListener;
-import com.zjrb.passport.listener.ZbUnbindListener;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
  * Function: ZbPassport
@@ -49,19 +52,19 @@ public class ZbPassport {
 
     }
 
-    public static void sendRegisterCaptcha(String phoneNumber, ZbCaptchaListener listener) {
+    public static void sendRegisterCaptcha(String phoneNumber, ZbListener listener) {
         netWork.sendRegisterCaptcha(phoneNumber, listener);
     }
 
-    public static void sendLoginCaptcha(String phoneNumber, ZbCaptchaListener listener) {
+    public static void sendLoginCaptcha(String phoneNumber, ZbListener listener) {
 
     }
 
-    public static void sendRetrieveCaptcha(String phoneNumber, ZbCaptchaListener listener) {
+    public static void sendRetrieveCaptcha(String phoneNumber, ZbListener listener) {
 
     }
 
-    public static void sendBindCaptcha(String phoneNumber, ZbCaptchaListener listener) {
+    public static void sendBindCaptcha(String phoneNumber, ZbListener listener) {
 
     }
 
@@ -96,5 +99,19 @@ public class ZbPassport {
     public static void bindPhone(String phoneNumber, String captcha, ZbBindListener listener) {}
 
 
-    public static void unbindThird(String thirdUniqueId, ZbUnbindListener listener) {}
+    public static void bindThird(@ThirdType int thirdType, String thirdUnionId, ZbListener listener) {}
+
+    public static void unbindThird(@ThirdType int thirdType, ZbListener listener) {
+        netWork.unbindThird(thirdType, listener);
+    }
+
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({WECHAT, QQ, SINA})
+    public @interface ThirdType {
+    }
+
+    public static final int WECHAT = 2;
+    public static final int QQ = 3;
+    public static final int SINA = 4;
 }

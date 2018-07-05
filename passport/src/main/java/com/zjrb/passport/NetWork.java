@@ -3,13 +3,14 @@ package com.zjrb.passport;
 import android.text.TextUtils;
 
 import com.zjrb.passport.constant.K;
+import com.zjrb.passport.domain.BaseData;
+import com.zjrb.passport.domain.LoginData;
 import com.zjrb.passport.listener.ZbBindListener;
-import com.zjrb.passport.listener.ZbCaptchaListener;
 import com.zjrb.passport.listener.ZbCheckListener;
 import com.zjrb.passport.listener.ZbGetInfoListener;
+import com.zjrb.passport.listener.ZbListener;
 import com.zjrb.passport.listener.ZbLoginListener;
 import com.zjrb.passport.listener.ZbRegisterListener;
-import com.zjrb.passport.listener.ZbUnbindListener;
 import com.zjrb.passport.net.ApiManager;
 import com.zjrb.passport.net.CallBack;
 import com.zjrb.passport.net.FormBody;
@@ -17,9 +18,7 @@ import com.zjrb.passport.net.Request;
 import com.zjrb.passport.net.Response;
 import com.zjrb.passport.net.ZbHttpClient;
 import com.zjrb.passport.net.util.EncryptUtil;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.zjrb.passport.util.JsonUtil;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
@@ -45,27 +44,15 @@ public class NetWork {
 
     }
 
-    private BaseData json(String jsonString) {
-        JSONObject jsonObject;
-        BaseData data = null;
-        try {
-            jsonObject = new JSONObject(jsonString);
-            data = new BaseData();
-            data.code = jsonObject.getInt("code");
-            data.message = jsonObject.getString("message");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return data;
-    }
 
-    public void sendRegisterCaptcha(String phoneNumber, final ZbCaptchaListener listener) {
-        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.SMS_SEND_REGISTER_TOKEN).add("phone_number",
+    public void sendRegisterCaptcha(String phoneNumber, final ZbListener listener) {
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.SMS_SEND_REGISTER_TOKEN).inject()
+                                                                                              .add("phone_number",
                                                                                                    phoneNumber);
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
-                BaseData data = json(response.body().string());
+                BaseData data = JsonUtil.jsonBaseData(response);
                 if (data.code == StatusCode.SUCCESS) {
                     listener.onSuccess();
                 } else {
@@ -80,13 +67,14 @@ public class NetWork {
         });
     }
 
-    public void sendLoginCaptcha(String phoneNumber, final ZbCaptchaListener listener) {
-        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.SMS_SEND_LOGIN_TOKEN).add("phone_number",
+    public void sendLoginCaptcha(String phoneNumber, final ZbListener listener) {
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.SMS_SEND_LOGIN_TOKEN).inject()
+                                                                                           .add("phone_number",
                                                                                                 phoneNumber);
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
-                BaseData data = json(response.body().string());
+                BaseData data = JsonUtil.jsonBaseData(response);
                 if (data.code == StatusCode.SUCCESS) {
                     listener.onSuccess();
                 } else {
@@ -101,13 +89,14 @@ public class NetWork {
         });
     }
 
-    public void sendRetrieveCaptcha(String phoneNumber, final ZbCaptchaListener listener) {
-        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.SMS_SEND_RESET_TOKEN).add("phone_number",
+    public void sendRetrieveCaptcha(String phoneNumber, final ZbListener listener) {
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.SMS_SEND_RESET_TOKEN).inject()
+                                                                                           .add("phone_number",
                                                                                                 phoneNumber);
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
-                BaseData data = json(response.body().string());
+                BaseData data = JsonUtil.jsonBaseData(response);
                 if (data.code == StatusCode.SUCCESS) {
                     listener.onSuccess();
                 } else {
@@ -122,13 +111,14 @@ public class NetWork {
         });
     }
 
-    public void sendBindCaptcha(String phoneNumber, final ZbCaptchaListener listener) {
-        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.SMS_SEND_BINDING_TOKEN).add("phone_number",
+    public void sendBindCaptcha(String phoneNumber, final ZbListener listener) {
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.SMS_SEND_BINDING_TOKEN).inject()
+                                                                                             .add("phone_number",
                                                                                                   phoneNumber);
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
-                BaseData data = json(response.body().string());
+                BaseData data = JsonUtil.jsonBaseData(response);
                 if (data.code == StatusCode.SUCCESS) {
                     listener.onSuccess();
                 } else {
@@ -155,8 +145,27 @@ public class NetWork {
 
     }
 
-    public void loginThird(String thirdUniqueId, ZbLoginListener listener) {
+    public void loginThird(int thirdType, String thirdUnionId, final ZbLoginListener listener) {
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.THIRD_PARTY_LOGIN).inject()
+                                                                                        .add("auth_type",
+                                                                                             "" + thirdType)
+                                                                                        .add("auth_uid", thirdUnionId);
+        client.newCall(getRequest(builder)).enqueue(new CallBack() {
+            @Override
+            public void onSuccess(Response response) throws IOException {
+                LoginData data = JsonUtil.jsonLoginData(response);
+                if (data.code == StatusCode.SUCCESS) {
+                    listener.onSuccess(data.data);
+                } else {
+                    listener.onFailure(data.code, data.message);
+                }
+            }
 
+            @Override
+            public void onFail(Request call, IOException e) {
+                listener.onFailure(-1, StatusCode.getMessage(-1));
+            }
+        });
     }
 
     public void getInfo(String token, ZbGetInfoListener listener) {
@@ -174,7 +183,49 @@ public class NetWork {
     public void bindPhone(String phoneNumber, String captcha, ZbBindListener listener) {}
 
 
-    public void unbindThird(String thirdUniqueId, ZbUnbindListener listener) {}
+    public void bindThird(int thirdType, String thirdUnionId, final ZbListener listener) {
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.THIRD_PARTY_BIND).injectWithToken()
+                                                                                       .add("auth_type", "" + thirdType)
+                                                                                       .add("auth_uid", thirdUnionId);
+        client.newCall(getRequest(builder)).enqueue(new CallBack() {
+            @Override
+            public void onSuccess(Response response) throws IOException {
+                BaseData data = JsonUtil.jsonBaseData(response);
+                if (data.code == StatusCode.SUCCESS) {
+                    listener.onSuccess();
+                } else {
+                    listener.onFailure(data.code, data.message);
+                }
+            }
+
+            @Override
+            public void onFail(Request call, IOException e) {
+                listener.onFailure(-1, StatusCode.getMessage(-1));
+            }
+        });
+    }
+
+    public void unbindThird(int thirdType, final ZbListener listener) {
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.THIRD_PARTY_UNBIND).injectWithToken()
+                                                                                         .add("auth_type",
+                                                                                              "" + thirdType);
+        client.newCall(getRequest(builder)).enqueue(new CallBack() {
+            @Override
+            public void onSuccess(Response response) throws IOException {
+                BaseData data = JsonUtil.jsonBaseData(response);
+                if (data.code == StatusCode.SUCCESS) {
+                    listener.onSuccess();
+                } else {
+                    listener.onFailure(data.code, data.message);
+                }
+            }
+
+            @Override
+            public void onFail(Request call, IOException e) {
+                listener.onFailure(-1, StatusCode.getMessage(-1));
+            }
+        });
+    }
 
 
     public static Request getRequest(ParamsBuilder builder) {
@@ -195,10 +246,24 @@ public class NetWork {
         public ParamsBuilder(String api) {
             map = new LinkedHashMap<>();
             this.api = api;
+
+        }
+
+        public ParamsBuilder inject() {
             ZbConfig zbConfig = ZbPassport.getZbConfig();
             map.put(K.APP_ID, "" + zbConfig.getAppId());
             map.put(K.APP_KEY, zbConfig.getAppKey());
             map.put(K.APP_SECRET, zbConfig.getAppSecret());
+            return this;
+        }
+
+        public ParamsBuilder injectWithToken() {
+            ZbConfig zbConfig = ZbPassport.getZbConfig();
+            map.put(K.TOKEN, zbConfig.getToken());
+            map.put(K.APP_ID, "" + zbConfig.getAppId());
+            map.put(K.APP_KEY, zbConfig.getAppKey());
+            map.put(K.APP_SECRET, zbConfig.getAppSecret());
+            return this;
         }
 
         public ParamsBuilder add(String key, String value) {

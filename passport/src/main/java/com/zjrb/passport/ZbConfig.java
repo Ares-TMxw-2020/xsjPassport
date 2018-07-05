@@ -18,6 +18,7 @@ final class ZbConfig {
     private String appKey;
     private String appSecret;
     private int envType;
+    private String token;
 
     ZbConfig(Context context) {
         ApplicationInfo info = null;
@@ -67,4 +68,11 @@ final class ZbConfig {
         this.envType = envType;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 }
