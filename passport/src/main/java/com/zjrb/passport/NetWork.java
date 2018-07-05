@@ -6,11 +6,14 @@ import com.zjrb.passport.constant.K;
 import com.zjrb.passport.domain.BaseData;
 import com.zjrb.passport.domain.LoginData;
 import com.zjrb.passport.listener.ZbBindListener;
+import com.zjrb.passport.listener.ZbChangePasswordListener;
 import com.zjrb.passport.listener.ZbCheckListener;
 import com.zjrb.passport.listener.ZbGetInfoListener;
 import com.zjrb.passport.listener.ZbListener;
 import com.zjrb.passport.listener.ZbLoginListener;
+import com.zjrb.passport.listener.ZbLogoutListener;
 import com.zjrb.passport.listener.ZbRegisterListener;
+import com.zjrb.passport.listener.ZbResetPasswordListener;
 import com.zjrb.passport.net.ApiManager;
 import com.zjrb.passport.net.CallBack;
 import com.zjrb.passport.net.FormBody;
@@ -35,9 +38,9 @@ public class NetWork {
 
     public NetWork() {
         client = new ZbHttpClient.Builder().connTimeOut(10 * 1000)
-                                           .readTimeOut(10 * 1000)
-                                           .writeTimeOut(10 * 1000)
-                                           .build();
+                .readTimeOut(10 * 1000)
+                .writeTimeOut(10 * 1000)
+                .build();
     }
 
     public void checkPhone(String phoneNumber, ZbCheckListener listener) {
@@ -47,8 +50,8 @@ public class NetWork {
 
     public void sendRegisterCaptcha(String phoneNumber, final ZbListener listener) {
         ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.SMS_SEND_REGISTER_TOKEN).inject()
-                                                                                              .add("phone_number",
-                                                                                                   phoneNumber);
+                .add("phone_number",
+                        phoneNumber);
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
@@ -69,8 +72,8 @@ public class NetWork {
 
     public void sendLoginCaptcha(String phoneNumber, final ZbListener listener) {
         ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.SMS_SEND_LOGIN_TOKEN).inject()
-                                                                                           .add("phone_number",
-                                                                                                phoneNumber);
+                .add("phone_number",
+                        phoneNumber);
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
@@ -91,8 +94,8 @@ public class NetWork {
 
     public void sendRetrieveCaptcha(String phoneNumber, final ZbListener listener) {
         ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.SMS_SEND_RESET_TOKEN).inject()
-                                                                                           .add("phone_number",
-                                                                                                phoneNumber);
+                .add("phone_number",
+                        phoneNumber);
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
@@ -113,8 +116,8 @@ public class NetWork {
 
     public void sendBindCaptcha(String phoneNumber, final ZbListener listener) {
         ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.SMS_SEND_BINDING_TOKEN).inject()
-                                                                                             .add("phone_number",
-                                                                                                  phoneNumber);
+                .add("phone_number",
+                        phoneNumber);
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
@@ -133,23 +136,81 @@ public class NetWork {
         });
     }
 
-    public void register(String phoneNumber, String password, String captcha, ZbRegisterListener listener) {
+    /**
+     * 手机号注册浙报通行证
+     *
+     * @param phoneNumber
+     * @param password
+     * @param captcha
+     * @param listener
+     */
+    public void register(String phoneNumber, String password, String captcha, final ZbRegisterListener listener) {
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_REGISTER).add("phone_number",
+                phoneNumber).add("password", password).add("sms_token", captcha);
+        client.newCall(getRequest(builder)).enqueue(new CallBack() {
+            @Override
+            public void onSuccess(Response response) throws IOException {
 
+            }
+
+            @Override
+            public void onFail(Request call, IOException e) {
+                listener.onFailure(0, "");
+            }
+        });
     }
 
-    public void login(String phoneNumber, String password, ZbLoginListener listener) {
+    /**
+     * 手机号密码登录
+     *
+     * @param phoneNumber
+     * @param password
+     * @param listener
+     */
+    public void login(String phoneNumber, String password, final ZbLoginListener listener) {
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_PASSWORD_LOGIN).add("phone_number",
+                phoneNumber).add("password", password);
+        client.newCall(getRequest(builder)).enqueue(new CallBack() {
+            @Override
+            public void onSuccess(Response response) throws IOException {
 
+            }
+
+            @Override
+            public void onFail(Request call, IOException e) {
+                listener.onFailure(0, "");
+            }
+        });
     }
 
-    public void loginCaptcha(String phoneNumber, String captcha, ZbLoginListener listener) {
+    /**
+     * 手机号与验证码登录
+     *
+     * @param phoneNumber
+     * @param captcha
+     * @param listener
+     */
+    public void loginCaptcha(String phoneNumber, String captcha, final ZbLoginListener listener) {
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_SMS_TOKEN_LOGIN).add("phone_number",
+                phoneNumber).add("sms_token", captcha);
+        client.newCall(getRequest(builder)).enqueue(new CallBack() {
+            @Override
+            public void onSuccess(Response response) throws IOException {
 
+            }
+
+            @Override
+            public void onFail(Request call, IOException e) {
+                listener.onFailure(0, "");
+            }
+        });
     }
 
     public void loginThird(int thirdType, String thirdUnionId, final ZbLoginListener listener) {
         ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.THIRD_PARTY_LOGIN).inject()
-                                                                                        .add("auth_type",
-                                                                                             "" + thirdType)
-                                                                                        .add("auth_uid", thirdUnionId);
+                .add("auth_type",
+                        "" + thirdType)
+                .add("auth_uid", thirdUnionId);
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
@@ -168,25 +229,150 @@ public class NetWork {
         });
     }
 
-    public void getInfo(String token, ZbGetInfoListener listener) {
+    /**
+     * 获取通行证详情
+     *
+     * @param token
+     * @param listener
+     */
+    public void getInfo(String token, final ZbGetInfoListener listener) {
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_DETAIL).add("access_token",
+                token);
+        client.newCall(getRequest(builder)).enqueue(new CallBack() {
+            @Override
+            public void onSuccess(Response response) throws IOException {
 
+            }
+
+            @Override
+            public void onFail(Request call, IOException e) {
+                listener.onFailure(0, "");
+            }
+        });
     }
 
-    public void retrievePassword() {
-        //TODO 逻辑待商榷
+    /**
+     * 绑定浙报通信证手机号
+     *
+     * @param token
+     * @param phoneNumber
+     * @param captcha
+     * @param listener
+     */
+    public void bindPhone(String token, String phoneNumber, String captcha, final ZbBindListener listener) {
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_BIND_PHONE_NUMBER).add("access_token",
+                token).add("new_phone_number", phoneNumber).add("sms_token", captcha);
+        client.newCall(getRequest(builder)).enqueue(new CallBack() {
+            @Override
+            public void onSuccess(Response response) throws IOException {
+
+            }
+
+            @Override
+            public void onFail(Request call, IOException e) {
+                listener.onFailure(0, "");
+            }
+        });
     }
 
-    public void resetPassword() {
-        //TODO 逻辑待商榷
+    /**
+     * 更改通行证密码
+     *
+     * @param token
+     * @param oldPassWord
+     * @param newPassWord
+     * @param listener
+     */
+    public void changePassword(String token, String oldPassWord, String newPassWord, final ZbChangePasswordListener listener) {
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_CHANGE_PASSWORD).add("access_token",
+                token).add("old_password", oldPassWord).add("new_password", newPassWord);
+        client.newCall(getRequest(builder)).enqueue(new CallBack() {
+            @Override
+            public void onSuccess(Response response) throws IOException {
+
+            }
+
+            @Override
+            public void onFail(Request call, IOException e) {
+                listener.onFailure(0, "");
+            }
+        });
     }
 
-    public void bindPhone(String phoneNumber, String captcha, ZbBindListener listener) {}
+    /**
+     * 重置通行证密码
+     *
+     * @param phoneNumber
+     * @param captcha
+     * @param newPassword
+     * @param listener
+     */
+    public void resetPassword(String phoneNumber, String captcha, String newPassword, final ZbResetPasswordListener listener) {
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_RESET_PASSWORD).add("phone_number",
+                phoneNumber).add("sms_token", captcha).add("new_password", newPassword);
+        client.newCall(getRequest(builder)).enqueue(new CallBack() {
+            @Override
+            public void onSuccess(Response response) throws IOException {
+
+            }
+
+            @Override
+            public void onFail(Request call, IOException e) {
+                listener.onFailure(0, "");
+            }
+        });
+    }
+
+    /**
+     * 检测手机号是否已经绑定浙报通行证接口
+     *
+     * @param token
+     * @param phoneNumber
+     * @param listener
+     */
+    public void checkBindState(String token, String phoneNumber, final ZbCheckListener listener) {
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_CHECK_BINDING).add("access_token",
+                token).add("phone_number", phoneNumber);
+        client.newCall(getRequest(builder)).enqueue(new CallBack() {
+            @Override
+            public void onSuccess(Response response) throws IOException {
+
+            }
+
+            @Override
+            public void onFail(Request call, IOException e) {
+                listener.onFailure(0, "");
+            }
+        });
+    }
+
+    /**
+     * 退出登录
+     *
+     * @param token
+     * @param listener
+     */
+    public void logout(String token, final ZbLogoutListener listener) {
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_LOGOUT).add("access_token",
+                token);
+        client.newCall(getRequest(builder)).enqueue(new CallBack() {
+            @Override
+            public void onSuccess(Response response) throws IOException {
+
+            }
+
+            @Override
+            public void onFail(Request call, IOException e) {
+                listener.onFailure(0, "");
+            }
+        });
+    }
 
 
     public void bindThird(int thirdType, String thirdUnionId, final ZbListener listener) {
         ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.THIRD_PARTY_BIND).injectWithToken()
-                                                                                       .add("auth_type", "" + thirdType)
-                                                                                       .add("auth_uid", thirdUnionId);
+                .add("auth_type", "" + thirdType)
+                .add("auth_uid", thirdUnionId);
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
@@ -207,8 +393,8 @@ public class NetWork {
 
     public void unbindThird(int thirdType, final ZbListener listener) {
         ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.THIRD_PARTY_UNBIND).injectWithToken()
-                                                                                         .add("auth_type",
-                                                                                              "" + thirdType);
+                .add("auth_type",
+                        "" + thirdType);
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {

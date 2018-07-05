@@ -103,10 +103,10 @@ interface ZbCaptchaListener{
 }
 ```
 
-### 验证手机是否注册浙报通行证
+### 验证手机是否绑定浙报通行证
 
 ```java
-ZbPassport.checkPhone(String phoneNumber,ZbCheckListener listener);
+ZbPassport.checkBindState(String token, String phoneNumber, ZbCheckListener listener);
 
 interface ZbCheckListener{
 	void onSuccess(boolean isExist);
@@ -168,7 +168,7 @@ interface ZbGetInfoListener{
 #### 找回密码
 
 ```java
-ZbPassport.retrievePassword(String phoneNumber,String captcha, ZbRetrieveListener listener);
+ZbPassport.changePassword(String phoneNumber,String captcha, ZbRetrieveListener listener);
 
 interface ZbRetrieveListener{
 	void onSuccess();

@@ -125,6 +125,11 @@ public class ApiManager {
          */
         public static final String PASSPORT_CHECK_BINDING = "/api/passport/check_binding";
 
+        /**
+         * 退出登录接口
+         */
+        public static final String PASSPORT_LOGOUT = "api/passport/logout";
+
 
 
         /**
