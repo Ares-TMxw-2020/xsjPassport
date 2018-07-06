@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Function: EncryptUtil
@@ -19,8 +20,9 @@ public class EncryptUtil {
         StringBuilder sb = new StringBuilder();
         sb.append(url).append("%%");
         if (params != null && !params.isEmpty()) {
-            for (String s : params.keySet()) {
-                sb.append(s).append("=").append(params.get(s)).append("&");
+            TreeMap<String, String> treeMap = new TreeMap<>(params); // 用TreeMap的原因在于加密时要求参数名的顺序按照字典排序
+            for (String s : treeMap.keySet()) {
+                sb.append(s).append("=").append(treeMap.get(s)).append("&");
             }
             sb.setLength(sb.length() - 1);
             sb.append("%%");
