@@ -7,7 +7,17 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.zjrb.passport.ZbPassport;
+import com.zjrb.passport.domain.PhoneNumEntity;
+import com.zjrb.passport.domain.ZbInfoEntity;
+import com.zjrb.passport.listener.ZbBindListener;
+import com.zjrb.passport.listener.ZbChangePasswordListener;
+import com.zjrb.passport.listener.ZbCheckListener;
+import com.zjrb.passport.listener.ZbGetInfoListener;
 import com.zjrb.passport.listener.ZbListener;
+import com.zjrb.passport.listener.ZbLoginListener;
+import com.zjrb.passport.listener.ZbLogoutListener;
+import com.zjrb.passport.listener.ZbRegisterListener;
+import com.zjrb.passport.listener.ZbResetPasswordListener;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -26,7 +36,7 @@ public class TestActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    String phone = "13758284975";
+    String phone = "18519123764";
 
     public void showToast(String str) {
         Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
@@ -88,22 +98,122 @@ public class TestActivity extends AppCompatActivity {
                 });
                 break;
             case R.id.register:
+                ZbPassport.register(phone, "", "", new ZbRegisterListener() {
+                    @Override
+                    public void onSuccess(ZbInfoEntity info) {
+                        showToast("手机号注册浙报通行证接口 success");
+                    }
+
+                    @Override
+                    public void onFailure(int errorCode, String errorMessage) {
+                        showToast(errorMessage);
+                    }
+                });
                 break;
             case R.id.login:
+                ZbPassport.login(phone, "", new ZbLoginListener() {
+                    @Override
+                    public void onSuccess(ZbInfoEntity info) {
+                        showToast("手机号密码登录浙报通行证接口 success");
+
+                    }
+
+                    @Override
+                    public void onFailure(int errorCode, String errorMessage) {
+                        showToast(errorMessage);
+                    }
+                });
                 break;
             case R.id.loginCaptcha:
+                ZbPassport.loginCaptcha(phone, "", new ZbLoginListener() {
+                    @Override
+                    public void onSuccess(ZbInfoEntity info) {
+                        showToast("手机号与验证码登录浙报通行证接口 success");
+                    }
+
+                    @Override
+                    public void onFailure(int errorCode, String errorMessage) {
+                        showToast(errorMessage);
+                    }
+                });
                 break;
             case R.id.getInfo:
+                ZbPassport.getInfo(new ZbGetInfoListener() {
+                    @Override
+                    public void onSuccess(ZbInfoEntity info) {
+                        showToast("获取通行证详情接口 success");
+                    }
+
+                    @Override
+                    public void onFailure(int errorCode, String errorMessage) {
+                        showToast(errorMessage);
+                    }
+                });
                 break;
             case R.id.bindPhone:
+                ZbPassport.bindPhone(phone, "", new ZbBindListener() {
+                    @Override
+                    public void onSuccess() {
+                        showToast("绑定浙报通行证手机号接口 success");
+                    }
+
+                    @Override
+                    public void onFailure(int errorCode, String errorMessage) {
+                        showToast(errorMessage);
+                    }
+                });
                 break;
             case R.id.changePassword:
+                ZbPassport.changePassword("", "", new ZbChangePasswordListener() {
+                    @Override
+                    public void onSuccess() {
+                        showToast("更改通行证密码接口 success");
+                    }
+
+                    @Override
+                    public void onFailure(int errorCode, String errorMessage) {
+                        showToast(errorMessage);
+                    }
+                });
                 break;
             case R.id.resetPassword:
+                ZbPassport.resetPassword(phone, "", "", new ZbResetPasswordListener() {
+                    @Override
+                    public void onSuccess() {
+                        showToast("重置通行证密码接口 success");
+                    }
+
+                    @Override
+                    public void onFailure(int errorCode, String errorMessage) {
+                        showToast(errorMessage);
+                    }
+                });
                 break;
             case R.id.checkBindState:
+                ZbPassport.checkBindState(phone, new ZbCheckListener() {
+                    @Override
+                    public void onSuccess(PhoneNumEntity entity) {
+                        showToast("检查手机号是否绑定浙报通行证 success");
+                    }
+
+                    @Override
+                    public void onFailure(int errorCode, String errorMessage) {
+                        showToast(errorMessage);
+                    }
+                });
                 break;
             case R.id.logout:
+                ZbPassport.logout(new ZbLogoutListener() {
+                    @Override
+                    public void onSuccess() {
+                        showToast("退出登录接口 success");
+                    }
+
+                    @Override
+                    public void onFailure(int errorCode, String errorMessage) {
+                        showToast(errorMessage);
+                    }
+                });
                 break;
             case R.id.loginThird:
                 break;

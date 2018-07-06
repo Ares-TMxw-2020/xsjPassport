@@ -128,7 +128,7 @@ public class ApiManager {
         /**
          * 退出登录接口
          */
-        public static final String PASSPORT_LOGOUT = "api/passport/logout";
+        public static final String PASSPORT_LOGOUT = "/api/passport/logout";
 
 
 

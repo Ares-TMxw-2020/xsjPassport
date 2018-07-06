@@ -148,7 +148,7 @@ public class ZbPassport {
      * @param phoneNumber
      * @param listener
      */
-    public void checkBindState(String phoneNumber, ZbCheckListener listener) {
+    public static void checkBindState(String phoneNumber, ZbCheckListener listener) {
         netWork.checkBindState(phoneNumber, listener);
     }
 
@@ -157,7 +157,7 @@ public class ZbPassport {
      *
      * @param listener
      */
-    public void logout(ZbLogoutListener listener) {
+    public static void logout(ZbLogoutListener listener) {
         netWork.logout(listener);
     }
 
