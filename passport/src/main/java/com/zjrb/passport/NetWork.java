@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.zjrb.passport.constant.K;
 import com.zjrb.passport.domain.BaseData;
+import com.zjrb.passport.domain.CheckBindingEntity;
 import com.zjrb.passport.domain.LoginDataEntity;
 import com.zjrb.passport.listener.ZbBindListener;
 import com.zjrb.passport.listener.ZbChangePasswordListener;
@@ -43,59 +44,34 @@ public class NetWork {
                 .build();
     }
 
-    public void checkPhone(String phoneNumber, ZbCheckListener listener) {
-
-    }
-
 
     public void sendRegisterCaptcha(String phoneNumber, final ZbListener listener) {
         ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.SMS_SEND_REGISTER_TOKEN).inject()
                 .add("phone_number",
                         phoneNumber);
-        client.newCall(getRequest(builder)).enqueue(new CallBack() {
-            @Override
-            public void onSuccess(Response response) throws IOException {
-                BaseData data = JsonUtil.jsonBaseData(response);
-                if (data.code == StatusCode.SUCCESS) {
-                    listener.onSuccess();
-                } else {
-                    listener.onFailure(data.code, data.message);
-                }
-            }
-
-            @Override
-            public void onFail(Request call, IOException e) {
-                listener.onFailure(-1, StatusCode.getMessage(-1));
-            }
-        });
+        requestWithNoData(listener, builder);
     }
 
     public void sendLoginCaptcha(String phoneNumber, final ZbListener listener) {
         ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.SMS_SEND_LOGIN_TOKEN).inject()
                 .add("phone_number",
                         phoneNumber);
-        client.newCall(getRequest(builder)).enqueue(new CallBack() {
-            @Override
-            public void onSuccess(Response response) throws IOException {
-                BaseData data = JsonUtil.jsonBaseData(response);
-                if (data.code == StatusCode.SUCCESS) {
-                    listener.onSuccess();
-                } else {
-                    listener.onFailure(data.code, data.message);
-                }
-            }
-
-            @Override
-            public void onFail(Request call, IOException e) {
-                listener.onFailure(-1, StatusCode.getMessage(-1));
-            }
-        });
+        requestWithNoData(listener, builder);
     }
 
     public void sendRetrieveCaptcha(String phoneNumber, final ZbListener listener) {
         ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.SMS_SEND_RESET_TOKEN).inject()
                 .add("phone_number",
                         phoneNumber);
+        requestWithNoData(listener, builder);
+    }
+
+    /**
+     * 返回结果无data,只有code和message的请求封装
+     * @param listener
+     * @param builder
+     */
+    private void requestWithNoData(final ZbListener listener, ParamsBuilder builder) {
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
@@ -118,22 +94,7 @@ public class NetWork {
         ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.SMS_SEND_BINDING_TOKEN).inject()
                 .add("phone_number",
                         phoneNumber);
-        client.newCall(getRequest(builder)).enqueue(new CallBack() {
-            @Override
-            public void onSuccess(Response response) throws IOException {
-                BaseData data = JsonUtil.jsonBaseData(response);
-                if (data.code == StatusCode.SUCCESS) {
-                    listener.onSuccess();
-                } else {
-                    listener.onFailure(data.code, data.message);
-                }
-            }
-
-            @Override
-            public void onFail(Request call, IOException e) {
-                listener.onFailure(-1, StatusCode.getMessage(-1));
-            }
-        });
+        requestWithNoData(listener, builder);
     }
 
     /**
@@ -150,12 +111,17 @@ public class NetWork {
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
-
+                LoginDataEntity data = JsonUtil.jsonLoginData(response);
+                if (data.code == StatusCode.SUCCESS) {
+                    listener.onSuccess(data.data);
+                } else {
+                    listener.onFailure(data.code, data.message);
+                }
             }
 
             @Override
             public void onFail(Request call, IOException e) {
-                listener.onFailure(0, "");
+                listener.onFailure(-1, StatusCode.getMessage(-1));
             }
         });
     }
@@ -173,12 +139,17 @@ public class NetWork {
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
-
+                LoginDataEntity data = JsonUtil.jsonLoginData(response);
+                if (data.code == StatusCode.SUCCESS) {
+                    listener.onSuccess(data.data);
+                } else {
+                    listener.onFailure(data.code, data.message);
+                }
             }
 
             @Override
             public void onFail(Request call, IOException e) {
-                listener.onFailure(0, "");
+                listener.onFailure(-1, StatusCode.getMessage(-1));
             }
         });
     }
@@ -196,12 +167,17 @@ public class NetWork {
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
-
+                LoginDataEntity data = JsonUtil.jsonLoginData(response);
+                if (data.code == StatusCode.SUCCESS) {
+                    listener.onSuccess(data.data);
+                } else {
+                    listener.onFailure(data.code, data.message);
+                }
             }
 
             @Override
             public void onFail(Request call, IOException e) {
-                listener.onFailure(0, "");
+                listener.onFailure(-1, StatusCode.getMessage(-1));
             }
         });
     }
@@ -239,12 +215,17 @@ public class NetWork {
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
-
+                LoginDataEntity data = JsonUtil.jsonLoginData(response);
+                if (data.code == StatusCode.SUCCESS) {
+                    listener.onSuccess(data.data);
+                } else {
+                    listener.onFailure(data.code, data.message);
+                }
             }
 
             @Override
             public void onFail(Request call, IOException e) {
-                listener.onFailure(0, "");
+                listener.onFailure(-1, StatusCode.getMessage(-1));
             }
         });
     }
@@ -261,12 +242,17 @@ public class NetWork {
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
-
+                BaseData data = JsonUtil.jsonBaseData(response);
+                if (data.code == StatusCode.SUCCESS) {
+                    listener.onSuccess();
+                } else {
+                    listener.onFailure(data.code, data.message);
+                }
             }
 
             @Override
             public void onFail(Request call, IOException e) {
-                listener.onFailure(0, "");
+                listener.onFailure(-1, StatusCode.getMessage(-1));
             }
         });
     }
@@ -283,12 +269,17 @@ public class NetWork {
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
-
+                BaseData data = JsonUtil.jsonBaseData(response);
+                if (data.code == StatusCode.SUCCESS) {
+                    listener.onSuccess();
+                } else {
+                    listener.onFailure(data.code, data.message);
+                }
             }
 
             @Override
             public void onFail(Request call, IOException e) {
-                listener.onFailure(0, "");
+                listener.onFailure(-1, StatusCode.getMessage(-1));
             }
         });
     }
@@ -307,12 +298,17 @@ public class NetWork {
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
-
+                BaseData data = JsonUtil.jsonBaseData(response);
+                if (data.code == StatusCode.SUCCESS) {
+                    listener.onSuccess();
+                } else {
+                    listener.onFailure(data.code, data.message);
+                }
             }
 
             @Override
             public void onFail(Request call, IOException e) {
-                listener.onFailure(0, "");
+                listener.onFailure(-1, StatusCode.getMessage(-1));
             }
         });
     }
@@ -328,12 +324,19 @@ public class NetWork {
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
-
+                CheckBindingEntity data = JsonUtil.parseCheckBinding(response);
+                if (data != null) {
+                    if (data.code == StatusCode.SUCCESS) {
+                        listener.onSuccess(data.data);
+                    } else {
+                        listener.onFailure(data.code, data.message);
+                    }
+                }
             }
 
             @Override
             public void onFail(Request call, IOException e) {
-                listener.onFailure(0, "");
+                listener.onFailure(-1, StatusCode.getMessage(-1));
             }
         });
     }
@@ -348,12 +351,17 @@ public class NetWork {
         client.newCall(getRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
-
+                BaseData data = JsonUtil.jsonBaseData(response);
+                if (data.code == StatusCode.SUCCESS) {
+                    listener.onSuccess();
+                } else {
+                    listener.onFailure(data.code, data.message);
+                }
             }
 
             @Override
             public void onFail(Request call, IOException e) {
-                listener.onFailure(0, "");
+                listener.onFailure(-1, StatusCode.getMessage(-1));
             }
         });
     }
@@ -363,44 +371,14 @@ public class NetWork {
         ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.THIRD_PARTY_BIND).injectWithToken()
                 .add("auth_type", "" + thirdType)
                 .add("auth_uid", thirdUnionId);
-        client.newCall(getRequest(builder)).enqueue(new CallBack() {
-            @Override
-            public void onSuccess(Response response) throws IOException {
-                BaseData data = JsonUtil.jsonBaseData(response);
-                if (data.code == StatusCode.SUCCESS) {
-                    listener.onSuccess();
-                } else {
-                    listener.onFailure(data.code, data.message);
-                }
-            }
-
-            @Override
-            public void onFail(Request call, IOException e) {
-                listener.onFailure(-1, StatusCode.getMessage(-1));
-            }
-        });
+        requestWithNoData(listener, builder);
     }
 
     public void unbindThird(int thirdType, final ZbListener listener) {
         ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.THIRD_PARTY_UNBIND).injectWithToken()
                 .add("auth_type",
                         "" + thirdType);
-        client.newCall(getRequest(builder)).enqueue(new CallBack() {
-            @Override
-            public void onSuccess(Response response) throws IOException {
-                BaseData data = JsonUtil.jsonBaseData(response);
-                if (data.code == StatusCode.SUCCESS) {
-                    listener.onSuccess();
-                } else {
-                    listener.onFailure(data.code, data.message);
-                }
-            }
-
-            @Override
-            public void onFail(Request call, IOException e) {
-                listener.onFailure(-1, StatusCode.getMessage(-1));
-            }
-        });
+        requestWithNoData(listener, builder);
     }
 
 

@@ -54,10 +54,6 @@ public class ZbPassport {
         //TODO 验证配置参数
     }
 
-    public static void checkPhone(String phoneNumber, ZbCheckListener listener) {
-
-    }
-
     public static void sendRegisterCaptcha(String phoneNumber, ZbListener listener) {
         netWork.sendRegisterCaptcha(phoneNumber, listener);
     }

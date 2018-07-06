@@ -1,5 +1,7 @@
 package com.zjrb.passport.listener;
 
+import com.zjrb.passport.domain.PhoneNumEntity;
+
 /**
  * Function: ZbCheckListener
  * <p>
@@ -7,5 +9,5 @@ package com.zjrb.passport.listener;
  * Date: 2018/6/28
  */
 public interface ZbCheckListener extends IFailure {
-    void onSuccess(boolean isExist);
+    void onSuccess(PhoneNumEntity entity);
 }
