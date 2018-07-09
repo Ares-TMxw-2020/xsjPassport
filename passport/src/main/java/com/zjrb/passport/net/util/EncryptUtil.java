@@ -20,9 +20,8 @@ public class EncryptUtil {
         StringBuilder sb = new StringBuilder();
         sb.append(url).append("%%");
         if (params != null && !params.isEmpty()) {
-            TreeMap<String, String> treeMap = new TreeMap<>(params); // 用TreeMap的原因在于加密时要求参数名的顺序按照字典排序
-            for (String s : treeMap.keySet()) {
-                sb.append(s).append("=").append(treeMap.get(s)).append("&");
+            for (String s : params.keySet()) {
+                sb.append(s).append("=").append(params.get(s)).append("&");
             }
             sb.setLength(sb.length() - 1);
             sb.append("%%");

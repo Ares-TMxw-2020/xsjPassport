@@ -25,8 +25,8 @@ import com.zjrb.passport.net.util.EncryptUtil;
 import com.zjrb.passport.util.JsonUtil;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Function: NetWork
@@ -414,11 +414,11 @@ public class NetWork {
     }
 
     public static class ParamsBuilder {
-        private Map<String, String> map;
+        private TreeMap<String, String> map;
         private String api;
 
         public ParamsBuilder(String api) {
-            map = new LinkedHashMap<>();
+            map = new TreeMap<>();
             this.api = api;
 
         }

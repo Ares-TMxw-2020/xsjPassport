@@ -37,6 +37,8 @@ public class TestActivity extends AppCompatActivity {
     }
 
     String phone = "18519123764";
+    String phone2 = "18516696580";
+    String password = "this_is_a_test_password";
 
     public void showToast(String str) {
         Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
@@ -59,7 +61,7 @@ public class TestActivity extends AppCompatActivity {
                 });
                 break;
             case R.id.sendLoginCaptcha:
-                ZbPassport.sendRegisterCaptcha(phone, new ZbListener() {
+                ZbPassport.sendLoginCaptcha(phone, new ZbListener() {
                     @Override
                     public void onSuccess() {
                         showToast("下发登录短信验证码接口 success");
@@ -72,7 +74,7 @@ public class TestActivity extends AppCompatActivity {
                 });
                 break;
             case R.id.sendRetrieveCaptcha:
-                ZbPassport.sendRegisterCaptcha(phone, new ZbListener() {
+                ZbPassport.sendRetrieveCaptcha(phone, new ZbListener() {
                     @Override
                     public void onSuccess() {
                         showToast("下发绑定找回密码短信验证码接口 success");
@@ -98,7 +100,7 @@ public class TestActivity extends AppCompatActivity {
                 });
                 break;
             case R.id.register:
-                ZbPassport.register(phone, "", "", new ZbRegisterListener() {
+                ZbPassport.register(phone, "this_is_a_test_password", "629551", new ZbRegisterListener() {
                     @Override
                     public void onSuccess(ZbInfoEntity info) {
                         showToast("手机号注册浙报通行证接口 success");
@@ -111,7 +113,7 @@ public class TestActivity extends AppCompatActivity {
                 });
                 break;
             case R.id.login:
-                ZbPassport.login(phone, "", new ZbLoginListener() {
+                ZbPassport.login(phone, password, new ZbLoginListener() {
                     @Override
                     public void onSuccess(ZbInfoEntity info) {
                         showToast("手机号密码登录浙报通行证接口 success");
@@ -125,7 +127,7 @@ public class TestActivity extends AppCompatActivity {
                 });
                 break;
             case R.id.loginCaptcha:
-                ZbPassport.loginCaptcha(phone, "", new ZbLoginListener() {
+                ZbPassport.loginCaptcha(phone, "979755", new ZbLoginListener() {
                     @Override
                     public void onSuccess(ZbInfoEntity info) {
                         showToast("手机号与验证码登录浙报通行证接口 success");
@@ -164,7 +166,7 @@ public class TestActivity extends AppCompatActivity {
                 });
                 break;
             case R.id.changePassword:
-                ZbPassport.changePassword("", "", new ZbChangePasswordListener() {
+                ZbPassport.changePassword(password, "", new ZbChangePasswordListener() {
                     @Override
                     public void onSuccess() {
                         showToast("更改通行证密码接口 success");
