@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.zjrb.passport.ZbPassport;
+import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.domain.PhoneNumEntity;
 import com.zjrb.passport.domain.ZbInfoEntity;
 import com.zjrb.passport.listener.ZbBindListener;
@@ -36,8 +37,15 @@ public class TestActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
+//    String phone = "13758284975";
     String phone = "18519123764";
     String phone2 = "18516696580";
+    /**
+     * 第三方，qq和sina 取openId，微信取unionId，用友盟的话，统一取友盟封装的uid
+     */
+    String qqId = "C8110EC2F1A7AE94B698259B259712C6";
+    String sinaId = "2715718183";
+    String wechatId = "oPBMXs9w83GSNOjYQ3E3tJMp7Xmk";
     String password = "this_is_a_test_password";
 
     public void showToast(String str) {
@@ -218,10 +226,43 @@ public class TestActivity extends AppCompatActivity {
                 });
                 break;
             case R.id.loginThird:
+                ZbPassport.loginThird(ZbConstants.QQ, qqId, new ZbLoginListener() {
+                    @Override
+                    public void onSuccess(ZbInfoEntity info) {
+                        showToast("社交平台账号登录/注册接口 success");
+                    }
+
+                    @Override
+                    public void onFailure(int errorCode, String errorMessage) {
+                        showToast(errorMessage);
+                    }
+                });
                 break;
             case R.id.bindThird:
+                ZbPassport.bindThird(ZbConstants.SINA, sinaId, new ZbListener() {
+                    @Override
+                    public void onSuccess() {
+                        showToast("浙报通行证绑定新的社交平台账号接口 success");
+                    }
+
+                    @Override
+                    public void onFailure(int errorCode, String errorMessage) {
+                        showToast(errorMessage);
+                    }
+                });
                 break;
             case R.id.unbindThird:
+                ZbPassport.unbindThird(ZbConstants.SINA, new ZbListener() {
+                    @Override
+                    public void onSuccess() {
+                        showToast("浙报通行证解绑社交账号接口 success");
+                    }
+
+                    @Override
+                    public void onFailure(int errorCode, String errorMessage) {
+                        showToast(errorMessage);
+                    }
+                });
                 break;
         }
     }

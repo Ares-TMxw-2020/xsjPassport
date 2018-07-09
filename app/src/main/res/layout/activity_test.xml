@@ -15,7 +15,6 @@
             android:layout_margin="10dp"
             android:text="下发注册短信验证码接口"/>
 
-
         <Button
             android:id="@+id/sendLoginCaptcha"
             android:layout_width="match_parent"

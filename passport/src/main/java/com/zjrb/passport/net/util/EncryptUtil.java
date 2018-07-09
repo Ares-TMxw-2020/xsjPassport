@@ -1,12 +1,9 @@
 package com.zjrb.passport.net.util;
 
-import android.util.Log;
-
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Function: EncryptUtil
@@ -26,13 +23,12 @@ public class EncryptUtil {
             sb.setLength(sb.length() - 1);
             sb.append("%%");
         }
+        //TODO 盐值动态更换？
         sb.append("6tAn>tm*o7M+ba");
         return encrypt(sb.toString());
     }
 
     public static String encrypt(String str) {
-        //TODO
-        Log.d("-start- ", str);
         String result = str;
         try {
             MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
@@ -44,8 +40,6 @@ public class EncryptUtil {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        //TODO
-        Log.d("-end- ", result);
         return result;
     }
 

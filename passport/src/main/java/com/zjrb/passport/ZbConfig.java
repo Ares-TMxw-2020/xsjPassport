@@ -12,13 +12,14 @@ import com.zjrb.passport.constant.ZbConstants;
  * Author: chen.h
  * Date: 2018/6/28
  */
-final class ZbConfig {
+public final class ZbConfig {
 
     private int appId;
     private String appKey;
     private String appSecret;
     private int envType;
     private String token;
+    private boolean isDebug;
 
     ZbConfig(Context context) {
         ApplicationInfo info = null;
@@ -32,7 +33,29 @@ final class ZbConfig {
             appId = info.metaData.getInt(ZbConstants.META_ID);
             appKey = info.metaData.getString(ZbConstants.META_KEY);
             appSecret = info.metaData.getString(ZbConstants.META_SECRET);
-            envType = info.metaData.getInt(ZbConstants.META_ENV);
+            String env = info.metaData.getString(ZbConstants.META_ENV, ZbConstants.DEV);
+            resolveEnv(env);
+        }
+    }
+
+    private void resolveEnv(String env) {
+        switch (env) {
+            case ZbConstants.TEST:
+                envType = ZbConstants.ENV_TEST;
+                isDebug = false;
+                break;
+            case ZbConstants.PRE:
+                envType = ZbConstants.ENV_PRE;
+                isDebug = false;
+                break;
+            case ZbConstants.OFFICIAL:
+                envType = ZbConstants.ENV_OFFICIAL;
+                isDebug = false;
+                break;
+            default:
+                envType = ZbConstants.ENV_DEV;
+                isDebug = true;
+                break;
         }
     }
 
@@ -40,39 +63,51 @@ final class ZbConfig {
         return appId;
     }
 
-    public void setAppId(int appId) {
-        this.appId = appId;
-    }
-
     public String getAppKey() {
         return appKey;
-    }
-
-    public void setAppKey(String appKey) {
-        this.appKey = appKey;
     }
 
     public String getAppSecret() {
         return appSecret;
     }
 
-    public void setAppSecret(String appSecret) {
-        this.appSecret = appSecret;
-    }
-
     public int getEnvType() {
         return envType;
     }
 
-    public void setEnvType(int envType) {
-        this.envType = envType;
+    public boolean isDebug() {
+        return isDebug;
     }
 
     public String getToken() {
         return token;
     }
 
+    void setAppId(int appId) {
+        this.appId = appId;
+    }
+
+    void setAppKey(String appKey) {
+        this.appKey = appKey;
+    }
+
+    void setAppSecret(String appSecret) {
+        this.appSecret = appSecret;
+    }
+
+    void setEnvType(int envType) {
+        this.envType = envType;
+    }
+
+    void setDebug(boolean debug) {
+        isDebug = debug;
+        if (envType == ZbConstants.ENV_OFFICIAL) {
+            isDebug = false;
+        }
+    }
+
     public void setToken(String token) {
         this.token = token;
     }
+
 }

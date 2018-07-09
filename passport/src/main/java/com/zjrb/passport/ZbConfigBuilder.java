@@ -2,6 +2,8 @@ package com.zjrb.passport;
 
 import android.text.TextUtils;
 
+import com.zjrb.passport.constant.ZbConstants;
+
 /**
  * Function: ZbConfigBuilder
  * <p>
@@ -13,6 +15,7 @@ public class ZbConfigBuilder {
     private String appKey;
     private String appSecret;
     private int envType;
+    private boolean isDebug;
 
     public ZbConfigBuilder setAppId(int appId) {
         this.appId = appId;
@@ -29,8 +32,13 @@ public class ZbConfigBuilder {
         return this;
     }
 
-    public ZbConfigBuilder setEnvType(int envType) {
+    public ZbConfigBuilder setEnvType(@ZbConstants.EnvType int envType) {
         this.envType = envType;
+        return this;
+    }
+
+    public ZbConfigBuilder setDebug(boolean isDebug) {
+        this.isDebug = isDebug;
         return this;
     }
 
@@ -45,5 +53,6 @@ public class ZbConfigBuilder {
             zbConfig.setAppSecret(appSecret);
         }
         zbConfig.setEnvType(envType);
+        zbConfig.setDebug(isDebug);
     }
 }

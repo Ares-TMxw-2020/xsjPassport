@@ -26,7 +26,7 @@
             android:value="E1v9TSMLLit2VHTTl0i9"/>
         <meta-data
             android:name="ZBP_APP_ENV"
-            android:value="1"/>
+            android:value="dev"/>
 
         <activity android:name=".TestActivity">
             <intent-filter>

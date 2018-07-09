@@ -58,8 +58,7 @@ public class StatusCode {
                 return "社交账号绑定信息验证失败";
             default:
                 return "错误的结果";
-
         }
-
     }
+
 }

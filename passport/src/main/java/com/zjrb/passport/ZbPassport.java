@@ -1,8 +1,8 @@
 package com.zjrb.passport;
 
 import android.content.Context;
-import android.support.annotation.IntDef;
 
+import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.listener.ZbBindListener;
 import com.zjrb.passport.listener.ZbChangePasswordListener;
 import com.zjrb.passport.listener.ZbCheckListener;
@@ -12,9 +12,6 @@ import com.zjrb.passport.listener.ZbLoginListener;
 import com.zjrb.passport.listener.ZbLogoutListener;
 import com.zjrb.passport.listener.ZbRegisterListener;
 import com.zjrb.passport.listener.ZbResetPasswordListener;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 
 /**
  * Function: ZbPassport
@@ -46,7 +43,7 @@ public class ZbPassport {
         zbConfig.setToken(token);
     }
 
-    static ZbConfig getZbConfig() {
+    public static ZbConfig getZbConfig() {
         return zbConfig;
     }
 
@@ -104,7 +101,7 @@ public class ZbPassport {
         netWork.loginCaptcha(phoneNumber, captcha, listener);
     }
 
-    public static void loginThird(@ThirdType int thirdType, String thirdUniqueId, ZbLoginListener listener) {
+    public static void loginThird(@ZbConstants.ThirdType int thirdType, String thirdUniqueId, ZbLoginListener listener) {
         netWork.loginThird(thirdType, thirdUniqueId, listener);
     }
 
@@ -134,6 +131,7 @@ public class ZbPassport {
 
     /**
      * 绑定浙报通行证手机号
+     *
      * @param phoneNumber
      * @param captcha
      * @param listener
@@ -162,21 +160,13 @@ public class ZbPassport {
     }
 
 
-    public static void bindThird(@ThirdType int thirdType, String thirdUnionId, ZbListener listener) {
+    public static void bindThird(@ZbConstants.ThirdType int thirdType, String thirdUnionId, ZbListener listener) {
         netWork.bindThird(thirdType, thirdUnionId, listener);
     }
 
-    public static void unbindThird(@ThirdType int thirdType, ZbListener listener) {
+    public static void unbindThird(@ZbConstants.ThirdType int thirdType, ZbListener listener) {
         netWork.unbindThird(thirdType, listener);
     }
 
 
-    @Retention(RetentionPolicy.SOURCE)
-    @IntDef({WECHAT, QQ, SINA})
-    public @interface ThirdType {
-    }
-
-    public static final int WECHAT = 2;
-    public static final int QQ = 3;
-    public static final int SINA = 4;
 }
