@@ -1,35 +1,65 @@
 package passportdemo.zjrb.com.zjrbpassport;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.EditText;
+import android.widget.TextView;
 
-import com.zjrb.passport.ZbPassport;
-import com.zjrb.passport.listener.ZbListener;
-import com.zjrb.passport.net.CallBack;
-import com.zjrb.passport.net.FormBody;
-import com.zjrb.passport.net.Request;
-import com.zjrb.passport.net.Response;
 import com.zjrb.passport.net.ZbHttpClient;
 
-import java.io.IOException;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import passportdemo.zjrb.com.zjrbpassport.activity.RegisterActvity;
 
 public class MainActivity extends AppCompatActivity {
 
     ZbHttpClient client;
+    @BindView(R.id.et_phone)
+    EditText mEtPhone;
+    @BindView(R.id.et_captcha)
+    EditText mEtCaptcha;
+    @BindView(R.id.tv_login)
+    TextView mTvLogin;
+    @BindView(R.id.tv_password_login)
+    TextView mTvPasswordLogin;
+    @BindView(R.id.tv_register)
+    TextView mTvRegister;
+    @BindView(R.id.tv_send)
+    TextView mTvSend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         client = new ZbHttpClient.Builder().connTimeOut(10 * 1000)
-                                           .readTimeOut(10 * 1000)
-                                           .writeTimeOut(10 * 1000)
-                                           .build();
+                .readTimeOut(10 * 1000)
+                .writeTimeOut(10 * 1000)
+                .build();
     }
 
-    public void sendRegisterCaptcha(View view) {
+    @OnClick({R.id.tv_login, R.id.tv_password_login, R.id.tv_register, R.id.tv_send})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.tv_login:
+                break;
+            case R.id.tv_password_login:
+                break;
+            case R.id.tv_register:
+                Intent intent = new Intent(this, RegisterActvity.class);
+                startActivity(intent);
+                break;
+            case R.id.tv_send:
+                break;
+        }
+    }
+
+  /*  public void sendRegisterCaptcha(View view) {
         ZbPassport.sendRegisterCaptcha("13758284975", new ZbListener() {
             @Override
             public void onSuccess() {
@@ -43,11 +73,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /**
+    *//**
      * 同步get请求
      *
      * @param view
-     */
+     *//*
     public void syncGetTest(View view) {
         Request request = null;
         try {
@@ -66,11 +96,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
+    *//**
      * 同步post
      *
      * @param view
-     */
+     *//*
     public void syncPostTest(View view) {
         Request request = null;
         try {
@@ -88,11 +118,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
+    *//**
      * 异步get
      *
      * @param view
-     */
+     *//*
     public void aSyncGetTest(View view) {
         Request request = null;
         try {
@@ -115,11 +145,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /**
+    *//**
      * 异步post
      *
      * @param view
-     */
+     *//*
     public void aSyncPostTest(View view) {
 
         Request request = null;
@@ -144,5 +174,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
+    }*/
 }

@@ -2,6 +2,8 @@ package com.zjrb.passport.net;
 
 import android.text.TextUtils;
 
+import com.zjrb.passport.ZbPassport;
+
 /**
  * Date: 2018/6/29 上午9:31
  * Email: sisq@8531.cn
@@ -21,14 +23,13 @@ public class ApiManager {
         /**
          * 正式域名
          */
+        // TODO: 2018/7/9 待确认
         private static final String BASE_URL = "http://10.100.64.69";
 
     }
 
     public static final String getBaseUri() {
-        // TODO: 2018/6/29  增加不同环境的判断
-        boolean isDebug = false;
-        if (isDebug) {
+        if (ZbPassport.getZbConfig().isDebug()) {
             return ApiManager.URL;
         } else {
             return UrlConstant.BASE_URL;

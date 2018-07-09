@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="passportdemo.zjrb.com.zjrbpassport">
+    package="passportdemo.zjrb.com.zjrbpassport">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".App"
@@ -17,29 +17,31 @@
 
         <meta-data
             android:name="ZBP_APP_ID"
-            android:value="1"/>
+            android:value="1" />
         <meta-data
             android:name="ZBP_APP_KEY"
-            android:value="fQNZBzR9ej"/>
+            android:value="fQNZBzR9ej" />
         <meta-data
             android:name="ZBP_APP_SECRET"
-            android:value="E1v9TSMLLit2VHTTl0i9"/>
+            android:value="E1v9TSMLLit2VHTTl0i9" />
         <meta-data
             android:name="ZBP_APP_ENV"
-            android:value="dev"/>
+            android:value="dev" />
 
-        <activity android:name=".TestActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"/>
-        <activity android:name=".QuickLoginActivity"/>
-        <activity android:name=".BindPhoneActivity"/>
-        <activity android:name=".ModifyPhoneActivity"/>
-        <activity android:name=".UserInfoActivity"/>
+        <activity android:name=".TestActivity" />
+        <activity android:name=".activity.RegisterActvity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".QuickLoginActivity" />
+        <activity android:name=".BindPhoneActivity" />
+        <activity android:name=".ModifyPhoneActivity" />
+        <activity android:name=".UserInfoActivity" />
     </application>
 
 </manifest>

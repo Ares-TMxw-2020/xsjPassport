@@ -3,40 +3,53 @@
                 android:layout_height="match_parent"
                 android:background="@color/color_bg">
 
-    <TextView
-        android:id="@+id/tv_logo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/shape"
-        android:gravity="center"
-        android:text="App logo"/>
 
+    <TextView
+        android:id="@+id/tv_register_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="浙报通行证账号注册"
+        android:textColor="@color/color_blue"/>
 
     <EditText
         android:id="@+id/et_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_logo"
+        android:layout_below="@+id/tv_register_desc"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:background="@color/color_white"
         android:hint="请输入手机号"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:inputType="phone"
         android:maxLength="11"
         android:padding="10dp"/>
 
 
     <EditText
-        android:id="@+id/et_captcha"
+        android:id="@+id/et_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/et_phone"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/color_white"
+        android:hint="请输入密码"
+        android:inputType="textPassword"
+        android:padding="10dp"/>
+
+    <EditText
+        android:id="@+id/et_captcha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/et_password"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="160dp"
         android:layout_marginTop="10dp"
@@ -47,7 +60,7 @@
 
 
     <TextView
-        android:id="@+id/tv_login"
+        android:id="@+id/tv_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -58,35 +71,23 @@
         android:background="@color/color_blue"
         android:gravity="center"
         android:padding="10dp"
-        android:text="登录"
-        android:textColor="@color/color_white"/>
-
-    <TextView
-        android:id="@+id/tv_password_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="账号密码登录"
-        android:textColor="@color/color_blue"
-        android:layout_below="@id/tv_login"
-        android:layout_marginTop="25dp"
-        android:layout_centerHorizontal="true"
-        />
-
-    <TextView
-        android:id="@+id/tv_register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/tv_password_login"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="25dp"
-        android:background="@color/color_blue"
-        android:gravity="center"
-        android:padding="10dp"
         android:text="注册"
         android:textColor="@color/color_white"/>
 
+    <TextView
+        android:id="@+id/tv_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tv_register"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="50dp"
+        android:background="@color/color_blue"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="已有账号,直接登录"
+        android:textColor="@color/color_white"/>
 
     <TextView
         android:id="@+id/tv_send"

@@ -15,6 +15,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        ZbUtil.init(this);
         BaseInit.init(this,"bianfeng");
         ZbPassport.init(this);
 //        ZbPassport.init(this,
