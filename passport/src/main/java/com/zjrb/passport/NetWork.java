@@ -355,7 +355,7 @@ public class NetWork {
      * @param listener
      */
     public void checkBindState(String phoneNumber, final ZbCheckListener listener) {
-        final ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_CHECK_BINDING).injectWithToken()
+        final ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_CHECK_BINDING).inject()
                                                                                                    .add("phone_number",
                                                                                                         phoneNumber);
         client.newCall(buildGetRequest(builder)).enqueue(new CallBack() {
@@ -474,7 +474,9 @@ public class NetWork {
 
         public ParamsBuilder injectWithToken() {
             ZbConfig zbConfig = ZbPassport.getZbConfig();
-            map.put(K.TOKEN, zbConfig.getToken());
+            if (!TextUtils.isEmpty(zbConfig.getToken())) {
+                map.put(K.TOKEN, zbConfig.getToken());
+            }
             map.put(K.APP_ID, "" + zbConfig.getAppId());
             map.put(K.APP_KEY, zbConfig.getAppKey());
             map.put(K.APP_SECRET, zbConfig.getAppSecret());
