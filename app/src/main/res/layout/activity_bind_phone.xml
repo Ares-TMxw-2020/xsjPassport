@@ -33,6 +33,17 @@
     </RelativeLayout>
 
 
+    <Switch
+        android:id="@+id/sh_merge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/rl_title"
+        android:layout_marginTop="10dp"
+        android:checked="false"
+        android:text="不允许绑定已经注册的手机"
+        />
+
     <EditText
         android:id="@+id/et_phone"
         android:layout_width="match_parent"
@@ -108,4 +119,6 @@
         android:padding="10dp"
         android:text="下一步"
         android:textColor="@color/color_white"/>
+
+
 </RelativeLayout>

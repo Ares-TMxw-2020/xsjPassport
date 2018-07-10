@@ -74,11 +74,13 @@ public class TipDialog extends Dialog {
                 if (listener != null) {
                     listener.onLeft();
                 }
+                dismiss();
                 break;
             case R.id.tv_right:
                 if (listener != null) {
                     listener.onRight();
                 }
+                dismiss();
                 break;
         }
     }
