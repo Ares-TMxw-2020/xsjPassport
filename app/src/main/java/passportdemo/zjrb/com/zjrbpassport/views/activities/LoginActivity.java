@@ -18,7 +18,7 @@ import passportdemo.zjrb.com.zjrbpassport.contracts.LoginContract;
 import passportdemo.zjrb.com.zjrbpassport.contracts.UmLoginContract;
 import passportdemo.zjrb.com.zjrbpassport.presenters.LoginPresenterImpl;
 import passportdemo.zjrb.com.zjrbpassport.presenters.UmLoginPresenterImpl;
-import passportdemo.zjrb.com.zjrbpassport.utils.T;
+import passportdemo.zjrb.com.zjrbpassport.utils.ToastUtil;
 import passportdemo.zjrb.com.zjrbpassport.views.dialogs.TipDialog;
 
 /**
@@ -78,10 +78,10 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Override
     public void umLogin(boolean isSuccess, SHARE_MEDIA platform, String uid) {
         if (isSuccess) {
-            T.show("Third login success");
+            ToastUtil.show("Third login success");
             loginPresenter.loginThird(platform, uid);
         } else {
-            T.show("Third login Fail");
+            ToastUtil.show("Third login Fail");
 
         }
     }
@@ -89,10 +89,10 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Override
     public void login(boolean isSuccess, String errorMsg) {
         if (isSuccess) {
-            T.show("Login Success");
+            ToastUtil.show("Login Success");
             startActivity(new Intent(this, UserInfoActivity.class));
         } else {
-            T.show(errorMsg);
+            ToastUtil.show(errorMsg);
         }
     }
 

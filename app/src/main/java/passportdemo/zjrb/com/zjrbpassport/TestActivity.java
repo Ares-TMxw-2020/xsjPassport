@@ -108,7 +108,7 @@ public class TestActivity extends AppCompatActivity {
                 });
                 break;
             case R.id.register:
-                ZbPassport.register(phone, "this_is_a_test_password", "629551", new ZbRegisterListener() {
+                ZbPassport.register(phone, "this_is_a_test_password", "498598", new ZbRegisterListener() {
                     @Override
                     public void onSuccess(ZbInfoEntity info) {
                         showToast("手机号注册浙报通行证接口 success");

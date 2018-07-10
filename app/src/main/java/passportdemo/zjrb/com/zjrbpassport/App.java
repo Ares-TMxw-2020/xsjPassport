@@ -9,7 +9,7 @@ import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
 import com.zjrb.passport.ZbPassport;
 
-import passportdemo.zjrb.com.zjrbpassport.utils.T;
+import passportdemo.zjrb.com.zjrbpassport.utils.ToastUtil;
 import passportdemo.zjrb.com.zjrbpassport.utils.ZbUtil;
 
 /**
@@ -24,7 +24,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         ZbUtil.init(this);
-        T.init(this);
+        ToastUtil.init(this);
         initPassport();
         initUmengLogin(this);
         LeakCanary.install(this);

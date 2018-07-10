@@ -24,7 +24,7 @@ import passportdemo.zjrb.com.zjrbpassport.MainActivity;
 import passportdemo.zjrb.com.zjrbpassport.R;
 import passportdemo.zjrb.com.zjrbpassport.contracts.UserInfoContract;
 import passportdemo.zjrb.com.zjrbpassport.presenters.UserInfoPresenterImpl;
-import passportdemo.zjrb.com.zjrbpassport.utils.T;
+import passportdemo.zjrb.com.zjrbpassport.utils.ToastUtil;
 
 /**
  * Function: UserInfoActivity
@@ -90,7 +90,7 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
                 llWechat.setVisibility(View.GONE);
             }
         } else {
-            T.show(errorMsg);
+            ToastUtil.show(errorMsg);
         }
     }
 
@@ -109,7 +109,7 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
                     break;
             }
         } else {
-            T.show(errorMsg);
+            ToastUtil.show(errorMsg);
         }
     }
 
@@ -119,7 +119,7 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
             finish();
             startActivity(new Intent(this, MainActivity.class));
         } else {
-            T.show(errorMsg);
+            ToastUtil.show(errorMsg);
         }
     }
 

@@ -16,7 +16,7 @@ import butterknife.OnClick;
 import passportdemo.zjrb.com.zjrbpassport.R;
 import passportdemo.zjrb.com.zjrbpassport.contracts.BindPhoneContract;
 import passportdemo.zjrb.com.zjrbpassport.presenters.BindPhonePresenterImpl;
-import passportdemo.zjrb.com.zjrbpassport.utils.T;
+import passportdemo.zjrb.com.zjrbpassport.utils.ToastUtil;
 import passportdemo.zjrb.com.zjrbpassport.views.dialogs.TipDialog;
 
 /**
@@ -136,7 +136,7 @@ public class BindPhoneActivity extends AppCompatActivity implements BindPhoneCon
                 switchStatue();
             }
         } else {
-            T.show(errorMsg);
+            ToastUtil.show(errorMsg);
         }
     }
 
@@ -144,17 +144,17 @@ public class BindPhoneActivity extends AppCompatActivity implements BindPhoneCon
     @Override
     public void sendCaptcha(boolean isSuccess, String errorMsg) {
         if (!isSuccess) {
-            T.show(errorMsg);
+            ToastUtil.show(errorMsg);
         }
     }
 
     @Override
     public void bindPhone(boolean isSuccess, String errorMsg) {
         if (isSuccess) {
-            T.show("绑定成功");
+            ToastUtil.show("绑定成功");
             finish();
         } else {
-            T.show(errorMsg);
+            ToastUtil.show(errorMsg);
         }
     }
 

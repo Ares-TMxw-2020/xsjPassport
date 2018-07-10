@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.zjrb.passport.StatusCode;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.domain.ZbInfoEntity;
 import com.zjrb.passport.listener.ZbListener;
@@ -19,6 +20,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import passportdemo.zjrb.com.zjrbpassport.R;
+import passportdemo.zjrb.com.zjrbpassport.ZBDialog;
+import passportdemo.zjrb.com.zjrbpassport.utils.ToastUtil;
+import passportdemo.zjrb.com.zjrbpassport.utils.ZbUtil;
 import passportdemo.zjrb.com.zjrbpassport.views.activities.LoginActivity;
 
 /**
@@ -58,16 +62,46 @@ public class RegisterActvity extends AppCompatActivity {
             default:
                 break;
             case R.id.tv_register:
+                if (TextUtils.isEmpty(captcha)) {
+                    showToast("请输入验证码");
+                    return;
+                } else if (TextUtils.isEmpty(phoneNum)) {
+                    showToast("请输入手机号");
+                    return;
+                } else if (TextUtils.isEmpty(passWord)) {
+                    showToast("请输入密码");
+                    return;
+                }
                 ZbPassport.register(phoneNum, passWord, captcha, new ZbRegisterListener() {
                     @Override
                     public void onSuccess(ZbInfoEntity info) {
-                        // TODO: 2018/7/9 Toast封装
-                        showToast("注册成功");
+                        // todo屏幕中间的Toast
+                        ToastUtil.showTextWithImage(R.id.iv_qq, "注册成功");
                     }
 
                     @Override
                     public void onFailure(int errorCode, String errorMessage) {
-                        showToast(errorMessage);
+                        if (errorCode == StatusCode.ERROR_SMS_INVALID) { // 短信验证码无效
+                            ToastUtil.showTextWithImage(R.mipmap.ic_qq, "验证码错误");
+                        } else if (errorCode == StatusCode.ERROR_PHONE_REGISTERED) {
+                            final ZBDialog dialog = new ZBDialog(RegisterActvity.this);
+                            dialog.setBuilder(new ZBDialog.Builder().setTitle("提示").setMessage("此手机号已经存在,可直接登录").setLeftText("取消").setRightText("登录")
+                                    .setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            if (v.getId() == R.id.btn_right) {
+                                                Intent intent = new Intent(RegisterActvity.this, LoginActivity.class);
+                                                startActivity(intent);
+                                            }
+                                            if (v.getId() == R.id.btn_left) {
+                                                if (dialog.isShowing()) {
+                                                    dialog.dismiss();
+                                                }
+                                            }
+                                        }
+                                    }));
+                            dialog.show();
+                        }
                     }
                 });
                 break;
@@ -76,28 +110,27 @@ public class RegisterActvity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.tv_send:
-                if (TextUtils.isEmpty(phoneNum)) {
-                    showToast("请输入手机号");
-                    return;
-                } else if (TextUtils.isEmpty(passWord)) {
-                    showToast("请输入密码");
-                    return;
-                } else if (TextUtils.isEmpty(captcha)) {
-                    showToast("请输入验证码");
-                    return;
-                }
-                // TODO: 2018/7/9 校验手机号
-                ZbPassport.sendRegisterCaptcha(phoneNum, new ZbListener() {
-                    @Override
-                    public void onSuccess() {
-                        showToast("下发注册短信验证码接口 success");
-                    }
+                // 校验手机号
+                if (ZbUtil.isMobileNum(phoneNum)) {
+                    ZbPassport.sendRegisterCaptcha(phoneNum, new ZbListener() {
+                        @Override
+                        public void onSuccess() {
+                            showToast("下发注册短信验证码接口 success");
+                        }
 
-                    @Override
-                    public void onFailure(int errorCode, String errorMessage) {
-                        showToast(errorMessage);
+                        @Override
+                        public void onFailure(int errorCode, String errorMessage) {
+                            showToast(errorMessage);
+                        }
+                    });
+                } else {
+                    if (TextUtils.isEmpty(phoneNum)) {
+                        showToast("请输入手机号");
+                    } else {
+                        showToast("非手机号格式");
                     }
-                });
+                }
+
                 break;
         }
     }
