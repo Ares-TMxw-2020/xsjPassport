@@ -52,13 +52,13 @@ public class Util {
         StringBuilder sb = new StringBuilder();
         Set<String> keys = params.keySet();
         for (String key : keys) {
-            if (params.get(key) == null) {
+            if (TextUtils.isEmpty(key)) {
                 continue;
             }
-            sb = sb.append(key + "=" + URLEncoder.encode(params.get(key).toString()) + "&");
+            sb = sb.append(key + "=" + URLEncoder.encode(TextUtils.isEmpty(params.get(key)) ? "" : params.get(key)) + "&");
         }
 
-        String paramsStr = sb.substring(0, sb.length() - 1).toString();
+        String paramsStr = sb.substring(0, sb.length() - 1);
         return paramsStr;
     }
 
