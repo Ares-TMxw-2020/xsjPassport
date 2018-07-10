@@ -1,8 +1,10 @@
-package passportdemo.zjrb.com.zjrbpassport;
+package passportdemo.zjrb.com.zjrbpassport.views.activities;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+
+import passportdemo.zjrb.com.zjrbpassport.R;
 
 /**
  * Function: UserInfoActivity

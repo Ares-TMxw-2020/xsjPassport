@@ -14,6 +14,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import passportdemo.zjrb.com.zjrbpassport.utils.ZbUtil;
+
 /**
  * Dialog封装
  */
