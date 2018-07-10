@@ -1,5 +1,7 @@
 package passportdemo.zjrb.com.zjrbpassport.presenters;
 
+import android.content.Intent;
+
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ZbConstants;
@@ -9,6 +11,7 @@ import com.zjrb.passport.listener.ZbCheckListener;
 import com.zjrb.passport.listener.ZbLoginListener;
 
 import passportdemo.zjrb.com.zjrbpassport.contracts.LoginContract;
+import passportdemo.zjrb.com.zjrbpassport.views.activities.FindPassWordActivity;
 
 /**
  * Function: LoginPresenterImpl
@@ -23,6 +26,12 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
 
     public LoginPresenterImpl(LoginContract.View view) {
         this.view = view;
+    }
+
+    @Override
+    public void findPassWord() {
+        Intent intent = new Intent(view.getIActivity(), FindPassWordActivity.class);
+        view.getIActivity().startActivity(intent);
     }
 
     @Override

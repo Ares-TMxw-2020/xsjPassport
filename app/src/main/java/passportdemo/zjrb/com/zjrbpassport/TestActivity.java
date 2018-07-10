@@ -187,7 +187,7 @@ public class TestActivity extends AppCompatActivity {
                 });
                 break;
             case R.id.resetPassword:
-                ZbPassport.resetPassword(phone, "", "", new ZbResetPasswordListener() {
+                ZbPassport.findPassword(phone, "", "", new ZbResetPasswordListener() {
                     @Override
                     public void onSuccess() {
                         showToast("重置通行证密码接口 success");

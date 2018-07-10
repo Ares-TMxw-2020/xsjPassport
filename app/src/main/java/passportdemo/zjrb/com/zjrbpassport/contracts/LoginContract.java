@@ -13,6 +13,9 @@ import passportdemo.zjrb.com.zjrbpassport.presenters.BasePresenter;
 public interface LoginContract {
 
     interface Presenter extends BasePresenter {
+
+        void findPassWord();
+
         void login(String phone, String password);
 
         void loginThird(SHARE_MEDIA platform, String uid);

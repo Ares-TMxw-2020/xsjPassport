@@ -125,8 +125,8 @@ public class ZbPassport {
         netWork.changePassword(oldPassWord, newPassWord, listener);
     }
 
-    public static void resetPassword(String phoneNumber, String captcha, String newPassword, ZbResetPasswordListener listener) {
-        netWork.resetPassword(phoneNumber, captcha, newPassword, listener);
+    public static void findPassword(String phoneNumber, String captcha, String newPassword, ZbResetPasswordListener listener) {
+        netWork.findPassword(phoneNumber, captcha, newPassword, listener);
     }
 
     /**

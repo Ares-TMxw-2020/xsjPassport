@@ -314,14 +314,14 @@ public class NetWork {
     }
 
     /**
-     * 重置通行证密码
+     * 找回通行证密码
      *
      * @param phoneNumber
      * @param captcha
      * @param newPassword
      * @param listener
      */
-    public void resetPassword(String phoneNumber, String captcha, String newPassword, final ZbResetPasswordListener listener) {
+    public void findPassword(String phoneNumber, String captcha, String newPassword, final ZbResetPasswordListener listener) {
         final ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.PASSPORT_RESET_PASSWORD).inject()
                                                                                                     .add("phone_number",
                                                                                                          phoneNumber)

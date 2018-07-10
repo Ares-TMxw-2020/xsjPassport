@@ -20,7 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import passportdemo.zjrb.com.zjrbpassport.R;
-import passportdemo.zjrb.com.zjrbpassport.ZBDialog;
+import passportdemo.zjrb.com.zjrbpassport.views.dialogs.ZBDialog;
 import passportdemo.zjrb.com.zjrbpassport.utils.ToastUtil;
 import passportdemo.zjrb.com.zjrbpassport.utils.ZbUtil;
 import passportdemo.zjrb.com.zjrbpassport.views.activities.LoginActivity;

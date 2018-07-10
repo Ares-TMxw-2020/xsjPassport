@@ -46,6 +46,9 @@
         <activity android:name=".views.activities.ModifyPhoneActivity"/>
         <activity android:name=".views.activities.UserInfoActivity"/>
         <activity android:name=".activity.RegisterActvity"/>
+        <activity android:name=".views.activities.FindPassWordActivity"/>
+        <activity android:name=".views.activities.ChangePasswordActivity"/>
+        <activity android:name=".views.activities.NewPassWordActivity" />
     </application>
 
 </manifest>
