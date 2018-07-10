@@ -13,6 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import passportdemo.zjrb.com.zjrbpassport.activity.RegisterActvity;
+import passportdemo.zjrb.com.zjrbpassport.views.activities.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,10 +50,12 @@ public class MainActivity extends AppCompatActivity {
             case R.id.tv_login:
                 break;
             case R.id.tv_password_login:
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
                 break;
             case R.id.tv_register:
-                Intent intent = new Intent(this, RegisterActvity.class);
-                startActivity(intent);
+                Intent registerIntent = new Intent(this, RegisterActvity.class);
+                startActivity(registerIntent);
                 break;
             case R.id.tv_send:
                 break;
