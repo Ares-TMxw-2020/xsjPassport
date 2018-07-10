@@ -3,6 +3,7 @@ package passportdemo.zjrb.com.zjrbpassport;
 import android.app.Application;
 import android.content.Context;
 
+import com.squareup.leakcanary.LeakCanary;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
@@ -26,6 +27,7 @@ public class App extends Application {
         T.init(this);
         initPassport();
         initUmengLogin(this);
+        LeakCanary.install(this);
     }
 
     private void initPassport() {
