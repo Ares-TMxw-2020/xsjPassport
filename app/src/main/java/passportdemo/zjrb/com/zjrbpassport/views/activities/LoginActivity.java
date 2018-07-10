@@ -1,13 +1,12 @@
 package passportdemo.zjrb.com.zjrbpassport.views.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
@@ -34,20 +33,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     EditText etPhone;
     @BindView(R.id.et_password)
     EditText etPassword;
-    @BindView(R.id.tv_login)
-    TextView tvLogin;
-    @BindView(R.id.tv_register)
-    TextView tvRegister;
-    @BindView(R.id.tv_quick_login)
-    TextView tvQuickLogin;
-    @BindView(R.id.tv_third)
-    TextView tvThird;
-    @BindView(R.id.iv_sina)
-    ImageView ivSina;
-    @BindView(R.id.iv_wechat)
-    ImageView ivWechat;
-    @BindView(R.id.iv_qq)
-    ImageView ivQq;
 
     private LoginContract.Presenter loginPresenter;
     private UmLoginContract.Presenter umPresenter;
@@ -64,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
 
     @Override
-    public Activity getActivity() {
+    public Activity getIActivity() {
         return this;
     }
 
@@ -89,29 +74,30 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         tipDialog.show();
     }
 
+
     @Override
-    public void onLoginSuccess() {
-        T.show("Login Success");
+    public void umLogin(boolean isSuccess, SHARE_MEDIA platform, String uid) {
+        if (isSuccess) {
+            T.show("Third login success");
+            loginPresenter.loginThird(platform, uid);
+        } else {
+            T.show("Third login Fail");
+
+        }
     }
 
     @Override
-    public void onLoginFail() {
-        T.show("Login Fail");
+    public void login(boolean isSuccess, String errorMsg) {
+        if (isSuccess) {
+            T.show("Login Success");
+            startActivity(new Intent(this, UserInfoActivity.class));
+        } else {
+            T.show(errorMsg);
+        }
     }
 
-    @Override
-    public void onThirdLoginSuccess(SHARE_MEDIA platform, String uid) {
-        T.show("Third login success");
-        loginPresenter.loginThird(platform, uid);
-    }
 
-
-    @Override
-    public void onThirdLoginFail() {
-        T.show("Third login Fail");
-    }
-
-    @OnClick({R.id.tv_login, R.id.tv_register, R.id.tv_quick_login, R.id.iv_sina, R.id.iv_wechat, R.id.iv_qq})
+    @OnClick({R.id.tv_login, R.id.tv_register, R.id.tv_forget_pwd, R.id.iv_sina, R.id.iv_wechat, R.id.iv_qq})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_login:
@@ -119,16 +105,16 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                 break;
             case R.id.tv_register:
                 break;
-            case R.id.tv_quick_login:
+            case R.id.tv_forget_pwd:
                 break;
             case R.id.iv_sina:
-                umPresenter.login(SHARE_MEDIA.SINA);
+                umPresenter.umLogin(SHARE_MEDIA.SINA);
                 break;
             case R.id.iv_wechat:
-                umPresenter.login(SHARE_MEDIA.WEIXIN);
+                umPresenter.umLogin(SHARE_MEDIA.WEIXIN);
                 break;
             case R.id.iv_qq:
-                umPresenter.login(SHARE_MEDIA.QQ);
+                umPresenter.umLogin(SHARE_MEDIA.QQ);
                 break;
         }
     }

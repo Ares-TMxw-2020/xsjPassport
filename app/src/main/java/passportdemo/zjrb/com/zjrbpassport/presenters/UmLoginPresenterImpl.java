@@ -22,12 +22,12 @@ public class UmLoginPresenterImpl implements UmLoginContract.Presenter {
 
     public UmLoginPresenterImpl(UmLoginContract.View view) {
         this.view = view;
-        shareAPI = UMShareAPI.get(this.view.getActivity());
+        shareAPI = UMShareAPI.get(this.view.getIActivity());
     }
 
     @Override
-    public void login(SHARE_MEDIA platform) {
-        shareAPI.getPlatformInfo(view.getActivity(), platform, new UMAuthListener() {
+    public void umLogin(SHARE_MEDIA platform) {
+        shareAPI.getPlatformInfo(view.getIActivity(), platform, new UMAuthListener() {
             @Override
             public void onStart(SHARE_MEDIA share_media) {
 
@@ -40,20 +40,20 @@ public class UmLoginPresenterImpl implements UmLoginContract.Presenter {
                     String name = map.get("name");
                     String gender = map.get("gender");
                     String url = map.get("iconurl");
-                    view.onThirdLoginSuccess(share_media, uid);
+                    view.umLogin(true, share_media, uid);
                 } else {
-                    view.onThirdLoginFail();
+                    view.umLogin(false, null, null);
                 }
             }
 
             @Override
             public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
-
+                view.umLogin(false, null, null);
             }
 
             @Override
             public void onCancel(SHARE_MEDIA share_media, int i) {
-
+                view.umLogin(false, null, null);
             }
         });
     }

@@ -21,8 +21,7 @@ public interface LoginContract {
     interface View extends BaseView {
         void onPhoneNotExist();
 
-        void onLoginSuccess();
+        void login(boolean isSuccess, String errorMsg);
 
-        void onLoginFail();
     }
 }

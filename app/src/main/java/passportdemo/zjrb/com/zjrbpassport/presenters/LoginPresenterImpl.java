@@ -75,12 +75,12 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
     private ZbLoginListener zbLoginListener = new ZbLoginListener() {
         @Override
         public void onSuccess(ZbInfoEntity info) {
-            view.onLoginSuccess();
+            view.login(true, null);
         }
 
         @Override
         public void onFailure(int errorCode, String errorMessage) {
-            view.onLoginFail();
+            view.login(false, errorMessage);
         }
     };
 }

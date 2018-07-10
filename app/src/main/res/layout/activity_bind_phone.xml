@@ -14,6 +14,7 @@
         android:padding="10dp">
 
         <TextView
+            android:id="@+id/tv_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -59,7 +60,8 @@
         android:hint="请输入密码"
         android:inputType="textPassword"
         android:padding="10dp"
-        android:textColor="@color/color_blue"/>
+        android:textColor="@color/color_blue"
+        android:visibility="gone"/>
 
 
     <EditText
@@ -76,7 +78,8 @@
         android:hint="验证码"
         android:inputType="number"
         android:padding="10dp"
-        android:textColor="@color/color_blue"/>
+        android:textColor="@color/color_blue"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/tv_send"
@@ -89,17 +92,20 @@
         android:background="@color/color_blue"
         android:padding="10dp"
         android:text="发送验证码"
-        android:textColor="@color/color_white"/>
+        android:textColor="@color/color_white"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/tv_bind"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/et_captcha"
-        android:layout_margin="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="32dp"
         android:background="@color/color_blue"
         android:gravity="center"
         android:padding="10dp"
-        android:text="绑定"
+        android:text="下一步"
         android:textColor="@color/color_white"/>
 </RelativeLayout>

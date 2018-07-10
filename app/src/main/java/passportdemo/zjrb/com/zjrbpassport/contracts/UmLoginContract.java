@@ -13,12 +13,11 @@ import passportdemo.zjrb.com.zjrbpassport.presenters.BasePresenter;
 public interface UmLoginContract {
 
     interface Presenter extends BasePresenter {
-        void login(SHARE_MEDIA platform);
+        void umLogin(SHARE_MEDIA platform);
     }
 
     interface View extends BaseView {
-        void onThirdLoginSuccess(SHARE_MEDIA platform, String uid);
 
-        void onThirdLoginFail();
+        void umLogin(boolean isSuccess, SHARE_MEDIA platform, String uid);
     }
 }
