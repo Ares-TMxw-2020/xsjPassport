@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
@@ -31,15 +32,21 @@ public class TipDialog extends Dialog {
 
     private Listener listener;
 
+    protected final View mView;
+
     public TipDialog(@NonNull Context context) {
         super(context);
+        mView = LayoutInflater.from(getContext()).inflate(R.layout.layout_dialog_tip, null);
+        if (mView != null) {
+            ButterKnife.bind(this, mView);
+        }
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_dialog_tip);
-        ButterKnife.bind(this);
+        setContentView(mView);
     }
 
     public TipDialog setTitle(String title) {

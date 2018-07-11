@@ -1,6 +1,7 @@
 package passportdemo.zjrb.com.zjrbpassport.views.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -152,6 +153,9 @@ public class BindPhoneActivity extends AppCompatActivity implements BindPhoneCon
     public void bindPhone(boolean isSuccess, String errorMsg) {
         if (isSuccess) {
             ToastUtil.show("绑定成功");
+            Intent intent = new Intent();
+            intent.putExtra("phone", phoneNumber);
+            setResult(RESULT_OK, intent);
             finish();
         } else {
             ToastUtil.show(errorMsg);
