@@ -1,5 +1,8 @@
 package passportdemo.zjrb.com.zjrbpassport.contracts;
 
+import android.content.Intent;
+
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zjrb.passport.domain.ZbInfoEntity;
 
 import passportdemo.zjrb.com.zjrbpassport.presenters.BasePresenter;
@@ -17,6 +20,12 @@ public interface UserInfoContract {
 
         void unbindThird(int platform);
 
+        void intentBindPhone();
+
+        void bindPhone(int requestCode, int resultCode, Intent data);
+
+        void bindThird(SHARE_MEDIA platform, String uid);
+
         void logout();
 
     }
@@ -27,6 +36,10 @@ public interface UserInfoContract {
         void getUserInfo(boolean isSuccess, ZbInfoEntity info, String errorMsg);
 
         void unBindThird(boolean isSuccess, int platform, String errorMsg);
+
+        void bindPhone(boolean isSuccess, String phone);
+
+        void bindThird(boolean isSuccess, int platform, String errorMsg);
 
         void logout(boolean isSuccess, String errorMsg);
     }

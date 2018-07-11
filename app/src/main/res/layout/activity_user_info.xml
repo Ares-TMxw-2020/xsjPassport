@@ -59,6 +59,7 @@
             android:text="微信"/>
 
         <TextView
+            android:id="@+id/tv_wechat"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -87,6 +88,7 @@
             android:text="微博"/>
 
         <TextView
+            android:id="@+id/tv_sina"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -115,6 +117,7 @@
             android:text="QQ"/>
 
         <TextView
+            android:id="@+id/tv_qq"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

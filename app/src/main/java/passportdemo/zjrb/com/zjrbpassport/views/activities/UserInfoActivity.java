@@ -8,9 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.domain.BindingListEntity;
 import com.zjrb.passport.domain.ZbInfoEntity;
@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import passportdemo.zjrb.com.zjrbpassport.MainActivity;
 import passportdemo.zjrb.com.zjrbpassport.R;
+import passportdemo.zjrb.com.zjrbpassport.contracts.UmLoginContract;
 import passportdemo.zjrb.com.zjrbpassport.contracts.UserInfoContract;
 import passportdemo.zjrb.com.zjrbpassport.presenters.UserInfoPresenterImpl;
 import passportdemo.zjrb.com.zjrbpassport.utils.ToastUtil;
@@ -32,22 +33,21 @@ import passportdemo.zjrb.com.zjrbpassport.utils.ToastUtil;
  * Author: chen.h
  * Date: 2018/7/5
  */
-public class UserInfoActivity extends AppCompatActivity implements UserInfoContract.View {
+public class UserInfoActivity extends AppCompatActivity implements UserInfoContract.View,UmLoginContract.View {
 
     @BindView(R.id.iv_icon)
     ImageView ivIcon;
     @BindView(R.id.tv_phone)
     TextView tvPhone;
-    @BindView(R.id.ll_phone)
-    LinearLayout llPhone;
-    @BindView(R.id.ll_sina)
-    LinearLayout llSina;
-    @BindView(R.id.ll_wechat)
-    LinearLayout llWechat;
-    @BindView(R.id.ll_qq)
-    LinearLayout llQq;
+    @BindView(R.id.tv_wechat)
+    TextView tvWechat;
+    @BindView(R.id.tv_sina)
+    TextView tvSina;
+    @BindView(R.id.tv_qq)
+    TextView tvQQ;
 
     UserInfoContract.Presenter infoPresenter;
+    UmLoginContract.Presenter umPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,18 +55,25 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
         setContentView(R.layout.activity_user_info);
         ButterKnife.bind(this);
         infoPresenter = new UserInfoPresenterImpl(this);
+//        umPresenter = new UmLoginPresenterImpl(this);
         infoPresenter.getUserInfo();
     }
 
+
+    @Override
+    public void umLogin(boolean isSuccess, SHARE_MEDIA platform, String uid) {
+        if (isSuccess) {
+            infoPresenter.bindThird(platform, uid);
+        }
+    }
 
     @Override
     public void getUserInfo(boolean isSuccess, ZbInfoEntity info, String errorMsg) {
         if (isSuccess) {
             String phoneNumber = info.getPhone_number();
             if (TextUtils.isEmpty(phoneNumber)) {
-                llPhone.setVisibility(View.GONE);
+                tvPhone.setText("未绑定");
             } else {
-                llPhone.setVisibility(View.VISIBLE);
                 tvPhone.setText(phoneNumber);
             }
             List<BindingListEntity> list = info.getBinding_list();
@@ -74,20 +81,20 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
                 for (BindingListEntity d : list) {
                     switch (d.getAuth_type()) {
                         case ZbConstants.LOGIN_QQ:
-                            llQq.setVisibility(View.VISIBLE);
+                            tvQQ.setText("已绑定");
                             break;
                         case ZbConstants.LOGIN_SINA:
-                            llQq.setVisibility(View.VISIBLE);
+                            tvSina.setText("已绑定");
                             break;
                         case ZbConstants.LOGIN_WECHAT:
-                            llQq.setVisibility(View.VISIBLE);
+                            tvWechat.setText("已绑定");
                             break;
                     }
                 }
             } else {
-                llQq.setVisibility(View.GONE);
-                llSina.setVisibility(View.GONE);
-                llWechat.setVisibility(View.GONE);
+                tvWechat.setText("未绑定");
+                tvQQ.setText("未绑定");
+                tvSina.setText("未绑定");
             }
         } else {
             ToastUtil.show(errorMsg);
@@ -99,13 +106,13 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
         if (isSuccess) {
             switch (platform) {
                 case ZbConstants.LOGIN_QQ:
-                    llQq.setVisibility(View.GONE);
+                    tvQQ.setText("未绑定");
                     break;
                 case ZbConstants.LOGIN_SINA:
-                    llQq.setVisibility(View.GONE);
+                    tvSina.setText("未绑定");
                     break;
                 case ZbConstants.LOGIN_WECHAT:
-                    llQq.setVisibility(View.GONE);
+                    tvWechat.setText("未绑定");
                     break;
             }
         } else {
@@ -124,6 +131,40 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        infoPresenter.bindPhone(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void bindPhone(boolean isSuccess, String phone) {
+        if (isSuccess && !TextUtils.isEmpty(phone)) {
+            tvPhone.setText(phone);
+        } else {
+            tvPhone.setText("未绑定");
+        }
+    }
+
+    @Override
+    public void bindThird(boolean isSuccess, int platform, String errorMsg) {
+        if (isSuccess) {
+            switch (platform) {
+                case ZbConstants.LOGIN_QQ:
+                    tvQQ.setText("已绑定");
+                    break;
+                case ZbConstants.LOGIN_SINA:
+                    tvSina.setText("已绑定");
+                    break;
+                case ZbConstants.LOGIN_WECHAT:
+                    tvWechat.setText("已绑定");
+                    break;
+            }
+        } else {
+            ToastUtil.show(errorMsg);
+        }
+    }
+
+    @Override
     public Activity getIActivity() {
         return this;
     }
@@ -132,16 +173,28 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_phone:
-                startActivity(new Intent(this, BindPhoneActivity.class));
+                infoPresenter.intentBindPhone();
                 break;
             case R.id.ll_sina:
-                infoPresenter.unbindThird(ZbConstants.LOGIN_SINA);
+                if ("已绑定".equals(tvSina.getText().toString())) {
+                    infoPresenter.unbindThird(ZbConstants.LOGIN_SINA);
+                } else {
+                    umPresenter.umLogin(SHARE_MEDIA.SINA);
+                }
                 break;
             case R.id.ll_wechat:
-                infoPresenter.unbindThird(ZbConstants.LOGIN_WECHAT);
+                if ("已绑定".equals(tvWechat.getText().toString())) {
+                    infoPresenter.unbindThird(ZbConstants.LOGIN_WECHAT);
+                } else {
+                    umPresenter.umLogin(SHARE_MEDIA.WEIXIN);
+                }
                 break;
             case R.id.ll_qq:
-                infoPresenter.unbindThird(ZbConstants.LOGIN_QQ);
+                if ("已绑定".equals(tvQQ.getText().toString())) {
+                    infoPresenter.unbindThird(ZbConstants.LOGIN_QQ);
+                } else {
+                    umPresenter.umLogin(SHARE_MEDIA.QQ);
+                }
                 break;
             case R.id.tv_logout:
                 infoPresenter.logout();
