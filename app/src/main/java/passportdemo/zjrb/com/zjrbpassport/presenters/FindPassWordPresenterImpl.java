@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 
 import com.zjrb.passport.ZbPassport;
+import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.listener.ZbListener;
 
 import passportdemo.zjrb.com.zjrbpassport.contracts.FindPasswordContract;
@@ -28,7 +29,7 @@ public class FindPassWordPresenterImpl implements FindPasswordContract.Presenter
     @Override
     public void sendSms(String phoneNum) {
         if (ZbUtil.isMobileNum(phoneNum)) {
-            ZbPassport.sendRetrieveCaptcha(phoneNum, new ZbListener() {
+            ZbPassport.sendCaptcha(ZbConstants.SMS_RETRIEVE,phoneNum, new ZbListener() {
                 @Override
                 public void onSuccess() {
 

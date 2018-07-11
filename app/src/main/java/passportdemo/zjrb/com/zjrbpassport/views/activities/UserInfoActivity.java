@@ -73,13 +73,13 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
             if (list != null && !list.isEmpty()) {
                 for (BindingListEntity d : list) {
                     switch (d.getAuth_type()) {
-                        case ZbConstants.QQ:
+                        case ZbConstants.LOGIN_QQ:
                             llQq.setVisibility(View.VISIBLE);
                             break;
-                        case ZbConstants.SINA:
+                        case ZbConstants.LOGIN_SINA:
                             llQq.setVisibility(View.VISIBLE);
                             break;
-                        case ZbConstants.WECHAT:
+                        case ZbConstants.LOGIN_WECHAT:
                             llQq.setVisibility(View.VISIBLE);
                             break;
                     }
@@ -98,13 +98,13 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
     public void unBindThird(boolean isSuccess, int platform, String errorMsg) {
         if (isSuccess) {
             switch (platform) {
-                case ZbConstants.QQ:
+                case ZbConstants.LOGIN_QQ:
                     llQq.setVisibility(View.GONE);
                     break;
-                case ZbConstants.SINA:
+                case ZbConstants.LOGIN_SINA:
                     llQq.setVisibility(View.GONE);
                     break;
-                case ZbConstants.WECHAT:
+                case ZbConstants.LOGIN_WECHAT:
                     llQq.setVisibility(View.GONE);
                     break;
             }
@@ -135,13 +135,13 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
                 startActivity(new Intent(this, BindPhoneActivity.class));
                 break;
             case R.id.ll_sina:
-                infoPresenter.unbindThird(ZbConstants.SINA);
+                infoPresenter.unbindThird(ZbConstants.LOGIN_SINA);
                 break;
             case R.id.ll_wechat:
-                infoPresenter.unbindThird(ZbConstants.WECHAT);
+                infoPresenter.unbindThird(ZbConstants.LOGIN_WECHAT);
                 break;
             case R.id.ll_qq:
-                infoPresenter.unbindThird(ZbConstants.QQ);
+                infoPresenter.unbindThird(ZbConstants.LOGIN_QQ);
                 break;
             case R.id.tv_logout:
                 infoPresenter.logout();

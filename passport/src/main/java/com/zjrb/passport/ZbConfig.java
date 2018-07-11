@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
+import com.zjrb.passport.constant.InnerConstant;
 import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.util.Logger;
 
@@ -31,25 +32,25 @@ public final class ZbConfig {
             Logger.e(e.getMessage());
         }
         if (info != null) {
-            appId = info.metaData.getInt(ZbConstants.META_ID);
-            appKey = info.metaData.getString(ZbConstants.META_KEY);
-            appSecret = info.metaData.getString(ZbConstants.META_SECRET);
-            String env = info.metaData.getString(ZbConstants.META_ENV, ZbConstants.DEV);
+            appId = info.metaData.getInt(InnerConstant.META_ID);
+            appKey = info.metaData.getString(InnerConstant.META_KEY);
+            appSecret = info.metaData.getString(InnerConstant.META_SECRET);
+            String env = info.metaData.getString(InnerConstant.META_ENV, InnerConstant.DEV);
             resolveEnv(env);
         }
     }
 
     private void resolveEnv(String env) {
         switch (env) {
-            case ZbConstants.TEST:
+            case InnerConstant.TEST:
                 envType = ZbConstants.ENV_TEST;
                 isDebug = false;
                 break;
-            case ZbConstants.PRE:
+            case InnerConstant.PRE:
                 envType = ZbConstants.ENV_PRE;
                 isDebug = false;
                 break;
-            case ZbConstants.OFFICIAL:
+            case InnerConstant.OFFICIAL:
                 envType = ZbConstants.ENV_OFFICIAL;
                 isDebug = false;
                 break;

@@ -12,21 +12,23 @@ import java.lang.annotation.RetentionPolicy;
  * Date: 2018/6/28
  */
 public final class ZbConstants {
-    public static final String META_ID = "ZBP_APP_ID";
-    public static final String META_KEY = "ZBP_APP_KEY";
-    public static final String META_SECRET = "ZBP_APP_SECRET";
-    public static final String META_ENV = "ZBP_APP_ENV";
 
-
+    /**
+     * 开发环境
+     */
     public static final int ENV_DEV = 0;
+    /**
+     * 测试环境
+     */
     public static final int ENV_TEST = 1;
+    /**
+     * 预发布环境
+     */
     public static final int ENV_PRE = 2;
+    /**
+     * 正式环境
+     */
     public static final int ENV_OFFICIAL = 3;
-
-    public static final String DEV = "dev";
-    public static final String TEST = "test";
-    public static final String PRE = "pre";
-    public static final String OFFICIAL = "official";
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({ENV_DEV, ENV_TEST, ENV_PRE, ENV_OFFICIAL})
@@ -34,12 +36,36 @@ public final class ZbConstants {
     }
 
 
-    public static final int WECHAT = 2;
-    public static final int QQ = 3;
-    public static final int SINA = 4;
+    public static final int LOGIN_WECHAT = 2;
+    public static final int LOGIN_QQ = 3;
+    public static final int LOGIN_SINA = 4;
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({WECHAT, QQ, SINA})
+    @IntDef({LOGIN_WECHAT, LOGIN_QQ, LOGIN_SINA})
     public @interface ThirdType {
+    }
+
+
+    /**
+     * 注册短信
+     */
+    public static final int SMS_REGISTER = 1;
+    /**
+     * 登录短信
+     */
+    public static final int SMS_LOGIN = 2;
+    /**
+     * 找回密码短信
+     */
+    public static final int SMS_RETRIEVE = 3;
+    /**
+     * 绑定手机短信
+     */
+    public static final int SMS_BIND = 4;
+
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({SMS_REGISTER, SMS_LOGIN, SMS_RETRIEVE, SMS_BIND})
+    public @interface SmsType {
     }
 }

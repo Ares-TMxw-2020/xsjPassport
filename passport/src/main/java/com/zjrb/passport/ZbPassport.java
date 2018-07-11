@@ -47,24 +47,43 @@ public class ZbPassport {
         return zbConfig;
     }
 
-    private static void checkInfo() {
-        //TODO 验证配置参数
+
+    public static void sendCaptcha(@ZbConstants.SmsType int smsType, String phoneNumber, ZbListener listener) {
+        switch (smsType) {
+            case ZbConstants.SMS_REGISTER:
+                netWork.sendRegisterCaptcha(phoneNumber, listener);
+                break;
+            case ZbConstants.SMS_LOGIN:
+                netWork.sendLoginCaptcha(phoneNumber, listener);
+                break;
+            case ZbConstants.SMS_RETRIEVE:
+                netWork.sendRetrieveCaptcha(phoneNumber, listener);
+                break;
+            case ZbConstants.SMS_BIND:
+                netWork.sendBindCaptcha(phoneNumber, listener);
+                break;
+            default:
+                break;
+        }
     }
 
-    public static void sendRegisterCaptcha(String phoneNumber, ZbListener listener) {
-        netWork.sendRegisterCaptcha(phoneNumber, listener);
-    }
-
-    public static void sendLoginCaptcha(String phoneNumber, ZbListener listener) {
-        netWork.sendLoginCaptcha(phoneNumber, listener);
-    }
-
-    public static void sendRetrieveCaptcha(String phoneNumber, ZbListener listener) {
-        netWork.sendRetrieveCaptcha(phoneNumber, listener);
-    }
-
-    public static void sendBindCaptcha(String phoneNumber, ZbListener listener) {
-        netWork.sendBindCaptcha(phoneNumber, listener);
+    public static void verifyCaptcha(@ZbConstants.SmsType int smsType, String phoneNumber, String captcha, ZbListener listener) {
+        switch (smsType) {
+            case ZbConstants.SMS_REGISTER:
+                netWork.verifyRegisterCaptcha(phoneNumber, captcha, listener);
+                break;
+            case ZbConstants.SMS_LOGIN:
+                netWork.verifyLoginCaptcha(phoneNumber, captcha, listener);
+                break;
+            case ZbConstants.SMS_RETRIEVE:
+                netWork.verifyRetrieveCaptcha(phoneNumber, captcha, listener);
+                break;
+            case ZbConstants.SMS_BIND:
+                netWork.verifyBindCaptcha(phoneNumber, captcha, listener);
+                break;
+            default:
+                break;
+        }
     }
 
     /**

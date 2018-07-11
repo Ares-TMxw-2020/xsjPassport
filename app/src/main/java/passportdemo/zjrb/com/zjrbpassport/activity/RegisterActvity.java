@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.zjrb.passport.StatusCode;
 import com.zjrb.passport.ZbPassport;
+import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.domain.ZbInfoEntity;
 import com.zjrb.passport.listener.ZbListener;
 import com.zjrb.passport.listener.ZbRegisterListener;
@@ -85,21 +86,26 @@ public class RegisterActvity extends AppCompatActivity {
                             ToastUtil.showTextWithImage(R.mipmap.ic_qq, "验证码错误");
                         } else if (errorCode == StatusCode.ERROR_PHONE_REGISTERED) {
                             final ZBDialog dialog = new ZBDialog(RegisterActvity.this);
-                            dialog.setBuilder(new ZBDialog.Builder().setTitle("提示").setMessage("此手机号已经存在,可直接登录").setLeftText("取消").setRightText("登录")
-                                    .setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            if (v.getId() == R.id.btn_right) {
-                                                Intent intent = new Intent(RegisterActvity.this, LoginActivity.class);
-                                                startActivity(intent);
-                                            }
-                                            if (v.getId() == R.id.btn_left) {
-                                                if (dialog.isShowing()) {
-                                                    dialog.dismiss();
-                                                }
-                                            }
-                                        }
-                                    }));
+                            dialog.setBuilder(new ZBDialog.Builder().setTitle("提示")
+                                                                    .setMessage("此手机号已经存在,可直接登录")
+                                                                    .setLeftText("取消")
+                                                                    .setRightText("登录")
+                                                                    .setOnClickListener(new View.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(View v) {
+                                                                            if (v.getId() == R.id.btn_right) {
+                                                                                Intent intent = new Intent(
+                                                                                        RegisterActvity.this,
+                                                                                        LoginActivity.class);
+                                                                                startActivity(intent);
+                                                                            }
+                                                                            if (v.getId() == R.id.btn_left) {
+                                                                                if (dialog.isShowing()) {
+                                                                                    dialog.dismiss();
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }));
                             dialog.show();
                         }
                     }
@@ -112,7 +118,7 @@ public class RegisterActvity extends AppCompatActivity {
             case R.id.tv_send:
                 // 校验手机号
                 if (ZbUtil.isMobileNum(phoneNum)) {
-                    ZbPassport.sendRegisterCaptcha(phoneNum, new ZbListener() {
+                    ZbPassport.sendCaptcha(ZbConstants.SMS_REGISTER, phoneNum, new ZbListener() {
                         @Override
                         public void onSuccess() {
                             showToast("下发注册短信验证码接口 success");

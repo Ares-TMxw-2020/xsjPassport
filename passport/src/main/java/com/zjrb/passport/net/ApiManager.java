@@ -85,6 +85,23 @@ public class ApiManager {
         public static final String SMS_SEND_BINDING_TOKEN = "/api/sms/send_binding_token";
 
 
+        /**
+         * 验证注册短信验证码接口 post
+         */
+        public static final String SMS_VALIDATE_REGISTER_TOKEN = "/api/sms/validate_register_token";
+        /**
+         * 验证登录短信验证码接口 post
+         */
+        public static final String SMS_VALIDATE_LOGIN_TOKEN = "/api/sms/validate_login_token";
+        /**
+         * 验证找回密码短信验证码接口 post
+         */
+        public static final String SMS_VALIDATE_RESET_TOKEN = "/api/sms/validate_reset_token";
+        /**
+         * 验证绑定手机号短信验证码接口 post
+         */
+        public static final String SMS_VALIDATE_BINDING_TOKEN= "/api/sms/validate_binding_token";
+
 
         /**
          * 手机号注册浙报通行证接口 post

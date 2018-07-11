@@ -37,7 +37,7 @@ public class TestActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-//    String phone = "13758284975";
+    //    String phone = "13758284975";
     String phone = "18519123764";
     String phone2 = "18516696580";
     /**
@@ -56,7 +56,7 @@ public class TestActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.sendRegisterCaptcha:
-                ZbPassport.sendRegisterCaptcha(phone, new ZbListener() {
+                ZbPassport.sendCaptcha(ZbConstants.SMS_REGISTER, phone, new ZbListener() {
                     @Override
                     public void onSuccess() {
                         showToast("下发注册短信验证码接口 success");
@@ -69,7 +69,7 @@ public class TestActivity extends AppCompatActivity {
                 });
                 break;
             case R.id.sendLoginCaptcha:
-                ZbPassport.sendLoginCaptcha(phone, new ZbListener() {
+                ZbPassport.sendCaptcha(ZbConstants.SMS_LOGIN, phone, new ZbListener() {
                     @Override
                     public void onSuccess() {
                         showToast("下发登录短信验证码接口 success");
@@ -82,7 +82,7 @@ public class TestActivity extends AppCompatActivity {
                 });
                 break;
             case R.id.sendRetrieveCaptcha:
-                ZbPassport.sendRetrieveCaptcha(phone, new ZbListener() {
+                ZbPassport.sendCaptcha(ZbConstants.SMS_RETRIEVE, phone, new ZbListener() {
                     @Override
                     public void onSuccess() {
                         showToast("下发绑定找回密码短信验证码接口 success");
@@ -95,7 +95,7 @@ public class TestActivity extends AppCompatActivity {
                 });
                 break;
             case R.id.sendBindCaptcha:
-                ZbPassport.sendBindCaptcha(phone, new ZbListener() {
+                ZbPassport.sendCaptcha(ZbConstants.SMS_BIND, phone, new ZbListener() {
                     @Override
                     public void onSuccess() {
                         showToast("下发绑定新手机号短信验证码接口 success");
@@ -226,7 +226,7 @@ public class TestActivity extends AppCompatActivity {
                 });
                 break;
             case R.id.loginThird:
-                ZbPassport.loginThird(ZbConstants.QQ, qqId, new ZbLoginListener() {
+                ZbPassport.loginThird(ZbConstants.LOGIN_QQ, qqId, new ZbLoginListener() {
                     @Override
                     public void onSuccess(ZbInfoEntity info) {
                         showToast("社交平台账号登录/注册接口 success");
@@ -239,7 +239,7 @@ public class TestActivity extends AppCompatActivity {
                 });
                 break;
             case R.id.bindThird:
-                ZbPassport.bindThird(ZbConstants.SINA, sinaId, new ZbListener() {
+                ZbPassport.bindThird(ZbConstants.LOGIN_SINA, sinaId, new ZbListener() {
                     @Override
                     public void onSuccess() {
                         showToast("浙报通行证绑定新的社交平台账号接口 success");
@@ -252,7 +252,7 @@ public class TestActivity extends AppCompatActivity {
                 });
                 break;
             case R.id.unbindThird:
-                ZbPassport.unbindThird(ZbConstants.SINA, new ZbListener() {
+                ZbPassport.unbindThird(ZbConstants.LOGIN_SINA, new ZbListener() {
                     @Override
                     public void onSuccess() {
                         showToast("浙报通行证解绑社交账号接口 success");

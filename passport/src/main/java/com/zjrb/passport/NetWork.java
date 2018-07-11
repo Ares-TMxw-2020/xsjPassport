@@ -2,7 +2,7 @@ package com.zjrb.passport;
 
 import android.text.TextUtils;
 
-import com.zjrb.passport.constant.K;
+import com.zjrb.passport.constant.InnerConstant;
 import com.zjrb.passport.domain.BaseData;
 import com.zjrb.passport.domain.CheckBindingEntity;
 import com.zjrb.passport.domain.LoginDataEntity;
@@ -71,6 +71,43 @@ public class NetWork {
         ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.SMS_SEND_BINDING_TOKEN).inject()
                                                                                              .add("phone_number",
                                                                                                   phoneNumber);
+        requestWithNoData(listener, builder);
+    }
+
+
+    public void verifyRegisterCaptcha(String phoneNumber, String captcha, ZbListener listener) {
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.SMS_VALIDATE_REGISTER_TOKEN).inject()
+                                                                                                  .add("phone_number",
+                                                                                                       phoneNumber)
+                                                                                                  .add("sms_token",
+                                                                                                       captcha);
+        requestWithNoData(listener, builder);
+    }
+
+    public void verifyLoginCaptcha(String phoneNumber, String captcha, ZbListener listener) {
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.SMS_VALIDATE_LOGIN_TOKEN).inject()
+                                                                                               .add("phone_number",
+                                                                                                    phoneNumber)
+                                                                                               .add("sms_token",
+                                                                                                    captcha);
+        requestWithNoData(listener, builder);
+    }
+
+    public void verifyRetrieveCaptcha(String phoneNumber, String captcha, ZbListener listener) {
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.SMS_VALIDATE_RESET_TOKEN).inject()
+                                                                                               .add("phone_number",
+                                                                                                    phoneNumber)
+                                                                                               .add("sms_token",
+                                                                                                    captcha);
+        requestWithNoData(listener, builder);
+    }
+
+    public void verifyBindCaptcha(String phoneNumber, String captcha, ZbListener listener) {
+        ParamsBuilder builder = new ParamsBuilder(ApiManager.EndPoint.SMS_VALIDATE_BINDING_TOKEN).inject()
+                                                                                                 .add("phone_number",
+                                                                                                      phoneNumber)
+                                                                                                 .add("sms_token",
+                                                                                                      captcha);
         requestWithNoData(listener, builder);
     }
 
@@ -466,20 +503,20 @@ public class NetWork {
 
         public ParamsBuilder inject() {
             ZbConfig zbConfig = ZbPassport.getZbConfig();
-            map.put(K.APP_ID, "" + zbConfig.getAppId());
-            map.put(K.APP_KEY, zbConfig.getAppKey());
-            map.put(K.APP_SECRET, zbConfig.getAppSecret());
+            map.put(InnerConstant.APP_ID, "" + zbConfig.getAppId());
+            map.put(InnerConstant.APP_KEY, zbConfig.getAppKey());
+            map.put(InnerConstant.APP_SECRET, zbConfig.getAppSecret());
             return this;
         }
 
         public ParamsBuilder injectWithToken() {
             ZbConfig zbConfig = ZbPassport.getZbConfig();
             if (!TextUtils.isEmpty(zbConfig.getToken())) {
-                map.put(K.TOKEN, zbConfig.getToken());
+                map.put(InnerConstant.TOKEN, zbConfig.getToken());
             }
-            map.put(K.APP_ID, "" + zbConfig.getAppId());
-            map.put(K.APP_KEY, zbConfig.getAppKey());
-            map.put(K.APP_SECRET, zbConfig.getAppSecret());
+            map.put(InnerConstant.APP_ID, "" + zbConfig.getAppId());
+            map.put(InnerConstant.APP_KEY, zbConfig.getAppKey());
+            map.put(InnerConstant.APP_SECRET, zbConfig.getAppSecret());
             return this;
         }
 
@@ -495,7 +532,7 @@ public class NetWork {
         }
 
         public Map<String, String> build() {
-            map.put(K.SIGN, EncryptUtil.encrypt(api, map));
+            map.put(InnerConstant.SIGN, EncryptUtil.encrypt(api, map));
             return map;
         }
 
