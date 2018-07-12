@@ -119,7 +119,7 @@ public class ApiManager {
         public static final String PASSPORT_SMS_TOKEN_LOGIN = "/api/passport/sms_token_login";
 
         /**
-         * 获取通行证详情接口 post
+         * 获取通行证详情接口 Get
          */
         public static final String PASSPORT_DETAIL = "/api/passport/detail";
 
@@ -139,7 +139,7 @@ public class ApiManager {
         public static final String PASSPORT_RESET_PASSWORD = "/api/passport/reset_password";
 
         /**
-         * 检查手机号是否已绑定浙报通行证接口 post
+         * 检查手机号是否已绑定浙报通行证接口 Get
          */
         public static final String PASSPORT_CHECK_BINDING = "/api/passport/check_binding";
 
