@@ -9,14 +9,25 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
-        android:layout_margin="40dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="40dp"
         android:background="@mipmap/ic_launcher_round"/>
+
+    <TextView
+        android:id="@+id/tv_modify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_icon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        android:text="信息修改"
+        android:textColor="@color/color_blue"/>
 
     <LinearLayout
         android:id="@+id/ll_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/iv_icon"
+        android:layout_below="@+id/tv_modify"
         android:background="@color/color_white"
         android:orientation="horizontal"
         android:paddingBottom="10dp"

@@ -38,9 +38,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".views.activities.LoginActivity">
-
-        </activity>
+        <activity android:name=".views.activities.LoginActivity"/>
         <activity android:name=".views.activities.QuickLoginActivity"/>
         <activity android:name=".views.activities.BindPhoneActivity"/>
         <activity android:name=".views.activities.ModifyPhoneActivity"/>
@@ -48,7 +46,9 @@
         <activity android:name=".activity.RegisterActvity"/>
         <activity android:name=".views.activities.FindPassWordActivity"/>
         <activity android:name=".views.activities.ChangePasswordActivity"/>
-        <activity android:name=".views.activities.NewPassWordActivity" />
+        <activity android:name=".views.activities.NewPassWordActivity"/>
+        <activity android:name=".views.activities.ModifyActivity"/>
+
     </application>
 
 </manifest>

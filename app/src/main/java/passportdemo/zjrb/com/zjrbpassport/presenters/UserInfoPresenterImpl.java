@@ -12,6 +12,7 @@ import com.zjrb.passport.listener.ZbLogoutListener;
 
 import passportdemo.zjrb.com.zjrbpassport.contracts.UserInfoContract;
 import passportdemo.zjrb.com.zjrbpassport.views.activities.BindPhoneActivity;
+import passportdemo.zjrb.com.zjrbpassport.views.activities.ModifyActivity;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -25,7 +26,8 @@ public class UserInfoPresenterImpl implements UserInfoContract.Presenter {
 
     private final UserInfoContract.View view;
 
-    private int requestCode = 0x11;
+    private final int requestCode_bind = 0x11;
+    private final int requestCode_modify = 0x12;
 
     public UserInfoPresenterImpl(UserInfoContract.View view) {
         this.view = view;
@@ -64,16 +66,32 @@ public class UserInfoPresenterImpl implements UserInfoContract.Presenter {
     @Override
     public void intentBindPhone() {
         view.getIActivity()
-            .startActivityForResult(new Intent(view.getIActivity(), BindPhoneActivity.class), requestCode);
+            .startActivityForResult(new Intent(view.getIActivity(), BindPhoneActivity.class), requestCode_bind);
     }
 
     @Override
-    public void bindPhone(int requestCode, int resultCode, Intent data) {
-        if (requestCode == this.requestCode && resultCode == RESULT_OK) {
-            String phone = data.getStringExtra("phone");
-            view.bindPhone(true, phone);
-        } else {
-            view.bindPhone(false, null);
+    public void intentModify() {
+        view.getIActivity()
+            .startActivityForResult(new Intent(view.getIActivity(), ModifyActivity.class), requestCode_modify);
+    }
+
+    @Override
+    public void onIntentResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case requestCode_bind:
+                if (resultCode == RESULT_OK) {
+                    String phone = data.getStringExtra("phone");
+                    view.onIntentResult(true, phone);
+                } else {
+                    view.onIntentResult(false, null);
+                }
+                break;
+            case requestCode_modify:
+                if (resultCode == RESULT_OK) {
+                    String phone = data.getStringExtra("phone");
+                    view.onIntentResult(true, phone);
+                }
+                break;
         }
     }
 

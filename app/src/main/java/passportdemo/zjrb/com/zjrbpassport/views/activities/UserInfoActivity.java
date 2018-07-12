@@ -33,7 +33,7 @@ import passportdemo.zjrb.com.zjrbpassport.utils.ToastUtil;
  * Author: chen.h
  * Date: 2018/7/5
  */
-public class UserInfoActivity extends AppCompatActivity implements UserInfoContract.View,UmLoginContract.View {
+public class UserInfoActivity extends AppCompatActivity implements UserInfoContract.View, UmLoginContract.View {
 
     @BindView(R.id.iv_icon)
     ImageView ivIcon;
@@ -133,11 +133,11 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        infoPresenter.bindPhone(requestCode, resultCode, data);
+        infoPresenter.onIntentResult(requestCode, resultCode, data);
     }
 
     @Override
-    public void bindPhone(boolean isSuccess, String phone) {
+    public void onIntentResult(boolean isSuccess, String phone) {
         if (isSuccess && !TextUtils.isEmpty(phone)) {
             tvPhone.setText(phone);
         } else {
@@ -169,9 +169,12 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
         return this;
     }
 
-    @OnClick({R.id.ll_phone, R.id.ll_sina, R.id.ll_wechat, R.id.ll_qq, R.id.tv_logout})
+    @OnClick({R.id.ll_phone, R.id.ll_sina, R.id.ll_wechat, R.id.ll_qq, R.id.tv_logout, R.id.tv_modify})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.tv_modify:
+
+                break;
             case R.id.ll_phone:
                 infoPresenter.intentBindPhone();
                 break;

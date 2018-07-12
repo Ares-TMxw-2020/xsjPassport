@@ -22,7 +22,9 @@ public interface UserInfoContract {
 
         void intentBindPhone();
 
-        void bindPhone(int requestCode, int resultCode, Intent data);
+        void intentModify();
+
+        void onIntentResult(int requestCode, int resultCode, Intent data);
 
         void bindThird(SHARE_MEDIA platform, String uid);
 
@@ -37,7 +39,7 @@ public interface UserInfoContract {
 
         void unBindThird(boolean isSuccess, int platform, String errorMsg);
 
-        void bindPhone(boolean isSuccess, String phone);
+        void onIntentResult(boolean isSuccess, String phone);
 
         void bindThird(boolean isSuccess, int platform, String errorMsg);
 
