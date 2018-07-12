@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="passportdemo.zjrb.com.zjrbpassport">
+          package="com.zhejiangdaily">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
-        android:name=".App"
+        android:name="com.zhejiangdaily.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!-- 友盟  start -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="535879d256240b8965030920" />
+        <!-- 友盟  end -->
 
         <meta-data
             android:name="ZBP_APP_ID"
@@ -28,9 +34,9 @@
             android:name="ZBP_APP_ENV"
             android:value="dev"/>
 
-        <activity android:name=".TestActivity">
+        <activity android:name="com.zhejiangdaily.TestActivity">
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name="com.zhejiangdaily.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -38,16 +44,66 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".views.activities.LoginActivity"/>
-        <activity android:name=".views.activities.QuickLoginActivity"/>
-        <activity android:name=".views.activities.BindPhoneActivity"/>
-        <activity android:name=".views.activities.ModifyPhoneActivity"/>
-        <activity android:name=".views.activities.UserInfoActivity"/>
-        <activity android:name=".activity.RegisterActvity"/>
-        <activity android:name=".views.activities.FindPassWordActivity"/>
-        <activity android:name=".views.activities.ChangePasswordActivity"/>
-        <activity android:name=".views.activities.NewPassWordActivity"/>
-        <activity android:name=".views.activities.ModifyActivity"/>
+        <activity android:name="com.zhejiangdaily.views.activities.LoginActivity"/>
+        <activity android:name="com.zhejiangdaily.views.activities.QuickLoginActivity"/>
+        <activity android:name="com.zhejiangdaily.views.activities.BindPhoneActivity"/>
+        <activity android:name="com.zhejiangdaily.views.activities.ModifyPhoneActivity"/>
+        <activity android:name="com.zhejiangdaily.views.activities.UserInfoActivity"/>
+        <activity android:name="com.zhejiangdaily.views.activities.RegisterActvity"/>
+        <activity android:name="com.zhejiangdaily.views.activities.FindPassWordActivity"/>
+        <activity android:name="com.zhejiangdaily.views.activities.ChangePasswordActivity"/>
+        <activity android:name="com.zhejiangdaily.views.activities.NewPassWordActivity"/>
+        <activity android:name="com.zhejiangdaily.views.activities.ModifyActivity"/>
+
+        <activity
+            android:name="com.umeng.socialize.media.WBShareCallBackActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+        <activity
+            android:name="com.sina.weibo.sdk.web.WeiboSdkWebActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize">
+
+        </activity>
+        <activity
+            android:name="com.sina.weibo.sdk.share.WbShareTransActivity"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+        </activity>
+        <activity
+            android:name="com.zhejiangdaily.wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <activity
+            android:name="com.umeng.qq.tencent.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent101096646" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.umeng.qq.tencent.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
 
     </application>
 
