@@ -1,6 +1,5 @@
 package com.zjrb.passport.listener;
 
-import com.zjrb.passport.domain.ZbInfoEntity;
 
 /**
  * Function: ZbGetInfoListener
@@ -8,6 +7,5 @@ import com.zjrb.passport.domain.ZbInfoEntity;
  * Author: chen.h
  * Date: 2018/6/28
  */
-public interface ZbGetInfoListener extends IFailure {
-    void onSuccess(ZbInfoEntity info);
+public interface ZbGetInfoListener extends ILoginResult {
 }

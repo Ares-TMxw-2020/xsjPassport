@@ -8,7 +8,7 @@ import com.zjrb.passport.listener.ZbBindThirdListener;
 import com.zjrb.passport.listener.ZbCaptchaSendListener;
 import com.zjrb.passport.listener.ZbCaptchaVerifyListener;
 import com.zjrb.passport.listener.ZbChangePasswordListener;
-import com.zjrb.passport.listener.ZbCheckListener;
+import com.zjrb.passport.listener.ZbCheckPhoneListener;
 import com.zjrb.passport.listener.ZbGetInfoListener;
 import com.zjrb.passport.listener.ZbLoginListener;
 import com.zjrb.passport.listener.ZbLogoutListener;
@@ -168,7 +168,7 @@ public class ZbPassport {
      * @param phoneNumber
      * @param listener
      */
-    public static void checkBindState(String phoneNumber, ZbCheckListener listener) {
+    public static void checkBindState(String phoneNumber, ZbCheckPhoneListener listener) {
         netWork.checkBindState(phoneNumber, listener);
     }
 

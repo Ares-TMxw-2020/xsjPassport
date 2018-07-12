@@ -1,4 +1,4 @@
-package com.zjrb.passport;
+package com.zjrb.passport.domain;
 
 import java.util.List;
 
@@ -68,7 +68,7 @@ public class LoginInfo {
         private int bindId;
         private int loginType;
         private String uid;
-        private String channel;
+        private String channelName;
         private String logoUrl;
 
         public int getBindId() {
@@ -95,12 +95,12 @@ public class LoginInfo {
             this.uid = uid;
         }
 
-        public String getChannel() {
-            return channel;
+        public String getChannelName() {
+            return channelName;
         }
 
-        public void setChannel(String channel) {
-            this.channel = channel;
+        public void setChannelName(String channelName) {
+            this.channelName = channelName;
         }
 
         public String getLogoUrl() {

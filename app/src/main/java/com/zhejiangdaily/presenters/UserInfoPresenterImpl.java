@@ -6,9 +6,9 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zhejiangdaily.contracts.UserInfoContract;
 import com.zhejiangdaily.views.activities.BindPhoneActivity;
 import com.zhejiangdaily.views.activities.ModifyActivity;
+import com.zjrb.passport.domain.LoginInfo;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ZbConstants;
-import com.zjrb.passport.domain.ZbInfoEntity;
 import com.zjrb.passport.listener.ZbBindThirdListener;
 import com.zjrb.passport.listener.ZbGetInfoListener;
 import com.zjrb.passport.listener.ZbLogoutListener;
@@ -37,7 +37,7 @@ public class UserInfoPresenterImpl implements UserInfoContract.Presenter {
     public void getUserInfo() {
         ZbPassport.getInfo(new ZbGetInfoListener() {
             @Override
-            public void onSuccess(ZbInfoEntity info) {
+            public void onSuccess(LoginInfo info) {
                 view.getUserInfo(true, info, null);
             }
 

@@ -1,4 +1,11 @@
-package com.zjrb.passport;
+package com.zjrb.passport.processor;
+
+import android.support.annotation.NonNull;
+import android.text.TextUtils;
+
+import com.zjrb.passport.ZbPassport;
+import com.zjrb.passport.domain.LoginInfo;
+import com.zjrb.passport.listener.ILoginResult;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,13 +22,21 @@ import java.util.List;
  */
 public class LoginJsonProcessor implements JsonProcessor {
 
+    private ILoginResult loginResult;
+
+    public LoginJsonProcessor(@NonNull ILoginResult loginResult) {
+        this.loginResult = loginResult;
+    }
+
     @Override
     public void process(JSONObject jsonObject) throws JSONException {
         LoginInfo info = new LoginInfo();
 
         info.setPassportId(jsonObject.optInt("passport_id"));
         info.setPhoneNumber(jsonObject.optString("phone_number"));
-        info.setToken(jsonObject.optString("access_token"));
+        String token = jsonObject.optString("access_token");
+        info.setToken(token);
+        interceptToken(token);
         info.setCurrentLoginType(jsonObject.optInt("current_auth_type"));
         info.setNewUser(jsonObject.optBoolean("is_new"));
 
@@ -34,11 +49,18 @@ public class LoginJsonProcessor implements JsonProcessor {
                 thirdInfo.setBindId(object.optInt("binding_id"));
                 thirdInfo.setLoginType(object.optInt("auth_type"));
                 thirdInfo.setUid(object.optString("auth_uid"));
-                thirdInfo.setChannel(object.optString("binding_name"));
+                thirdInfo.setChannelName(object.optString("binding_name"));
                 thirdInfo.setLogoUrl(object.optString("binding_logo"));
                 list.add(thirdInfo);
             }
             info.setBindList(list);
+        }
+        loginResult.onSuccess(info);
+    }
+
+    private void interceptToken(String token) {
+        if (!TextUtils.isEmpty(token)) {
+            ZbPassport.setToken(token);
         }
     }
 }

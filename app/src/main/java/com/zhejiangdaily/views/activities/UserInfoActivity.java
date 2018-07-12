@@ -17,9 +17,8 @@ import com.zhejiangdaily.contracts.UmLoginContract;
 import com.zhejiangdaily.contracts.UserInfoContract;
 import com.zhejiangdaily.presenters.UserInfoPresenterImpl;
 import com.zhejiangdaily.utils.ToastUtil;
+import com.zjrb.passport.domain.LoginInfo;
 import com.zjrb.passport.constant.ZbConstants;
-import com.zjrb.passport.domain.BindingListEntity;
-import com.zjrb.passport.domain.ZbInfoEntity;
 
 import java.util.List;
 
@@ -68,18 +67,18 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
     }
 
     @Override
-    public void getUserInfo(boolean isSuccess, ZbInfoEntity info, String errorMsg) {
+    public void getUserInfo(boolean isSuccess, LoginInfo info, String errorMsg) {
         if (isSuccess) {
-            String phoneNumber = info.getPhone_number();
+            String phoneNumber = info.getPhoneNumber();
             if (TextUtils.isEmpty(phoneNumber)) {
                 tvPhone.setText("未绑定");
             } else {
                 tvPhone.setText(phoneNumber);
             }
-            List<BindingListEntity> list = info.getBinding_list();
+            List<LoginInfo.ThirdInfo> list = info.getBindList();
             if (list != null && !list.isEmpty()) {
-                for (BindingListEntity d : list) {
-                    switch (d.getAuth_type()) {
+                for (LoginInfo.ThirdInfo d : list) {
+                    switch (d.getLoginType()) {
                         case ZbConstants.LOGIN_QQ:
                             tvQQ.setText("已绑定");
                             break;

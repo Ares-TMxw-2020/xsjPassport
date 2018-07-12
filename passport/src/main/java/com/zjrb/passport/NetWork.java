@@ -3,16 +3,14 @@ package com.zjrb.passport;
 import android.text.TextUtils;
 
 import com.zjrb.passport.constant.InnerConstant;
-import com.zjrb.passport.domain.CheckBindingEntity;
-import com.zjrb.passport.domain.LoginDataEntity;
 import com.zjrb.passport.listener.IResult;
 import com.zjrb.passport.listener.ZbBindPhoneListener;
+import com.zjrb.passport.listener.ZbBindThirdListener;
 import com.zjrb.passport.listener.ZbCaptchaSendListener;
 import com.zjrb.passport.listener.ZbCaptchaVerifyListener;
 import com.zjrb.passport.listener.ZbChangePasswordListener;
-import com.zjrb.passport.listener.ZbCheckListener;
+import com.zjrb.passport.listener.ZbCheckPhoneListener;
 import com.zjrb.passport.listener.ZbGetInfoListener;
-import com.zjrb.passport.listener.ZbBindThirdListener;
 import com.zjrb.passport.listener.ZbLoginListener;
 import com.zjrb.passport.listener.ZbLogoutListener;
 import com.zjrb.passport.listener.ZbRegisterListener;
@@ -25,7 +23,10 @@ import com.zjrb.passport.net.Request;
 import com.zjrb.passport.net.Response;
 import com.zjrb.passport.net.ZbHttpClient;
 import com.zjrb.passport.net.util.EncryptUtil;
-import com.zjrb.passport.util.JsonUtil;
+import com.zjrb.passport.processor.VerifyJsonProcessor;
+import com.zjrb.passport.processor.CheckJsonProcessor;
+import com.zjrb.passport.processor.LoginJsonProcessor;
+import com.zjrb.passport.processor.ResponseProcessor;
 import com.zjrb.passport.util.Logger;
 
 import java.io.IOException;
@@ -78,36 +79,84 @@ public class NetWork {
     }
 
 
-    public void verifyRegisterCaptcha(String phoneNumber, String captcha, ZbCaptchaVerifyListener listener) {
-        ParamsBuilder builder = new ParamsBuilder().url(ApiManager.EndPoint.SMS_VALIDATE_REGISTER_TOKEN)
-                                                   .inject()
-                                                   .add("phone_number", phoneNumber)
-                                                   .add("sms_token", captcha);
-        requestWithNoData(listener, builder);
+    public void verifyRegisterCaptcha(String phoneNumber, String captcha, final ZbCaptchaVerifyListener listener) {
+        final ParamsBuilder builder = new ParamsBuilder().url(ApiManager.EndPoint.SMS_VALIDATE_REGISTER_TOKEN)
+                                                         .inject()
+                                                         .add("phone_number", phoneNumber)
+                                                         .add("sms_token", captcha);
+        client.newCall(buildPostRequest(builder)).enqueue(new CallBack() {
+            @Override
+            public void onSuccess(Response response) throws IOException {
+                Logger.d(builder, response);
+                VerifyJsonProcessor processor = new VerifyJsonProcessor(listener);
+                ResponseProcessor.process(response, processor, listener);
+            }
+
+            @Override
+            public void onFail(int errorCode, String msg) {
+                listener.onFailure(errorCode, msg);
+            }
+        });
     }
 
-    public void verifyLoginCaptcha(String phoneNumber, String captcha, ZbCaptchaVerifyListener listener) {
-        ParamsBuilder builder = new ParamsBuilder().url(ApiManager.EndPoint.SMS_VALIDATE_LOGIN_TOKEN)
-                                                   .inject()
-                                                   .add("phone_number", phoneNumber)
-                                                   .add("sms_token", captcha);
-        requestWithNoData(listener, builder);
+    public void verifyLoginCaptcha(String phoneNumber, String captcha, final ZbCaptchaVerifyListener listener) {
+        final ParamsBuilder builder = new ParamsBuilder().url(ApiManager.EndPoint.SMS_VALIDATE_LOGIN_TOKEN)
+                                                         .inject()
+                                                         .add("phone_number", phoneNumber)
+                                                         .add("sms_token", captcha);
+        client.newCall(buildPostRequest(builder)).enqueue(new CallBack() {
+            @Override
+            public void onSuccess(Response response) throws IOException {
+                Logger.d(builder, response);
+                VerifyJsonProcessor processor = new VerifyJsonProcessor(listener);
+                ResponseProcessor.process(response, processor, listener);
+            }
+
+            @Override
+            public void onFail(int errorCode, String msg) {
+                listener.onFailure(errorCode, msg);
+            }
+        });
     }
 
-    public void verifyRetrieveCaptcha(String phoneNumber, String captcha, ZbCaptchaVerifyListener listener) {
-        ParamsBuilder builder = new ParamsBuilder().url(ApiManager.EndPoint.SMS_VALIDATE_RESET_TOKEN)
-                                                   .inject()
-                                                   .add("phone_number", phoneNumber)
-                                                   .add("sms_token", captcha);
-        requestWithNoData(listener, builder);
+    public void verifyRetrieveCaptcha(String phoneNumber, String captcha, final ZbCaptchaVerifyListener listener) {
+        final ParamsBuilder builder = new ParamsBuilder().url(ApiManager.EndPoint.SMS_VALIDATE_RESET_TOKEN)
+                                                         .inject()
+                                                         .add("phone_number", phoneNumber)
+                                                         .add("sms_token", captcha);
+        client.newCall(buildPostRequest(builder)).enqueue(new CallBack() {
+            @Override
+            public void onSuccess(Response response) throws IOException {
+                Logger.d(builder, response);
+                VerifyJsonProcessor processor = new VerifyJsonProcessor(listener);
+                ResponseProcessor.process(response, processor, listener);
+            }
+
+            @Override
+            public void onFail(int errorCode, String msg) {
+                listener.onFailure(errorCode, msg);
+            }
+        });
     }
 
-    public void verifyBindCaptcha(String phoneNumber, String captcha, ZbCaptchaVerifyListener listener) {
-        ParamsBuilder builder = new ParamsBuilder().url(ApiManager.EndPoint.SMS_VALIDATE_BINDING_TOKEN)
-                                                   .inject()
-                                                   .add("phone_number", phoneNumber)
-                                                   .add("sms_token", captcha);
-        requestWithNoData(listener, builder);
+    public void verifyBindCaptcha(String phoneNumber, String captcha, final ZbCaptchaVerifyListener listener) {
+        final ParamsBuilder builder = new ParamsBuilder().url(ApiManager.EndPoint.SMS_VALIDATE_BINDING_TOKEN)
+                                                         .inject()
+                                                         .add("phone_number", phoneNumber)
+                                                         .add("sms_token", captcha);
+        client.newCall(buildPostRequest(builder)).enqueue(new CallBack() {
+            @Override
+            public void onSuccess(Response response) throws IOException {
+                Logger.d(builder, response);
+                VerifyJsonProcessor processor = new VerifyJsonProcessor(listener);
+                ResponseProcessor.process(response, processor, listener);
+            }
+
+            @Override
+            public void onFail(int errorCode, String msg) {
+                listener.onFailure(errorCode, msg);
+            }
+        });
     }
 
     /**
@@ -149,12 +198,8 @@ public class NetWork {
             @Override
             public void onSuccess(Response response) throws IOException {
                 Logger.d(builder, response);
-                LoginDataEntity data = JsonUtil.jsonLoginData(response);
-                if (data.code == StatusCode.SUCCESS) {
-                    listener.onSuccess(data.data);
-                } else {
-                    listener.onFailure(data.code, data.message);
-                }
+                LoginJsonProcessor processor = new LoginJsonProcessor(listener);
+                ResponseProcessor.process(response, processor, listener);
             }
 
             @Override
@@ -180,12 +225,8 @@ public class NetWork {
             @Override
             public void onSuccess(Response response) throws IOException {
                 Logger.d(builder, response);
-                LoginDataEntity data = JsonUtil.jsonLoginData(response);
-                if (data.code == StatusCode.SUCCESS) {
-                    listener.onSuccess(data.data);
-                } else {
-                    listener.onFailure(data.code, data.message);
-                }
+                LoginJsonProcessor processor = new LoginJsonProcessor(listener);
+                ResponseProcessor.process(response, processor, listener);
             }
 
             @Override
@@ -211,12 +252,8 @@ public class NetWork {
             @Override
             public void onSuccess(Response response) throws IOException {
                 Logger.d(builder, response);
-                LoginDataEntity data = JsonUtil.jsonLoginData(response);
-                if (data.code == StatusCode.SUCCESS) {
-                    listener.onSuccess(data.data);
-                } else {
-                    listener.onFailure(data.code, data.message);
-                }
+                LoginJsonProcessor processor = new LoginJsonProcessor(listener);
+                ResponseProcessor.process(response, processor, listener);
             }
 
             @Override
@@ -235,12 +272,8 @@ public class NetWork {
             @Override
             public void onSuccess(Response response) throws IOException {
                 Logger.d(builder, response);
-                LoginDataEntity data = JsonUtil.jsonLoginData(response);
-                if (data.code == StatusCode.SUCCESS) {
-                    listener.onSuccess(data.data);
-                } else {
-                    listener.onFailure(data.code, data.message);
-                }
+                LoginJsonProcessor processor = new LoginJsonProcessor(listener);
+                ResponseProcessor.process(response, processor, listener);
             }
 
             @Override
@@ -261,12 +294,8 @@ public class NetWork {
             @Override
             public void onSuccess(Response response) throws IOException {
                 Logger.d(builder, response);
-                LoginDataEntity data = JsonUtil.jsonLoginData(response);
-                if (data.code == StatusCode.SUCCESS) {
-                    listener.onSuccess(data.data);
-                } else {
-                    listener.onFailure(data.code, data.message);
-                }
+                LoginJsonProcessor processor = new LoginJsonProcessor(listener);
+                ResponseProcessor.process(response, processor, listener);
             }
 
             @Override
@@ -329,7 +358,7 @@ public class NetWork {
      * @param phoneNumber
      * @param listener
      */
-    public void checkBindState(String phoneNumber, final ZbCheckListener listener) {
+    public void checkBindState(String phoneNumber, final ZbCheckPhoneListener listener) {
         final ParamsBuilder builder = new ParamsBuilder().url(ApiManager.EndPoint.PASSPORT_CHECK_BINDING)
                                                          .inject()
                                                          .add("phone_number", phoneNumber);
@@ -337,14 +366,8 @@ public class NetWork {
             @Override
             public void onSuccess(Response response) throws IOException {
                 Logger.d(builder, response);
-                CheckBindingEntity data = JsonUtil.parseCheckBinding(response);
-                if (data != null) {
-                    if (data.code == StatusCode.SUCCESS) {
-                        listener.onSuccess(data.data);
-                    } else {
-                        listener.onFailure(data.code, data.message);
-                    }
-                }
+                CheckJsonProcessor processor = new CheckJsonProcessor(listener);
+                ResponseProcessor.process(response, processor, listener);
             }
 
             @Override

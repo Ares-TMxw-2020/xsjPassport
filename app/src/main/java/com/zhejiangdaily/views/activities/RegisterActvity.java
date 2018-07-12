@@ -14,10 +14,10 @@ import com.zhejiangdaily.R;
 import com.zhejiangdaily.utils.ToastUtil;
 import com.zhejiangdaily.utils.ZbUtil;
 import com.zhejiangdaily.views.dialogs.ZBDialog;
+import com.zjrb.passport.domain.LoginInfo;
 import com.zjrb.passport.StatusCode;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ZbConstants;
-import com.zjrb.passport.domain.ZbInfoEntity;
 import com.zjrb.passport.listener.ZbCaptchaSendListener;
 import com.zjrb.passport.listener.ZbRegisterListener;
 
@@ -75,7 +75,7 @@ public class RegisterActvity extends AppCompatActivity {
                 }
                 ZbPassport.register(phoneNum, passWord, captcha, new ZbRegisterListener() {
                     @Override
-                    public void onSuccess(ZbInfoEntity info) {
+                    public void onSuccess(LoginInfo info) {
                         // todo屏幕中间的Toast
                         ToastUtil.showTextWithImage(R.id.iv_qq, "注册成功");
                     }

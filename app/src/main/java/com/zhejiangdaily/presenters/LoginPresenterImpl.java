@@ -7,9 +7,8 @@ import com.zhejiangdaily.contracts.LoginContract;
 import com.zhejiangdaily.views.activities.FindPassWordActivity;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ZbConstants;
-import com.zjrb.passport.domain.PhoneNumEntity;
-import com.zjrb.passport.domain.ZbInfoEntity;
-import com.zjrb.passport.listener.ZbCheckListener;
+import com.zjrb.passport.domain.LoginInfo;
+import com.zjrb.passport.listener.ZbCheckPhoneListener;
 import com.zjrb.passport.listener.ZbLoginListener;
 
 /**
@@ -58,11 +57,10 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
     }
 
     private void checkBind(final String phone, final String password) {
-        ZbPassport.checkBindState(phone, new ZbCheckListener() {
+        ZbPassport.checkBindState(phone, new ZbCheckPhoneListener() {
             @Override
-            public void onSuccess(PhoneNumEntity entity) {
-                //TODO 太复杂，字面意思不好理解
-                if (entity.isPhone_number_taken()) {
+            public void onSuccess(boolean isBind) {
+                if (isBind) {
                     doLogin(phone, password);
                 } else {
                     view.onPhoneNotExist();
@@ -82,7 +80,7 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
 
     private ZbLoginListener zbLoginListener = new ZbLoginListener() {
         @Override
-        public void onSuccess(ZbInfoEntity info) {
+        public void onSuccess(LoginInfo info) {
             view.login(true, null);
         }
 

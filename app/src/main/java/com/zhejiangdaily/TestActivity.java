@@ -8,13 +8,12 @@ import android.widget.Toast;
 
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ZbConstants;
-import com.zjrb.passport.domain.PhoneNumEntity;
-import com.zjrb.passport.domain.ZbInfoEntity;
+import com.zjrb.passport.domain.LoginInfo;
 import com.zjrb.passport.listener.ZbBindPhoneListener;
 import com.zjrb.passport.listener.ZbBindThirdListener;
 import com.zjrb.passport.listener.ZbCaptchaSendListener;
 import com.zjrb.passport.listener.ZbChangePasswordListener;
-import com.zjrb.passport.listener.ZbCheckListener;
+import com.zjrb.passport.listener.ZbCheckPhoneListener;
 import com.zjrb.passport.listener.ZbGetInfoListener;
 import com.zjrb.passport.listener.ZbLoginListener;
 import com.zjrb.passport.listener.ZbLogoutListener;
@@ -112,7 +111,7 @@ public class TestActivity extends AppCompatActivity {
             case R.id.register:
                 ZbPassport.register(phone, "this_is_a_test_password", "498598", new ZbRegisterListener() {
                     @Override
-                    public void onSuccess(ZbInfoEntity info) {
+                    public void onSuccess(LoginInfo info) {
                         showToast("手机号注册浙报通行证接口 success");
                     }
 
@@ -125,7 +124,7 @@ public class TestActivity extends AppCompatActivity {
             case R.id.login:
                 ZbPassport.login(phone, password, new ZbLoginListener() {
                     @Override
-                    public void onSuccess(ZbInfoEntity info) {
+                    public void onSuccess(LoginInfo info) {
                         showToast("手机号密码登录浙报通行证接口 success");
 
                     }
@@ -139,7 +138,7 @@ public class TestActivity extends AppCompatActivity {
             case R.id.loginCaptcha:
                 ZbPassport.loginCaptcha(phone, "979755", new ZbLoginListener() {
                     @Override
-                    public void onSuccess(ZbInfoEntity info) {
+                    public void onSuccess(LoginInfo info) {
                         showToast("手机号与验证码登录浙报通行证接口 success");
                     }
 
@@ -152,7 +151,7 @@ public class TestActivity extends AppCompatActivity {
             case R.id.getInfo:
                 ZbPassport.getInfo(new ZbGetInfoListener() {
                     @Override
-                    public void onSuccess(ZbInfoEntity info) {
+                    public void onSuccess(LoginInfo info) {
                         showToast("获取通行证详情接口 success");
                     }
 
@@ -202,9 +201,9 @@ public class TestActivity extends AppCompatActivity {
                 });
                 break;
             case R.id.checkBindState:
-                ZbPassport.checkBindState(phone, new ZbCheckListener() {
+                ZbPassport.checkBindState(phone, new ZbCheckPhoneListener() {
                     @Override
-                    public void onSuccess(PhoneNumEntity entity) {
+                    public void onSuccess(boolean isBind) {
                         showToast("检查手机号是否绑定浙报通行证 success");
                     }
 
@@ -230,7 +229,7 @@ public class TestActivity extends AppCompatActivity {
             case R.id.loginThird:
                 ZbPassport.loginThird(ZbConstants.LOGIN_QQ, qqId, new ZbLoginListener() {
                     @Override
-                    public void onSuccess(ZbInfoEntity info) {
+                    public void onSuccess(LoginInfo info) {
                         showToast("社交平台账号登录/注册接口 success");
                     }
 

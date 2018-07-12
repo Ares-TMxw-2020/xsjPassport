@@ -6,5 +6,6 @@ package com.zjrb.passport.listener;
  * Author: chen.h
  * Date: 2018/7/12
  */
-public interface ZbCaptchaVerifyListener extends IResult {
+public interface ZbCaptchaVerifyListener extends IFailure {
+    void onSuccess(boolean isValid);
 }

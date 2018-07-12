@@ -1,7 +1,8 @@
-package com.zjrb.passport;
+package com.zjrb.passport.processor;
 
 import android.support.annotation.NonNull;
 
+import com.zjrb.passport.StatusCode;
 import com.zjrb.passport.listener.IFailure;
 import com.zjrb.passport.listener.IResult;
 import com.zjrb.passport.net.Response;
@@ -46,7 +47,7 @@ public class ResponseProcessor {
                 if (innerObject != null) {
                     processor.process(innerObject);
                 } else {
-                    iFailure.onFailure(StatusCode.ERROR_JSON, "错误的接口返回");
+                    iFailure.onFailure(StatusCode.ERROR_INTERFACE_DATA, "错误的接口返回");
                 }
             } else {
                 String message = jsonObject.optString("message");

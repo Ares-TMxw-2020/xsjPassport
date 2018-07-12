@@ -2,8 +2,7 @@ package com.zhejiangdaily.presenters;
 
 import com.zhejiangdaily.contracts.BindPhoneContract;
 import com.zjrb.passport.ZbPassport;
-import com.zjrb.passport.domain.PhoneNumEntity;
-import com.zjrb.passport.listener.ZbCheckListener;
+import com.zjrb.passport.listener.ZbCheckPhoneListener;
 
 /**
  * Function: BindPhonePresenter
@@ -19,10 +18,10 @@ public class BindPhonePresenterImpl implements BindPhoneContract.Presenter {
 
     @Override
     public void checkPhone(String phoneNumber) {
-        ZbPassport.checkBindState(phoneNumber, new ZbCheckListener() {
+        ZbPassport.checkBindState(phoneNumber, new ZbCheckPhoneListener() {
             @Override
-            public void onSuccess(PhoneNumEntity entity) {
-                view.checkPhone(true, entity.isPhone_number_taken(), null);
+            public void onSuccess(boolean isBind) {
+                view.checkPhone(true, isBind, null);
             }
 
             @Override
