@@ -131,8 +131,8 @@ public class NetWork {
             }
 
             @Override
-            public void onFail(Request call, IOException e) {
-                listener.onFailure(-1, StatusCode.getMessage(-1));
+            public void onFail(int errorCode, String msg) {
+                listener.onFailure(errorCode, msg);
             }
         });
     }
@@ -165,8 +165,8 @@ public class NetWork {
             }
 
             @Override
-            public void onFail(Request call, IOException e) {
-                listener.onFailure(-1, StatusCode.getMessage(-1));
+            public void onFail(int errorCode, String msg) {
+                listener.onFailure(errorCode, msg);
             }
         });
     }
@@ -197,8 +197,8 @@ public class NetWork {
             }
 
             @Override
-            public void onFail(Request call, IOException e) {
-                listener.onFailure(-1, StatusCode.getMessage(-1));
+            public void onFail(int errorCode, String msg) {
+                listener.onFailure(errorCode, msg);
             }
         });
     }
@@ -229,8 +229,8 @@ public class NetWork {
             }
 
             @Override
-            public void onFail(Request call, IOException e) {
-                listener.onFailure(-1, StatusCode.getMessage(-1));
+            public void onFail(int errorCode, String msg) {
+                listener.onFailure(errorCode, msg);
             }
         });
     }
@@ -254,8 +254,8 @@ public class NetWork {
             }
 
             @Override
-            public void onFail(Request call, IOException e) {
-                listener.onFailure(-1, StatusCode.getMessage(-1));
+            public void onFail(int errorCode, String msg) {
+                listener.onFailure(errorCode, msg);
             }
         });
     }
@@ -280,8 +280,8 @@ public class NetWork {
             }
 
             @Override
-            public void onFail(Request call, IOException e) {
-                listener.onFailure(-1, StatusCode.getMessage(-1));
+            public void onFail(int errorCode, String msg) {
+                listener.onFailure(errorCode, msg);
             }
         });
     }
@@ -312,8 +312,8 @@ public class NetWork {
             }
 
             @Override
-            public void onFail(Request call, IOException e) {
-                listener.onFailure(-1, StatusCode.getMessage(-1));
+            public void onFail(int errorCode, String msg) {
+                listener.onFailure(errorCode, msg);
             }
         });
     }
@@ -344,8 +344,8 @@ public class NetWork {
             }
 
             @Override
-            public void onFail(Request call, IOException e) {
-                listener.onFailure(-1, StatusCode.getMessage(-1));
+            public void onFail(int errorCode, String msg) {
+                listener.onFailure(errorCode, msg);
             }
         });
     }
@@ -379,8 +379,8 @@ public class NetWork {
             }
 
             @Override
-            public void onFail(Request call, IOException e) {
-                listener.onFailure(-1, StatusCode.getMessage(-1));
+            public void onFail(int errorCode, String msg) {
+                listener.onFailure(errorCode, msg);
             }
         });
     }
@@ -410,8 +410,8 @@ public class NetWork {
             }
 
             @Override
-            public void onFail(Request call, IOException e) {
-                listener.onFailure(-1, StatusCode.getMessage(-1));
+            public void onFail(int errorCode, String msg) {
+                listener.onFailure(errorCode, msg);
             }
         });
     }
@@ -436,8 +436,8 @@ public class NetWork {
             }
 
             @Override
-            public void onFail(Request call, IOException e) {
-                listener.onFailure(-1, StatusCode.getMessage(-1));
+            public void onFail(int errorCode, String msg) {
+                listener.onFailure(errorCode, msg);
             }
         });
     }

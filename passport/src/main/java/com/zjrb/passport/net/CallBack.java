@@ -12,6 +12,6 @@ public interface CallBack {
 
     void onSuccess(Response response) throws IOException;
 
-    void onFail(Request call, IOException e);
+    void onFail(int errorCode, String msg);
 
 }

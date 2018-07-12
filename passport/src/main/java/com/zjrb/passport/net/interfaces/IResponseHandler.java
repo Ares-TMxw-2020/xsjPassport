@@ -29,9 +29,10 @@ public interface IResponseHandler {
      * 处理失败
      * @param callBack
      * @param request
-     * @param e
+     * @param errorCode
+     * @param msg
      */
-    void handleFail(CallBack callBack, Request request, IOException e);
+    void handleFail(CallBack callBack, Request request, int errorCode, String msg);
 
     IResponseHandler RESPONSE_HANDLER = new IResponseHandler() {
 
@@ -50,7 +51,9 @@ public interface IResponseHandler {
                 @Override
                 public void run() {
                     try {
-                        callback.onSuccess(response);
+                        if (callback != null) {
+                            callback.onSuccess(response);
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -64,11 +67,13 @@ public interface IResponseHandler {
         }
 
         @Override
-        public void handleFail(final CallBack callBack, final Request request, final IOException e) {
+        public void handleFail(final CallBack callBack, final Request request, final int errorCode, final String msg) {
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
-                    callBack.onFail(request, e);
+                    if (callBack != null) {
+                        callBack.onFail(errorCode, msg);
+                    }
                 }
             };
             execute(runnable);

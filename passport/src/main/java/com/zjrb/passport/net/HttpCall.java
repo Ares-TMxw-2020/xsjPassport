@@ -2,7 +2,6 @@ package com.zjrb.passport.net;
 
 import com.zjrb.passport.net.interfaces.IRequestHandler;
 
-import java.io.IOException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
@@ -29,10 +28,9 @@ public class HttpCall implements Call {
     /**
      * 同步执行
      * @return
-     * @throws IOException
      */
     @Override
-    public Response execute() throws IOException {
+    public Response execute() {
         SyncTask task = new SyncTask();
         Response response;
         try {
@@ -65,8 +63,8 @@ public class HttpCall implements Call {
     public class SyncTask implements Callable<Response> {
 
         @Override
-        public Response call() throws Exception {
-            return requestHandler.handleRequest(HttpCall.this);
+        public Response call() {
+            return requestHandler.handleRequest(HttpCall.this, null);
         }
     }
 }

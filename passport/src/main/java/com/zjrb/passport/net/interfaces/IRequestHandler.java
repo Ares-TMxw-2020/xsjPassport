@@ -1,9 +1,10 @@
 package com.zjrb.passport.net.interfaces;
 
+import android.support.annotation.Nullable;
+
+import com.zjrb.passport.net.CallBack;
 import com.zjrb.passport.net.HttpCall;
 import com.zjrb.passport.net.Response;
-
-import java.io.IOException;
 
 /**
  * Date: 2018/6/29 上午11:49
@@ -13,6 +14,6 @@ import java.io.IOException;
  */
 public interface IRequestHandler {
 
-    Response handleRequest(HttpCall call) throws IOException;
+    Response handleRequest(HttpCall call, @Nullable CallBack callBack);
 
 }
