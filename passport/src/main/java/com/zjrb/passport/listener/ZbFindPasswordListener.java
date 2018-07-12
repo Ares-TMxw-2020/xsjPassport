@@ -6,5 +6,5 @@ package com.zjrb.passport.listener;
  * Author: sishuqun
  * Description: 重置通行证密码接口
  */
-public interface ZbResetPasswordListener extends IResult {
+public interface ZbFindPasswordListener extends IResult {
 }

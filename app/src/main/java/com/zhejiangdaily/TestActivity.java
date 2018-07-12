@@ -18,7 +18,7 @@ import com.zjrb.passport.listener.ZbGetInfoListener;
 import com.zjrb.passport.listener.ZbLoginListener;
 import com.zjrb.passport.listener.ZbLogoutListener;
 import com.zjrb.passport.listener.ZbRegisterListener;
-import com.zjrb.passport.listener.ZbResetPasswordListener;
+import com.zjrb.passport.listener.ZbFindPasswordListener;
 import com.zjrb.passport.listener.ZbUnBindThirdListener;
 
 import butterknife.ButterKnife;
@@ -83,7 +83,7 @@ public class TestActivity extends AppCompatActivity {
                 });
                 break;
             case R.id.sendRetrieveCaptcha:
-                ZbPassport.sendCaptcha(ZbConstants.SMS_RETRIEVE, phone, new ZbCaptchaSendListener() {
+                ZbPassport.sendCaptcha(ZbConstants.SMS_FIND, phone, new ZbCaptchaSendListener() {
                     @Override
                     public void onSuccess() {
                         showToast("下发绑定找回密码短信验证码接口 success");
@@ -188,7 +188,7 @@ public class TestActivity extends AppCompatActivity {
                 });
                 break;
             case R.id.resetPassword:
-                ZbPassport.findPassword(phone, "", "", new ZbResetPasswordListener() {
+                ZbPassport.findPassword(phone, "", "", new ZbFindPasswordListener() {
                     @Override
                     public void onSuccess() {
                         showToast("重置通行证密码接口 success");

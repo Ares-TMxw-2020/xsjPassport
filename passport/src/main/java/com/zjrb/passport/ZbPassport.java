@@ -9,11 +9,11 @@ import com.zjrb.passport.listener.ZbCaptchaSendListener;
 import com.zjrb.passport.listener.ZbCaptchaVerifyListener;
 import com.zjrb.passport.listener.ZbChangePasswordListener;
 import com.zjrb.passport.listener.ZbCheckPhoneListener;
+import com.zjrb.passport.listener.ZbFindPasswordListener;
 import com.zjrb.passport.listener.ZbGetInfoListener;
 import com.zjrb.passport.listener.ZbLoginListener;
 import com.zjrb.passport.listener.ZbLogoutListener;
 import com.zjrb.passport.listener.ZbRegisterListener;
-import com.zjrb.passport.listener.ZbResetPasswordListener;
 import com.zjrb.passport.listener.ZbUnBindThirdListener;
 
 /**
@@ -59,7 +59,7 @@ public class ZbPassport {
             case ZbConstants.SMS_LOGIN:
                 netWork.sendLoginCaptcha(phoneNumber, listener);
                 break;
-            case ZbConstants.SMS_RETRIEVE:
+            case ZbConstants.SMS_FIND:
                 netWork.sendRetrieveCaptcha(phoneNumber, listener);
                 break;
             case ZbConstants.SMS_BIND:
@@ -78,8 +78,8 @@ public class ZbPassport {
             case ZbConstants.SMS_LOGIN:
                 netWork.verifyLoginCaptcha(phoneNumber, captcha, listener);
                 break;
-            case ZbConstants.SMS_RETRIEVE:
-                netWork.verifyRetrieveCaptcha(phoneNumber, captcha, listener);
+            case ZbConstants.SMS_FIND:
+                netWork.verifyFindCaptcha(phoneNumber, captcha, listener);
                 break;
             case ZbConstants.SMS_BIND:
                 netWork.verifyBindCaptcha(phoneNumber, captcha, listener);
@@ -147,7 +147,11 @@ public class ZbPassport {
         netWork.changePassword(oldPassWord, newPassWord, listener);
     }
 
-    public static void findPassword(String phoneNumber, String captcha, String newPassword, ZbResetPasswordListener listener) {
+    public static void checkPassword(String oldPassword, final ZbCaptchaVerifyListener listener) {
+        netWork.checkPassWord(oldPassword, listener);
+    }
+
+    public static void findPassword(String phoneNumber, String captcha, String newPassword, ZbFindPasswordListener listener) {
         netWork.findPassword(phoneNumber, captcha, newPassword, listener);
     }
 

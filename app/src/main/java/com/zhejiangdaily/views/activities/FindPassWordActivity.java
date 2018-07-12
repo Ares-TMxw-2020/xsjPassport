@@ -51,8 +51,13 @@ public class FindPassWordActivity extends AppCompatActivity implements FindPassw
     }
 
     @Override
-    public void showDesc() {
-
+    public void showDesc(boolean visible) {
+        if (visible) {
+            mTvDesc.setVisibility(View.VISIBLE);
+            mTvDesc.setText("正在为你找回手机号");
+        } else {
+            mTvDesc.setVisibility(View.GONE);
+        }
     }
 
     @Override

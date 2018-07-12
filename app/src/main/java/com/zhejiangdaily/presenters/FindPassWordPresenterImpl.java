@@ -3,13 +3,15 @@ package com.zhejiangdaily.presenters;
 import android.content.Intent;
 import android.text.TextUtils;
 
+import com.zhejiangdaily.R;
 import com.zhejiangdaily.contracts.FindPasswordContract;
 import com.zhejiangdaily.utils.ToastUtil;
 import com.zhejiangdaily.utils.ZbUtil;
-import com.zhejiangdaily.views.activities.NewPassWordActivity;
+import com.zhejiangdaily.views.activities.FindNewPassWordActivity;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.listener.ZbCaptchaSendListener;
+import com.zjrb.passport.listener.ZbCaptchaVerifyListener;
 
 /**
  * Date: 2018/7/10 下午5:39
@@ -28,7 +30,7 @@ public class FindPassWordPresenterImpl implements FindPasswordContract.Presenter
     @Override
     public void sendSms(String phoneNum) {
         if (ZbUtil.isMobileNum(phoneNum)) {
-            ZbPassport.sendCaptcha(ZbConstants.SMS_RETRIEVE,phoneNum, new ZbCaptchaSendListener() {
+            ZbPassport.sendCaptcha(ZbConstants.SMS_FIND,phoneNum, new ZbCaptchaSendListener() {
                 @Override
                 public void onSuccess() {
 
@@ -50,15 +52,27 @@ public class FindPassWordPresenterImpl implements FindPasswordContract.Presenter
     }
 
     @Override
-    public void doNext(String phoneNum, String sms) {
-        // TODO: 2018/7/10
-        boolean success = true; // 校验验证码 成功 跳输入新密码界面
-        if (success) {
-            Intent intent = new Intent(view.getIActivity(), NewPassWordActivity.class);
-            // TODO: 2018/7/10 传参
-            view.getIActivity().startActivity(intent);
-        } else {
-            view.showDesc();
-        }
+    public void doNext(final String phoneNum, final String sms) {
+        ZbPassport.verifyCaptcha(ZbConstants.SMS_FIND, phoneNum, sms, new ZbCaptchaVerifyListener() {
+            @Override
+            public void onSuccess(boolean isValid) {
+                if (isValid) {
+                    Intent intent = new Intent(view.getIActivity(), FindNewPassWordActivity.class);
+                    intent.putExtra("phoneNum", phoneNum);
+                    intent.putExtra("sms", sms);
+                    view.getIActivity().startActivity(intent);
+                    view.showDesc(false);
+                } else {
+                    view.showDesc(true); //失败时显示描述"您正在为xxx找回密码"
+                    ToastUtil.showTextWithImage(R.mipmap.ic_qq, "验证码错误");
+                }
+            }
+
+            @Override
+            public void onFailure(int errorCode, String errorMessage) {
+                view.showDesc(true); //失败时显示描述"您正在为xxx找回密码"
+                ToastUtil.showTextWithImage(R.mipmap.ic_qq, "验证码错误");
+            }
+        });
     }
 }

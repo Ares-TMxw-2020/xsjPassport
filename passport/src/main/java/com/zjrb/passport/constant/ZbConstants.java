@@ -57,7 +57,7 @@ public final class ZbConstants {
     /**
      * 找回密码短信
      */
-    public static final int SMS_RETRIEVE = 3;
+    public static final int SMS_FIND = 3;
     /**
      * 绑定手机短信
      */
@@ -65,7 +65,7 @@ public final class ZbConstants {
 
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({SMS_REGISTER, SMS_LOGIN, SMS_RETRIEVE, SMS_BIND})
+    @IntDef({SMS_REGISTER, SMS_LOGIN, SMS_FIND, SMS_BIND})
     public @interface SmsType {
     }
 }

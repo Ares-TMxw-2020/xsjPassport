@@ -51,8 +51,9 @@
         <activity android:name="com.zhejiangdaily.views.activities.UserInfoActivity"/>
         <activity android:name="com.zhejiangdaily.views.activities.RegisterActvity"/>
         <activity android:name="com.zhejiangdaily.views.activities.FindPassWordActivity"/>
+        <activity android:name="com.zhejiangdaily.views.activities.FindNewPassWordActivity"/>
         <activity android:name="com.zhejiangdaily.views.activities.ChangePasswordActivity"/>
-        <activity android:name="com.zhejiangdaily.views.activities.NewPassWordActivity"/>
+        <activity android:name="com.zhejiangdaily.views.activities.ChangeNewPasswordActivity" />
         <activity android:name="com.zhejiangdaily.views.activities.ModifyActivity"/>
 
         <activity

@@ -77,7 +77,7 @@ public class RegisterActvity extends AppCompatActivity {
                     @Override
                     public void onSuccess(LoginInfo info) {
                         // todo屏幕中间的Toast
-                        ToastUtil.showTextWithImage(R.id.iv_qq, "注册成功");
+                        ToastUtil.showTextWithImage(R.mipmap.ic_qq, "注册成功");
                     }
 
                     @Override

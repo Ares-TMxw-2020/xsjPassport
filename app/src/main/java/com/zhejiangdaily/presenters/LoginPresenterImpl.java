@@ -5,6 +5,7 @@ import android.content.Intent;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zhejiangdaily.contracts.LoginContract;
 import com.zhejiangdaily.views.activities.FindPassWordActivity;
+import com.zhejiangdaily.views.activities.RegisterActvity;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.LoginInfo;
@@ -34,8 +35,9 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
 
     @Override
     public void login(String phone, String password) {
-        checkBind(phone, password);
-//        doLogin(phone, password);
+        // TODO: 2018/7/12 修改
+//        checkBind(phone, password);
+        doLogin(phone, password);
     }
 
     @Override
@@ -54,6 +56,12 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
                 break;
         }
 
+    }
+
+    @Override
+    public void gotoRegister() {
+        Intent intent = new Intent(view.getIActivity(), RegisterActvity.class);
+        view.getIActivity().startActivity(intent);
     }
 
     private void checkBind(final String phone, final String password) {

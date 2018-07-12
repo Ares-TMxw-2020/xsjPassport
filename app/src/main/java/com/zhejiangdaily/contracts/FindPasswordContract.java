@@ -11,11 +11,12 @@ import com.zhejiangdaily.presenters.BasePresenter;
 public interface FindPasswordContract {
 
     interface View extends BaseView {
-        void showDesc(); // 验证码错误时显示找回密码提示
+        void showDesc(boolean visible); // 验证码错误时显示找回密码提示
     }
 
     interface Presenter extends BasePresenter {
-        void sendSms(String phoneNum); // 发送验证码
+
+        void sendSms(String sms); // 发送验证码
 
         void doNext(String phoneNum, String sms); // 验证验证码
     }

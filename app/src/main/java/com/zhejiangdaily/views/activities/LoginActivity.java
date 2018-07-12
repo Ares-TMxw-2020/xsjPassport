@@ -113,6 +113,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                 loginPresenter.login(etPhone.getText().toString(), etPassword.getText().toString());
                 break;
             case R.id.tv_register:
+                loginPresenter.gotoRegister();
                 break;
             case R.id.tv_forget_pwd:
                 loginPresenter.findPassWord(); // 进入找回密码界面

@@ -134,6 +134,11 @@ public class ApiManager {
         public static final String PASSPORT_CHANGE_PASSWORD = "/api/passport/change_password";
 
         /**
+         * 在修改密码时，检查原密码是否正确的接口 get
+         */
+        public static final String PASSPORT_CHECK_PASSWORD = "/api/passport/check_password";
+
+        /**
          * 重置浙报通行证密码接口 post
          */
         public static final String PASSPORT_RESET_PASSWORD = "/api/passport/reset_password";

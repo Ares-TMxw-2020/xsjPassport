@@ -18,6 +18,8 @@ public interface LoginContract {
         void login(String phone, String password);
 
         void loginThird(SHARE_MEDIA platform, String uid);
+
+        void gotoRegister();
     }
 
     interface View extends BaseView {
