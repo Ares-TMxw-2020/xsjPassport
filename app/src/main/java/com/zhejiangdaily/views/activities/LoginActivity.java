@@ -68,12 +68,21 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
                      @Override
                      public void onRight() {
-
+                         intentRegister();
                      }
                  });
         tipDialog.show();
     }
 
+    private void intentRegister() {
+        startActivity(new Intent(this, RegisterActvity.class));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        umPresenter.onUmCallback(requestCode, resultCode, data);
+    }
 
     @Override
     public void umLogin(boolean isSuccess, SHARE_MEDIA platform, String uid) {

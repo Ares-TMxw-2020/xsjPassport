@@ -1,5 +1,7 @@
 package com.zhejiangdaily.presenters;
 
+import android.content.Intent;
+
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -22,6 +24,11 @@ public class UmLoginPresenterImpl implements UmLoginContract.Presenter {
     public UmLoginPresenterImpl(UmLoginContract.View view) {
         this.view = view;
         shareAPI = UMShareAPI.get(this.view.getIActivity());
+    }
+
+    @Override
+    public void onUmCallback(int requestCode, int resultCode, Intent data) {
+        shareAPI.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

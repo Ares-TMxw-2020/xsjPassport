@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right|center"
-            android:text="已绑定"
+            android:text="未绑定"
             android:textColor="@color/color_blue"/>
     </LinearLayout>
 
@@ -104,7 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right|center"
-            android:text="已绑定"
+            android:text="未绑定"
             android:textColor="@color/color_blue"/>
     </LinearLayout>
 
@@ -133,7 +133,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right|center"
-            android:text="已绑定"
+            android:text="未绑定"
             android:textColor="@color/color_blue"/>
     </LinearLayout>
 

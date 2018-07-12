@@ -108,7 +108,7 @@ public final class ZbConfig {
         }
     }
 
-    public void setToken(String token) {
+    void setToken(String token) {
         this.token = token;
     }
 

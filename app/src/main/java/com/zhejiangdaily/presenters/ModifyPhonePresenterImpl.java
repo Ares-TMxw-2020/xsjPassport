@@ -3,8 +3,8 @@ package com.zhejiangdaily.presenters;
 import com.zhejiangdaily.contracts.ModifyPhoneContract;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ZbConstants;
-import com.zjrb.passport.listener.ZbBindListener;
-import com.zjrb.passport.listener.ZbListener;
+import com.zjrb.passport.listener.ZbBindPhoneListener;
+import com.zjrb.passport.listener.ZbCaptchaSendListener;
 
 /**
  * Function: ModifyPhonePresenterImpl
@@ -21,7 +21,7 @@ public class ModifyPhonePresenterImpl implements ModifyPhoneContract.Presenter {
 
     @Override
     public void sendCaptcha(String phone) {
-        ZbPassport.sendCaptcha(ZbConstants.SMS_BIND, phone, new ZbListener() {
+        ZbPassport.sendCaptcha(ZbConstants.SMS_BIND, phone, new ZbCaptchaSendListener() {
             @Override
             public void onSuccess() {
                 view.sendCaptcha(true, null);
@@ -36,7 +36,7 @@ public class ModifyPhonePresenterImpl implements ModifyPhoneContract.Presenter {
 
     @Override
     public void modifyPhone(final String phone, String captcha) {
-        ZbPassport.bindPhone(phone, captcha, new ZbBindListener() {
+        ZbPassport.bindPhone(phone, captcha, new ZbBindPhoneListener() {
             @Override
             public void onSuccess() {
                 view.modifyPhone(true, phone, null);

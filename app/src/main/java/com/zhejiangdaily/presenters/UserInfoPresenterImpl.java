@@ -9,9 +9,10 @@ import com.zhejiangdaily.views.activities.ModifyActivity;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.domain.ZbInfoEntity;
+import com.zjrb.passport.listener.ZbBindThirdListener;
 import com.zjrb.passport.listener.ZbGetInfoListener;
-import com.zjrb.passport.listener.ZbListener;
 import com.zjrb.passport.listener.ZbLogoutListener;
+import com.zjrb.passport.listener.ZbUnBindThirdListener;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -110,7 +111,7 @@ public class UserInfoPresenterImpl implements UserInfoContract.Presenter {
             default:
                 return;
         }
-        ZbPassport.bindThird(type, uid, new ZbListener() {
+        ZbPassport.bindThird(type, uid, new ZbBindThirdListener() {
             @Override
             public void onSuccess() {
                 view.bindThird(true, type, null);
@@ -125,7 +126,7 @@ public class UserInfoPresenterImpl implements UserInfoContract.Presenter {
 
     @Override
     public void unbindThird(final int platform) {
-        ZbPassport.unbindThird(platform, new ZbListener() {
+        ZbPassport.unbindThird(platform, new ZbUnBindThirdListener() {
             @Override
             public void onSuccess() {
                 view.unBindThird(true, platform, null);

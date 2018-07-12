@@ -6,6 +6,5 @@ package com.zjrb.passport.listener;
  * Author: sishuqun
  * Description: 退出登录接口
  */
-public interface ZbLogoutListener extends IFailure {
-    void onSuccess();
+public interface ZbLogoutListener extends IResult {
 }

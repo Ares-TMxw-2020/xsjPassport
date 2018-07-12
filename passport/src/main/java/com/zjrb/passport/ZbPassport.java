@@ -3,15 +3,18 @@ package com.zjrb.passport;
 import android.content.Context;
 
 import com.zjrb.passport.constant.ZbConstants;
-import com.zjrb.passport.listener.ZbBindListener;
+import com.zjrb.passport.listener.ZbBindPhoneListener;
+import com.zjrb.passport.listener.ZbBindThirdListener;
+import com.zjrb.passport.listener.ZbCaptchaSendListener;
+import com.zjrb.passport.listener.ZbCaptchaVerifyListener;
 import com.zjrb.passport.listener.ZbChangePasswordListener;
 import com.zjrb.passport.listener.ZbCheckListener;
 import com.zjrb.passport.listener.ZbGetInfoListener;
-import com.zjrb.passport.listener.ZbListener;
 import com.zjrb.passport.listener.ZbLoginListener;
 import com.zjrb.passport.listener.ZbLogoutListener;
 import com.zjrb.passport.listener.ZbRegisterListener;
 import com.zjrb.passport.listener.ZbResetPasswordListener;
+import com.zjrb.passport.listener.ZbUnBindThirdListener;
 
 /**
  * Function: ZbPassport
@@ -48,7 +51,7 @@ public class ZbPassport {
     }
 
 
-    public static void sendCaptcha(@ZbConstants.SmsType int smsType, String phoneNumber, ZbListener listener) {
+    public static void sendCaptcha(@ZbConstants.SmsType int smsType, String phoneNumber, ZbCaptchaSendListener listener) {
         switch (smsType) {
             case ZbConstants.SMS_REGISTER:
                 netWork.sendRegisterCaptcha(phoneNumber, listener);
@@ -67,7 +70,7 @@ public class ZbPassport {
         }
     }
 
-    public static void verifyCaptcha(@ZbConstants.SmsType int smsType, String phoneNumber, String captcha, ZbListener listener) {
+    public static void verifyCaptcha(@ZbConstants.SmsType int smsType, String phoneNumber, String captcha, ZbCaptchaVerifyListener listener) {
         switch (smsType) {
             case ZbConstants.SMS_REGISTER:
                 netWork.verifyRegisterCaptcha(phoneNumber, captcha, listener);
@@ -155,7 +158,7 @@ public class ZbPassport {
      * @param captcha
      * @param listener
      */
-    public static void bindPhone(String phoneNumber, String captcha, ZbBindListener listener) {
+    public static void bindPhone(String phoneNumber, String captcha, ZbBindPhoneListener listener) {
         netWork.bindPhone(phoneNumber, captcha, listener);
     }
 
@@ -179,11 +182,11 @@ public class ZbPassport {
     }
 
 
-    public static void bindThird(@ZbConstants.ThirdType int thirdType, String thirdUnionId, ZbListener listener) {
+    public static void bindThird(@ZbConstants.ThirdType int thirdType, String thirdUnionId, ZbBindThirdListener listener) {
         netWork.bindThird(thirdType, thirdUnionId, listener);
     }
 
-    public static void unbindThird(@ZbConstants.ThirdType int thirdType, ZbListener listener) {
+    public static void unbindThird(@ZbConstants.ThirdType int thirdType, ZbUnBindThirdListener listener) {
         netWork.unbindThird(thirdType, listener);
     }
 

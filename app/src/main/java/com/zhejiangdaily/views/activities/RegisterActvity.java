@@ -18,7 +18,7 @@ import com.zjrb.passport.StatusCode;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.domain.ZbInfoEntity;
-import com.zjrb.passport.listener.ZbListener;
+import com.zjrb.passport.listener.ZbCaptchaSendListener;
 import com.zjrb.passport.listener.ZbRegisterListener;
 
 import butterknife.BindView;
@@ -118,7 +118,7 @@ public class RegisterActvity extends AppCompatActivity {
             case R.id.tv_send:
                 // 校验手机号
                 if (ZbUtil.isMobileNum(phoneNum)) {
-                    ZbPassport.sendCaptcha(ZbConstants.SMS_REGISTER, phoneNum, new ZbListener() {
+                    ZbPassport.sendCaptcha(ZbConstants.SMS_REGISTER, phoneNum, new ZbCaptchaSendListener() {
                         @Override
                         public void onSuccess() {
                             showToast("下发注册短信验证码接口 success");

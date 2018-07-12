@@ -6,6 +6,5 @@ package com.zjrb.passport.listener;
  * Author: sishuqun
  * Description: 更改通行证密码接口
  */
-public interface ZbChangePasswordListener extends IFailure {
-    void onSuccess();
+public interface ZbChangePasswordListener extends IResult {
 }

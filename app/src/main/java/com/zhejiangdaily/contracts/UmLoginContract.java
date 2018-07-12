@@ -1,5 +1,7 @@
 package com.zhejiangdaily.contracts;
 
+import android.content.Intent;
+
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zhejiangdaily.presenters.BasePresenter;
 
@@ -13,6 +15,8 @@ public interface UmLoginContract {
 
     interface Presenter extends BasePresenter {
         void umLogin(SHARE_MEDIA platform);
+
+        void onUmCallback(int requestCode, int resultCode, Intent data);
     }
 
     interface View extends BaseView {

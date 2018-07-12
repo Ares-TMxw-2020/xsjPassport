@@ -7,7 +7,7 @@ import com.zhejiangdaily.utils.ToastUtil;
 import com.zhejiangdaily.utils.ZbUtil;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ZbConstants;
-import com.zjrb.passport.listener.ZbListener;
+import com.zjrb.passport.listener.ZbCaptchaSendListener;
 
 /**
  * Date: 2018/7/12 上午11:46
@@ -26,7 +26,7 @@ public class ChangePassWordPresenterImpl implements ChangePasswordContract.Prese
     @Override
     public void doNext(String phoneNum) {
         if (ZbUtil.isMobileNum(phoneNum)) {
-            ZbPassport.sendCaptcha(ZbConstants.SMS_RETRIEVE, phoneNum, new ZbListener() {
+            ZbPassport.sendCaptcha(ZbConstants.SMS_RETRIEVE, phoneNum, new ZbCaptchaSendListener() {
                 @Override
                 public void onSuccess() {
 
