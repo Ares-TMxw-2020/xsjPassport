@@ -173,7 +173,7 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_modify:
-
+                infoPresenter.intentModify();
                 break;
             case R.id.ll_phone:
                 infoPresenter.intentBindPhone();

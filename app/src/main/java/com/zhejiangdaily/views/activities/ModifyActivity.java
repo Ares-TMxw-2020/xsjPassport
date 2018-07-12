@@ -37,7 +37,7 @@ public class ModifyActivity extends AppCompatActivity {
                 startActivityForResult(new Intent(this, ModifyPhoneActivity.class), requestCode);
                 break;
             case R.id.ll_modify_password:
-//                startActivity(new Intent(this,));
+                startActivity(new Intent(this, ChangePasswordActivity.class));
                 break;
         }
     }

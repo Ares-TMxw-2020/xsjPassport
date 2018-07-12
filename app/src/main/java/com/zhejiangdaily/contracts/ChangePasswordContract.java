@@ -15,9 +15,8 @@ public interface ChangePasswordContract {
     }
 
     interface Presenter extends BasePresenter {
-        void sendSms(String phoneNum); // 发送验证码
 
-        void doNext(String phoneNum, String sms); // 验证验证码
+        void doNext(String passWord); // 验证旧密码
     }
 
 }
