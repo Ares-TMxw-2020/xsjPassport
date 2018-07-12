@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-
 android {
     compileSdkVersion 26
     defaultConfig {
@@ -10,11 +9,87 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+    signingConfigs {
+        if (existSignConfig) {
+            release {
+                storeFile file(signingStoreFile)
+                storePassword signingStorePassword
+                keyAlias signingKeyAlias
+                keyPassword signingKeyPassword
+                v2SigningEnabled true
+            }
         }
+    }
+
+
+
+    buildTypes {
+
+        debug {
+            buildConfigField "boolean", "API_DEBUG", "true"
+            minifyEnabled false
+            debuggable true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            if (existSignConfig) {
+                signingConfig signingConfigs.release
+            }
+
+            manifestPlaceholders = [
+                    UMENG_APPKEY    : "535879d256240b8965030920",
+                    GETUI_APP_ID    : "b31poVAPhj6n85jPUP2Yf",
+                    GETUI_APP_KEY   : "j5qQbBBWHmAxzxO8xD0yx3",
+                    GETUI_APP_SECRET: "B51LUkWJf59bpfYib0CiU2",
+                    MW_APPID        : "B5CYHNBKB3SSNGJXX10D2UJVJAU7G3T8",
+
+              /*      // 个推 - 小米辅助推送
+                    XIAOMI_APP_ID   : "2882303761517169025",
+                    XIAOMI_APP_KEY  : "5101716997025",
+                    // 个推 - 华为辅助推送
+                    HUAWEI_APP_ID   : "10195606",
+                    // 个推 - 魅族辅助推送
+                    MEIZU_APP_ID    : "112126",
+                    MEIZU_APP_KEY   : "598da763833543e6bca03ecaa2594c32",
+
+                    //个象id
+                    INSIGHT_ID      : "HqZhshqRCM6u1nqcobzoL6"*/
+            ]
+        }
+
+        release {
+            buildConfigField "boolean", "API_DEBUG", "false"
+            minifyEnabled true
+            debuggable false
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            if (existSignConfig) {
+                signingConfig signingConfigs.release
+            }
+
+            manifestPlaceholders = [
+                    UMENG_APPKEY    : "535879d256240b8965030920",
+                    GETUI_APP_ID    : "fJepuPhC72Aj4BKQN1o9J9",
+                    GETUI_APP_KEY   : "fZo4uSKT5aAZ3GRMbAvuz2",
+                    GETUI_APP_SECRET: "JycGu6bv5i5M1xY2ise9K2",
+                    MW_APPID        : "B5CYHNBKB3SSNGJXX10D2UJVJAU7G3T8",
+
+                 /*   // 个推 - 小米辅助推送
+                    XIAOMI_APP_ID   : "2882303761517169025",
+                    XIAOMI_APP_KEY  : "5101716997025",
+                    // 个推 - 华为辅助推送
+                    HUAWEI_APP_ID   : "10195606",
+                    // 个推 - 魅族辅助推送
+                    MEIZU_APP_ID    : "1001058",
+                    MEIZU_APP_KEY   : "d89baded4cfa4ece8f5277ee2c3d4b86",
+
+                    //个象id
+                    INSIGHT_ID      : "zUZpTnxTGc9w5fwO8EpBeA"*/
+            ]
+        }
+//        release {
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//        }
     }
 }
 
