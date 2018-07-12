@@ -1,6 +1,6 @@
 package com.zjrb.passport.listener;
 
-import com.zjrb.passport.domain.LoginInfo;
+import com.zjrb.passport.LoginInfo;
 
 /**
  * Function: ILoginResult

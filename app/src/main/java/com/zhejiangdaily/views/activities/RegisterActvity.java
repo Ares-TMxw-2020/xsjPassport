@@ -14,7 +14,7 @@ import com.zhejiangdaily.R;
 import com.zhejiangdaily.utils.ToastUtil;
 import com.zhejiangdaily.utils.ZbUtil;
 import com.zhejiangdaily.views.dialogs.ZBDialog;
-import com.zjrb.passport.domain.LoginInfo;
+import com.zjrb.passport.LoginInfo;
 import com.zjrb.passport.StatusCode;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ZbConstants;

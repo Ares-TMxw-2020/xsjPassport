@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.zjrb.passport.ZbPassport;
-import com.zjrb.passport.domain.LoginInfo;
+import com.zjrb.passport.LoginInfo;
 import com.zjrb.passport.listener.ILoginResult;
 
 import org.json.JSONArray;

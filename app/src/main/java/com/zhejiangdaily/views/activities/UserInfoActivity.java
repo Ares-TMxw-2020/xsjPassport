@@ -17,7 +17,7 @@ import com.zhejiangdaily.contracts.UmLoginContract;
 import com.zhejiangdaily.contracts.UserInfoContract;
 import com.zhejiangdaily.presenters.UserInfoPresenterImpl;
 import com.zhejiangdaily.utils.ToastUtil;
-import com.zjrb.passport.domain.LoginInfo;
+import com.zjrb.passport.LoginInfo;
 import com.zjrb.passport.constant.ZbConstants;
 
 import java.util.List;

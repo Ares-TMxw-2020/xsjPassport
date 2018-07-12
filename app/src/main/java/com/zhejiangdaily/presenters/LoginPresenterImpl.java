@@ -7,7 +7,7 @@ import com.zhejiangdaily.contracts.LoginContract;
 import com.zhejiangdaily.views.activities.FindPassWordActivity;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ZbConstants;
-import com.zjrb.passport.domain.LoginInfo;
+import com.zjrb.passport.LoginInfo;
 import com.zjrb.passport.listener.ZbCheckPhoneListener;
 import com.zjrb.passport.listener.ZbLoginListener;
 
