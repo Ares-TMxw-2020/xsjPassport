@@ -3,12 +3,23 @@ package com.zhejiangdaily;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.zhejiangdaily.views.activities.RegisterActvity;
+import com.zhejiangdaily.utils.ToastUtil;
+import com.zhejiangdaily.utils.ZbUtil;
 import com.zhejiangdaily.views.activities.LoginActivity;
+import com.zhejiangdaily.views.activities.RegisterActvity;
+import com.zhejiangdaily.views.activities.UserInfoActivity;
+import com.zhejiangdaily.views.dialogs.TipDialog;
+import com.zjrb.passport.LoginInfo;
+import com.zjrb.passport.ZbPassport;
+import com.zjrb.passport.constant.ZbConstants;
+import com.zjrb.passport.listener.ZbCaptchaSendListener;
+import com.zjrb.passport.listener.ZbCheckPhoneListener;
+import com.zjrb.passport.listener.ZbLoginListener;
 import com.zjrb.passport.net.ZbHttpClient;
 
 import butterknife.BindView;
@@ -36,9 +47,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        client = new ZbHttpClient.Builder().connTimeOut(10 * 1000)
-                .readTimeOut(10 * 1000)
-                .writeTimeOut(10 * 1000)
+        client = new ZbHttpClient.Builder().connTimeOut(5 * 1000)
+                .readTimeOut(20 * 1000)
+                .writeTimeOut(20 * 1000)
                 .build();
     }
 
@@ -47,7 +58,16 @@ public class MainActivity extends AppCompatActivity {
         switch (v.getId()) {
             default:
                 break;
-            case R.id.tv_login:
+            case R.id.tv_login: // 手机号验证码登录
+                if (ZbUtil.isMobileNum(mEtPhone.getText().toString())) {
+                    checkBind(mEtPhone.getText().toString(), mEtCaptcha.getText().toString()); // 先检查手机号是否已绑定浙报通行证,已绑定的直接登录,未绑定的提示注册
+                } else {
+                    if (TextUtils.isEmpty(mEtPhone.getText().toString())) {
+                        ToastUtil.show("请输入手机号");
+                    } else {
+                        ToastUtil.show("非手机号格式");
+                    }
+                }
                 break;
             case R.id.tv_password_login:
                 Intent intent = new Intent(this, LoginActivity.class);
@@ -58,124 +78,82 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(registerIntent);
                 break;
             case R.id.tv_send:
+                if (ZbUtil.isMobileNum(mEtPhone.getText().toString())) {
+                    ZbPassport.sendCaptcha(ZbConstants.SMS_LOGIN, mEtPhone.getText().toString(), new ZbCaptchaSendListener() {
+                        @Override
+                        public void onSuccess() {
+                            ToastUtil.show("下发登录短信验证码接口 success");
+                        }
+
+                        @Override
+                        public void onFailure(int errorCode, String errorMessage) {
+                            ToastUtil.show(errorMessage);
+                        }
+                    });
+                } else {
+                    if (TextUtils.isEmpty(mEtPhone.getText().toString())) {
+                        ToastUtil.show("请输入手机号");
+                    } else {
+                        ToastUtil.show("非手机号格式");
+                    }
+                }
                 break;
         }
     }
 
-  /*  public void sendRegisterCaptcha(View view) {
-        ZbPassport.sendRegisterCaptcha("13758284975", new ZbListener() {
+    private void checkBind(final String phone, final String password) {
+        ZbPassport.checkBindState(phone, new ZbCheckPhoneListener() {
             @Override
-            public void onSuccess() {
-                Toast.makeText(MainActivity.this, "Success", Toast.LENGTH_SHORT).show();
+            public void onSuccess(boolean isBind) {
+                if (isBind) {
+                    doLogin(phone, password);
+                } else {
+                    TipDialog tipDialog = new TipDialog(MainActivity.this);
+                    tipDialog.setTitle("提示")
+                            .setMessage("此手机号尚未注册，请先注册")
+                            .setLeft("取消")
+                            .setRight("注册")
+                            .setListener(new TipDialog.Listener() {
+                                @Override
+                                public void onLeft() {
+
+                                }
+
+                                @Override
+                                public void onRight() {
+                                    startActivity(new Intent(MainActivity.this, RegisterActvity.class));
+                                }
+                            });
+                    tipDialog.show();
+                }
             }
 
             @Override
             public void onFailure(int errorCode, String errorMessage) {
-
+                doLogin(phone, password); // 绑定态查询失败,尝试登录
             }
         });
     }
 
-    *//**
-     * 同步get请求
-     *
-     * @param view
-     *//*
-    public void syncGetTest(View view) {
-        Request request = null;
-        try {
-            FormBody body = new FormBody.Builder().add("menu", "土豆").add("rn", "15").add("start", "1").build();
-            request = new Request.Builder().get(body).url("http://caipu.yjghost.com/index.php/query/read").build();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            Response response = client.newCall(request).execute();
-            if (response.code() == 200) {
-                Toast.makeText(this, "同步get请求成功  code =" + response.code(), Toast.LENGTH_SHORT).show();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    /**
+     * 手机号验证码登录
+     * @param phone
+     * @param password
+     */
+    private void doLogin(String phone, String password) {
+        ZbPassport.loginCaptcha(phone, password, new ZbLoginListener() {
 
-    *//**
-     * 同步post
-     *
-     * @param view
-     *//*
-    public void syncPostTest(View view) {
-        Request request = null;
-        try {
-            request = new Request.Builder().post(null).url("https://apibeta.8531.cn/api/account/init").build();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            Response response = client.newCall(request).execute();
-            if (response.code() == 200) {
-                Toast.makeText(this, "同步Post请求成功  code =" + response.code(), Toast.LENGTH_SHORT).show();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    *//**
-     * 异步get
-     *
-     * @param view
-     *//*
-    public void aSyncGetTest(View view) {
-        Request request = null;
-        try {
-            FormBody body = new FormBody.Builder().add("menu", "土豆").add("rn", "15").add("start", "1").build();
-            request = new Request.Builder().get(body).url("http://caipu.yjghost.com/index.php/query/read").build();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        client.newCall(request).enqueue(new CallBack() {
             @Override
-            public void onSuccess(Response response) throws IOException {
-                Toast.makeText(MainActivity.this, "异步GET请求成功  code =" + response.code(), Toast.LENGTH_SHORT).show();
+            public void onSuccess(LoginInfo loginInfo) {
+                ToastUtil.show("Login Success");
+                startActivity(new Intent(MainActivity.this, UserInfoActivity.class));
             }
 
             @Override
-            public void onFail(Request call, IOException e) {
-                Toast.makeText(MainActivity.this, "异步GET请求失败", Toast.LENGTH_SHORT).show();
-
+            public void onFailure(int errorCode, String errorMessage) {
+                ToastUtil.show(errorMessage);
             }
         });
     }
 
-    *//**
-     * 异步post
-     *
-     * @param view
-     *//*
-    public void aSyncPostTest(View view) {
-
-        Request request = null;
-        try {
-            FormBody body = new FormBody.Builder().add("url_scheme", "https://zjbeta.8531.cn/subject.html?id=1475")
-                                                  .add("action", "true")
-                                                  .add("id", "1475")
-                                                  .build();
-            request = new Request.Builder().post(body).url("https://apibeta.8531.cn/api/favorite/collect").build();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        client.newCall(request).enqueue(new CallBack() {
-            @Override
-            public void onSuccess(Response response) throws IOException {
-                Toast.makeText(MainActivity.this, "异步Post请求成功  code =" + response.code(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFail(Request call, IOException e) {
-                Toast.makeText(MainActivity.this, "异步Post请求失败", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }*/
 }
