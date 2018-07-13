@@ -87,7 +87,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Override
     public void umLogin(boolean isSuccess, SHARE_MEDIA platform, String uid) {
         if (isSuccess) {
-            ToastUtil.show("Third login success");
             loginPresenter.loginThird(platform, uid);
         } else {
             ToastUtil.show("Third login Fail");

@@ -57,7 +57,9 @@ public class ModifyPhoneActivity extends AppCompatActivity implements ModifyPhon
 
     @Override
     public void sendCaptcha(boolean isSuccess, String errorMsg) {
-        if (!isSuccess) {
+        if (isSuccess) {
+            ToastUtil.show("验证码发送成功");
+        } else {
             ToastUtil.show(errorMsg);
         }
     }

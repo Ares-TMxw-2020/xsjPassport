@@ -77,11 +77,13 @@ public class BindPhoneActivity extends AppCompatActivity implements BindPhoneCon
                 etCaptcha.setVisibility(View.VISIBLE);
                 tvSend.setVisibility(View.VISIBLE);
                 tvBind.setText("绑 定");
+                shMerge.setVisibility(View.GONE);
                 break;
             default:
                 etPhone.setVisibility(View.VISIBLE);
                 etCaptcha.setVisibility(View.GONE);
                 tvSend.setVisibility(View.GONE);
+                shMerge.setVisibility(View.VISIBLE);
                 tvBind.setText("下一步");
                 break;
         }
@@ -145,7 +147,9 @@ public class BindPhoneActivity extends AppCompatActivity implements BindPhoneCon
 
     @Override
     public void sendCaptcha(boolean isSuccess, String errorMsg) {
-        if (!isSuccess) {
+        if (isSuccess) {
+            ToastUtil.show("验证码发送成功");
+        } else {
             ToastUtil.show(errorMsg);
         }
     }

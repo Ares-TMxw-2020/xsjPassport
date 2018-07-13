@@ -35,9 +35,8 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
 
     @Override
     public void login(String phone, String password) {
-        // TODO: 2018/7/12 修改
-//        checkBind(phone, password);
-        doLogin(phone, password);
+        checkBind(phone, password);
+//        doLogin(phone, password);
     }
 
     @Override

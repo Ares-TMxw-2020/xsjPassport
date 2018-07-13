@@ -2,6 +2,9 @@ package com.zhejiangdaily.presenters;
 
 import com.zhejiangdaily.contracts.BindPhoneContract;
 import com.zjrb.passport.ZbPassport;
+import com.zjrb.passport.constant.ZbConstants;
+import com.zjrb.passport.listener.ZbBindPhoneListener;
+import com.zjrb.passport.listener.ZbCaptchaSendListener;
 import com.zjrb.passport.listener.ZbCheckPhoneListener;
 
 /**
@@ -33,11 +36,31 @@ public class BindPhonePresenterImpl implements BindPhoneContract.Presenter {
 
     @Override
     public void sendCaptcha(String phoneNumber) {
+        ZbPassport.sendCaptcha(ZbConstants.SMS_BIND, phoneNumber, new ZbCaptchaSendListener() {
+            @Override
+            public void onSuccess() {
+                view.sendCaptcha(true, null);
+            }
 
+            @Override
+            public void onFailure(int errorCode, String errorMessage) {
+                view.sendCaptcha(false, errorMessage);
+            }
+        });
     }
 
     @Override
     public void bindPhone(String phoneNumber, String captcha) {
+        ZbPassport.bindPhone(phoneNumber, captcha, new ZbBindPhoneListener() {
+            @Override
+            public void onSuccess() {
+                view.bindPhone(true, null);
+            }
 
+            @Override
+            public void onFailure(int errorCode, String errorMessage) {
+                view.bindPhone(false, errorMessage);
+            }
+        });
     }
 }

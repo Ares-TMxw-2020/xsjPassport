@@ -15,6 +15,7 @@ import com.zhejiangdaily.MainActivity;
 import com.zhejiangdaily.R;
 import com.zhejiangdaily.contracts.UmLoginContract;
 import com.zhejiangdaily.contracts.UserInfoContract;
+import com.zhejiangdaily.presenters.UmLoginPresenterImpl;
 import com.zhejiangdaily.presenters.UserInfoPresenterImpl;
 import com.zhejiangdaily.utils.ToastUtil;
 import com.zjrb.passport.LoginInfo;
@@ -54,7 +55,7 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
         setContentView(R.layout.activity_user_info);
         ButterKnife.bind(this);
         infoPresenter = new UserInfoPresenterImpl(this);
-//        umPresenter = new UmLoginPresenterImpl(this);
+        umPresenter = new UmLoginPresenterImpl(this);
         infoPresenter.getUserInfo();
     }
 
@@ -133,6 +134,7 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         infoPresenter.onIntentResult(requestCode, resultCode, data);
+        umPresenter.onUmCallback(requestCode, resultCode, data);
     }
 
     @Override

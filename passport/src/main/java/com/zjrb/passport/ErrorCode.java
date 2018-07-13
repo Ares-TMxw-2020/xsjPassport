@@ -1,16 +1,13 @@
 package com.zjrb.passport;
 
 /**
- * Function: StatusCode
+ * Function: ErrorCode
  * <p>
  * Author: chen.h
  * Date: 2018/7/4
  */
-public class StatusCode {
-    /**
-     * 成功
-     */
-    public static final int SUCCESS = 0;
+public class ErrorCode {
+
     /**
      * 内部服务器错误
      */

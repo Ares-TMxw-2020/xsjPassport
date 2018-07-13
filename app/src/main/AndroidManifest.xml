@@ -34,7 +34,7 @@
             android:name="ZBP_APP_ENV"
             android:value="dev"/>
 
-        <activity android:name="com.zhejiangdaily.TestActivity">
+        <activity android:name="com.zhejiangdaily.views.activities.TestActivity">
         </activity>
         <activity android:name="com.zhejiangdaily.MainActivity">
             <intent-filter>
@@ -45,7 +45,6 @@
         </activity>
 
         <activity android:name="com.zhejiangdaily.views.activities.LoginActivity"/>
-        <activity android:name="com.zhejiangdaily.views.activities.QuickLoginActivity"/>
         <activity android:name="com.zhejiangdaily.views.activities.BindPhoneActivity"/>
         <activity android:name="com.zhejiangdaily.views.activities.ModifyPhoneActivity"/>
         <activity android:name="com.zhejiangdaily.views.activities.UserInfoActivity"/>
