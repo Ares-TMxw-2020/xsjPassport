@@ -40,7 +40,7 @@ public class LoginJsonProcessor implements JsonProcessor {
         info.setCurrentLoginType(jsonObject.optInt("current_auth_type"));
         info.setNewUser(jsonObject.optBoolean("is_new"));
 
-        JSONArray jsonArray = jsonObject.getJSONArray("binding_list");
+        JSONArray jsonArray = jsonObject.optJSONArray("binding_list");
         if (jsonArray != null) {
             List<LoginInfo.ThirdInfo> list = new ArrayList<>();
             for (int i = 0, length = jsonArray.length(); i < length; i++) {
