@@ -1,0 +1,3 @@
+ext {
+    passportVersion = "1.0"
+}

@@ -19,7 +19,6 @@ import java.net.URLEncoder;
  * Date: 2018/6/28
  */
 public final class ZbConfig {
-    private static final String SDK_VER = "1.0";
     private int appId;
     private String appKey;
     private String appSecret;
@@ -110,7 +109,7 @@ public final class ZbConfig {
           .append(";")
           .append(appVersion)
           .append(";")
-          .append(SDK_VER)
+          .append(BuildConfig.PASSPORT_VERSION)
           .append(";")
           .append(appUuid)
           .append(";")
