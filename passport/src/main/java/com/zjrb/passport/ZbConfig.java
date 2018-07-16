@@ -3,10 +3,14 @@ package com.zjrb.passport;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 
 import com.zjrb.passport.constant.InnerConstant;
 import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.util.Logger;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 /**
  * Function: ZbConfig
@@ -15,13 +19,16 @@ import com.zjrb.passport.util.Logger;
  * Date: 2018/6/28
  */
 public final class ZbConfig {
-
+    private static final String SDK_VER = "1.0";
     private int appId;
     private String appKey;
     private String appSecret;
     private int envType;
     private String token;
     private boolean isDebug;
+    private String appVersion;
+    private String appUuid;
+    private String ua;
 
     ZbConfig(Context context) {
         ApplicationInfo info = null;
@@ -85,6 +92,40 @@ public final class ZbConfig {
         return token;
     }
 
+    public String getAppVersion() {
+        return appVersion;
+    }
+
+    public String getAppUuid() {
+        return appUuid;
+    }
+
+    public void initUA() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("ANDROID")
+          .append(";")
+          .append(Build.VERSION.RELEASE)
+          .append(";")
+          .append(appId)
+          .append(";")
+          .append(appVersion)
+          .append(";")
+          .append(SDK_VER)
+          .append(";")
+          .append(appUuid)
+          .append(";")
+          .append(Build.MODEL);
+        try {
+            ua = URLEncoder.encode(sb.toString(), InnerConstant.DEF_CODE);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getUA() {
+        return ua;
+    }
+
     void setAppId(int appId) {
         this.appId = appId;
     }
@@ -112,4 +153,12 @@ public final class ZbConfig {
         this.token = token;
     }
 
+
+    void setAppVersion(String appVersion) {
+        this.appVersion = appVersion;
+    }
+
+    void setAppUuid(String appUuid) {
+        this.appUuid = appUuid;
+    }
 }

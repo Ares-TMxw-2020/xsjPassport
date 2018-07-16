@@ -38,8 +38,12 @@ public class ZbPassport {
 
     public static void init(Context context, ZbConfigBuilder builder) {
         zbConfig = new ZbConfig(context);
-        builder.build(zbConfig);
         netWork = new NetWork();
+        setZbConfig(builder);
+    }
+
+    public static void setZbConfig(ZbConfigBuilder builder) {
+        builder.build(zbConfig);
     }
 
     public static void setToken(String token) {

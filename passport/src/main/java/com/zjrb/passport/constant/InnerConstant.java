@@ -7,6 +7,8 @@ package com.zjrb.passport.constant;
  * Date: 2018/7/4
  */
 public class InnerConstant {
+    public static final String DEF_CODE = "UTF-8";
+
     public static final String TOKEN = "access_token";
     public static final String APP_ID = "app_id";
     public static final String APP_KEY = "app_key";

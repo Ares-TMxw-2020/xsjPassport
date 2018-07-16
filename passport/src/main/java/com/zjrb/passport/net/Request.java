@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 
+import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.net.util.Util;
 
 import java.util.Map;
@@ -134,6 +135,7 @@ public class Request {
             if (body != null && !TextUtils.isEmpty(body.contentType())) {
                 headers.put("Content-Type", body.contentType());
             }
+            headers.put("UserAgent", ZbPassport.getZbConfig().getUA());
             headers.put("Connection", "Keep-Alive");
             headers.put("Charset", "UTF-8");
             return new Request(this);

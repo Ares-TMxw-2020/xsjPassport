@@ -43,10 +43,7 @@ public class NetWork {
     ZbHttpClient client;
 
     public NetWork() {
-        client = new ZbHttpClient.Builder().connTimeOut(10 * 1000)
-                                           .readTimeOut(10 * 1000)
-                                           .writeTimeOut(10 * 1000)
-                                           .build();
+        client = new ZbHttpClient.Builder().build();
     }
 
 

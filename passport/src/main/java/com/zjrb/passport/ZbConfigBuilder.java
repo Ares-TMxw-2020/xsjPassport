@@ -16,6 +16,8 @@ public class ZbConfigBuilder {
     private String appSecret;
     private int envType;
     private boolean isDebug;
+    private String appVersion;
+    private String appUuid;
 
     public ZbConfigBuilder setAppId(int appId) {
         this.appId = appId;
@@ -42,6 +44,16 @@ public class ZbConfigBuilder {
         return this;
     }
 
+    public ZbConfigBuilder setAppVersion(String appVersion) {
+        this.appVersion = appVersion;
+        return this;
+    }
+
+    public ZbConfigBuilder setAppUuid(String appUuid) {
+        this.appUuid = appUuid;
+        return this;
+    }
+
     public void build(ZbConfig zbConfig) {
         if (appId != 0) {
             zbConfig.setAppId(appId);
@@ -54,5 +66,8 @@ public class ZbConfigBuilder {
         }
         zbConfig.setEnvType(envType);
         zbConfig.setDebug(isDebug);
+        zbConfig.setAppVersion(appVersion);
+        zbConfig.setAppUuid(appUuid);
+        zbConfig.initUA();
     }
 }
