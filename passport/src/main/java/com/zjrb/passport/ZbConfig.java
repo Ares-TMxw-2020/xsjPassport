@@ -9,9 +9,6 @@ import com.zjrb.passport.constant.InnerConstant;
 import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.util.Logger;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 /**
  * Function: ZbConfig
  * <p>
@@ -115,11 +112,7 @@ public final class ZbConfig {
           .append(appUuid)
           .append(";")
           .append(Build.MODEL);
-        try {
-            ua = URLEncoder.encode(sb.toString(), InnerConstant.DEF_CODE);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        ua = sb.toString();
     }
 
     public String getUA() {
@@ -168,6 +161,7 @@ public final class ZbConfig {
 
     /**
      * 设置是否强制使用Https,只有debug条件下设置才有效
+     *
      * @param useHttps
      */
     public void setUseHttps(boolean useHttps) {

@@ -3,6 +3,8 @@ package com.zjrb.passport.net;
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 
+import com.zjrb.passport.constant.InnerConstant;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
@@ -32,7 +34,7 @@ public class FormBody extends RequestBody {
     @Override
     void writeTo(OutputStream outputStream) throws IOException {
         try {
-            outputStream.write(transferToString().getBytes("UTF-8"));
+            outputStream.write(transferToString().getBytes(InnerConstant.DEF_CODE));
             outputStream.flush();
         } finally {
             if (outputStream != null) {
@@ -52,9 +54,9 @@ public class FormBody extends RequestBody {
                 if (TextUtils.isEmpty(s)) {
                     continue;
                 }
-                sb.append(URLEncoder.encode(s, "UTF-8"));
+                sb.append(URLEncoder.encode(s, InnerConstant.DEF_CODE));
                 sb.append("=");
-                sb.append(URLEncoder.encode(map.get(s) == null ? "" : map.get(s), "UTF-8"));
+                sb.append(URLEncoder.encode(map.get(s) == null ? "" : map.get(s), InnerConstant.DEF_CODE));
             }
             return sb.toString();
         }

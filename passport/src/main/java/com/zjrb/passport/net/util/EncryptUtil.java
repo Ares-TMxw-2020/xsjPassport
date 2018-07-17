@@ -1,5 +1,7 @@
 package com.zjrb.passport.net.util;
 
+import com.zjrb.passport.constant.InnerConstant;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -23,8 +25,7 @@ public class EncryptUtil {
             sb.setLength(sb.length() - 1);
             sb.append("%%");
         }
-        //TODO 盐值动态更换？
-        sb.append("6tAn>tm*o7M+ba");
+        sb.append(InnerConstant.SALT);
         return encrypt(sb.toString());
     }
 
@@ -32,7 +33,7 @@ public class EncryptUtil {
         String result = str;
         try {
             MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
-            sha256.update(str.getBytes("UTF-8"));
+            sha256.update(str.getBytes(InnerConstant.DEF_CODE));
             byte[] r = sha256.digest();
             result = byte2Hex(r);
         } catch (NoSuchAlgorithmException e) {

@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.zjrb.passport.net.Request;
 import com.zjrb.passport.net.RequestBody;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Map;
 import java.util.Set;
@@ -60,6 +61,23 @@ public class Util {
 
         String paramsStr = sb.substring(0, sb.length() - 1);
         return paramsStr;
+    }
+
+
+    public static String getValueEncoded(String value) {
+        if (value == null) return "null";
+        String newValue = value.replace("\n", "");
+        for (int i = 0, length = newValue.length(); i < length; i++) {
+            char c = newValue.charAt(i);
+            if (c <= '\u001f' || c >= '\u007f') {
+                try {
+                    return URLEncoder.encode(newValue, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return newValue;
     }
 
 }

@@ -164,7 +164,7 @@ public class Request {
             if (body != null && !TextUtils.isEmpty(body.contentType())) {
                 headers.put("Content-Type", body.contentType());
             }
-            headers.put("UserAgent", ZbPassport.getZbConfig().getUA());
+            headers.put("UserAgent", Util.getValueEncoded(ZbPassport.getZbConfig().getUA()));
             headers.put("Cache-Control", "no-cache");
             return new Request(this);
         }
