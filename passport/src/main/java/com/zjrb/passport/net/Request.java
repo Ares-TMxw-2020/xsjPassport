@@ -23,12 +23,18 @@ public class Request {
     final Map<String, String> headers;
     final @Nullable
     RequestBody requestBody;
+    final Object tag;
 
     public Request(Builder builder) {
         this.method = builder.method;
         this.url = builder.url;
         this.headers = builder.headers;
         this.requestBody = builder.body;
+        this.tag = builder.tag != null ? builder.tag : this;
+    }
+
+    public Object tag() {
+        return tag;
     }
 
     public static class Builder {
@@ -39,6 +45,7 @@ public class Request {
         Map<String, String> paramsMap; // 用于记录get请求的参数集合
         RequestBody body;
         String api; // 记录接口名
+        Object tag;
 
         public Builder() {
             this.method = HttpMethod.GET; // 默认get请求
@@ -80,7 +87,7 @@ public class Request {
          */
         public Builder host(String host) {
             if (!TextUtils.isEmpty(host)) {
-                this.url = ApiManager.changeHost(host, method);
+                this.url = ApiManager.changeHost(host);
             }
             return this;
         }
@@ -122,6 +129,11 @@ public class Request {
             Util.checkMethod(method, body); // 检测请求方式是否合法
             this.method = method;
             this.body = body;
+            return this;
+        }
+
+        public Builder tag(Object tag) {
+            this.tag = tag;
             return this;
         }
 

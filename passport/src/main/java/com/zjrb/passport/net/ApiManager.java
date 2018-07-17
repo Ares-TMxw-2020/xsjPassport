@@ -64,20 +64,21 @@ public class ApiManager {
     }
 
     /**
-     * 修改host,测试使用
-     *
+     * 修改host,测试环境使用
      * @param host
      * @return
      */
-    public static String changeHost(String host, Request.HttpMethod method) {
-        // TODO: 2018/6/29 增加判断使用http的条件
+    public static String changeHost(String host) {
         if (TextUtils.isEmpty(host)) {
             return getBaseUri();
         }
-        boolean isUseHttps = false;
-        String schema = isUseHttps ? "https" : "http";
-        String url = schema + "://" + host;
-        return url;
+        if (ZbPassport.getZbConfig().isDebug()) { // 测试环境设置强制Https才有效
+            boolean isUseHttps = ZbPassport.getZbConfig().isUseHttps();
+            String schema = isUseHttps ? "https" : "http";
+            return schema + "://" + host;
+        } else {
+            return getBaseUri();
+        }
     }
 
     public static final class EndPoint {

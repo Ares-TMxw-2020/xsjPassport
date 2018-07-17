@@ -20,7 +20,6 @@ import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.listener.ZbCaptchaSendListener;
 import com.zjrb.passport.listener.ZbCheckPhoneListener;
 import com.zjrb.passport.listener.ZbLoginListener;
-import com.zjrb.passport.net.ZbHttpClient;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +27,6 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
-    ZbHttpClient client;
     @BindView(R.id.et_phone)
     EditText mEtPhone;
     @BindView(R.id.et_captcha)
@@ -47,10 +45,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        client = new ZbHttpClient.Builder().connTimeOut(5 * 1000)
-                .readTimeOut(20 * 1000)
-                .writeTimeOut(20 * 1000)
-                .build();
     }
 
     @OnClick({R.id.tv_login, R.id.tv_password_login, R.id.tv_register, R.id.tv_send})

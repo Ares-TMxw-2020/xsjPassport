@@ -28,6 +28,7 @@ public final class ZbConfig {
     private String appVersion;
     private String appUuid;
     private String ua;
+    private boolean isUseHttps; // 是否强制使用https
 
     ZbConfig(Context context) {
         ApplicationInfo info = null;
@@ -159,5 +160,22 @@ public final class ZbConfig {
 
     void setAppUuid(String appUuid) {
         this.appUuid = appUuid;
+    }
+
+    public boolean isUseHttps() {
+        return isUseHttps;
+    }
+
+    /**
+     * 设置是否强制使用Https,只有debug条件下设置才有效
+     * @param useHttps
+     */
+    public void setUseHttps(boolean useHttps) {
+        if (isDebug) {
+            isUseHttps = useHttps;
+        }
+        if (envType == ZbConstants.ENV_OFFICIAL) {
+            isUseHttps = false;
+        }
     }
 }
