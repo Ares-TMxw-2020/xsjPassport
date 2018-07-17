@@ -21,18 +21,20 @@ public class Logger {
     }
 
     public static void d(NetWork.ParamsBuilder builder, Response response) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("↓↓↓ network log ↓↓↓")
-          .append("\n")
-          .append("url ->\t\t")
-          .append(builder.getUrl())
-          .append("\n")
-          .append("params ->\t")
-          .append(builder.paramString())
-          .append("\n")
-          .append("response ->\t")
-          .append(response.body().string());
-        d(sb.toString());
+        if (ZbPassport.getZbConfig().isDebug()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("↓↓↓ network log ↓↓↓")
+              .append("\n")
+              .append("url ->\t\t")
+              .append(builder.getUrl())
+              .append("\n")
+              .append("params ->\t")
+              .append(builder.paramString())
+              .append("\n")
+              .append("response ->\t")
+              .append(response.body().string());
+            d(sb.toString());
+        }
     }
 
     public static void d(String msg) {

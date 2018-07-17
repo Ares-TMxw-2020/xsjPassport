@@ -3,6 +3,7 @@ package com.zjrb.passport.net;
 import android.text.TextUtils;
 
 import com.zjrb.passport.ZbPassport;
+import com.zjrb.passport.constant.ZbConstants;
 
 /**
  * Date: 2018/6/29 上午9:31
@@ -12,35 +13,51 @@ import com.zjrb.passport.ZbPassport;
  */
 public class ApiManager {
 
-    private static String URL = UrlConstant.BASE_URL;
-
     private static final class UrlConstant {
+        // TODO: 各环境url配置
         /**
          * 开发环境
          */
         private static final String DEVELOP_URL = "http://10.100.64.69";
-
+        /**
+         * 测试环境
+         */
+        private static final String TEST_URL = "http://10.100.64.69";
+        /**
+         * 预发布环境
+         */
+        private static final String PRE_URL = "http://10.100.64.69";
         /**
          * 正式域名
          */
-        // TODO: 2018/7/9 待确认
-        private static final String BASE_URL = "http://10.100.64.69";
-
-    }
-
-    public static final String getBaseUri() {
-        if (ZbPassport.getZbConfig().isDebug()) {
-            return ApiManager.URL;
-        } else {
-            return UrlConstant.BASE_URL;
-        }
+        private static final String OFFICIAL_URL = "http://10.100.64.69";
 
     }
 
     /**
+     * @return 环境
+     */
+    public static final String getBaseUri() {
+        int envType = ZbPassport.getZbConfig().getEnvType();
+        switch (envType) {
+            case ZbConstants.ENV_DEV:
+                return UrlConstant.DEVELOP_URL;
+            case ZbConstants.ENV_TEST:
+                return UrlConstant.TEST_URL;
+            case ZbConstants.ENV_PRE:
+                return UrlConstant.PRE_URL;
+            case ZbConstants.ENV_OFFICIAL:
+                return UrlConstant.OFFICIAL_URL;
+            default:
+                return UrlConstant.DEVELOP_URL;
+        }
+    }
+
+    /**
      * 接口的拼接
-     * @param api
-     * @return
+     *
+     * @param api api
+     * @return 完整的url
      */
     public static String joinUrl(String api) {
         return getBaseUri() + api;
@@ -48,6 +65,7 @@ public class ApiManager {
 
     /**
      * 修改host,测试使用
+     *
      * @param host
      * @return
      */
@@ -58,8 +76,8 @@ public class ApiManager {
         }
         boolean isUseHttps = false;
         String schema = isUseHttps ? "https" : "http";
-        ApiManager.URL = schema + "://" + host;
-        return ApiManager.URL;
+        String url = schema + "://" + host;
+        return url;
     }
 
     public static final class EndPoint {
@@ -100,7 +118,7 @@ public class ApiManager {
         /**
          * 验证绑定手机号短信验证码接口 post
          */
-        public static final String SMS_VALIDATE_BINDING_TOKEN= "/api/sms/validate_binding_token";
+        public static final String SMS_VALIDATE_BINDING_TOKEN = "/api/sms/validate_binding_token";
 
 
         /**
@@ -152,7 +170,6 @@ public class ApiManager {
          * 退出登录接口
          */
         public static final String PASSPORT_LOGOUT = "/api/passport/logout";
-
 
 
         /**

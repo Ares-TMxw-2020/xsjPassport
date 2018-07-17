@@ -11,7 +11,6 @@ import java.util.List;
 public class LoginInfo {
     private int passportId;
     private String phoneNumber;
-    //TODO 接口是否只需要返回token
     private String token;
     private int currentLoginType;
     private boolean isNewUser;
