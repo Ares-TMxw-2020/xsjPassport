@@ -41,41 +41,45 @@ public class RequestHandler implements IRequestHandler {
                 connection.connect();
             }
         } catch (IOException e) {
-           Logger.e(e.getMessage());
+            responseHandler.handleFail(callBack, call.request, -1, "请求异常");
         }
 
+
         // 返回内容解析
+        Response response = null;
         try {
             int responseCode = connection.getResponseCode();
             if (responseCode == 200) {
-                Response response;
                 byte[] bytes = new byte[1024];
-                int length = 0;
+                int length;
                 InputStream inputStream = connection.getInputStream();
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 try {
                     while ((length = inputStream.read(bytes)) != -1) {
                         baos.write(bytes, 0, length);
                     }
-                    response = new Response.Builder().code(responseCode).message(connection.getResponseMessage())
-                            .body(new ResponseBody(baos.toByteArray())).build();
+                    response = new Response.Builder().code(responseCode)
+                                                     .message(connection.getResponseMessage())
+                                                     .body(new ResponseBody(baos.toByteArray()))
+                                                     .build();
                 } finally {
                     inputStream.close();
                     connection.disconnect();
                 }
                 responseHandler.handleSuccess(callBack, response);
-                return response;
             } else {
                 responseHandler.handleFail(callBack, call.request, responseCode, connection.getResponseMessage());
             }
         } catch (IOException e) {
             responseHandler.handleFail(callBack, call.request, -1, "返回内容解析异常");
         }
-        return new Response.Builder()
-                .code(-1)
-                .message("同步请求异常中断")
-                .body(new ResponseBody(null))
-                .build();
+
+        if (response == null) {
+            response = new Response.Builder().code(-1).message("请求异常").body(new ResponseBody(null)).build();
+        }
+        Logger.d(call.request,response);
+
+        return response;
     }
     
     private HttpURLConnection setHttpConfig(HttpCall call) throws IOException{

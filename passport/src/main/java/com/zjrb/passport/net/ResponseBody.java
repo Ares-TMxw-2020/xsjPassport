@@ -1,5 +1,7 @@
 package com.zjrb.passport.net;
 
+import com.zjrb.passport.util.Logger;
+
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -24,7 +26,8 @@ public class ResponseBody {
         try {
             return new String(bytes(), "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            throw new IllegalStateException("字节流转为UTF-8格式的String异常");
+            Logger.e("字节流转为UTF-8格式的String异常");
+            return "";
         }
     }
 

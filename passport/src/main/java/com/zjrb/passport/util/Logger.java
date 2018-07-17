@@ -2,9 +2,13 @@ package com.zjrb.passport.util;
 
 import android.util.Log;
 
-import com.zjrb.passport.NetWork;
+import com.zjrb.passport.RequestBuilder;
 import com.zjrb.passport.ZbPassport;
+import com.zjrb.passport.net.FormBody;
+import com.zjrb.passport.net.Request;
 import com.zjrb.passport.net.Response;
+
+import java.util.Map;
 
 /**
  * Function: Logger
@@ -20,22 +24,35 @@ public class Logger {
         throw new UnsupportedOperationException("cannot be instantiated");
     }
 
-    public static void d(NetWork.ParamsBuilder builder, Response response) {
-        if (ZbPassport.getZbConfig().isDebug()) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("↓↓↓ network log ↓↓↓")
-              .append("\n")
-              .append("url ->\t\t")
-              .append(builder.getUrl())
-              .append("\n")
-              .append("params ->\t")
-              .append(builder.paramString())
-              .append("\n")
-              .append("response ->\t")
-              .append(response.body().string());
-            d(sb.toString());
+    public static void d(Request request, Response response) {
+        if (!ZbPassport.getZbConfig().isDebug()) {
+            return;
         }
+        StringBuilder sb = new StringBuilder();
+        sb.append("↓↓↓ network log ↓↓↓")
+          .append("\n")
+          .append(request.getMethod().method)
+          .append(" ->\t")
+          .append(request.getUrl())
+          .append("\n");
+        Map<String, String> map = request.getHeaders();
+        if (map != null && !map.isEmpty()) {
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                sb.append(entry.getKey()).append(" : ").append(entry.getValue()).append("\n");
+            }
+        }
+        try {
+            FormBody formBody = (FormBody) request.getRequestBody();
+            if (formBody != null) {
+                sb.append("body ->\t").append(formBody.transferToString()).append("\n");
+            }
+            sb.append("response ->\t").append(response.body().string());
+        } catch (Exception e) {
+            //
+        }
+        d(sb.toString());
     }
+
 
     public static void d(String msg) {
         if (ZbPassport.getZbConfig().isDebug())

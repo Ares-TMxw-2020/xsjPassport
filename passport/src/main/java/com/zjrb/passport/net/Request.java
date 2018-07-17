@@ -37,6 +37,23 @@ public class Request {
         return tag;
     }
 
+    public HttpMethod getMethod() {
+        return method;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public Map<String, String> getHeaders() {
+        return headers;
+    }
+
+    @Nullable
+    public RequestBody getRequestBody() {
+        return requestBody;
+    }
+
     public static class Builder {
 
         HttpMethod method;
@@ -148,8 +165,7 @@ public class Request {
                 headers.put("Content-Type", body.contentType());
             }
             headers.put("UserAgent", ZbPassport.getZbConfig().getUA());
-            headers.put("Connection", "Keep-Alive");
-            headers.put("Charset", "UTF-8");
+            headers.put("Cache-Control", "no-cache");
             return new Request(this);
         }
 

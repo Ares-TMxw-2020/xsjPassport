@@ -32,7 +32,7 @@ public class FormBody extends RequestBody {
     @Override
     void writeTo(OutputStream outputStream) throws IOException {
         try {
-            outputStream.write(transferToString(map).getBytes("UTF-8"));
+            outputStream.write(transferToString().getBytes("UTF-8"));
             outputStream.flush();
         } finally {
             if (outputStream != null) {
@@ -41,7 +41,7 @@ public class FormBody extends RequestBody {
         }
     }
 
-    private String transferToString(Map<String, String> map) throws UnsupportedEncodingException{
+    public String transferToString() throws UnsupportedEncodingException{
         StringBuilder sb = new StringBuilder();
         if (map != null && !map.isEmpty()) {
             Set<String> set = map.keySet();
