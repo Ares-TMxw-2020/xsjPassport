@@ -60,10 +60,10 @@ public class ZbConfigBuilder {
         if (appId != 0) {
             zbConfig.setAppId(appId);
         }
-        if (TextUtils.isEmpty(appKey)) {
+        if (!TextUtils.isEmpty(appKey)) {
             zbConfig.setAppKey(appKey);
         }
-        if (TextUtils.isEmpty(appSecret)) {
+        if (!TextUtils.isEmpty(appSecret)) {
             zbConfig.setAppSecret(appSecret);
         }
         zbConfig.setEnvType(envType);
