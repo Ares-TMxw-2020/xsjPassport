@@ -77,7 +77,7 @@ public class NetWork {
                                                    .inject()
                                                    .add("phone_number", phoneNumber)
                                                    .add("sms_token", captcha);
-        client.newCall(buildPostRequest(builder)).enqueue(new CallBack() {
+        client.newCall(buildGetRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
                 VerifyJsonProcessor processor = new VerifyJsonProcessor(listener);
@@ -96,7 +96,7 @@ public class NetWork {
                                                    .inject()
                                                    .add("phone_number", phoneNumber)
                                                    .add("sms_token", captcha);
-        client.newCall(buildPostRequest(builder)).enqueue(new CallBack() {
+        client.newCall(buildGetRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
                 VerifyJsonProcessor processor = new VerifyJsonProcessor(listener);
@@ -115,7 +115,7 @@ public class NetWork {
                                                    .inject()
                                                    .add("phone_number", phoneNumber)
                                                    .add("sms_token", captcha);
-        client.newCall(buildPostRequest(builder)).enqueue(new CallBack() {
+        client.newCall(buildGetRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
                 VerifyJsonProcessor processor = new VerifyJsonProcessor(listener);
@@ -134,7 +134,7 @@ public class NetWork {
                                                    .inject()
                                                    .add("phone_number", phoneNumber)
                                                    .add("sms_token", captcha);
-        client.newCall(buildPostRequest(builder)).enqueue(new CallBack() {
+        client.newCall(buildGetRequest(builder)).enqueue(new CallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
                 VerifyJsonProcessor processor = new VerifyJsonProcessor(listener);
