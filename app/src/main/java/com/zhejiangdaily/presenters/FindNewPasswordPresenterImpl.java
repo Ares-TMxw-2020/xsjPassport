@@ -1,8 +1,11 @@
 package com.zhejiangdaily.presenters;
 
+import android.content.Intent;
+
 import com.zhejiangdaily.R;
 import com.zhejiangdaily.contracts.FindNewPassWordContract;
 import com.zhejiangdaily.utils.ToastUtil;
+import com.zhejiangdaily.views.activities.LoginActivity;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.listener.ZbFindPasswordListener;
 
@@ -25,12 +28,15 @@ public class FindNewPasswordPresenterImpl implements FindNewPassWordContract.Pre
         ZbPassport.findPassword(phoneNum, sms, password, new ZbFindPasswordListener() {
             @Override
             public void onSuccess() {
-                ToastUtil.showTextWithImage(R.mipmap.ic_qq, "找回密码成功");
+                ToastUtil.showTextWithImage(R.mipmap.ic_qq, "找回密码成功,请使用新密码登录");
+                Intent intent = new Intent(view.getIActivity(), LoginActivity.class);
+                view.getIActivity().startActivity(intent);
+                view.getIActivity().finish();
             }
 
             @Override
             public void onFailure(int errorCode, String errorMessage) {
-                ToastUtil.showTextWithImage(R.mipmap.ic_qq, "找回密码失败");
+                ToastUtil.showTextWithImage(R.mipmap.ic_qq, errorMessage);
 
             }
         });

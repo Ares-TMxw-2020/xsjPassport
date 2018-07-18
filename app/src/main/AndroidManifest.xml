@@ -44,10 +44,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.zhejiangdaily.views.activities.LoginActivity"/>
+        <activity android:name="com.zhejiangdaily.views.activities.LoginActivity"
+            android:launchMode="singleTask"
+            />
         <activity android:name="com.zhejiangdaily.views.activities.BindPhoneActivity"/>
         <activity android:name="com.zhejiangdaily.views.activities.ModifyPhoneActivity"/>
-        <activity android:name="com.zhejiangdaily.views.activities.UserInfoActivity"/>
+        <activity android:name="com.zhejiangdaily.views.activities.UserInfoActivity"
+            android:launchMode="singleTask"
+            />
         <activity android:name="com.zhejiangdaily.views.activities.RegisterActvity"/>
         <activity android:name="com.zhejiangdaily.views.activities.FindPassWordActivity"/>
         <activity android:name="com.zhejiangdaily.views.activities.FindNewPassWordActivity"/>

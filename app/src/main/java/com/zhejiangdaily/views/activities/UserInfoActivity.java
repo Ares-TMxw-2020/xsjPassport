@@ -59,6 +59,14 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
         infoPresenter.getUserInfo();
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (infoPresenter == null) {
+            infoPresenter = new UserInfoPresenterImpl(this);
+        }
+        infoPresenter.getUserInfo();
+    }
 
     @Override
     public void umLogin(boolean isSuccess, SHARE_MEDIA platform, String uid) {

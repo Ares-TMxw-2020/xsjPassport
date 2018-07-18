@@ -78,6 +78,9 @@ public class RegisterActvity extends AppCompatActivity {
                     public void onSuccess(LoginInfo info) {
                         // todo屏幕中间的Toast
                         ToastUtil.showTextWithImage(R.mipmap.ic_qq, "注册成功");
+                        Intent intent = new Intent(RegisterActvity.this, UserInfoActivity.class);
+                        startActivity(intent);
+                        finish();
                     }
 
                     @Override

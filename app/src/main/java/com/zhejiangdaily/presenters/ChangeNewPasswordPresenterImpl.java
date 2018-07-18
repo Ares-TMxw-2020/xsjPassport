@@ -1,8 +1,11 @@
 package com.zhejiangdaily.presenters;
 
+import android.content.Intent;
+
 import com.zhejiangdaily.R;
 import com.zhejiangdaily.contracts.ChangeNewPassWordContract;
 import com.zhejiangdaily.utils.ToastUtil;
+import com.zhejiangdaily.views.activities.UserInfoActivity;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.listener.ZbChangePasswordListener;
 
@@ -26,6 +29,9 @@ public class ChangeNewPasswordPresenterImpl implements ChangeNewPassWordContract
             @Override
             public void onSuccess() {
                 ToastUtil.showTextWithImage(R.mipmap.ic_qq, "修改密码成功");
+                Intent intent = new Intent(view.getIActivity(), UserInfoActivity.class);
+                view.getIActivity().startActivity(intent);
+                view.getIActivity().finish();
             }
 
             @Override
