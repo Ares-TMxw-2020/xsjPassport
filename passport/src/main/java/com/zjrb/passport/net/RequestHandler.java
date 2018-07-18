@@ -24,7 +24,7 @@ public class RequestHandler implements IRequestHandler {
     private IResponseHandler responseHandler = IResponseHandler.RESPONSE_HANDLER;
 
     @Override
-    public Response handleRequest(HttpCall call, CallBack callBack) {
+    public void handleRequest(HttpCall call, CallBack callBack) {
         if (call == null) {
             throw new NullPointerException("请求的call不能为空");
         }
@@ -77,9 +77,8 @@ public class RequestHandler implements IRequestHandler {
         if (response == null) {
             response = new Response.Builder().code(-1).message("请求异常").body(new ResponseBody(null)).build();
         }
-        Logger.d(call.request,response);
+        Logger.d(call.request, response);
 
-        return response;
     }
     
     private HttpURLConnection setHttpConfig(HttpCall call) throws IOException{

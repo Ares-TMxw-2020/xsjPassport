@@ -4,7 +4,6 @@ import android.support.annotation.Nullable;
 
 import com.zjrb.passport.net.CallBack;
 import com.zjrb.passport.net.HttpCall;
-import com.zjrb.passport.net.Response;
 
 /**
  * Date: 2018/6/29 上午11:49
@@ -14,6 +13,6 @@ import com.zjrb.passport.net.Response;
  */
 public interface IRequestHandler {
 
-    Response handleRequest(HttpCall call, @Nullable CallBack callBack);
+    void handleRequest(HttpCall call, @Nullable CallBack callBack);
 
 }

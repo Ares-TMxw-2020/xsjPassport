@@ -2,8 +2,6 @@ package com.zjrb.passport.net;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -68,20 +66,6 @@ public class HttpThreadPool {
         }
     };
 
-    /**
-     * 同步执行任务
-     * @param callable 要执行的任务
-     * @return 执行的结果
-     * @throws InterruptedException
-     * @throws ExecutionException
-     */
-    public synchronized Response submit(Callable<Response> callable) throws InterruptedException, ExecutionException{
-        if (callable == null) {
-            throw new NullPointerException("请求任务为空,不能执行");
-        }
-        Future<Response> responseFuture = threadPoolExecutor.submit(callable);
-        return responseFuture.get();
-    }
 
     public void execute(FutureTask<?> task) {
         if (task == null) {

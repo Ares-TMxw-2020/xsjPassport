@@ -2,8 +2,6 @@ package com.zjrb.passport.net;
 
 import com.zjrb.passport.net.interfaces.IRequestHandler;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
 /**
@@ -25,30 +23,6 @@ public class HttpCall implements Call {
         this.request = request;
     }
 
-    /**
-     * 同步执行
-     * @return
-     */
-    @Override
-    public Response execute() {
-        SyncTask task = new SyncTask();
-        Response response;
-        try {
-            response = HttpThreadPool.getInstance().submit(task);
-            return response;
-        } catch (InterruptedException e) {
-            // TODO: 2018/7/3
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            // TODO: 2018/7/3
-            e.printStackTrace();
-        }
-        return new Response.Builder()
-                .code(400)
-                .message("同步请求异常中断")
-                .body(new ResponseBody(null))
-                .build();
-    }
 
     /**
      * 异步执行
@@ -60,11 +34,9 @@ public class HttpCall implements Call {
         HttpThreadPool.getInstance().execute(new FutureTask<>(task, null));
     }
 
-    public class SyncTask implements Callable<Response> {
+    @Override
+    public void cancel() {
 
-        @Override
-        public Response call() {
-            return requestHandler.handleRequest(HttpCall.this, null);
-        }
     }
+
 }
