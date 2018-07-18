@@ -24,13 +24,13 @@ public class ChangePassWordPresenterImpl implements ChangePasswordContract.Prese
     }
 
     @Override
-    public void doNext(final String phoneNum) {
-        ZbPassport.checkPassword(phoneNum, new ZbCaptchaVerifyListener() { // 验证旧密码是否正确
+    public void doNext(final String passWord) {
+        ZbPassport.checkPassword(passWord, new ZbCaptchaVerifyListener() { // 验证旧密码是否正确
             @Override
             public void onSuccess(boolean isValid) {
                 if (isValid) {
                     Intent intent = new Intent(view.getIActivity(), ChangeNewPasswordActivity.class);
-                    intent.putExtra("oldPassWord", phoneNum);
+                    intent.putExtra("oldPassWord", passWord);
                     view.getIActivity().startActivity(intent);
                 } else {
                     ToastUtil.showTextWithImage(R.mipmap.ic_qq, "原密码错误");
