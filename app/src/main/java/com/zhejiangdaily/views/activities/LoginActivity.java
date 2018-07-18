@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 
+import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zhejiangdaily.R;
 import com.zhejiangdaily.contracts.LoginContract;
@@ -118,15 +119,45 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                 loginPresenter.findPassWord(); // 进入找回密码界面
                 break;
             case R.id.iv_sina:
-                umPresenter.umLogin(SHARE_MEDIA.SINA);
+                if (checkInstall(SHARE_MEDIA.SINA)) {
+                    umPresenter.umLogin(SHARE_MEDIA.SINA);
+                }
                 break;
             case R.id.iv_wechat:
-                umPresenter.umLogin(SHARE_MEDIA.WEIXIN);
+                if (checkInstall(SHARE_MEDIA.WEIXIN)) {
+                    umPresenter.umLogin(SHARE_MEDIA.WEIXIN);
+                }
                 break;
             case R.id.iv_qq:
-                umPresenter.umLogin(SHARE_MEDIA.QQ);
-                break;
+                if (checkInstall(SHARE_MEDIA.QQ)) {
+                    umPresenter.umLogin(SHARE_MEDIA.QQ);
+                    break;
+                }
         }
+
     }
 
+    /**
+     * 检测是否安装等
+     */
+    private boolean checkInstall(SHARE_MEDIA platform) {
+        UMShareAPI mShareAPI = UMShareAPI.get(this);
+        if (platform == SHARE_MEDIA.WEIXIN || platform == SHARE_MEDIA.WEIXIN_CIRCLE) {
+            if (mShareAPI != null && !mShareAPI.isInstall(this, SHARE_MEDIA.WEIXIN)) {
+                ToastUtil.show("未安装微信客户端");
+                return false;
+            }
+        } else if (platform == SHARE_MEDIA.QQ || platform == SHARE_MEDIA.QZONE) {
+            if (mShareAPI != null && !mShareAPI.isInstall(this, SHARE_MEDIA.QQ)) {
+                ToastUtil.show("未安装QQ客户端");
+                return false;
+            }
+        } else if (platform == SHARE_MEDIA.SINA) {
+            if (mShareAPI != null && !mShareAPI.isInstall(this, SHARE_MEDIA.SINA)) {
+                ToastUtil.show("未安装新浪微博客户端");
+                return false;
+            }
+        }
+        return true;
+    }
 }

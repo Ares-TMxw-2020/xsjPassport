@@ -30,7 +30,7 @@ public class ChangeNewPasswordPresenterImpl implements ChangeNewPassWordContract
 
             @Override
             public void onFailure(int errorCode, String errorMessage) {
-                ToastUtil.showTextWithImage(R.mipmap.ic_qq, "修改密码成功");
+                ToastUtil.showTextWithImage(R.mipmap.ic_qq, errorMessage);
             }
         });
     }
