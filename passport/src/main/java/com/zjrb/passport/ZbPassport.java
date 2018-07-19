@@ -15,7 +15,7 @@ import com.zjrb.passport.listener.ZbLoginListener;
 import com.zjrb.passport.listener.ZbLogoutListener;
 import com.zjrb.passport.listener.ZbRegisterListener;
 import com.zjrb.passport.listener.ZbUnBindThirdListener;
-import com.zjrb.passport.net.Call;
+import com.zjrb.passport.net.interfaces.Call;
 
 /**
  * Function: ZbPassport

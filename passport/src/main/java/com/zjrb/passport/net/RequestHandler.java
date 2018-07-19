@@ -1,8 +1,9 @@
 package com.zjrb.passport.net;
 
+import com.zjrb.passport.net.interfaces.CallBack;
 import com.zjrb.passport.net.interfaces.IRequestHandler;
 import com.zjrb.passport.net.interfaces.IResponseHandler;
-import com.zjrb.passport.net.util.SslUtils;
+import com.zjrb.passport.util.SslUtils;
 import com.zjrb.passport.util.Logger;
 
 import java.io.ByteArrayOutputStream;

@@ -1,5 +1,7 @@
 package com.zjrb.passport.net;
 
+import com.zjrb.passport.net.interfaces.Call;
+
 /**
  * Date: 2018/6/28 下午6:21
  * Email: sisq@8531.cn

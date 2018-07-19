@@ -3,7 +3,7 @@ package com.zjrb.passport.processor;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.zjrb.passport.LoginInfo;
+import com.zjrb.passport.Entity.LoginInfo;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.listener.ILoginResult;
 

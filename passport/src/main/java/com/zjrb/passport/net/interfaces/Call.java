@@ -1,4 +1,4 @@
-package com.zjrb.passport.net;
+package com.zjrb.passport.net.interfaces;
 
 /**
  * Date: 2018/6/28 下午3:11

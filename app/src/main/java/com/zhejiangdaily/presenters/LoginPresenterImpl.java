@@ -8,7 +8,7 @@ import com.zhejiangdaily.views.activities.FindPassWordActivity;
 import com.zhejiangdaily.views.activities.RegisterActvity;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ZbConstants;
-import com.zjrb.passport.LoginInfo;
+import com.zjrb.passport.Entity.LoginInfo;
 import com.zjrb.passport.listener.ZbCheckPhoneListener;
 import com.zjrb.passport.listener.ZbLoginListener;
 

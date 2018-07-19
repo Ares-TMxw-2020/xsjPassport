@@ -5,7 +5,7 @@ import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 
 import com.zjrb.passport.ZbPassport;
-import com.zjrb.passport.net.util.Util;
+import com.zjrb.passport.util.Util;
 
 import java.util.Map;
 

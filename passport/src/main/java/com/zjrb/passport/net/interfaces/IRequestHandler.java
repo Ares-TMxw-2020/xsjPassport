@@ -2,7 +2,6 @@ package com.zjrb.passport.net.interfaces;
 
 import android.support.annotation.Nullable;
 
-import com.zjrb.passport.net.CallBack;
 import com.zjrb.passport.net.HttpCall;
 
 /**

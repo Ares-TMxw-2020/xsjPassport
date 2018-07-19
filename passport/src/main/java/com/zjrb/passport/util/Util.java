@@ -1,4 +1,4 @@
-package com.zjrb.passport.net.util;
+package com.zjrb.passport.util;
 
 import android.text.TextUtils;
 

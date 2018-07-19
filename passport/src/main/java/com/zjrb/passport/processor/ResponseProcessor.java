@@ -2,7 +2,7 @@ package com.zjrb.passport.processor;
 
 import android.support.annotation.NonNull;
 
-import com.zjrb.passport.ErrorCode;
+import com.zjrb.passport.constant.ErrorCode;
 import com.zjrb.passport.listener.IFailure;
 import com.zjrb.passport.listener.IResult;
 import com.zjrb.passport.net.Response;

@@ -19,7 +19,7 @@ import com.zhejiangdaily.presenters.UmLoginPresenterImpl;
 import com.zhejiangdaily.presenters.UserInfoPresenterImpl;
 import com.zhejiangdaily.utils.ToastUtil;
 import com.zhejiangdaily.views.dialogs.TipDialog;
-import com.zjrb.passport.LoginInfo;
+import com.zjrb.passport.Entity.LoginInfo;
 import com.zjrb.passport.constant.ZbConstants;
 
 import java.util.List;

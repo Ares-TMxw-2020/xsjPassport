@@ -6,7 +6,7 @@ import com.zjrb.passport.constant.InnerConstant;
 import com.zjrb.passport.net.ApiManager;
 import com.zjrb.passport.net.FormBody;
 import com.zjrb.passport.net.Request;
-import com.zjrb.passport.net.util.EncryptUtil;
+import com.zjrb.passport.util.EncryptUtil;
 
 import java.util.Map;
 import java.util.TreeMap;

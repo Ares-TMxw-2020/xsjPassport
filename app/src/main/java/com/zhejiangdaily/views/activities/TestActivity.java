@@ -9,7 +9,7 @@ import android.widget.Toast;
 import com.zhejiangdaily.R;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ZbConstants;
-import com.zjrb.passport.LoginInfo;
+import com.zjrb.passport.Entity.LoginInfo;
 import com.zjrb.passport.listener.ZbBindPhoneListener;
 import com.zjrb.passport.listener.ZbBindThirdListener;
 import com.zjrb.passport.listener.ZbCaptchaSendListener;

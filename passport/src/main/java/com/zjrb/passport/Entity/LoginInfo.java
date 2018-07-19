@@ -1,4 +1,4 @@
-package com.zjrb.passport;
+package com.zjrb.passport.Entity;
 
 import java.util.List;
 

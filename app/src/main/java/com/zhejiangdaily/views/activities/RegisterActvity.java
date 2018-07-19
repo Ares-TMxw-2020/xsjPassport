@@ -8,14 +8,13 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.zhejiangdaily.R;
 import com.zhejiangdaily.utils.ToastUtil;
 import com.zhejiangdaily.utils.ZbUtil;
 import com.zhejiangdaily.views.dialogs.ZBDialog;
-import com.zjrb.passport.LoginInfo;
-import com.zjrb.passport.ErrorCode;
+import com.zjrb.passport.constant.ErrorCode;
+import com.zjrb.passport.Entity.LoginInfo;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.listener.ZbCaptchaSendListener;
@@ -64,13 +63,13 @@ public class RegisterActvity extends AppCompatActivity {
                 break;
             case R.id.tv_register:
                 if (TextUtils.isEmpty(captcha)) {
-                    showToast("请输入验证码");
+                    ToastUtil.show("请输入验证码");
                     return;
                 } else if (TextUtils.isEmpty(phoneNum)) {
-                    showToast("请输入手机号");
+                    ToastUtil.show("请输入手机号");
                     return;
                 } else if (TextUtils.isEmpty(passWord)) {
-                    showToast("请输入密码");
+                    ToastUtil.show("请输入密码");
                     return;
                 }
                 ZbPassport.register(phoneNum, passWord, captcha, new ZbRegisterListener() {
@@ -124,19 +123,19 @@ public class RegisterActvity extends AppCompatActivity {
                     ZbPassport.sendCaptcha(ZbConstants.SMS_REGISTER, phoneNum, new ZbCaptchaSendListener() {
                         @Override
                         public void onSuccess() {
-                            showToast("下发注册短信验证码接口 success");
+                            ToastUtil.show("下发注册短信验证码接口 success");
                         }
 
                         @Override
                         public void onFailure(int errorCode, String errorMessage) {
-                            showToast(errorMessage);
+                            ToastUtil.show(errorMessage);
                         }
                     });
                 } else {
                     if (TextUtils.isEmpty(phoneNum)) {
-                        showToast("请输入手机号");
+                        ToastUtil.show("请输入手机号");
                     } else {
-                        showToast("非手机号格式");
+                        ToastUtil.show("非手机号格式");
                     }
                 }
 
@@ -144,8 +143,5 @@ public class RegisterActvity extends AppCompatActivity {
         }
     }
 
-    public void showToast(String str) {
-        Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
-    }
 
 }

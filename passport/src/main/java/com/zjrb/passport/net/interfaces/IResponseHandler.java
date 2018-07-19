@@ -4,7 +4,6 @@ package com.zjrb.passport.net.interfaces;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.zjrb.passport.net.CallBack;
 import com.zjrb.passport.net.Request;
 import com.zjrb.passport.net.Response;
 

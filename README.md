@@ -67,41 +67,35 @@ ZbPassport.setConfig(ZbConfig config);
 ZbPassport.init(Context context);
 //或者
 ZbPassport.init(Context context,ZbConfigBuilder builder);
+
+示例代码:
+ZbPassport.init(this, new ZbConfigBuilder().setAppVersion("1.0").setAppUuid("uuid"));
+
 ```
 
-### 获取短信验证码
-#### 获取注册短信验证码
+### 获取短信验证码接口
+获取短信验证码接口使用如下方法,第一个参数smsType代表短信验证码的类型,其中ZbConstants.SMS_REGISTER代表注册短信,ZbConstants.SMS_LOGIN代表登录短信,ZbConstants.SMS_FIND代表找回密码短信,ZbConstants.SMS_BIND代表绑定手机号短信:
+```java
+public static Call sendCaptcha(@ZbConstants.SmsType int smsType, String phoneNumber, ZbCaptchaSendListener listener)
+```
+#### 获取注册短信验证码示例代码
 
 ```java
-ZbPassport.sendRegisterCaptcha(String phoneNumber, ZbCaptchaListener listener);
+  ZbPassport.sendCaptcha(ZbConstants.SMS_REGISTER, phoneNum, new ZbCaptchaSendListener() {
+                        @Override
+                        public void onSuccess() {
+                            ToastUtil.show("下发注册短信验证码接口 success");
+                        }
+
+                        @Override
+                        public void onFailure(int errorCode, String errorMessage) {
+                            ToastUtil.show(errorMessage);
+                        }
+                    });
 ```
 
-#### 获取登录短信验证码
+#### 获取登录短信验证码,找回密码短信验证码及绑定手机号短信验证码使用方式同上,只需更改相关Type
 
-```java
-ZbPassport.sendLoginCaptcha(String phoneNumber, ZbCaptchaListener listener);
-```
-
-#### 获取找回密码短信验证码
-
-```java
-ZbPassport.sendRetrieveCaptcha(String phoneNumber，ZbCaptchaListener listener);
-```
-
-#### 获取绑定新手机短信验证码
-
-```java
-ZbPassport.sendBindCaptcha(String phoneNumber，ZbCaptchaListener listener);
-```
-
-#### 短信接口回调
-
-```java
-interface ZbCaptchaListener{
-	void onSuccess();
-	void onFailure(int errorCode,String errorMessage);
-}
-```
 
 ### 验证手机是否绑定浙报通行证
 
@@ -208,6 +202,15 @@ interface ZbUnbindListener{
 	void onSuccess();
 	void onFailure(int errorCode,String errorMessage);
 }
+```
+
+#### 关于取消网络请求
+ZbPassport中的每个请求都会返回一个Call,调用当前Call的cancel方法可以取消该网络请求
+示例代码:
+```java
+// 取消下发注册短信验证码的接口请求:
+Call call = ZbPassport.sendRegisterCaptcha(String phoneNumber, ZbCaptchaListener listener);
+call.cancel();
 ```
 
 

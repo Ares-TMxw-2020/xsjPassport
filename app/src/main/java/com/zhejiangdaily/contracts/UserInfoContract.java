@@ -4,7 +4,7 @@ import android.content.Intent;
 
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zhejiangdaily.presenters.BasePresenter;
-import com.zjrb.passport.LoginInfo;
+import com.zjrb.passport.Entity.LoginInfo;
 
 /**
  * Function: UserInfoContract

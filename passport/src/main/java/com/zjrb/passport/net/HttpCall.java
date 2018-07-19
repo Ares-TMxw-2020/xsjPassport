@@ -1,5 +1,7 @@
 package com.zjrb.passport.net;
 
+import com.zjrb.passport.net.interfaces.Call;
+import com.zjrb.passport.net.interfaces.CallBack;
 import com.zjrb.passport.net.interfaces.IRequestHandler;
 
 import java.util.concurrent.FutureTask;

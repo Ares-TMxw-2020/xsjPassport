@@ -1,5 +1,6 @@
 package com.zjrb.passport.net;
 
+import com.zjrb.passport.net.interfaces.CallBack;
 import com.zjrb.passport.net.interfaces.IRequestHandler;
 
 /**

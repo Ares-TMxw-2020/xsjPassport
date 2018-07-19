@@ -6,7 +6,7 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zhejiangdaily.contracts.UserInfoContract;
 import com.zhejiangdaily.views.activities.BindPhoneActivity;
 import com.zhejiangdaily.views.activities.ModifyActivity;
-import com.zjrb.passport.LoginInfo;
+import com.zjrb.passport.Entity.LoginInfo;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.listener.ZbBindThirdListener;
