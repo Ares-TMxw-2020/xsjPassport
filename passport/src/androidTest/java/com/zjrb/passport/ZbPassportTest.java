@@ -1,5 +1,6 @@
 package com.zjrb.passport;
 
+import com.zjrb.passport.Entity.LoginInfo;
 import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.listener.ZbCaptchaSendListener;
 import com.zjrb.passport.listener.ZbCheckPhoneListener;

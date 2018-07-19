@@ -20,6 +20,7 @@ import com.zhejiangdaily.presenters.UserInfoPresenterImpl;
 import com.zhejiangdaily.utils.ToastUtil;
 import com.zhejiangdaily.views.dialogs.TipDialog;
 import com.zjrb.passport.Entity.LoginInfo;
+import com.zjrb.passport.Entity.ThirdInfo;
 import com.zjrb.passport.constant.ZbConstants;
 
 import java.util.List;
@@ -89,9 +90,9 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
                 tvPhone.setText(phoneNumber);
                 isBindPhone = true;
             }
-            List<LoginInfo.ThirdInfo> list = info.getBindList();
+            List<ThirdInfo> list = info.getBindList();
             if (list != null && !list.isEmpty()) {
-                for (LoginInfo.ThirdInfo d : list) {
+                for (ThirdInfo d : list) {
                     switch (d.getLoginType()) {
                         case ZbConstants.LOGIN_QQ:
                             tvQQ.setText("已绑定");

@@ -76,9 +76,9 @@ ZbPassport.init(this, new ZbConfigBuilder().setAppVersion("1.0").setAppUuid("uui
 ### 获取短信验证码接口
 获取短信验证码接口使用如下方法,第一个参数smsType代表短信验证码的类型,其中ZbConstants.SMS_REGISTER代表注册短信,ZbConstants.SMS_LOGIN代表登录短信,ZbConstants.SMS_FIND代表找回密码短信,ZbConstants.SMS_BIND代表绑定手机号短信:
 ```java
-public static Call sendCaptcha(@ZbConstants.SmsType int smsType, String phoneNumber, ZbCaptchaSendListener listener)
+ZbPassport.sendCaptcha(@ZbConstants.SmsType int smsType, String phoneNumber, ZbCaptchaSendListener listener)
 ```
-#### 获取注册短信验证码示例代码
+#### 获取注册短信验证码示例代码(注:获取登录短信验证码,找回密码短信验证码及绑定手机号短信验证码使用方式同上,只需更改相关Type)
 
 ```java
   ZbPassport.sendCaptcha(ZbConstants.SMS_REGISTER, phoneNum, new ZbCaptchaSendListener() {
@@ -94,121 +94,197 @@ public static Call sendCaptcha(@ZbConstants.SmsType int smsType, String phoneNum
                     });
 ```
 
-#### 获取登录短信验证码,找回密码短信验证码及绑定手机号短信验证码使用方式同上,只需更改相关Type
-
+### 验证短信验证码接口
+验证短信验证码接口使用如下方法,第一个参数smsType代表短信验证码的类型,其中ZbConstants.SMS_REGISTER代表注册短信,ZbConstants.SMS_LOGIN代表登录短信,ZbConstants.SMS_FIND代表找回密码短信,ZbConstants.SMS_BIND代表绑定手机号短信:
+```java
+ZbPassport.verifyCaptcha(@ZbConstants.SmsType int smsType, String phoneNumber, String captcha, ZbCaptchaVerifyListener listener);
+```
 
 ### 验证手机是否绑定浙报通行证
 
 ```java
-ZbPassport.checkBindState(String token, String phoneNumber, ZbCheckListener listener);
-
-interface ZbCheckListener{
-	void onSuccess(boolean isExist);
-	void onFailure(int errorCode,String errorMessage);
-}
+ZbPassport.checkBindState(String phoneNumber, ZbCheckPhoneListener listener)
 ```
+示例代码
+```java
+        ZbPassport.checkBindState(phoneNumber, new ZbCheckPhoneListener() {
+            @Override
+            public void onSuccess(boolean isBind) {
+                view.checkPhone(true, isBind, null);
+            }
+
+            @Override
+            public void onFailure(int errorCode, String errorMessage) {
+                view.checkPhone(false, false, errorMessage);
+            }
+        });
+```
+
 
 ### 注册
 
 ```java
-ZbPassport.register(String phoneNumber,String password,String captcha,ZbRegisterListener listener);
-
-interface ZbRegisterListener{
-	void onSuccess(ZbInfo info);
-	void onFailure(int errorCode,String errorMessage);
-}
+ZbPassport.register(String phoneNumber, String password, String captcha, ZbRegisterListener listener);
 ```
+示例代码：
+```java
+        ZbPassport.register(phone, "this_is_a_test_password", "498598", new ZbRegisterListener() {
+            @Override
+            public void onSuccess(LoginInfo info) {
+                showToast("手机号注册浙报通行证接口 success");
+            }
 
+            @Override
+            public void onFailure(int errorCode, String errorMessage) {
+                showToast(errorMessage);
+            }
+        });
+```
 ### 登录
 
 #### 手机+密码
 
 ```java
-ZbPassport.login(String phoneNumber,String password,ZbLoginListener listener);
+ZbPassport.login(String phoneNumber, String password, ZbLoginListener listener);
 ```
 #### 手机+验证码
 
 ```java
-ZbPassport.loginCaptcha(String phoneNumber,String captcha,ZbLoginListener listener);
+ZbPassport.loginCaptcha(String phoneNumber, String captcha, ZbLoginListener listener);
 ```
 
 #### 第三方登录
 
 ```java
-ZbPassport.loginThird(String thirdUniqueId,ZbLoginListener1 listener);
+ZbPassport.loginThird(@ZbConstants.ThirdType int thirdType, String thirdUniqueId, ZbLoginListener listener);
 ```
-
-#### 登录回调
-
-```java
-interface ZbLoginListener{
-	void onSuccess(ZbInfo info);
-	void onFailure(int errorCode,String errorMessage);
-}
-```
+其中第一个参数为ZbConstants.LOGIN_WECHAT，ZbConstants.LOGIN_QQ，ZbConstants.LOGIN_SINA分别代表微信，qq，微博登录
 
 ### 获取通行证详情
 
 ```java
-ZbPassport.getInfo(String token , ZbGetInfoListener listener);
+ZbPassport.getInfo(ZbGetInfoListener listener);
+```
+示例代码：
+```java
+        ZbPassport.getInfo(new ZbGetInfoListener() {
+            @Override
+            public void onSuccess(LoginInfo info) {
+                showToast("获取通行证详情接口 success");
+            }
 
-interface ZbGetInfoListener{
-	void onSuccess(ZbInfo info);
-	void onFailure(int errorCode,String errorMessage);
-}
+            @Override
+            public void onFailure(int errorCode, String errorMessage) {
+                showToast(errorMessage);
+            }
+        });
 ```
 
-### 修改相关
+### 密码相关
 #### 找回密码
 
 ```java
-ZbPassport.changePassword(String phoneNumber,String captcha, ZbRetrieveListener listener);
-
-interface ZbRetrieveListener{
-	void onSuccess();
-	void onFailure(int errorCode,String errorMessage);
-}
+ZbPassport.findPassword(String phoneNumber, String captcha, String newPassword, ZbFindPasswordListener listener)；
 ```
+示例代码：
+```java
+        ZbPassport.findPassword(phoneNum, sms, password, new ZbFindPasswordListener() {
+            @Override
+            public void onSuccess() {
+                ToastUtil.showTextWithImage(R.mipmap.ic_qq, "找回密码成功,请使用新密码登录");
+            }
+
+            @Override
+            public void onFailure(int errorCode, String errorMessage) {
+                ToastUtil.showTextWithImage(R.mipmap.ic_qq, errorMessage);
+
+            }
+        });
+```
+
+#### 修改密码时，检查原密码是否正确的接口
+```java
+ZbPassport.checkPassword(String oldPassword, final ZbCaptchaVerifyListener listener);
+```
+请求的回调接口ZbCaptchaVerifyListener里onSuccess(boolean isValid)通过isValid来判断原密码是否正确,isValid为true,原密码验证正确,否则验证失败
+示例代码：
+```java
+ZbPassport.checkPassword(passWord, new ZbCaptchaVerifyListener() { // 验证旧密码是否正确
+            @Override
+            public void onSuccess(boolean isValid) {
+                if (isValid) {
+                    Intent intent = new Intent(view.getIActivity(), ChangeNewPasswordActivity.class);
+                    intent.putExtra("oldPassWord", passWord);
+                    view.getIActivity().startActivity(intent);
+                } else {
+                    ToastUtil.showTextWithImage(R.mipmap.ic_qq, "原密码错误");
+                }
+            }
+
+            @Override
+            public void onFailure(int errorCode, String errorMessage) {
+                ToastUtil.show(errorMessage);
+            }
+        });
+```
+
 
 #### 修改密码
 
 ```java
-ZbPassport.resetPassword(String phoneNumber,String password, ZbResetListener listener);
-
-interface ZbResetListener{
-	void onSuccess();
-	void onFailure(int errorCode,String errorMessage);
-}
-
+ZbPassport.changePassword(String oldPassWord, String newPassWord, final ZbChangePasswordListener listener);
 ```
+示例代码：
+```java
+      ZbPassport.changePassword(oldNum, newNum, new ZbChangePasswordListener() {
+            @Override
+            public void onSuccess() {
+                ToastUtil.showTextWithImage(R.mipmap.ic_qq, "修改密码成功");
+            }
 
-#### 绑定或者修改手机
+            @Override
+            public void onFailure(int errorCode, String errorMessage) {
+                ToastUtil.showTextWithImage(R.mipmap.ic_qq, errorMessage);
+            }
+        });
+```
+#### 检查手机号是否绑定浙报通行证
 
 ```java
-ZbPassport.bindPhone(String phoneNumber,String captcha, ZbBindListener listener);
-
-interface ZbBindListener{
-	void onSuccess();
-	void onFailure(int errorCode,String errorMessage);
-}
+ZbPassport.checkBindState(String phoneNumber, ZbCheckPhoneListener listener);
 ```
+
+#### 绑定浙报通行证手机号
+
+```java
+ZbPassport.bindPhone(String phoneNumber, String captcha, ZbBindPhoneListener listener);
+```
+
+#### 绑定第三方账号
+
+```java
+ZbPassport.bindThird(@ZbConstants.ThirdType int thirdType, String thirdUnionId, ZbBindThirdListener listener)
+```
+其中第一个参数为ZbConstants.LOGIN_WECHAT，ZbConstants.LOGIN_QQ，ZbConstants.LOGIN_SINA分别代表微信，qq，微博
+
 
 #### 解绑第三方账号
 
 ```java
-ZbPassport.unbindThird(String thirdUniqueId,ZbUnbindListener listener);
+ZbPassport.unbindThird(@ZbConstants.ThirdType int thirdType, ZbUnBindThirdListener listener);
+```
+其中第一个参数为ZbConstants.LOGIN_WECHAT，ZbConstants.LOGIN_QQ，ZbConstants.LOGIN_SINA分别代表微信，qq，微博
 
-interface ZbUnbindListener{
-	void onSuccess();
-	void onFailure(int errorCode,String errorMessage);
-}
+#### 退出登录接口
+
+```java
+ZbPassport.logout(ZbLogoutListener listener);
 ```
 
 #### 关于取消网络请求
 ZbPassport中的每个请求都会返回一个Call,调用当前Call的cancel方法可以取消该网络请求
-示例代码:
+示例代码,以取消下发注册短信验证码的接口请求为例:
 ```java
-// 取消下发注册短信验证码的接口请求:
 Call call = ZbPassport.sendRegisterCaptcha(String phoneNumber, ZbCaptchaListener listener);
 call.cancel();
 ```

@@ -3,6 +3,7 @@ package com.zjrb.passport.processor;
 import android.support.annotation.NonNull;
 
 import com.zjrb.passport.Entity.LoginInfo;
+import com.zjrb.passport.Entity.ThirdInfo;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.listener.ILoginResult;
 
@@ -39,10 +40,10 @@ public class GetInfoProcessor implements JsonProcessor {
 
         JSONArray jsonArray = jsonObject.optJSONArray("binding_list");
         if (jsonArray != null) {
-            List<LoginInfo.ThirdInfo> list = new ArrayList<>();
+            List<ThirdInfo> list = new ArrayList<>();
             for (int i = 0, length = jsonArray.length(); i < length; i++) {
                 JSONObject object = jsonArray.optJSONObject(i);
-                LoginInfo.ThirdInfo thirdInfo = new LoginInfo.ThirdInfo();
+                ThirdInfo thirdInfo = new ThirdInfo();
                 thirdInfo.setBindId(object.optInt("binding_id"));
                 thirdInfo.setLoginType(object.optInt("auth_type"));
                 thirdInfo.setUid(object.optString("auth_uid"));
