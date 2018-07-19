@@ -44,6 +44,10 @@ public class RequestHandler implements IRequestHandler {
             responseHandler.handleFail(callBack, call.request, -1, "请求异常");
         }
 
+        if (call.isCanceled()) {
+            Logger.d("取消请求: " + call.request);
+            return;
+        }
 
         // 返回内容解析
         Response response = null;

@@ -16,6 +16,8 @@ public class HttpCall implements Call {
 
     final ZbHttpClient.Config config;
 
+    private volatile boolean canceled; // 标志是否取消请求
+
     IRequestHandler requestHandler = new RequestHandler();
 
     public HttpCall(ZbHttpClient.Config config, Request request) {
@@ -34,9 +36,16 @@ public class HttpCall implements Call {
         HttpThreadPool.getInstance().execute(new FutureTask<>(task, null));
     }
 
+    /**
+     * 取消请求,不建议使用
+     */
     @Override
     public void cancel() {
+        this.canceled = true;
+    }
 
+    public boolean isCanceled() {
+        return canceled;
     }
 
 }

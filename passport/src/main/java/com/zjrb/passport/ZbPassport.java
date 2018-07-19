@@ -15,6 +15,7 @@ import com.zjrb.passport.listener.ZbLoginListener;
 import com.zjrb.passport.listener.ZbLogoutListener;
 import com.zjrb.passport.listener.ZbRegisterListener;
 import com.zjrb.passport.listener.ZbUnBindThirdListener;
+import com.zjrb.passport.net.Call;
 
 /**
  * Function: ZbPassport
@@ -55,41 +56,33 @@ public class ZbPassport {
     }
 
 
-    public static void sendCaptcha(@ZbConstants.SmsType int smsType, String phoneNumber, ZbCaptchaSendListener listener) {
+    public static Call sendCaptcha(@ZbConstants.SmsType int smsType, String phoneNumber, ZbCaptchaSendListener listener) {
         switch (smsType) {
             case ZbConstants.SMS_REGISTER:
-                netWork.sendRegisterCaptcha(phoneNumber, listener);
-                break;
+                return netWork.sendRegisterCaptcha(phoneNumber, listener);
             case ZbConstants.SMS_LOGIN:
-                netWork.sendLoginCaptcha(phoneNumber, listener);
-                break;
+                return netWork.sendLoginCaptcha(phoneNumber, listener);
             case ZbConstants.SMS_FIND:
-                netWork.sendRetrieveCaptcha(phoneNumber, listener);
-                break;
+                return netWork.sendRetrieveCaptcha(phoneNumber, listener);
             case ZbConstants.SMS_BIND:
-                netWork.sendBindCaptcha(phoneNumber, listener);
-                break;
+                return netWork.sendBindCaptcha(phoneNumber, listener);
             default:
-                break;
+                return null;
         }
     }
 
-    public static void verifyCaptcha(@ZbConstants.SmsType int smsType, String phoneNumber, String captcha, ZbCaptchaVerifyListener listener) {
+    public static Call verifyCaptcha(@ZbConstants.SmsType int smsType, String phoneNumber, String captcha, ZbCaptchaVerifyListener listener) {
         switch (smsType) {
             case ZbConstants.SMS_REGISTER:
-                netWork.verifyRegisterCaptcha(phoneNumber, captcha, listener);
-                break;
+                return netWork.verifyRegisterCaptcha(phoneNumber, captcha, listener);
             case ZbConstants.SMS_LOGIN:
-                netWork.verifyLoginCaptcha(phoneNumber, captcha, listener);
-                break;
+                return netWork.verifyLoginCaptcha(phoneNumber, captcha, listener);
             case ZbConstants.SMS_FIND:
-                netWork.verifyFindCaptcha(phoneNumber, captcha, listener);
-                break;
+                return netWork.verifyFindCaptcha(phoneNumber, captcha, listener);
             case ZbConstants.SMS_BIND:
-                netWork.verifyBindCaptcha(phoneNumber, captcha, listener);
-                break;
+                return netWork.verifyBindCaptcha(phoneNumber, captcha, listener);
             default:
-                break;
+                return null;
         }
     }
 
@@ -101,8 +94,8 @@ public class ZbPassport {
      * @param captcha
      * @param listener
      */
-    public static void register(String phoneNumber, String password, String captcha, ZbRegisterListener listener) {
-        netWork.register(phoneNumber, password, captcha, listener);
+    public static Call register(String phoneNumber, String password, String captcha, ZbRegisterListener listener) {
+        return netWork.register(phoneNumber, password, captcha, listener);
     }
 
     /**
@@ -112,8 +105,8 @@ public class ZbPassport {
      * @param password
      * @param listener
      */
-    public static void login(String phoneNumber, String password, ZbLoginListener listener) {
-        netWork.login(phoneNumber, password, listener);
+    public static Call login(String phoneNumber, String password, ZbLoginListener listener) {
+        return netWork.login(phoneNumber, password, listener);
     }
 
     /**
@@ -123,12 +116,12 @@ public class ZbPassport {
      * @param captcha
      * @param listener
      */
-    public static void loginCaptcha(String phoneNumber, String captcha, ZbLoginListener listener) {
-        netWork.loginCaptcha(phoneNumber, captcha, listener);
+    public static Call loginCaptcha(String phoneNumber, String captcha, ZbLoginListener listener) {
+        return netWork.loginCaptcha(phoneNumber, captcha, listener);
     }
 
-    public static void loginThird(@ZbConstants.ThirdType int thirdType, String thirdUniqueId, ZbLoginListener listener) {
-        netWork.loginThird(thirdType, thirdUniqueId, listener);
+    public static Call loginThird(@ZbConstants.ThirdType int thirdType, String thirdUniqueId, ZbLoginListener listener) {
+        return netWork.loginThird(thirdType, thirdUniqueId, listener);
     }
 
     /**
@@ -136,8 +129,8 @@ public class ZbPassport {
      *
      * @param listener
      */
-    public static void getInfo(ZbGetInfoListener listener) {
-        netWork.getInfo(listener);
+    public static Call getInfo(ZbGetInfoListener listener) {
+        return netWork.getInfo(listener);
     }
 
     /**
@@ -147,16 +140,16 @@ public class ZbPassport {
      * @param newPassWord
      * @param listener
      */
-    public static void changePassword(String oldPassWord, String newPassWord, final ZbChangePasswordListener listener) {
-        netWork.changePassword(oldPassWord, newPassWord, listener);
+    public static Call changePassword(String oldPassWord, String newPassWord, final ZbChangePasswordListener listener) {
+        return netWork.changePassword(oldPassWord, newPassWord, listener);
     }
 
-    public static void checkPassword(String oldPassword, final ZbCaptchaVerifyListener listener) {
-        netWork.checkPassWord(oldPassword, listener);
+    public static Call checkPassword(String oldPassword, final ZbCaptchaVerifyListener listener) {
+        return netWork.checkPassWord(oldPassword, listener);
     }
 
-    public static void findPassword(String phoneNumber, String captcha, String newPassword, ZbFindPasswordListener listener) {
-        netWork.findPassword(phoneNumber, captcha, newPassword, listener);
+    public static Call findPassword(String phoneNumber, String captcha, String newPassword, ZbFindPasswordListener listener) {
+        return netWork.findPassword(phoneNumber, captcha, newPassword, listener);
     }
 
     /**
@@ -166,8 +159,8 @@ public class ZbPassport {
      * @param captcha
      * @param listener
      */
-    public static void bindPhone(String phoneNumber, String captcha, ZbBindPhoneListener listener) {
-        netWork.bindPhone(phoneNumber, captcha, listener);
+    public static Call bindPhone(String phoneNumber, String captcha, ZbBindPhoneListener listener) {
+        return netWork.bindPhone(phoneNumber, captcha, listener);
     }
 
     /**
@@ -176,8 +169,8 @@ public class ZbPassport {
      * @param phoneNumber
      * @param listener
      */
-    public static void checkBindState(String phoneNumber, ZbCheckPhoneListener listener) {
-        netWork.checkBindState(phoneNumber, listener);
+    public static Call checkBindState(String phoneNumber, ZbCheckPhoneListener listener) {
+        return netWork.checkBindState(phoneNumber, listener);
     }
 
     /**
@@ -185,17 +178,17 @@ public class ZbPassport {
      *
      * @param listener
      */
-    public static void logout(ZbLogoutListener listener) {
-        netWork.logout(listener);
+    public static Call logout(ZbLogoutListener listener) {
+        return netWork.logout(listener);
     }
 
 
-    public static void bindThird(@ZbConstants.ThirdType int thirdType, String thirdUnionId, ZbBindThirdListener listener) {
-        netWork.bindThird(thirdType, thirdUnionId, listener);
+    public static Call bindThird(@ZbConstants.ThirdType int thirdType, String thirdUnionId, ZbBindThirdListener listener) {
+        return netWork.bindThird(thirdType, thirdUnionId, listener);
     }
 
-    public static void unbindThird(@ZbConstants.ThirdType int thirdType, ZbUnBindThirdListener listener) {
-        netWork.unbindThird(thirdType, listener);
+    public static Call unbindThird(@ZbConstants.ThirdType int thirdType, ZbUnBindThirdListener listener) {
+        return netWork.unbindThird(thirdType, listener);
     }
 
 
