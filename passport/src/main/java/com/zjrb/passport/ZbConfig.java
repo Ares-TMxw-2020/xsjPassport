@@ -28,6 +28,9 @@ public final class ZbConfig {
     private boolean isUseHttps; // 是否强制使用https
 
     ZbConfig(Context context) {
+        if (context == null) {
+            return;
+        }
         ApplicationInfo info = null;
         try {
             info = context.getPackageManager()

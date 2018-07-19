@@ -18,6 +18,7 @@ import com.zhejiangdaily.contracts.UserInfoContract;
 import com.zhejiangdaily.presenters.UmLoginPresenterImpl;
 import com.zhejiangdaily.presenters.UserInfoPresenterImpl;
 import com.zhejiangdaily.utils.ToastUtil;
+import com.zhejiangdaily.views.dialogs.TipDialog;
 import com.zjrb.passport.LoginInfo;
 import com.zjrb.passport.constant.ZbConstants;
 
@@ -45,6 +46,8 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
     TextView tvSina;
     @BindView(R.id.tv_qq)
     TextView tvQQ;
+
+    boolean isBindPhone;
 
     UserInfoContract.Presenter infoPresenter;
     UmLoginContract.Presenter umPresenter;
@@ -81,8 +84,10 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
             String phoneNumber = info.getPhoneNumber();
             if (TextUtils.isEmpty(phoneNumber)) {
                 tvPhone.setText("未绑定");
+                isBindPhone = false;
             } else {
                 tvPhone.setText(phoneNumber);
+                isBindPhone = true;
             }
             List<LoginInfo.ThirdInfo> list = info.getBindList();
             if (list != null && !list.isEmpty()) {
@@ -149,8 +154,7 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
     public void onIntentResult(boolean isSuccess, String phone) {
         if (isSuccess && !TextUtils.isEmpty(phone)) {
             tvPhone.setText(phone);
-        } else {
-            tvPhone.setText("未绑定");
+            isBindPhone = true;
         }
     }
 
@@ -189,21 +193,21 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
                 break;
             case R.id.ll_sina:
                 if ("已绑定".equals(tvSina.getText().toString())) {
-                    infoPresenter.unbindThird(ZbConstants.LOGIN_SINA);
+                    noticeUnbind(ZbConstants.LOGIN_SINA);
                 } else {
                     umPresenter.umLogin(SHARE_MEDIA.SINA);
                 }
                 break;
             case R.id.ll_wechat:
                 if ("已绑定".equals(tvWechat.getText().toString())) {
-                    infoPresenter.unbindThird(ZbConstants.LOGIN_WECHAT);
+                    noticeUnbind(ZbConstants.LOGIN_WECHAT);
                 } else {
                     umPresenter.umLogin(SHARE_MEDIA.WEIXIN);
                 }
                 break;
             case R.id.ll_qq:
                 if ("已绑定".equals(tvQQ.getText().toString())) {
-                    infoPresenter.unbindThird(ZbConstants.LOGIN_QQ);
+                    noticeUnbind(ZbConstants.LOGIN_QQ);
                 } else {
                     umPresenter.umLogin(SHARE_MEDIA.QQ);
                 }
@@ -212,5 +216,45 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
                 infoPresenter.logout();
                 break;
         }
+    }
+
+
+    private void noticeUnbind(final int platform) {
+        TipDialog dialog = new TipDialog(this);
+        dialog.setTitle("解绑").setMessage("确定解绑吗？").setLeft("取消").setRight("确定");
+        dialog.setListener(new TipDialog.Listener() {
+            @Override
+            public void onLeft() {
+
+            }
+
+            @Override
+            public void onRight() {
+                if (isBindPhone) {
+                    infoPresenter.unbindThird(platform);
+                } else {
+                    noticePhone();
+                }
+            }
+        });
+        dialog.show();
+    }
+
+
+    private void noticePhone() {
+        TipDialog dialog = new TipDialog(this);
+        dialog.setTitle("未绑定手机号").setMessage("您还未绑定手机号，请先绑定手机号").setLeft("取消").setRight("确定");
+        dialog.setListener(new TipDialog.Listener() {
+            @Override
+            public void onLeft() {
+
+            }
+
+            @Override
+            public void onRight() {
+                infoPresenter.intentBindPhone();
+            }
+        });
+        dialog.show();
     }
 }

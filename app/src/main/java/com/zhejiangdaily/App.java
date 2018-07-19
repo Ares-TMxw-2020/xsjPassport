@@ -32,7 +32,7 @@ public class App extends Application {
 
     private void initPassport() {
 //        ZbPassport.init(this);
-        ZbPassport.init(this, new ZbConfigBuilder().setDebug(true).setAppVersion("1.0").setAppUuid("uuid"));
+        ZbPassport.init(this, new ZbConfigBuilder().setAppVersion("1.0").setAppUuid("uuid"));
     }
 
     /**
