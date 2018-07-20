@@ -1,5 +1,8 @@
-package com.zjrb.passport.net;
+package com.zjrb.passport.net.request;
 
+import com.zjrb.passport.net.HttpAsyncTask;
+import com.zjrb.passport.net.HttpThreadPool;
+import com.zjrb.passport.net.ZbHttpClient;
 import com.zjrb.passport.net.interfaces.Call;
 import com.zjrb.passport.net.interfaces.CallBack;
 import com.zjrb.passport.net.interfaces.IRequestHandler;
@@ -16,7 +19,7 @@ public class HttpCall implements Call {
 
     final Request request;
 
-    final ZbHttpClient.Config config;
+    public final ZbHttpClient.Config config;
 
     private volatile boolean canceled; // 标志是否取消请求
 

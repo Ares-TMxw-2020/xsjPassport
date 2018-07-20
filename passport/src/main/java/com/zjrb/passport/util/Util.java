@@ -2,8 +2,8 @@ package com.zjrb.passport.util;
 
 import android.text.TextUtils;
 
-import com.zjrb.passport.net.Request;
-import com.zjrb.passport.net.RequestBody;
+import com.zjrb.passport.net.request.Request;
+import com.zjrb.passport.net.request.RequestBody;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

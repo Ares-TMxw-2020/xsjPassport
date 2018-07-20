@@ -1,5 +1,7 @@
-package com.zjrb.passport.net;
+package com.zjrb.passport.net.request;
 
+import com.zjrb.passport.net.response.Response;
+import com.zjrb.passport.net.response.ResponseBody;
 import com.zjrb.passport.net.interfaces.CallBack;
 import com.zjrb.passport.net.interfaces.IRequestHandler;
 import com.zjrb.passport.net.interfaces.IResponseHandler;
@@ -54,7 +56,7 @@ public class RequestHandler implements IRequestHandler {
         Response response = null;
         try {
             int responseCode = connection.getResponseCode();
-            if (responseCode == 200) {
+            if (responseCode == HttpURLConnection.HTTP_OK) {
                 byte[] bytes = new byte[1024];
                 int length;
                 InputStream inputStream = connection.getInputStream();

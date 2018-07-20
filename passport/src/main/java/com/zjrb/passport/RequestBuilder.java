@@ -4,8 +4,8 @@ import android.text.TextUtils;
 
 import com.zjrb.passport.constant.InnerConstant;
 import com.zjrb.passport.net.ApiManager;
-import com.zjrb.passport.net.FormBody;
-import com.zjrb.passport.net.Request;
+import com.zjrb.passport.net.request.FormBody;
+import com.zjrb.passport.net.request.Request;
 import com.zjrb.passport.util.EncryptUtil;
 
 import java.util.Map;

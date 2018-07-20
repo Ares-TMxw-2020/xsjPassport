@@ -1,4 +1,4 @@
-package com.zjrb.passport.net;
+package com.zjrb.passport.net.response;
 
 /**
  * Date: 2018/6/28 下午3:19
@@ -30,7 +30,7 @@ public class Response {
         return this.message;
     }
 
-    static class Builder {
+    public static class Builder {
 
         private ResponseBody body;
         private String message;

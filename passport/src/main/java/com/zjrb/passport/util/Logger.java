@@ -2,11 +2,10 @@ package com.zjrb.passport.util;
 
 import android.util.Log;
 
-import com.zjrb.passport.RequestBuilder;
 import com.zjrb.passport.ZbPassport;
-import com.zjrb.passport.net.FormBody;
-import com.zjrb.passport.net.Request;
-import com.zjrb.passport.net.Response;
+import com.zjrb.passport.net.request.FormBody;
+import com.zjrb.passport.net.request.Request;
+import com.zjrb.passport.net.response.Response;
 
 import java.util.Map;
 

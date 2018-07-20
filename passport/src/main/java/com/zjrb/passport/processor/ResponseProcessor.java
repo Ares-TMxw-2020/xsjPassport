@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import com.zjrb.passport.constant.ErrorCode;
 import com.zjrb.passport.listener.IFailure;
 import com.zjrb.passport.listener.IResult;
-import com.zjrb.passport.net.Response;
+import com.zjrb.passport.net.response.Response;
 
 import org.json.JSONException;
 import org.json.JSONObject;

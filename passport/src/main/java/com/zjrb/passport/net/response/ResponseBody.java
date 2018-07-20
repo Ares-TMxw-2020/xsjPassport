@@ -1,4 +1,4 @@
-package com.zjrb.passport.net;
+package com.zjrb.passport.net.response;
 
 import com.zjrb.passport.constant.InnerConstant;
 import com.zjrb.passport.util.Logger;

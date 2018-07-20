@@ -10,7 +10,7 @@ public interface Call {
 
     /**
      * 异步执行方式
-     * @param callBack
+     * @param callBack 回调接口
      */
     void enqueue(CallBack callBack);
 

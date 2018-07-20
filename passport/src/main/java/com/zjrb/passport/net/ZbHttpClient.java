@@ -1,6 +1,8 @@
 package com.zjrb.passport.net;
 
 import com.zjrb.passport.net.interfaces.Call;
+import com.zjrb.passport.net.request.HttpCall;
+import com.zjrb.passport.net.request.Request;
 
 /**
  * Date: 2018/6/28 下午6:21
@@ -20,10 +22,10 @@ public class ZbHttpClient {
         return new HttpCall(config, request);
     }
 
-    static class Config {
-        final int connTimeout;
-        final int readTimeout;
-        final int writeTimeout;
+    public static class Config {
+        public final int connTimeout;
+        public final int readTimeout;
+        public final int writeTimeout;
 
         public Config(Builder builder) {
             this.connTimeout = builder.connTimeout;

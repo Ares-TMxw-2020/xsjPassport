@@ -2,7 +2,7 @@ package com.zjrb.passport.net.interfaces;
 
 import android.support.annotation.Nullable;
 
-import com.zjrb.passport.net.HttpCall;
+import com.zjrb.passport.net.request.HttpCall;
 
 /**
  * Date: 2018/6/29 上午11:49

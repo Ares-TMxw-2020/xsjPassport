@@ -2,6 +2,7 @@ package com.zjrb.passport.net;
 
 import com.zjrb.passport.net.interfaces.CallBack;
 import com.zjrb.passport.net.interfaces.IRequestHandler;
+import com.zjrb.passport.net.request.HttpCall;
 
 /**
  * Date: 2018/6/30 下午9:44

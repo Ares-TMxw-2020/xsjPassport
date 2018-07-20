@@ -1,6 +1,6 @@
 package com.zjrb.passport.net.interfaces;
 
-import com.zjrb.passport.net.Response;
+import com.zjrb.passport.net.response.Response;
 
 import java.io.IOException;
 

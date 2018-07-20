@@ -159,6 +159,7 @@ ZbPassport.loginCaptcha(String phoneNumber, String captcha, ZbLoginListener list
 ZbPassport.loginThird(@ZbConstants.ThirdType int thirdType, String thirdUniqueId, ZbLoginListener listener);
 ```
 其中第一个参数为ZbConstants.LOGIN_WECHAT，ZbConstants.LOGIN_QQ，ZbConstants.LOGIN_SINA分别代表微信，qq，微博登录
+第二个参数为三方平台的id,其中qq和sina 取openId，微信取unionId，用友盟的话，统一取友盟封装的uid
 
 ### 获取通行证详情
 
@@ -266,7 +267,7 @@ ZbPassport.bindPhone(String phoneNumber, String captcha, ZbBindPhoneListener lis
 ZbPassport.bindThird(@ZbConstants.ThirdType int thirdType, String thirdUnionId, ZbBindThirdListener listener)
 ```
 其中第一个参数为ZbConstants.LOGIN_WECHAT，ZbConstants.LOGIN_QQ，ZbConstants.LOGIN_SINA分别代表微信，qq，微博
-
+第二个参数为三方平台的id,其中qq和sina取openId，微信取unionId，用友盟的话，统一取友盟封装的uid
 
 #### 解绑第三方账号
 

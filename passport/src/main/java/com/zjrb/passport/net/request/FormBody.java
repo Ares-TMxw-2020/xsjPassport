@@ -1,4 +1,4 @@
-package com.zjrb.passport.net;
+package com.zjrb.passport.net.request;
 
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;

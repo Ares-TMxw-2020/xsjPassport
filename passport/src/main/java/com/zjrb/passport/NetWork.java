@@ -17,7 +17,7 @@ import com.zjrb.passport.listener.ZbUnBindThirdListener;
 import com.zjrb.passport.net.ApiManager;
 import com.zjrb.passport.net.interfaces.Call;
 import com.zjrb.passport.net.interfaces.CallBack;
-import com.zjrb.passport.net.Response;
+import com.zjrb.passport.net.response.Response;
 import com.zjrb.passport.net.ZbHttpClient;
 import com.zjrb.passport.processor.CheckPhoneProcessor;
 import com.zjrb.passport.processor.GetInfoProcessor;

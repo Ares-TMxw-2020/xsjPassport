@@ -1,10 +1,11 @@
-package com.zjrb.passport.net;
+package com.zjrb.passport.net.request;
 
 import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 
 import com.zjrb.passport.ZbPassport;
+import com.zjrb.passport.net.ApiManager;
 import com.zjrb.passport.util.Util;
 
 import java.util.Map;
@@ -21,8 +22,7 @@ public class Request {
     final HttpMethod method;
     final String url;
     final Map<String, String> headers;
-    final @Nullable
-    RequestBody requestBody;
+    final @Nullable RequestBody requestBody;
     final Object tag;
 
     public Request(Builder builder) {
@@ -171,6 +171,9 @@ public class Request {
 
     }
 
+    /**
+     * 这里暂时不支持put和delete方式
+     */
     public enum HttpMethod {
 
         GET("GET"),
