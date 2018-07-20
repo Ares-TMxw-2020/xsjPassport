@@ -47,6 +47,11 @@ public class ZbPassport {
         builder.build(zbConfig);
     }
 
+    /**
+     * 设置token
+     *
+     * @param token token
+     */
     public static void setToken(String token) {
         zbConfig.setToken(token);
     }
@@ -56,6 +61,12 @@ public class ZbPassport {
     }
 
 
+    /**
+     * 发送验证码
+     *
+     * @param smsType     验证码类型
+     * @param phoneNumber 手机号
+     */
     public static Call sendCaptcha(@ZbConstants.SmsType int smsType, String phoneNumber, ZbCaptchaSendListener listener) {
         switch (smsType) {
             case ZbConstants.SMS_REGISTER:
@@ -71,6 +82,13 @@ public class ZbPassport {
         }
     }
 
+    /**
+     * 验证 验证码正确性
+     *
+     * @param smsType     验证码类型
+     * @param phoneNumber 手机号
+     * @param captcha     验证码
+     */
     public static Call verifyCaptcha(@ZbConstants.SmsType int smsType, String phoneNumber, String captcha, ZbCaptchaVerifyListener listener) {
         switch (smsType) {
             case ZbConstants.SMS_REGISTER:
@@ -89,10 +107,9 @@ public class ZbPassport {
     /**
      * 手机号注册浙报通行证
      *
-     * @param phoneNumber
-     * @param password
-     * @param captcha
-     * @param listener
+     * @param phoneNumber 手机号
+     * @param password    密码
+     * @param captcha     验证码
      */
     public static Call register(String phoneNumber, String password, String captcha, ZbRegisterListener listener) {
         return netWork.register(phoneNumber, password, captcha, listener);
@@ -101,9 +118,8 @@ public class ZbPassport {
     /**
      * 手机号密码登录浙报通行证
      *
-     * @param phoneNumber
-     * @param password
-     * @param listener
+     * @param phoneNumber 手机号
+     * @param password    密码
      */
     public static Call login(String phoneNumber, String password, ZbLoginListener listener) {
         return netWork.login(phoneNumber, password, listener);
@@ -112,22 +128,44 @@ public class ZbPassport {
     /**
      * 手机号与验证码登录
      *
-     * @param phoneNumber
-     * @param captcha
-     * @param listener
+     * @param phoneNumber 手机号
+     * @param captcha     验证码
      */
     public static Call loginCaptcha(String phoneNumber, String captcha, ZbLoginListener listener) {
         return netWork.loginCaptcha(phoneNumber, captcha, listener);
     }
 
+    /**
+     * 第三方登录
+     *
+     * @param thirdType     微信，qq，微博
+     * @param thirdUniqueId qq和sina 取openId，微信取unionId，用友盟的话，统一取友盟封装的uid
+     */
     public static Call loginThird(@ZbConstants.ThirdType int thirdType, String thirdUniqueId, ZbLoginListener listener) {
         return netWork.loginThird(thirdType, thirdUniqueId, listener);
     }
 
     /**
-     * 获取通行证详情
+     * 第三方绑定
      *
-     * @param listener
+     * @param thirdType    微信，qq，微博
+     * @param thirdUnionId qq和sina 取openId，微信取unionId，用友盟的话，统一取友盟封装的uid
+     */
+    public static Call bindThird(@ZbConstants.ThirdType int thirdType, String thirdUnionId, ZbBindThirdListener listener) {
+        return netWork.bindThird(thirdType, thirdUnionId, listener);
+    }
+
+    /**
+     * 第三方解绑
+     *
+     * @param thirdType 微信，qq，微博
+     */
+    public static Call unbindThird(@ZbConstants.ThirdType int thirdType, ZbUnBindThirdListener listener) {
+        return netWork.unbindThird(thirdType, listener);
+    }
+
+    /**
+     * 获取通行证详情
      */
     public static Call getInfo(ZbGetInfoListener listener) {
         return netWork.getInfo(listener);
@@ -136,18 +174,29 @@ public class ZbPassport {
     /**
      * 更改通行证密码
      *
-     * @param oldPassWord
-     * @param newPassWord
-     * @param listener
+     * @param oldPassWord 原密码
+     * @param newPassWord 新密码
      */
     public static Call changePassword(String oldPassWord, String newPassWord, final ZbChangePasswordListener listener) {
         return netWork.changePassword(oldPassWord, newPassWord, listener);
     }
 
+    /**
+     * 验证原密码
+     *
+     * @param oldPassword 原密码
+     */
     public static Call checkPassword(String oldPassword, final ZbCaptchaVerifyListener listener) {
         return netWork.checkPassWord(oldPassword, listener);
     }
 
+    /**
+     * 找回密码
+     *
+     * @param phoneNumber 手机号
+     * @param captcha     验证码
+     * @param newPassword 新密码
+     */
     public static Call findPassword(String phoneNumber, String captcha, String newPassword, ZbFindPasswordListener listener) {
         return netWork.findPassword(phoneNumber, captcha, newPassword, listener);
     }
@@ -155,9 +204,8 @@ public class ZbPassport {
     /**
      * 绑定浙报通行证手机号
      *
-     * @param phoneNumber
-     * @param captcha
-     * @param listener
+     * @param phoneNumber 手机号
+     * @param captcha     验证码
      */
     public static Call bindPhone(String phoneNumber, String captcha, ZbBindPhoneListener listener) {
         return netWork.bindPhone(phoneNumber, captcha, listener);
@@ -166,8 +214,7 @@ public class ZbPassport {
     /**
      * 检查手机号是否绑定浙报通行证
      *
-     * @param phoneNumber
-     * @param listener
+     * @param phoneNumber 手机号
      */
     public static Call checkBindState(String phoneNumber, ZbCheckPhoneListener listener) {
         return netWork.checkBindState(phoneNumber, listener);
@@ -175,21 +222,8 @@ public class ZbPassport {
 
     /**
      * 退出登录
-     *
-     * @param listener
      */
     public static Call logout(ZbLogoutListener listener) {
         return netWork.logout(listener);
     }
-
-
-    public static Call bindThird(@ZbConstants.ThirdType int thirdType, String thirdUnionId, ZbBindThirdListener listener) {
-        return netWork.bindThird(thirdType, thirdUnionId, listener);
-    }
-
-    public static Call unbindThird(@ZbConstants.ThirdType int thirdType, ZbUnBindThirdListener listener) {
-        return netWork.unbindThird(thirdType, listener);
-    }
-
-
 }

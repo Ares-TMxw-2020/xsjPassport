@@ -23,8 +23,8 @@ public class RequestBuilder {
     /**
      * 构建get方式请求
      *
-     * @param builder
-     * @return
+     * @param builder ParamsBuilder
+     * @return Request
      */
     public static Request buildGetRequest(ParamsBuilder builder) {
         Request request = null;
@@ -40,8 +40,8 @@ public class RequestBuilder {
     /**
      * 构建post方式请求
      *
-     * @param builder
-     * @return
+     * @param builder ParamsBuilder
+     * @return Request
      */
     public static Request buildPostRequest(ParamsBuilder builder) {
         Request request = null;

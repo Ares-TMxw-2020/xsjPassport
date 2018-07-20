@@ -11,16 +11,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Function: LoginJsonProcessor
+ * Function: LoginJsonProcessor 登录的json解析
  * <p>
  * Author: chen.h
  * Date: 2018/7/12
  */
-public class LoginJsonProcessor implements JsonProcessor {
+public class LoginProcessor implements JsonProcessor {
 
     private ILoginResult loginResult;
 
-    public LoginJsonProcessor(@NonNull ILoginResult loginResult) {
+    public LoginProcessor(@NonNull ILoginResult loginResult) {
         this.loginResult = loginResult;
     }
 

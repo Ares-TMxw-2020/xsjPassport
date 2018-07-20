@@ -8,16 +8,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Function: CheckJsonProcessor
+ * Function: CheckPhoneProcessor 验证手机是否绑定的json解析
  * <p>
  * Author: chen.h
  * Date: 2018/7/12
  */
-public class CheckJsonProcessor implements JsonProcessor {
+public class CheckPhoneProcessor implements JsonProcessor {
 
     private ZbCheckPhoneListener listener;
 
-    public CheckJsonProcessor(@NonNull ZbCheckPhoneListener listener) {
+    public CheckPhoneProcessor(@NonNull ZbCheckPhoneListener listener) {
         this.listener = listener;
     }
 

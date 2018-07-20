@@ -8,7 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Function: CaptchaVerifyJsonProcessor
+ * Function: CaptchaVerifyJsonProcessor 验证的json解析
  * <p>
  * Author: chen.h
  * Date: 2018/7/12

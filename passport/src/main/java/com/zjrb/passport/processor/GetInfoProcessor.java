@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Function: GetInfoProcessor
+ * Function: GetInfoProcessor 获取详情的json解析
  * <p>
  * Author: chen.h
  * Date: 2018/7/17
