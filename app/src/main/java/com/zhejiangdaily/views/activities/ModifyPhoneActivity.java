@@ -47,11 +47,20 @@ public class ModifyPhoneActivity extends AppCompatActivity implements ModifyPhon
                 finish();
                 break;
             case R.id.tv_send:
-                modifyPresenter.sendCaptcha(etPhone.getText().toString());
+                modifyPresenter.checkPhone(etPhone.getText().toString());
                 break;
             case R.id.tv_complete:
                 modifyPresenter.modifyPhone(etPhone.getText().toString(), etCaptcha.getText().toString());
                 break;
+        }
+    }
+
+    @Override
+    public void checkPhone(boolean isSuccess, boolean isBind, String errorMsg) {
+        if (isSuccess && !isBind) {
+            modifyPresenter.sendCaptcha(etPhone.getText().toString());
+        } else {
+            ToastUtil.show(errorMsg);
         }
     }
 
@@ -70,6 +79,7 @@ public class ModifyPhoneActivity extends AppCompatActivity implements ModifyPhon
             Intent intent = new Intent();
             intent.putExtra("phone", phone);
             setResult(RESULT_OK, intent);
+            finish();
         } else {
             ToastUtil.show(errorMsg);
         }

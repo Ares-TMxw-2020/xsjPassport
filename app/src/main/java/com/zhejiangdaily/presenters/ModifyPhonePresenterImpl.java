@@ -5,6 +5,7 @@ import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.listener.ZbBindPhoneListener;
 import com.zjrb.passport.listener.ZbCaptchaSendListener;
+import com.zjrb.passport.listener.ZbCheckPhoneListener;
 
 /**
  * Function: ModifyPhonePresenterImpl
@@ -18,6 +19,21 @@ public class ModifyPhonePresenterImpl implements ModifyPhoneContract.Presenter {
 
     public ModifyPhonePresenterImpl(ModifyPhoneContract.View view) {this.view = view;}
 
+
+    @Override
+    public void checkPhone(String phone) {
+        ZbPassport.checkBindState(phone, new ZbCheckPhoneListener() {
+            @Override
+            public void onSuccess(boolean isBind) {
+                view.checkPhone(true, isBind, "该手机已经注册浙报通行证");
+            }
+
+            @Override
+            public void onFailure(int errorCode, String errorMessage) {
+                view.checkPhone(false, false, errorMessage);
+            }
+        });
+    }
 
     @Override
     public void sendCaptcha(String phone) {
