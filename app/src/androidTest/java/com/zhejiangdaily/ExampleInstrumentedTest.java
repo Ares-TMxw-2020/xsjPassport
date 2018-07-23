@@ -1,4 +1,4 @@
-package passportdemo.zjrb.com.zjrbpassport;
+package com.zhejiangdaily;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

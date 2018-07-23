@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.zhejiangdaily.R;
@@ -40,15 +38,11 @@ public class BindPhoneActivity extends AppCompatActivity implements BindPhoneCon
     TextView tvSend;
     @BindView(R.id.tv_bind)
     TextView tvBind;
-    @BindView(R.id.sh_merge)
-    Switch shMerge;
 
     int status = 0;
 
     BindPhoneContract.Presenter bindPresenter;
 
-    //是否允许绑定已经注册的手机
-    boolean isSupportMerge;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,18 +50,6 @@ public class BindPhoneActivity extends AppCompatActivity implements BindPhoneCon
         setContentView(R.layout.activity_bind_phone);
         ButterKnife.bind(this);
         bindPresenter = new BindPhonePresenterImpl(this);
-        shMerge.setChecked(false);
-        shMerge.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                isSupportMerge = b;
-                if (b) {
-                    shMerge.setText("允许绑定已经注册的手机");
-                } else {
-                    shMerge.setText("不允许绑定已经注册的手机");
-                }
-            }
-        });
     }
 
     private void switchStatue() {
@@ -77,13 +59,11 @@ public class BindPhoneActivity extends AppCompatActivity implements BindPhoneCon
                 etCaptcha.setVisibility(View.VISIBLE);
                 tvSend.setVisibility(View.VISIBLE);
                 tvBind.setText("绑 定");
-                shMerge.setVisibility(View.GONE);
                 break;
             default:
                 etPhone.setVisibility(View.VISIBLE);
                 etCaptcha.setVisibility(View.GONE);
                 tvSend.setVisibility(View.GONE);
-                shMerge.setVisibility(View.VISIBLE);
                 tvBind.setText("下一步");
                 break;
         }
@@ -116,7 +96,7 @@ public class BindPhoneActivity extends AppCompatActivity implements BindPhoneCon
     @Override
     public void checkPhone(boolean isSuccess, boolean isExist, String errorMsg) {
         if (isSuccess) {
-            if (isExist && !isSupportMerge) {
+            if (isExist) {
                 //号码存在，且不支持合并
                 TipDialog tipDialog = new TipDialog(this);
                 tipDialog.setTitle("提示")
@@ -131,14 +111,15 @@ public class BindPhoneActivity extends AppCompatActivity implements BindPhoneCon
 
                              @Override
                              public void onRight() {
-
+                                 ToastUtil.show("当前已经登录");
                              }
                          });
                 tipDialog.show();
+                status = 0;
             } else {
                 status = 1;
-                switchStatue();
             }
+            switchStatue();
         } else {
             ToastUtil.show(errorMsg);
         }

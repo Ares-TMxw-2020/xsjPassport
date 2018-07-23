@@ -33,17 +33,6 @@
     </RelativeLayout>
 
 
-    <Switch
-        android:id="@+id/sh_merge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/rl_title"
-        android:layout_marginTop="10dp"
-        android:checked="false"
-        android:text="不允许绑定已经注册的手机"
-        />
-
     <EditText
         android:id="@+id/et_phone"
         android:layout_width="match_parent"
@@ -56,6 +45,7 @@
         android:digits="0123456789"
         android:hint="请输入手机号"
         android:inputType="phone"
+        android:maxLength="11"
         android:padding="10dp"
         android:textColor="@color/color_blue"/>
 
@@ -82,7 +72,7 @@
         android:layout_below="@+id/et_password"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:layout_toLeftOf="@+id/tv_send"
         android:background="@color/color_white"
         android:digits="0123456789"
