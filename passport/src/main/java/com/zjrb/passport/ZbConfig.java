@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.text.TextUtils;
 
 import com.zjrb.passport.constant.InnerConstant;
 import com.zjrb.passport.constant.ZbConstants;
@@ -50,19 +51,19 @@ public final class ZbConfig {
     private void resolveEnv(String env) {
         switch (env) {
             case InnerConstant.TEST:
-                envType = ZbConstants.ENV_TEST;
+                envType = ZbConstants.Env.TEST;
                 isDebug = false;
                 break;
             case InnerConstant.PRE:
-                envType = ZbConstants.ENV_PRE;
+                envType = ZbConstants.Env.PRE;
                 isDebug = false;
                 break;
             case InnerConstant.OFFICIAL:
-                envType = ZbConstants.ENV_OFFICIAL;
+                envType = ZbConstants.Env.OFFICIAL;
                 isDebug = false;
                 break;
             default:
-                envType = ZbConstants.ENV_DEV;
+                envType = ZbConstants.Env.DEV;
                 isDebug = true;
                 break;
         }
@@ -140,7 +141,7 @@ public final class ZbConfig {
 
     void setDebug(boolean debug) {
         isDebug = debug;
-        if (envType == ZbConstants.ENV_OFFICIAL) {
+        if (envType == ZbConstants.Env.OFFICIAL) {
             isDebug = false;
         }
     }
@@ -171,8 +172,77 @@ public final class ZbConfig {
         if (isDebug) {
             isUseHttps = useHttps;
         }
-        if (envType == ZbConstants.ENV_OFFICIAL) {
+        if (envType == ZbConstants.Env.OFFICIAL) {
             isUseHttps = false;
+        }
+    }
+
+    /**
+     * Function: ZbConfigBuilder
+     */
+    public static class Builder {
+        private int appId;
+        private String appKey;
+        private String appSecret;
+        private int envType;
+        private boolean isDebug;
+        private boolean isSetDebug;
+        private String appVersion;
+        private String appUuid;
+
+        public Builder setAppId(int appId) {
+            this.appId = appId;
+            return this;
+        }
+
+        public Builder setAppKey(String appKey) {
+            this.appKey = appKey;
+            return this;
+        }
+
+        public Builder setAppSecret(String appSecret) {
+            this.appSecret = appSecret;
+            return this;
+        }
+
+        public Builder setEnvType(@ZbConstants.EnvType int envType) {
+            this.envType = envType;
+            return this;
+        }
+
+        public Builder setDebug(boolean isDebug) {
+            this.isSetDebug = true;
+            this.isDebug = isDebug;
+            return this;
+        }
+
+        public Builder setAppVersion(String appVersion) {
+            this.appVersion = appVersion;
+            return this;
+        }
+
+        public Builder setAppUuid(String appUuid) {
+            this.appUuid = appUuid;
+            return this;
+        }
+
+        public void build(ZbConfig zbConfig) {
+            if (appId != 0) {
+                zbConfig.setAppId(appId);
+            }
+            if (!TextUtils.isEmpty(appKey)) {
+                zbConfig.setAppKey(appKey);
+            }
+            if (!TextUtils.isEmpty(appSecret)) {
+                zbConfig.setAppSecret(appSecret);
+            }
+            zbConfig.setEnvType(envType);
+            if (isSetDebug) {
+                zbConfig.setDebug(isDebug);
+            }
+            zbConfig.setAppVersion(appVersion);
+            zbConfig.setAppUuid(appUuid);
+            zbConfig.initUA();
         }
     }
 }

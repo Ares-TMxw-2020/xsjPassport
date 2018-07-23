@@ -5,6 +5,17 @@ import android.support.annotation.IntDef;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import static com.zjrb.passport.constant.ZbConstants.Env.DEV;
+import static com.zjrb.passport.constant.ZbConstants.Env.OFFICIAL;
+import static com.zjrb.passport.constant.ZbConstants.Env.PRE;
+import static com.zjrb.passport.constant.ZbConstants.Env.TEST;
+import static com.zjrb.passport.constant.ZbConstants.ThirdLogin.QQ;
+import static com.zjrb.passport.constant.ZbConstants.ThirdLogin.SINA;
+import static com.zjrb.passport.constant.ZbConstants.ThirdLogin.WECHAT;
+import static com.zjrb.passport.constant.ZbConstants.Sms.BIND;
+import static com.zjrb.passport.constant.ZbConstants.Sms.FIND;
+import static com.zjrb.passport.constant.ZbConstants.Sms.LOGIN;
+
 /**
  * Function: ZbConstants
  * <p>
@@ -14,58 +25,84 @@ import java.lang.annotation.RetentionPolicy;
 public final class ZbConstants {
 
     /**
-     * 开发环境
+     * 环境配置
      */
-    public static final int ENV_DEV = 0;
+    public static class Env {
+        /**
+         * 开发环境
+         */
+        public static final int DEV = 0;
+        /**
+         * 测试环境
+         */
+        public static final int TEST = 1;
+        /**
+         * 预发布环境
+         */
+        public static final int PRE = 2;
+        /**
+         * 正式环境
+         */
+        public static final int OFFICIAL = 3;
+    }
+
+
     /**
-     * 测试环境
+     * 第三方登录方式
      */
-    public static final int ENV_TEST = 1;
+    public static class ThirdLogin {
+        /**
+         * 微信
+         */
+        public static final int WECHAT = 2;
+        /**
+         * QQ
+         */
+        public static final int QQ = 3;
+        /**
+         * 新浪微博
+         */
+        public static final int SINA = 4;
+    }
+
+
     /**
-     * 预发布环境
+     * 短信类型
      */
-    public static final int ENV_PRE = 2;
-    /**
-     * 正式环境
-     */
-    public static final int ENV_OFFICIAL = 3;
+    public static class Sms {
+        /**
+         * 注册短信
+         */
+        public static final int REGISTER = 1;
+        /**
+         * 登录短信
+         */
+        public static final int LOGIN = 2;
+        /**
+         * 找回密码短信
+         */
+        public static final int FIND = 3;
+        /**
+         * 绑定手机短信
+         */
+        public static final int BIND = 4;
+    }
+
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({ENV_DEV, ENV_TEST, ENV_PRE, ENV_OFFICIAL})
+    @IntDef({DEV, TEST, PRE, OFFICIAL})
     public @interface EnvType {
     }
 
 
-    public static final int LOGIN_WECHAT = 2;
-    public static final int LOGIN_QQ = 3;
-    public static final int LOGIN_SINA = 4;
-
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({LOGIN_WECHAT, LOGIN_QQ, LOGIN_SINA})
+    @IntDef({WECHAT, QQ, SINA})
     public @interface ThirdType {
     }
 
 
-    /**
-     * 注册短信
-     */
-    public static final int SMS_REGISTER = 1;
-    /**
-     * 登录短信
-     */
-    public static final int SMS_LOGIN = 2;
-    /**
-     * 找回密码短信
-     */
-    public static final int SMS_FIND = 3;
-    /**
-     * 绑定手机短信
-     */
-    public static final int SMS_BIND = 4;
-
-
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({SMS_REGISTER, SMS_LOGIN, SMS_FIND, SMS_BIND})
+    @IntDef({Sms.REGISTER, LOGIN, FIND, BIND})
     public @interface SmsType {
     }
 }

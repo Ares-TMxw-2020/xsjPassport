@@ -37,13 +37,13 @@ public class ZbPassport {
         netWork = new NetWork();
     }
 
-    public static void init(Context context, ZbConfigBuilder builder) {
+    public static void init(Context context, ZbConfig.Builder builder) {
         zbConfig = new ZbConfig(context);
         netWork = new NetWork();
         setZbConfig(builder);
     }
 
-    public static void setZbConfig(ZbConfigBuilder builder) {
+    public static void setZbConfig(ZbConfig.Builder builder) {
         builder.build(zbConfig);
     }
 
@@ -69,13 +69,13 @@ public class ZbPassport {
      */
     public static Call sendCaptcha(@ZbConstants.SmsType int smsType, String phoneNumber, ZbCaptchaSendListener listener) {
         switch (smsType) {
-            case ZbConstants.SMS_REGISTER:
+            case ZbConstants.Sms.REGISTER:
                 return netWork.sendRegisterCaptcha(phoneNumber, listener);
-            case ZbConstants.SMS_LOGIN:
+            case ZbConstants.Sms.LOGIN:
                 return netWork.sendLoginCaptcha(phoneNumber, listener);
-            case ZbConstants.SMS_FIND:
+            case ZbConstants.Sms.FIND:
                 return netWork.sendRetrieveCaptcha(phoneNumber, listener);
-            case ZbConstants.SMS_BIND:
+            case ZbConstants.Sms.BIND:
                 return netWork.sendBindCaptcha(phoneNumber, listener);
             default:
                 return null;
@@ -91,13 +91,13 @@ public class ZbPassport {
      */
     public static Call verifyCaptcha(@ZbConstants.SmsType int smsType, String phoneNumber, String captcha, ZbCaptchaVerifyListener listener) {
         switch (smsType) {
-            case ZbConstants.SMS_REGISTER:
+            case ZbConstants.Sms.REGISTER:
                 return netWork.verifyRegisterCaptcha(phoneNumber, captcha, listener);
-            case ZbConstants.SMS_LOGIN:
+            case ZbConstants.Sms.LOGIN:
                 return netWork.verifyLoginCaptcha(phoneNumber, captcha, listener);
-            case ZbConstants.SMS_FIND:
+            case ZbConstants.Sms.FIND:
                 return netWork.verifyFindCaptcha(phoneNumber, captcha, listener);
-            case ZbConstants.SMS_BIND:
+            case ZbConstants.Sms.BIND:
                 return netWork.verifyBindCaptcha(phoneNumber, captcha, listener);
             default:
                 return null;

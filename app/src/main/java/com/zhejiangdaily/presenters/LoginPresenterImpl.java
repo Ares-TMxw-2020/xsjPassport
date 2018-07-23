@@ -43,13 +43,13 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
     public void loginThird(SHARE_MEDIA platform, String uid) {
         switch (platform) {
             case WEIXIN:
-                ZbPassport.loginThird(ZbConstants.LOGIN_WECHAT, uid, zbLoginListener);
+                ZbPassport.loginThird(ZbConstants.ThirdLogin.WECHAT, uid, zbLoginListener);
                 break;
             case QQ:
-                ZbPassport.loginThird(ZbConstants.LOGIN_QQ, uid, zbLoginListener);
+                ZbPassport.loginThird(ZbConstants.ThirdLogin.QQ, uid, zbLoginListener);
                 break;
             case SINA:
-                ZbPassport.loginThird(ZbConstants.LOGIN_SINA, uid, zbLoginListener);
+                ZbPassport.loginThird(ZbConstants.ThirdLogin.SINA, uid, zbLoginListener);
                 break;
             default:
                 break;

@@ -30,7 +30,7 @@ public class FindPassWordPresenterImpl implements FindPasswordContract.Presenter
     @Override
     public void sendSms(String phoneNum) {
         if (ZbUtil.isMobileNum(phoneNum)) {
-            ZbPassport.sendCaptcha(ZbConstants.SMS_FIND,phoneNum, new ZbCaptchaSendListener() {
+            ZbPassport.sendCaptcha(ZbConstants.Sms.FIND,phoneNum, new ZbCaptchaSendListener() {
                 @Override
                 public void onSuccess() {
 
@@ -53,7 +53,7 @@ public class FindPassWordPresenterImpl implements FindPasswordContract.Presenter
 
     @Override
     public void doNext(final String phoneNum, final String sms) {
-        ZbPassport.verifyCaptcha(ZbConstants.SMS_FIND, phoneNum, sms, new ZbCaptchaVerifyListener() {
+        ZbPassport.verifyCaptcha(ZbConstants.Sms.FIND, phoneNum, sms, new ZbCaptchaVerifyListener() {
             @Override
             public void onSuccess(boolean isValid) {
                 if (isValid) {

@@ -40,13 +40,13 @@ public class ApiManager {
     public static final String getBaseUri() {
         int envType = ZbPassport.getZbConfig().getEnvType();
         switch (envType) {
-            case ZbConstants.ENV_DEV:
+            case ZbConstants.Env.DEV:
                 return UrlConstant.DEVELOP_URL;
-            case ZbConstants.ENV_TEST:
+            case ZbConstants.Env.TEST:
                 return UrlConstant.TEST_URL;
-            case ZbConstants.ENV_PRE:
+            case ZbConstants.Env.PRE:
                 return UrlConstant.PRE_URL;
-            case ZbConstants.ENV_OFFICIAL:
+            case ZbConstants.Env.OFFICIAL:
                 return UrlConstant.OFFICIAL_URL;
             default:
                 return UrlConstant.DEVELOP_URL;

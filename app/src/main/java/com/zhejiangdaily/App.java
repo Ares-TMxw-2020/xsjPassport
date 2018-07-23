@@ -9,8 +9,9 @@ import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
 import com.zhejiangdaily.utils.ToastUtil;
 import com.zhejiangdaily.utils.ZbUtil;
-import com.zjrb.passport.ZbConfigBuilder;
+import com.zjrb.passport.ZbConfig;
 import com.zjrb.passport.ZbPassport;
+import com.zjrb.passport.constant.ZbConstants;
 
 /**
  * Function: App
@@ -32,7 +33,14 @@ public class App extends Application {
 
     private void initPassport() {
 //        ZbPassport.init(this);
-        ZbPassport.init(this, new ZbConfigBuilder().setAppVersion("1.0").setAppUuid("uuid"));
+        ZbPassport.init(this, new ZbConfig.Builder().setAppVersion("1.0").setAppUuid("uuid"));
+        ZbPassport.setZbConfig(new ZbConfig.Builder().setAppId(1)
+                                                     .setAppKey("appKey")
+                                                     .setAppSecret("")
+                                                     .setDebug(true)
+                                                     .setEnvType(ZbConstants.Env.DEV)
+                                                     .setAppVersion("Your App version")
+                                                     .setAppUuid("Your App uuid"));
     }
 
     /**

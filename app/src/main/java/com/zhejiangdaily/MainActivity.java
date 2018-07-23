@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.tv_send:
                 if (ZbUtil.isMobileNum(mEtPhone.getText().toString())) {
-                    ZbPassport.sendCaptcha(ZbConstants.SMS_LOGIN, mEtPhone.getText().toString(), new ZbCaptchaSendListener() {
+                    ZbPassport.sendCaptcha(ZbConstants.Sms.LOGIN, mEtPhone.getText().toString(), new ZbCaptchaSendListener() {
                         @Override
                         public void onSuccess() {
                             ToastUtil.show("下发登录短信验证码接口 success");

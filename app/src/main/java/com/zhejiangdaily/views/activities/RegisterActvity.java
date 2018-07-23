@@ -120,7 +120,7 @@ public class RegisterActvity extends AppCompatActivity {
             case R.id.tv_send:
                 // 校验手机号
                 if (ZbUtil.isMobileNum(phoneNum)) {
-                    ZbPassport.sendCaptcha(ZbConstants.SMS_REGISTER, phoneNum, new ZbCaptchaSendListener() {
+                    ZbPassport.sendCaptcha(ZbConstants.Sms.REGISTER, phoneNum, new ZbCaptchaSendListener() {
                         @Override
                         public void onSuccess() {
                             ToastUtil.show("下发注册短信验证码接口 success");

@@ -1,6 +1,5 @@
 package com.zjrb.passport;
 
-import com.zjrb.passport.RequestBuilder.ParamsBuilder;
 import com.zjrb.passport.listener.IResult;
 import com.zjrb.passport.listener.ZbBindPhoneListener;
 import com.zjrb.passport.listener.ZbBindThirdListener;
@@ -15,20 +14,22 @@ import com.zjrb.passport.listener.ZbLogoutListener;
 import com.zjrb.passport.listener.ZbRegisterListener;
 import com.zjrb.passport.listener.ZbUnBindThirdListener;
 import com.zjrb.passport.net.ApiManager;
+import com.zjrb.passport.net.ZbHttpClient;
 import com.zjrb.passport.net.interfaces.Call;
 import com.zjrb.passport.net.interfaces.CallBack;
 import com.zjrb.passport.net.response.Response;
-import com.zjrb.passport.net.ZbHttpClient;
 import com.zjrb.passport.processor.CheckPhoneProcessor;
 import com.zjrb.passport.processor.GetInfoProcessor;
 import com.zjrb.passport.processor.LoginProcessor;
 import com.zjrb.passport.processor.ResponseProcessor;
 import com.zjrb.passport.processor.VerifyJsonProcessor;
+import com.zjrb.passport.util.RequestBuilder.ParamsBuilder;
 
 import java.io.IOException;
 
-import static com.zjrb.passport.RequestBuilder.buildGetRequest;
-import static com.zjrb.passport.RequestBuilder.buildPostRequest;
+import static com.zjrb.passport.util.RequestBuilder.buildGetRequest;
+import static com.zjrb.passport.util.RequestBuilder.buildPostRequest;
+
 
 /**
  * Function: NetWork

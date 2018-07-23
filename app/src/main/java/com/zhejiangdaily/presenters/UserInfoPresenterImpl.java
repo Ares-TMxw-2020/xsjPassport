@@ -100,13 +100,13 @@ public class UserInfoPresenterImpl implements UserInfoContract.Presenter {
         final int type;
         switch (platform) {
             case QQ:
-                type = ZbConstants.LOGIN_QQ;
+                type = ZbConstants.ThirdLogin.QQ;
                 break;
             case SINA:
-                type = ZbConstants.LOGIN_SINA;
+                type = ZbConstants.ThirdLogin.SINA;
                 break;
             case WEIXIN:
-                type = ZbConstants.LOGIN_WECHAT;
+                type = ZbConstants.ThirdLogin.WECHAT;
                 break;
             default:
                 return;

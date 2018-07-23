@@ -94,13 +94,13 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
             if (list != null && !list.isEmpty()) {
                 for (ThirdInfo d : list) {
                     switch (d.getLoginType()) {
-                        case ZbConstants.LOGIN_QQ:
+                        case ZbConstants.ThirdLogin.QQ:
                             tvQQ.setText("已绑定");
                             break;
-                        case ZbConstants.LOGIN_SINA:
+                        case ZbConstants.ThirdLogin.SINA:
                             tvSina.setText("已绑定");
                             break;
-                        case ZbConstants.LOGIN_WECHAT:
+                        case ZbConstants.ThirdLogin.WECHAT:
                             tvWechat.setText("已绑定");
                             break;
                     }
@@ -119,13 +119,13 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
     public void unBindThird(boolean isSuccess, int platform, String errorMsg) {
         if (isSuccess) {
             switch (platform) {
-                case ZbConstants.LOGIN_QQ:
+                case ZbConstants.ThirdLogin.QQ:
                     tvQQ.setText("未绑定");
                     break;
-                case ZbConstants.LOGIN_SINA:
+                case ZbConstants.ThirdLogin.SINA:
                     tvSina.setText("未绑定");
                     break;
-                case ZbConstants.LOGIN_WECHAT:
+                case ZbConstants.ThirdLogin.WECHAT:
                     tvWechat.setText("未绑定");
                     break;
             }
@@ -163,13 +163,13 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
     public void bindThird(boolean isSuccess, int platform, String errorMsg) {
         if (isSuccess) {
             switch (platform) {
-                case ZbConstants.LOGIN_QQ:
+                case ZbConstants.ThirdLogin.QQ:
                     tvQQ.setText("已绑定");
                     break;
-                case ZbConstants.LOGIN_SINA:
+                case ZbConstants.ThirdLogin.SINA:
                     tvSina.setText("已绑定");
                     break;
-                case ZbConstants.LOGIN_WECHAT:
+                case ZbConstants.ThirdLogin.WECHAT:
                     tvWechat.setText("已绑定");
                     break;
             }
@@ -194,21 +194,21 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
                 break;
             case R.id.ll_sina:
                 if ("已绑定".equals(tvSina.getText().toString())) {
-                    noticeUnbind(ZbConstants.LOGIN_SINA);
+                    noticeUnbind(ZbConstants.ThirdLogin.SINA);
                 } else {
                     umPresenter.umLogin(SHARE_MEDIA.SINA);
                 }
                 break;
             case R.id.ll_wechat:
                 if ("已绑定".equals(tvWechat.getText().toString())) {
-                    noticeUnbind(ZbConstants.LOGIN_WECHAT);
+                    noticeUnbind(ZbConstants.ThirdLogin.WECHAT);
                 } else {
                     umPresenter.umLogin(SHARE_MEDIA.WEIXIN);
                 }
                 break;
             case R.id.ll_qq:
                 if ("已绑定".equals(tvQQ.getText().toString())) {
-                    noticeUnbind(ZbConstants.LOGIN_QQ);
+                    noticeUnbind(ZbConstants.ThirdLogin.QQ);
                 } else {
                     umPresenter.umLogin(SHARE_MEDIA.QQ);
                 }

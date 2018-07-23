@@ -23,7 +23,6 @@ android {
     }
 
 
-
     buildTypes {
 
         debug {
@@ -36,23 +35,7 @@ android {
             }
 
             manifestPlaceholders = [
-                    UMENG_APPKEY    : "535879d256240b8965030920",
-                    GETUI_APP_ID    : "b31poVAPhj6n85jPUP2Yf",
-                    GETUI_APP_KEY   : "j5qQbBBWHmAxzxO8xD0yx3",
-                    GETUI_APP_SECRET: "B51LUkWJf59bpfYib0CiU2",
-                    MW_APPID        : "B5CYHNBKB3SSNGJXX10D2UJVJAU7G3T8",
-
-              /*      // 个推 - 小米辅助推送
-                    XIAOMI_APP_ID   : "2882303761517169025",
-                    XIAOMI_APP_KEY  : "5101716997025",
-                    // 个推 - 华为辅助推送
-                    HUAWEI_APP_ID   : "10195606",
-                    // 个推 - 魅族辅助推送
-                    MEIZU_APP_ID    : "112126",
-                    MEIZU_APP_KEY   : "598da763833543e6bca03ecaa2594c32",
-
-                    //个象id
-                    INSIGHT_ID      : "HqZhshqRCM6u1nqcobzoL6"*/
+                    UMENG_APPKEY: "535879d256240b8965030920",
             ]
         }
 
@@ -67,29 +50,9 @@ android {
             }
 
             manifestPlaceholders = [
-                    UMENG_APPKEY    : "535879d256240b8965030920",
-                    GETUI_APP_ID    : "fJepuPhC72Aj4BKQN1o9J9",
-                    GETUI_APP_KEY   : "fZo4uSKT5aAZ3GRMbAvuz2",
-                    GETUI_APP_SECRET: "JycGu6bv5i5M1xY2ise9K2",
-                    MW_APPID        : "B5CYHNBKB3SSNGJXX10D2UJVJAU7G3T8",
-
-                 /*   // 个推 - 小米辅助推送
-                    XIAOMI_APP_ID   : "2882303761517169025",
-                    XIAOMI_APP_KEY  : "5101716997025",
-                    // 个推 - 华为辅助推送
-                    HUAWEI_APP_ID   : "10195606",
-                    // 个推 - 魅族辅助推送
-                    MEIZU_APP_ID    : "1001058",
-                    MEIZU_APP_KEY   : "d89baded4cfa4ece8f5277ee2c3d4b86",
-
-                    //个象id
-                    INSIGHT_ID      : "zUZpTnxTGc9w5fwO8EpBeA"*/
+                    UMENG_APPKEY: "535879d256240b8965030920",
             ]
         }
-//        release {
-//            minifyEnabled false
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//        }
     }
 }
 
@@ -106,7 +69,9 @@ dependencies {
         exclude group: "com.android.support"
     }
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    //test
+    androidTestImplementation 'com.android.support.test:runner:1.0.0'
+    androidTestImplementation 'org.hamcrest:hamcrest-integration:1.3'
+    // UiAutomator Testing
+    androidTestImplementation 'com.android.support.test.uiautomator:uiautomator-v18:2.1.3'
 }

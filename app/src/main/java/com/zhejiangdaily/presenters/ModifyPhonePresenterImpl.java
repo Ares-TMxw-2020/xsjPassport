@@ -37,7 +37,7 @@ public class ModifyPhonePresenterImpl implements ModifyPhoneContract.Presenter {
 
     @Override
     public void sendCaptcha(String phone) {
-        ZbPassport.sendCaptcha(ZbConstants.SMS_BIND, phone, new ZbCaptchaSendListener() {
+        ZbPassport.sendCaptcha(ZbConstants.Sms.BIND, phone, new ZbCaptchaSendListener() {
             @Override
             public void onSuccess() {
                 view.sendCaptcha(true, null);
