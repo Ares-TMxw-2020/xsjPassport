@@ -52,6 +52,7 @@
         android:background="@color/color_white"
         android:hint="请输入密码"
         android:inputType="textPassword"
+        android:maxLength="15"
         android:padding="10dp"/>
 
 

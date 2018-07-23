@@ -82,7 +82,13 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
     }
 
     private void doLogin(String phone, String password) {
-        ZbPassport.login(phone, password, zbLoginListener);
+        if (password == null) {
+            view.login(false, "密码不能为空");
+        } else if (password.length() < 6) {
+            view.login(false, "密码长度小于6位");
+        } else {
+            ZbPassport.login(phone, password, zbLoginListener);
+        }
     }
 
     private ZbLoginListener zbLoginListener = new ZbLoginListener() {
