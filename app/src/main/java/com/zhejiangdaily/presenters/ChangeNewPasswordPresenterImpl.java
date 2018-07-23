@@ -1,6 +1,7 @@
 package com.zhejiangdaily.presenters;
 
 import android.content.Intent;
+import android.text.TextUtils;
 
 import com.zhejiangdaily.R;
 import com.zhejiangdaily.contracts.ChangeNewPassWordContract;
@@ -25,6 +26,14 @@ public class ChangeNewPasswordPresenterImpl implements ChangeNewPassWordContract
 
     @Override
     public void changePassWord(String oldNum, String newNum) {
+        if (TextUtils.isEmpty(newNum)) {
+            ToastUtil.show("请输入新密码!");
+            return;
+        }
+        if (newNum.length() < 6) {
+            ToastUtil.show("密码长度小于6,请输入6到15位密码!");
+            return;
+        }
         ZbPassport.changePassword(oldNum, newNum, new ZbChangePasswordListener() {
             @Override
             public void onSuccess() {

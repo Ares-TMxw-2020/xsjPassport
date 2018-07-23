@@ -16,6 +16,7 @@ import com.zhejiangdaily.contracts.UmLoginContract;
 import com.zhejiangdaily.presenters.LoginPresenterImpl;
 import com.zhejiangdaily.presenters.UmLoginPresenterImpl;
 import com.zhejiangdaily.utils.ToastUtil;
+import com.zhejiangdaily.utils.ZbUtil;
 import com.zhejiangdaily.views.dialogs.TipDialog;
 
 import butterknife.BindView;
@@ -44,6 +45,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        ZbUtil.setEditTextInhibitInputSpace(etPassword);
         loginPresenter = new LoginPresenterImpl(this);
         umPresenter = new UmLoginPresenterImpl(this);
     }

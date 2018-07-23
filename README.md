@@ -80,6 +80,12 @@ ZbPassport.init(this, new ZbConfig.Builder().setAppVersion("1.0").setAppUuid("uu
 
 ```
 
+### 关于验证码
+验证码有效期为10分钟，且只能使用一次,且只能使用一次,且只能使用一次,重要的事情说三遍。
+
+### 关于密码
+通行证密码为6-15位大小写字母,数字,特殊字符的组合,且过滤掉空格输入。
+
 ### 获取短信验证码接口
 获取短信验证码接口使用如下方法,第一个参数smsType代表短信验证码的类型,其中ZbConstants.Sms.REGISTER代表注册短信,ZbConstants.Sms.LOGIN代表登录短信,ZbConstants.Sms.FIND代表找回密码短信,ZbConstants.Sms.BIND代表绑定手机号短信:
 

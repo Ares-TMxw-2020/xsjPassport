@@ -1,6 +1,7 @@
 package com.zhejiangdaily.presenters;
 
 import android.content.Intent;
+import android.text.TextUtils;
 
 import com.zhejiangdaily.R;
 import com.zhejiangdaily.contracts.ChangePasswordContract;
@@ -25,6 +26,14 @@ public class ChangePassWordPresenterImpl implements ChangePasswordContract.Prese
 
     @Override
     public void doNext(final String passWord) {
+        if (TextUtils.isEmpty(passWord)) {
+            ToastUtil.show("请输入密码!");
+            return;
+        }
+        if (passWord.length() < 6) {
+            ToastUtil.show("密码长度小于6,请输入6到15位密码!");
+            return;
+        }
         ZbPassport.checkPassword(passWord, new ZbCaptchaVerifyListener() { // 验证旧密码是否正确
             @Override
             public void onSuccess(boolean isValid) {

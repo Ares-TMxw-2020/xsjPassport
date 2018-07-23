@@ -155,7 +155,7 @@ public class Request {
         }
 
         public Request build() {
-            if (url == null) throw new IllegalStateException("url == null");
+            if (url == null) throw new NullPointerException("url == null");
             // 这里每个请求要根据get/post类型的不同,将querystring加到url或者requestbody中
             if (this.method.equals(HttpMethod.GET) && this.paramsMap != null && this.paramsMap.size() != 0) { // get请求url拼装
                 this.url = Util.buildGetUrl(url, this.paramsMap);

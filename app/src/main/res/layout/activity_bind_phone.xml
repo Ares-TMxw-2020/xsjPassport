@@ -59,6 +59,7 @@
         android:layout_marginTop="30dp"
         android:background="@color/color_white"
         android:hint="请输入密码"
+        android:maxLength="15"
         android:inputType="textPassword"
         android:padding="10dp"
         android:textColor="@color/color_blue"

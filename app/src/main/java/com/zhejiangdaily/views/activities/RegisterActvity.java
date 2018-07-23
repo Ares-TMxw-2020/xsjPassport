@@ -13,9 +13,9 @@ import com.zhejiangdaily.R;
 import com.zhejiangdaily.utils.ToastUtil;
 import com.zhejiangdaily.utils.ZbUtil;
 import com.zhejiangdaily.views.dialogs.ZBDialog;
-import com.zjrb.passport.constant.ErrorCode;
 import com.zjrb.passport.Entity.LoginInfo;
 import com.zjrb.passport.ZbPassport;
+import com.zjrb.passport.constant.ErrorCode;
 import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.listener.ZbCaptchaSendListener;
 import com.zjrb.passport.listener.ZbRegisterListener;
@@ -51,6 +51,7 @@ public class RegisterActvity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
+        ZbUtil.setEditTextInhibitInputSpace(mEtPassword);
     }
 
     @OnClick({R.id.tv_register, R.id.tv_login, R.id.tv_send})
@@ -71,7 +72,11 @@ public class RegisterActvity extends AppCompatActivity {
                 } else if (TextUtils.isEmpty(passWord)) {
                     ToastUtil.show("请输入密码");
                     return;
+                } else if (passWord.length() < 6) {
+                        ToastUtil.show("密码长度小于6,请输入6到15位密码!");
+                        return;
                 }
+
                 ZbPassport.register(phoneNum, passWord, captcha, new ZbRegisterListener() {
                     @Override
                     public void onSuccess(LoginInfo info) {

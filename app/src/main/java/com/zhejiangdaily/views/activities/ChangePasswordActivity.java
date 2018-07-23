@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.zhejiangdaily.R;
 import com.zhejiangdaily.contracts.ChangePasswordContract;
 import com.zhejiangdaily.presenters.ChangePassWordPresenterImpl;
+import com.zhejiangdaily.utils.ZbUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,6 +39,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements ChangeP
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_old_password);
         ButterKnife.bind(this);
+        ZbUtil.setEditTextInhibitInputSpace(mEtOldPassword);
         presenter = new ChangePassWordPresenterImpl(this);
     }
 

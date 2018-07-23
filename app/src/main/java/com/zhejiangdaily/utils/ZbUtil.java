@@ -2,10 +2,13 @@ package com.zhejiangdaily.utils;
 
 import android.app.Application;
 import android.content.Context;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.WindowManager;
+import android.widget.EditText;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -109,5 +112,25 @@ public class ZbUtil {
      */
     public static float px2sp(float pxVal) {
         return (pxVal / getContext().getResources().getDisplayMetrics().scaledDensity);
+    }
+
+
+    /**
+     * 禁止EditText输入空格,且最大长度为15
+     *
+     * @param editText
+     */
+    public static void setEditTextInhibitInputSpace(EditText editText) {
+        if (editText == null) return;
+        InputFilter filter_space = new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                if (dend > 15 || source.equals(" "))
+                    return "";
+                else
+                    return null;
+            }
+        };
+        editText.setFilters(new InputFilter[]{filter_space});
     }
 }
