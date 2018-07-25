@@ -252,6 +252,31 @@ public class NetWork {
     }
 
     /**
+     * 自定义账号密码登录
+     */
+    @Deprecated
+    public Call loginCustom(String username, String password, final ZbLoginListener listener) {
+        ParamsBuilder builder = new ParamsBuilder().url(ApiManager.EndPoint.PASSPORT_PASSWORD_LOGIN)
+                                                   .inject()
+                                                   .add("username", username)
+                                                   .add("password", password);
+        Call httpCall = client.newCall(buildPostRequest(builder));
+        httpCall.enqueue(new CallBack() {
+            @Override
+            public void onSuccess(Response response) throws IOException {
+                LoginProcessor processor = new LoginProcessor(listener);
+                ResponseProcessor.process(response, processor, listener);
+            }
+
+            @Override
+            public void onFail(int errorCode, String msg) {
+                listener.onFailure(errorCode, msg);
+            }
+        });
+        return httpCall;
+    }
+
+    /**
      * 手机号与验证码登录
      */
     public Call loginCaptcha(String phoneNumber, String captcha, final ZbLoginListener listener) {

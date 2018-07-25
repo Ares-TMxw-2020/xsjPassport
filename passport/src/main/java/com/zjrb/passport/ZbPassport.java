@@ -126,6 +126,18 @@ public class ZbPassport {
     }
 
     /**
+     * 自定义账号登录浙报通行证(兼容旧数据登录)
+     *
+     * @param username 自定义账号
+     * @param password 密码
+     */
+    @Deprecated
+    public static Call loginCustom(String username, String password, ZbLoginListener listener) {
+        return netWork.loginCustom(username, password, listener);
+    }
+
+
+    /**
      * 手机号与验证码登录
      *
      * @param phoneNumber 手机号
