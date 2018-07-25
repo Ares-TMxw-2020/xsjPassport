@@ -86,6 +86,49 @@ ZbPassport.init(this, new ZbConfig.Builder().setAppVersion("1.0").setAppUuid("uu
 ### 关于密码
 通行证密码为6-15位大小写字母,数字,特殊字符的组合,且过滤掉空格输入。
 
+### 关于登录
+通行证sdk除支持手机号和三方登录外,为兼容老版本,也支持使用个性化账号进行登录(个性化账号:4-16位字母或数字,首位为字母),故需要支持个性化登录的客户端,可按如下方法进行登录
+```java
+    public void login(String phone, String password) {
+        if (ZbUtil.isNumeric(phone)) { // 纯数字
+            if (ZbUtil.isMobileNum(phone)) { // 手机号登录
+                doLogin(phone, password); // 调用手机号登录方法(调用手机号登录方法之前可根据情况调用判断手机号是否绑定通行证接口的方法)
+            } else {
+                ToastUtil.show("手机号格式错误");
+            }
+        } else { // 个性化账号,首位一定是字母
+            doCustomLogin(phone, password); // 调用个性化登录方法
+        }
+    }
+
+    private void doLogin(String phone, String password) {
+            if (password == null) {
+                view.login(false, "密码不能为空");
+            } else if (password.length() < 6) {
+                view.login(false, "密码长度小于6位");
+            } else {
+                ZbPassport.login(phone, password, zbLoginListener);
+            }
+        }
+
+
+        /**
+         * 个性化账户登录
+         * @param username
+         * @param password
+         */
+        private void doCustomLogin(String username, String password) {
+            if (password == null) {
+                view.login(false, "密码不能为空");
+            } else if (password.length() < 6) {
+                view.login(false, "密码长度小于6位");
+            } else {
+                ZbPassport.loginCustom(username, password, zbLoginListener);
+            }
+        }
+```
+
+
 ### 获取短信验证码接口
 获取短信验证码接口使用如下方法,第一个参数smsType代表短信验证码的类型,其中ZbConstants.Sms.REGISTER代表注册短信,ZbConstants.Sms.LOGIN代表登录短信,ZbConstants.Sms.FIND代表找回密码短信,ZbConstants.Sms.BIND代表绑定手机号短信:
 
@@ -165,6 +208,13 @@ ZbPassport.register(phone, "this_is_a_test_password", "498598", new ZbRegisterLi
 ```java
 ZbPassport.login(String phoneNumber, String password, ZbLoginListener listener);
 ```
+
+#### 个性化账号登录
+
+```java
+ZbPassport.loginCustom(String phoneNumber, String password, ZbLoginListener listener);
+```
+
 #### 手机+验证码
 
 ```java
@@ -252,7 +302,7 @@ ZbPassport.checkPassword(passWord, new ZbCaptchaVerifyListener() { // 验证旧�
 ```
 
 
-#### 修改密码
+#### 修改密码(注:使用第三方登录时应隐藏掉修改密码的界面,否则输入原密码进行验证时会提示通行证ID不存在)
 
 ```java
 ZbPassport.changePassword(String oldPassWord, String newPassWord, final ZbChangePasswordListener listener);

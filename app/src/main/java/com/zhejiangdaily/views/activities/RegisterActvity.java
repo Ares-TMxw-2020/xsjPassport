@@ -89,9 +89,7 @@ public class RegisterActvity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(int errorCode, String errorMessage) {
-                        if (errorCode == ErrorCode.ERROR_SMS_INVALID) { // 短信验证码无效
-                            ToastUtil.showTextWithImage(R.mipmap.ic_qq, "验证码错误");
-                        } else if (errorCode == ErrorCode.ERROR_PHONE_REGISTERED) {
+                       if (errorCode == ErrorCode.ERROR_PHONE_REGISTERED) {
                             final ZBDialog dialog = new ZBDialog(RegisterActvity.this);
                             dialog.setBuilder(new ZBDialog.Builder().setTitle("提示")
                                                                     .setMessage("此手机号已经存在,可直接登录")
@@ -114,7 +112,9 @@ public class RegisterActvity extends AppCompatActivity {
                                                                         }
                                                                     }));
                             dialog.show();
-                        }
+                        } else {
+                           ToastUtil.show(errorMessage);
+                       }
                     }
                 });
                 break;

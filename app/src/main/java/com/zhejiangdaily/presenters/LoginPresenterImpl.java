@@ -4,6 +4,8 @@ import android.content.Intent;
 
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zhejiangdaily.contracts.LoginContract;
+import com.zhejiangdaily.utils.ToastUtil;
+import com.zhejiangdaily.utils.ZbUtil;
 import com.zhejiangdaily.views.activities.FindPassWordActivity;
 import com.zhejiangdaily.views.activities.RegisterActvity;
 import com.zjrb.passport.ZbPassport;
@@ -35,8 +37,15 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
 
     @Override
     public void login(String phone, String password) {
-        checkBind(phone, password);
-//        doLogin(phone, password);
+        if (ZbUtil.isNumeric(phone)) { // 纯数字
+            if (ZbUtil.isMobileNum(phone)) { // 手机号登录
+                checkBind(phone, password);
+            } else {
+                ToastUtil.show("手机号格式错误");
+            }
+        } else { // 个性化账号,首位一定是字母
+            doCustomLogin(phone, password);
+        }
     }
 
     @Override
@@ -90,6 +99,23 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
             ZbPassport.login(phone, password, zbLoginListener);
         }
     }
+
+    /**
+     * 个性化账户登录
+     * @param username
+     * @param password
+     */
+    private void doCustomLogin(String username, String password) {
+        if (password == null) {
+            view.login(false, "密码不能为空");
+        } else if (password.length() < 6) {
+            view.login(false, "密码长度小于6位");
+        } else {
+            ZbPassport.loginCustom(username, password, zbLoginListener);
+        }
+    }
+
+
 
     private ZbLoginListener zbLoginListener = new ZbLoginListener() {
         @Override

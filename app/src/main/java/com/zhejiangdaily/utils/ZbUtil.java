@@ -116,6 +116,21 @@ public class ZbUtil {
 
 
     /**
+     * 判定是否是纯数字
+     *
+     * @param str
+     * @return
+     */
+    public static boolean isNumeric(String str) {
+        Pattern pattern = Pattern.compile("[0-9]*");
+        Matcher isNum = pattern.matcher(str);
+        if (!isNum.matches()) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * 禁止EditText输入空格,且最大长度为15
      *
      * @param editText
