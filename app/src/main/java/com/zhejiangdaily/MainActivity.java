@@ -13,12 +13,10 @@ import com.zhejiangdaily.utils.ZbUtil;
 import com.zhejiangdaily.views.activities.LoginActivity;
 import com.zhejiangdaily.views.activities.RegisterActvity;
 import com.zhejiangdaily.views.activities.UserInfoActivity;
-import com.zhejiangdaily.views.dialogs.TipDialog;
 import com.zjrb.passport.Entity.LoginInfo;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.listener.ZbCaptchaSendListener;
-import com.zjrb.passport.listener.ZbCheckPhoneListener;
 import com.zjrb.passport.listener.ZbLoginListener;
 
 import butterknife.BindView;
@@ -53,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
             default:
                 break;
             case R.id.tv_login: // 手机号验证码登录
-                if (ZbUtil.isMobileNum(mEtPhone.getText().toString())) {
-                    checkBind(mEtPhone.getText().toString(), mEtCaptcha.getText().toString()); // 先检查手机号是否已绑定浙报通行证,已绑定的直接登录,未绑定的提示注册
+                if (ZbUtil.isMobileNum(mEtPhone.getText().toString())) { // 手机号验证码登录不需要先进行绑定的校验,因为该接口未注册的手机号会自动注册通行证
+                    doLogin(mEtPhone.getText().toString(), mEtCaptcha.getText().toString());
                 } else {
                     if (TextUtils.isEmpty(mEtPhone.getText().toString())) {
                         ToastUtil.show("请输入手机号");
@@ -95,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void checkBind(final String phone, final String password) {
+  /*  private void checkBind(final String phone, final String password) {
         ZbPassport.checkBindState(phone, new ZbCheckPhoneListener() {
             @Override
             public void onSuccess(boolean isBind) {
@@ -127,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                 doLogin(phone, password); // 绑定态查询失败,尝试登录
             }
         });
-    }
+    }*/
 
     /**
      * 手机号验证码登录
@@ -139,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(LoginInfo loginInfo) {
-                ToastUtil.show("Login Success");
+                ToastUtil.show("登录成功");
                 startActivity(new Intent(MainActivity.this, UserInfoActivity.class));
             }
 
