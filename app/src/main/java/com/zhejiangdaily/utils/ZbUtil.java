@@ -140,7 +140,7 @@ public class ZbUtil {
         InputFilter filter_space = new InputFilter() {
             @Override
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-                if (dend > 15 || source.equals(" "))
+                if (dend >= 15 || source.equals(" "))
                     return "";
                 else
                     return null;
