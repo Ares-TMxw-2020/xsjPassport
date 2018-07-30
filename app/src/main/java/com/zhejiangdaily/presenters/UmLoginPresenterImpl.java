@@ -1,6 +1,7 @@
 package com.zhejiangdaily.presenters;
 
 import android.content.Intent;
+import android.text.TextUtils;
 
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
@@ -46,7 +47,11 @@ public class UmLoginPresenterImpl implements UmLoginContract.Presenter {
                     String name = map.get("name");
                     String gender = map.get("gender");
                     String url = map.get("iconurl");
-                    view.umLogin(true, share_media, uid);
+                    if (!TextUtils.isEmpty(uid)) {
+                        view.umLogin(true, share_media, uid);
+                    } else {
+                        view.umLogin(false, null, null);
+                    }
                 } else {
                     view.umLogin(false, null, null);
                 }
