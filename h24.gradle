@@ -1,7 +1,7 @@
-def storeFile = new File("../app/qianming/zhejiangnews.keystore");
-def storePassword = "kIwfs16KsM";
-def keyAlias = "zhejiangnews";
-def keyPassword = "kIwfs16KsM";
+def storeFile = new File("../app/qianming/cmstop.keystore");
+def storePassword = "cmstop";
+def keyAlias = "cmstop";
+def keyPassword = "cmstop";
 
 ext {
     localProp = properties

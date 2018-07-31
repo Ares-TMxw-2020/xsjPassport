@@ -15,12 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- 友盟  start -->
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="535879d256240b8965030920" />
-        <!-- 友盟  end -->
-
         <meta-data
             android:name="ZBP_APP_ID"
             android:value="1"/>
@@ -44,19 +38,21 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.zhejiangdaily.views.activities.LoginActivity"
+        <activity
+            android:name="com.zhejiangdaily.views.activities.LoginActivity"
             android:launchMode="singleTask"
             />
         <activity android:name="com.zhejiangdaily.views.activities.BindPhoneActivity"/>
         <activity android:name="com.zhejiangdaily.views.activities.ModifyPhoneActivity"/>
-        <activity android:name="com.zhejiangdaily.views.activities.UserInfoActivity"
+        <activity
+            android:name="com.zhejiangdaily.views.activities.UserInfoActivity"
             android:launchMode="singleTask"
             />
         <activity android:name="com.zhejiangdaily.views.activities.RegisterActvity"/>
         <activity android:name="com.zhejiangdaily.views.activities.FindPassWordActivity"/>
         <activity android:name="com.zhejiangdaily.views.activities.FindNewPassWordActivity"/>
         <activity android:name="com.zhejiangdaily.views.activities.ChangePasswordActivity"/>
-        <activity android:name="com.zhejiangdaily.views.activities.ChangeNewPasswordActivity" />
+        <activity android:name="com.zhejiangdaily.views.activities.ChangeNewPasswordActivity"/>
         <activity android:name="com.zhejiangdaily.views.activities.ModifyActivity"/>
 
         <activity
@@ -77,8 +73,8 @@
             android:launchMode="singleTask"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
             <intent-filter>
-                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
 
         </activity>
@@ -87,26 +83,26 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <activity
             android:name="com.umeng.qq.tencent.AuthActivity"
             android:launchMode="singleTask"
             android:noHistory="true">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
 
-                <data android:scheme="tencent101096646" />
+                <data android:scheme="tencent101096646"/>
             </intent-filter>
         </activity>
         <activity
             android:name="com.umeng.qq.tencent.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
 
     </application>

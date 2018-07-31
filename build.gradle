@@ -1,5 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-apply from: 'zjxw.gradle'
+//apply from: 'zjxw.gradle'
+apply from: 'h24.gradle'
 
 buildscript {
     repositories {
