@@ -52,6 +52,7 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
 
     UserInfoContract.Presenter infoPresenter;
     UmLoginContract.Presenter umPresenter;
+    List<ThirdInfo> infoList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,9 +91,9 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
                 tvPhone.setText(phoneNumber);
                 isBindPhone = true;
             }
-            List<ThirdInfo> list = info.getBindList();
-            if (list != null && !list.isEmpty()) {
-                for (ThirdInfo d : list) {
+            infoList = info.getBindList();
+            if (infoList != null && !infoList.isEmpty()) {
+                for (ThirdInfo d : infoList) {
                     switch (d.getLoginType()) {
                         case ZbConstants.ThirdLogin.QQ:
                             tvQQ.setText("已绑定");
@@ -231,7 +232,7 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
 
             @Override
             public void onRight() {
-                if (isBindPhone) {
+                if (isBindPhone || (infoList != null && infoList.size() >= 2)) {
                     infoPresenter.unbindThird(platform);
                 } else {
                     noticePhone();
