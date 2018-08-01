@@ -22,11 +22,11 @@ public class ApiManager {
         /**
          * 测试环境
          */
-        private static final String TEST_URL = "http://10.100.64.69";
+        private static final String TEST_URL = "https://passport-test.8531.cn";
         /**
          * 预发布环境
          */
-        private static final String PRE_URL = "http://10.100.64.69";
+        private static final String PRE_URL = "https://passport-test.8531.cn";
         /**
          * 正式域名
          */
@@ -65,6 +65,7 @@ public class ApiManager {
 
     /**
      * 修改host,测试环境使用
+     *
      * @param host
      * @return
      */
