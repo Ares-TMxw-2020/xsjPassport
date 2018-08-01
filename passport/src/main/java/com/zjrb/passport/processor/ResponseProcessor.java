@@ -20,6 +20,9 @@ public class ResponseProcessor {
 
     public static final int SUCCESS = 0;
 
+    /**
+     * JSON 解析,返回结果只有code和message
+     */
     public static void process(Response response, IResult iResult) {
         String jsonString = response.body().string();
         JSONObject jsonObject;
@@ -37,7 +40,33 @@ public class ResponseProcessor {
         }
     }
 
+    /**
+     * JSON 解析,返回结果只有code和message，支持成功拦截
+     */
+    public static void process(Response response, IResult iResult, Interceptor interceptor) {
+        String jsonString = response.body().string();
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(jsonString);
+            int code = jsonObject.optInt("code");
+            if (code == SUCCESS) {
+                interceptor.onIntercept();
+                iResult.onSuccess();
+            } else {
+                String message = jsonObject.optString("message");
+                iResult.onFailure(code, message);
+            }
+        } catch (JSONException e) {
+            iResult.onFailure(ErrorCode.ERROR_JSON, e.getMessage());
+        }
+    }
 
+
+    /**
+     * JSON 解析
+     *
+     * @param processor data的json解析器
+     */
     public static void process(Response response, @NonNull JsonProcessor processor, IFailure iFailure) {
         String jsonString = response.body().string();
         JSONObject jsonObject;
@@ -49,6 +78,7 @@ public class ResponseProcessor {
                 if (innerObject != null) {
                     processor.process(innerObject);
                 } else {
+                    //接口定义了data返回，当没有data返回就认为接口返回错误
                     iFailure.onFailure(ErrorCode.ERROR_INTERFACE_DATA, "错误的接口返回");
                 }
             } else {
@@ -58,5 +88,43 @@ public class ResponseProcessor {
         } catch (JSONException e) {
             iFailure.onFailure(ErrorCode.ERROR_JSON, e.getMessage());
         }
+    }
+
+    /**
+     * JSON 解析，支持成功拦截
+     *
+     * @param processor data的json解析器
+     */
+    public static void process(Response response, @NonNull JsonProcessor processor, IFailure iFailure, Interceptor interceptor) {
+        String jsonString = response.body().string();
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(jsonString);
+            int code = jsonObject.optInt("code");
+            if (code == SUCCESS) {
+                JSONObject innerObject = jsonObject.optJSONObject("data");
+                if (innerObject != null) {
+                    interceptor.onIntercept();
+                    processor.process(innerObject);
+                } else {
+                    //接口定义了data返回，当没有data返回就认为接口返回错误
+                    iFailure.onFailure(ErrorCode.ERROR_INTERFACE_DATA, "错误的接口返回");
+                }
+            } else {
+                String message = jsonObject.optString("message");
+                iFailure.onFailure(code, message);
+            }
+        } catch (JSONException e) {
+            iFailure.onFailure(ErrorCode.ERROR_JSON, e.getMessage());
+        }
+    }
+
+    /**
+     * 成功拦截接口
+     */
+    public interface Interceptor {
+
+        void onIntercept();
+
     }
 }

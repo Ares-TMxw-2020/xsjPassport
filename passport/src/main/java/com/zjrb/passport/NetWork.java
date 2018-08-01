@@ -1,6 +1,6 @@
 package com.zjrb.passport;
 
-import com.zjrb.passport.listener.IResult;
+import com.zjrb.passport.listener.IFailure;
 import com.zjrb.passport.listener.ZbBindPhoneListener;
 import com.zjrb.passport.listener.ZbBindThirdListener;
 import com.zjrb.passport.listener.ZbCaptchaSendListener;
@@ -49,41 +49,62 @@ public class NetWork {
     /**
      * 发送注册验证码
      */
-    public Call sendRegisterCaptcha(String phoneNumber, ZbCaptchaSendListener listener) {
+    public Call sendRegisterCaptcha(String phoneNumber, final ZbCaptchaSendListener listener) {
         ParamsBuilder builder = new ParamsBuilder().url(ApiManager.EndPoint.SMS_SEND_REGISTER_TOKEN)
                                                    .inject()
                                                    .add("phone_number", phoneNumber);
-        return requestPostWithNoData(listener, builder);
+        return post(builder, new WrapListener(listener) {
+            @Override
+            public void onSuccess(Response response) {
+                ResponseProcessor.process(response, listener);
+            }
+        });
     }
 
     /**
      * 发送登录验证码
      */
-    public Call sendLoginCaptcha(String phoneNumber, ZbCaptchaSendListener listener) {
+    public Call sendLoginCaptcha(String phoneNumber, final ZbCaptchaSendListener listener) {
         ParamsBuilder builder = new ParamsBuilder().url(ApiManager.EndPoint.SMS_SEND_LOGIN_TOKEN)
                                                    .inject()
                                                    .add("phone_number", phoneNumber);
-        return requestPostWithNoData(listener, builder);
+
+        return post(builder, new WrapListener(listener) {
+            @Override
+            public void onSuccess(Response response) {
+                ResponseProcessor.process(response, listener);
+            }
+        });
     }
 
     /**
      * 发送找回密码验证码
      */
-    public Call sendRetrieveCaptcha(String phoneNumber, ZbCaptchaSendListener listener) {
+    public Call sendRetrieveCaptcha(String phoneNumber, final ZbCaptchaSendListener listener) {
         ParamsBuilder builder = new ParamsBuilder().url(ApiManager.EndPoint.SMS_SEND_RESET_TOKEN)
                                                    .inject()
                                                    .add("phone_number", phoneNumber);
-        return requestPostWithNoData(listener, builder);
+        return post(builder, new WrapListener(listener) {
+            @Override
+            public void onSuccess(Response response) {
+                ResponseProcessor.process(response, listener);
+            }
+        });
     }
 
     /**
      * 发送绑定手机验证码
      */
-    public Call sendBindCaptcha(String phoneNumber, ZbCaptchaSendListener listener) {
+    public Call sendBindCaptcha(String phoneNumber, final ZbCaptchaSendListener listener) {
         ParamsBuilder builder = new ParamsBuilder().url(ApiManager.EndPoint.SMS_SEND_BINDING_TOKEN)
                                                    .inject()
                                                    .add("phone_number", phoneNumber);
-        return requestPostWithNoData(listener, builder);
+        return post(builder, new WrapListener(listener) {
+            @Override
+            public void onSuccess(Response response) {
+                ResponseProcessor.process(response, listener);
+            }
+        });
     }
 
 
@@ -95,20 +116,13 @@ public class NetWork {
                                                    .inject()
                                                    .add("phone_number", phoneNumber)
                                                    .add("sms_token", captcha);
-        Call httpCall = client.newCall(buildGetRequest(builder));
-        httpCall.enqueue(new CallBack() {
+        return get(builder, new WrapListener(listener) {
             @Override
-            public void onSuccess(Response response) throws IOException {
+            public void onSuccess(Response response) {
                 VerifyJsonProcessor processor = new VerifyJsonProcessor(listener);
                 ResponseProcessor.process(response, processor, listener);
             }
-
-            @Override
-            public void onFail(int errorCode, String msg) {
-                listener.onFailure(errorCode, msg);
-            }
         });
-        return httpCall;
     }
 
     /**
@@ -119,20 +133,13 @@ public class NetWork {
                                                    .inject()
                                                    .add("phone_number", phoneNumber)
                                                    .add("sms_token", captcha);
-        Call httpCall = client.newCall(buildGetRequest(builder));
-        httpCall.enqueue(new CallBack() {
+        return get(builder, new WrapListener(listener) {
             @Override
-            public void onSuccess(Response response) throws IOException {
+            public void onSuccess(Response response) {
                 VerifyJsonProcessor processor = new VerifyJsonProcessor(listener);
                 ResponseProcessor.process(response, processor, listener);
             }
-
-            @Override
-            public void onFail(int errorCode, String msg) {
-                listener.onFailure(errorCode, msg);
-            }
         });
-        return httpCall;
     }
 
     /**
@@ -143,20 +150,13 @@ public class NetWork {
                                                    .inject()
                                                    .add("phone_number", phoneNumber)
                                                    .add("sms_token", captcha);
-        Call httpCall = client.newCall(buildGetRequest(builder));
-        httpCall.enqueue(new CallBack() {
+        return get(builder, new WrapListener(listener) {
             @Override
-            public void onSuccess(Response response) throws IOException {
+            public void onSuccess(Response response) {
                 VerifyJsonProcessor processor = new VerifyJsonProcessor(listener);
                 ResponseProcessor.process(response, processor, listener);
             }
-
-            @Override
-            public void onFail(int errorCode, String msg) {
-                listener.onFailure(errorCode, msg);
-            }
         });
-        return httpCall;
     }
 
     /**
@@ -167,40 +167,15 @@ public class NetWork {
                                                    .inject()
                                                    .add("phone_number", phoneNumber)
                                                    .add("sms_token", captcha);
-        Call httpCall = client.newCall(buildGetRequest(builder));
-        httpCall.enqueue(new CallBack() {
+        return get(builder, new WrapListener(listener) {
             @Override
-            public void onSuccess(Response response) throws IOException {
+            public void onSuccess(Response response) {
                 VerifyJsonProcessor processor = new VerifyJsonProcessor(listener);
                 ResponseProcessor.process(response, processor, listener);
             }
-
-            @Override
-            public void onFail(int errorCode, String msg) {
-                listener.onFailure(errorCode, msg);
-            }
         });
-        return httpCall;
     }
 
-    /**
-     * post请求,返回结果无data,只有code和message的请求封装
-     */
-    private Call requestPostWithNoData(final IResult listener, final ParamsBuilder builder) {
-        Call httpCall = client.newCall(buildPostRequest(builder));
-        httpCall.enqueue(new CallBack() {
-            @Override
-            public void onSuccess(Response response) throws IOException {
-                ResponseProcessor.process(response, listener);
-            }
-
-            @Override
-            public void onFail(int errorCode, String msg) {
-                listener.onFailure(errorCode, msg);
-            }
-        });
-        return httpCall;
-    }
 
     /**
      * 手机号注册浙报通行证
@@ -211,20 +186,13 @@ public class NetWork {
                                                    .add("phone_number", phoneNumber)
                                                    .add("password", password)
                                                    .add("sms_token", captcha);
-        Call httpCall = client.newCall(buildPostRequest(builder));
-        httpCall.enqueue(new CallBack() {
+        return post(builder, new WrapListener(listener) {
             @Override
-            public void onSuccess(Response response) throws IOException {
+            public void onSuccess(Response response) {
                 LoginProcessor processor = new LoginProcessor(listener);
                 ResponseProcessor.process(response, processor, listener);
             }
-
-            @Override
-            public void onFail(int errorCode, String msg) {
-                listener.onFailure(errorCode, msg);
-            }
         });
-        return httpCall;
     }
 
     /**
@@ -235,20 +203,13 @@ public class NetWork {
                                                    .inject()
                                                    .add("phone_number", phoneNumber)
                                                    .add("password", password);
-        Call httpCall = client.newCall(buildPostRequest(builder));
-        httpCall.enqueue(new CallBack() {
+        return post(builder, new WrapListener(listener) {
             @Override
-            public void onSuccess(Response response) throws IOException {
+            public void onSuccess(Response response) {
                 LoginProcessor processor = new LoginProcessor(listener);
                 ResponseProcessor.process(response, processor, listener);
             }
-
-            @Override
-            public void onFail(int errorCode, String msg) {
-                listener.onFailure(errorCode, msg);
-            }
         });
-        return httpCall;
     }
 
     /**
@@ -260,20 +221,13 @@ public class NetWork {
                                                    .inject()
                                                    .add("username", username)
                                                    .add("password", password);
-        Call httpCall = client.newCall(buildPostRequest(builder));
-        httpCall.enqueue(new CallBack() {
+        return post(builder, new WrapListener(listener) {
             @Override
-            public void onSuccess(Response response) throws IOException {
+            public void onSuccess(Response response) {
                 LoginProcessor processor = new LoginProcessor(listener);
                 ResponseProcessor.process(response, processor, listener);
             }
-
-            @Override
-            public void onFail(int errorCode, String msg) {
-                listener.onFailure(errorCode, msg);
-            }
         });
-        return httpCall;
     }
 
     /**
@@ -284,20 +238,13 @@ public class NetWork {
                                                    .inject()
                                                    .add("phone_number", phoneNumber)
                                                    .add("sms_token", captcha);
-        Call httpCall = client.newCall(buildPostRequest(builder));
-        httpCall.enqueue(new CallBack() {
+        return post(builder, new WrapListener(listener) {
             @Override
-            public void onSuccess(Response response) throws IOException {
+            public void onSuccess(Response response) {
                 LoginProcessor processor = new LoginProcessor(listener);
                 ResponseProcessor.process(response, processor, listener);
             }
-
-            @Override
-            public void onFail(int errorCode, String msg) {
-                listener.onFailure(errorCode, msg);
-            }
         });
-        return httpCall;
     }
 
     /**
@@ -308,20 +255,13 @@ public class NetWork {
                                                    .inject()
                                                    .add("auth_type", "" + thirdType)
                                                    .add("auth_uid", thirdUnionId);
-        Call httpCall = client.newCall(buildPostRequest(builder));
-        httpCall.enqueue(new CallBack() {
+        return post(builder, new WrapListener(listener) {
             @Override
-            public void onSuccess(Response response) throws IOException {
+            public void onSuccess(Response response) {
                 LoginProcessor processor = new LoginProcessor(listener);
                 ResponseProcessor.process(response, processor, listener);
             }
-
-            @Override
-            public void onFail(int errorCode, String msg) {
-                listener.onFailure(errorCode, msg);
-            }
         });
-        return httpCall;
     }
 
     /**
@@ -329,20 +269,13 @@ public class NetWork {
      */
     public Call getInfo(final ZbGetInfoListener listener) {
         ParamsBuilder builder = new ParamsBuilder().url(ApiManager.EndPoint.PASSPORT_DETAIL).injectWithToken();
-        Call httpCall = client.newCall(buildGetRequest(builder));
-        httpCall.enqueue(new CallBack() {
+        return get(builder, new WrapListener(listener) {
             @Override
-            public void onSuccess(Response response) throws IOException {
+            public void onSuccess(Response response) {
                 GetInfoProcessor processor = new GetInfoProcessor(listener);
                 ResponseProcessor.process(response, processor, listener);
             }
-
-            @Override
-            public void onFail(int errorCode, String msg) {
-                listener.onFailure(errorCode, msg);
-            }
         });
-        return httpCall;
     }
 
     /**
@@ -353,7 +286,12 @@ public class NetWork {
                                                    .injectWithToken()
                                                    .add("auth_type", "" + thirdType)
                                                    .add("auth_uid", thirdUnionId);
-        return requestPostWithNoData(listener, builder);
+        return post(builder, new WrapListener(listener) {
+            @Override
+            public void onSuccess(Response response) {
+                ResponseProcessor.process(response, listener);
+            }
+        });
     }
 
     /**
@@ -363,7 +301,12 @@ public class NetWork {
         ParamsBuilder builder = new ParamsBuilder().url(ApiManager.EndPoint.THIRD_PARTY_UNBIND)
                                                    .injectWithToken()
                                                    .add("auth_type", "" + thirdType);
-        return requestPostWithNoData(listener, builder);
+        return post(builder, new WrapListener(listener) {
+            @Override
+            public void onSuccess(Response response) {
+                ResponseProcessor.process(response, listener);
+            }
+        });
     }
 
     /**
@@ -374,7 +317,12 @@ public class NetWork {
                                                    .injectWithToken()
                                                    .add("new_phone_number", phoneNumber)
                                                    .add("sms_token", captcha);
-        return requestPostWithNoData(listener, builder);
+        return post(builder, new WrapListener(listener) {
+            @Override
+            public void onSuccess(Response response) {
+                ResponseProcessor.process(response, listener);
+            }
+        });
     }
 
     /**
@@ -385,30 +333,28 @@ public class NetWork {
                                                    .injectWithToken()
                                                    .add("old_password", oldPassWord)
                                                    .add("new_password", newPassWord);
-        return requestPostWithNoData(listener, builder);
+        return post(builder, new WrapListener(listener) {
+            @Override
+            public void onSuccess(Response response) {
+                ResponseProcessor.process(response, listener);
+            }
+        });
     }
 
     /**
-     * 在修改密码时，检查原密码是否正确的接口
+     * 在修改密码时，检查原密码是否正确的接口 get
      */
     public Call checkPassWord(String oldPassWord, final ZbCaptchaVerifyListener listener) {
         ParamsBuilder builder = new ParamsBuilder().url(ApiManager.EndPoint.PASSPORT_CHECK_PASSWORD)
                                                    .injectWithToken()
                                                    .add("password", oldPassWord);
-        Call httpCall = client.newCall(buildGetRequest(builder));
-        httpCall.enqueue(new CallBack() {
+        return get(builder, new WrapListener(listener) {
             @Override
             public void onSuccess(Response response) {
                 VerifyJsonProcessor processor = new VerifyJsonProcessor(listener);
                 ResponseProcessor.process(response, processor, listener);
             }
-
-            @Override
-            public void onFail(int errorCode, String msg) {
-                listener.onFailure(errorCode, msg);
-            }
         });
-        return httpCall;
     }
 
     /**
@@ -420,7 +366,12 @@ public class NetWork {
                                                    .add("phone_number", phoneNumber)
                                                    .add("sms_token", captcha)
                                                    .add("new_password", newPassword);
-        return requestPostWithNoData(listener, builder);
+        return post(builder, new WrapListener(listener) {
+            @Override
+            public void onSuccess(Response response) {
+                ResponseProcessor.process(response, listener);
+            }
+        });
     }
 
     /**
@@ -430,21 +381,13 @@ public class NetWork {
         ParamsBuilder builder = new ParamsBuilder().url(ApiManager.EndPoint.PASSPORT_CHECK_BINDING)
                                                    .inject()
                                                    .add("phone_number", phoneNumber);
-        Call httpCall = client.newCall(buildGetRequest(builder));
-        httpCall.enqueue(new CallBack() {
+        return get(builder, new WrapListener(listener) {
             @Override
-            public void onSuccess(Response response) throws IOException {
-
+            public void onSuccess(Response response) {
                 CheckPhoneProcessor processor = new CheckPhoneProcessor(listener);
                 ResponseProcessor.process(response, processor, listener);
             }
-
-            @Override
-            public void onFail(int errorCode, String msg) {
-                listener.onFailure(errorCode, msg);
-            }
         });
-        return httpCall;
     }
 
 
@@ -453,7 +396,65 @@ public class NetWork {
      */
     public Call logout(final ZbLogoutListener listener) {
         final ParamsBuilder builder = new ParamsBuilder().url(ApiManager.EndPoint.PASSPORT_LOGOUT).injectWithToken();
-        return requestPostWithNoData(listener, builder);
+        return post(builder, new WrapListener(listener) {
+            @Override
+            public void onSuccess(Response response) {
+                ResponseProcessor.process(response, listener, new ResponseProcessor.Interceptor() {
+                    @Override
+                    public void onIntercept() {
+                        //退出清空token
+                        ZbPassport.setToken("");
+                    }
+                });
+            }
+        });
+    }
+
+
+    private Call get(ParamsBuilder builder, final WrapListener wrapListener) {
+        Call httpCall = client.newCall(buildGetRequest(builder));
+        httpCall.enqueue(new CallBack() {
+            @Override
+            public void onSuccess(Response response) throws IOException {
+                wrapListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFail(int errorCode, String msg) {
+                wrapListener.onFailure(errorCode, msg);
+            }
+        });
+        return httpCall;
+    }
+
+
+    private Call post(ParamsBuilder builder, final WrapListener wrapListener) {
+        Call httpCall = client.newCall(buildPostRequest(builder));
+        httpCall.enqueue(new CallBack() {
+            @Override
+            public void onSuccess(Response response) throws IOException {
+                wrapListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFail(int errorCode, String msg) {
+                wrapListener.onFailure(errorCode, msg);
+            }
+        });
+        return httpCall;
+    }
+
+    static abstract class WrapListener {
+
+        final IFailure iFailure;
+
+        WrapListener(IFailure iFailure) {this.iFailure = iFailure;}
+
+        public abstract void onSuccess(Response response);
+
+        public void onFailure(int errorCode, String errorMessage) {
+            iFailure.onFailure(errorCode, errorMessage);
+        }
     }
 
 }
