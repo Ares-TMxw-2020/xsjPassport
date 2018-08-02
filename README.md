@@ -7,7 +7,7 @@
 ```
 allprojects {
     repositories {
-        maven { url "http://10.100.47.176:8086/nexus/content/groups/public" }
+        maven { url "http://10.100.62.98:8086/nexus/content/groups/public" }
     }
 }
 
@@ -17,7 +17,7 @@ allprojects {
 
 ```
 dependencies {
-	compile 'com.zjrb.passport:latest.release'//其中latest.release指代最新浙报通行证SDK版本号，也可以指定明确的版本号，例如1.0.0
+	compile 'cn.daily.android:passport:0.0.0.1-SNAPSHOT'
 }
 
 ```
