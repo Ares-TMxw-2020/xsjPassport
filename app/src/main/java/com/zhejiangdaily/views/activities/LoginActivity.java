@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     }
 
 
-    @OnClick({R.id.tv_login, R.id.tv_register, R.id.tv_forget_pwd, R.id.iv_sina, R.id.iv_wechat, R.id.iv_qq})
+    @OnClick({R.id.tv_login, R.id.tv_register, R.id.tv_forget_pwd, R.id.iv_sina, R.id.iv_wechat, R.id.iv_qq, R.id.iv_back})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_login:
@@ -118,6 +118,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                 break;
             case R.id.tv_forget_pwd:
                 loginPresenter.findPassWord(); // 进入找回密码界面
+                break;
+            case R.id.iv_back:
+                finish();
                 break;
             case R.id.iv_sina:
                 if (ZbUtil.checkInstall(this, SHARE_MEDIA.SINA)) {
