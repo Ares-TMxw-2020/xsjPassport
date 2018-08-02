@@ -18,6 +18,7 @@ import com.zhejiangdaily.contracts.UserInfoContract;
 import com.zhejiangdaily.presenters.UmLoginPresenterImpl;
 import com.zhejiangdaily.presenters.UserInfoPresenterImpl;
 import com.zhejiangdaily.utils.ToastUtil;
+import com.zhejiangdaily.utils.ZbUtil;
 import com.zhejiangdaily.views.dialogs.TipDialog;
 import com.zjrb.passport.Entity.LoginInfo;
 import com.zjrb.passport.Entity.ThirdInfo;
@@ -194,24 +195,30 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
                 infoPresenter.intentBindPhone();
                 break;
             case R.id.ll_sina:
-                if ("已绑定".equals(tvSina.getText().toString())) {
-                    noticeUnbind(ZbConstants.ThirdLogin.SINA);
-                } else {
-                    umPresenter.umLogin(SHARE_MEDIA.SINA);
+                if (ZbUtil.checkInstall(this, SHARE_MEDIA.SINA)) {
+                    if ("已绑定".equals(tvSina.getText().toString())) {
+                        noticeUnbind(ZbConstants.ThirdLogin.SINA);
+                    } else {
+                        umPresenter.umLogin(SHARE_MEDIA.SINA);
+                    }
                 }
                 break;
             case R.id.ll_wechat:
-                if ("已绑定".equals(tvWechat.getText().toString())) {
-                    noticeUnbind(ZbConstants.ThirdLogin.WECHAT);
-                } else {
-                    umPresenter.umLogin(SHARE_MEDIA.WEIXIN);
+                if (ZbUtil.checkInstall(this, SHARE_MEDIA.WEIXIN)) {
+                    if ("已绑定".equals(tvWechat.getText().toString())) {
+                        noticeUnbind(ZbConstants.ThirdLogin.WECHAT);
+                    } else {
+                        umPresenter.umLogin(SHARE_MEDIA.WEIXIN);
+                    }
                 }
                 break;
             case R.id.ll_qq:
-                if ("已绑定".equals(tvQQ.getText().toString())) {
-                    noticeUnbind(ZbConstants.ThirdLogin.QQ);
-                } else {
-                    umPresenter.umLogin(SHARE_MEDIA.QQ);
+                if (ZbUtil.checkInstall(this, SHARE_MEDIA.QQ)) {
+                    if ("已绑定".equals(tvQQ.getText().toString())) {
+                        noticeUnbind(ZbConstants.ThirdLogin.QQ);
+                    } else {
+                        umPresenter.umLogin(SHARE_MEDIA.QQ);
+                    }
                 }
                 break;
             case R.id.tv_logout:
@@ -259,4 +266,5 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
         });
         dialog.show();
     }
+
 }

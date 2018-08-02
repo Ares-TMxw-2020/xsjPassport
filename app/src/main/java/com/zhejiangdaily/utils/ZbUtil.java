@@ -1,5 +1,6 @@
 package com.zhejiangdaily.utils;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.text.InputFilter;
@@ -9,6 +10,9 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.WindowManager;
 import android.widget.EditText;
+
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -147,5 +151,29 @@ public class ZbUtil {
             }
         };
         editText.setFilters(new InputFilter[]{filter_space});
+    }
+
+    /**
+     * 检测是否安装等
+     */
+    public static boolean checkInstall(Activity context, SHARE_MEDIA platform) {
+        UMShareAPI mShareAPI = UMShareAPI.get(context);
+        if (platform == SHARE_MEDIA.WEIXIN || platform == SHARE_MEDIA.WEIXIN_CIRCLE) {
+            if (mShareAPI != null && !mShareAPI.isInstall(context, SHARE_MEDIA.WEIXIN)) {
+                ToastUtil.show("未安装微信客户端");
+                return false;
+            }
+        } else if (platform == SHARE_MEDIA.QQ || platform == SHARE_MEDIA.QZONE) {
+            if (mShareAPI != null && !mShareAPI.isInstall(context, SHARE_MEDIA.QQ)) {
+                ToastUtil.show("未安装QQ客户端");
+                return false;
+            }
+        } else if (platform == SHARE_MEDIA.SINA) {
+            if (mShareAPI != null && !mShareAPI.isInstall(context, SHARE_MEDIA.SINA)) {
+                ToastUtil.show("未安装新浪微博客户端");
+                return false;
+            }
+        }
+        return true;
     }
 }
