@@ -10,10 +10,4 @@ ext {
     signingKeyAlias = keyAlias
     signingKeyPassword = keyPassword
     existSignConfig = storeFile != null && storePassword != null && keyAlias != null && keyPassword != null
-
-    //应用版本信息
-    // version code 和version Name 对应关系:versionName 中的点换成0.
-    // versionName=5.1.0 对应的versionCode=50100;
-//    appVersionCode = 50300
-//    appVersionName = "5.3.0"
 }
