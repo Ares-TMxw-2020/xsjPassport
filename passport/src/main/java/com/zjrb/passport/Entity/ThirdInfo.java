@@ -1,12 +1,15 @@
 package com.zjrb.passport.Entity;
 
+import java.io.Serializable;
+
 /**
  * Date: 2018/7/19 下午5:21
  * Email: sisq@8531.cn
  * Author: sishuqun
  * Description: 绑定的三方平台信息实体类
  */
-public class ThirdInfo {
+public class ThirdInfo implements Serializable{
+    private static final long serialVersionUID = -7376598743246120300L;
     private int bindId;
     private int loginType;
     private String uid;

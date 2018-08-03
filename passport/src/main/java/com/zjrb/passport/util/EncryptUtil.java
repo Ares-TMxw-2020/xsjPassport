@@ -1,7 +1,5 @@
 package com.zjrb.passport.util;
 
-import com.zjrb.passport.constant.InnerConstant;
-
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

@@ -3,7 +3,7 @@ package com.zjrb.passport.net.request;
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 
-import com.zjrb.passport.constant.InnerConstant;
+import com.zjrb.passport.util.InnerConstant;
 
 import java.io.IOException;
 import java.io.OutputStream;
