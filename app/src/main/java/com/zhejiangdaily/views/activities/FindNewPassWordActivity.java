@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.zhejiangdaily.R;
 import com.zhejiangdaily.contracts.FindNewPassWordContract;
 import com.zhejiangdaily.presenters.FindNewPasswordPresenterImpl;
-import com.zjrb.passport.util.Logger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,7 +46,6 @@ public class FindNewPassWordActivity extends AppCompatActivity implements FindNe
         Intent intent = getIntent();
         phoneNum = intent.getStringExtra("phoneNum");
         sms = intent.getStringExtra("sms");
-        Logger.d("phoneNum: " + phoneNum + "  sms: " + sms);
     }
 
     @OnClick({R.id.tv_back, R.id.tv_finish})
