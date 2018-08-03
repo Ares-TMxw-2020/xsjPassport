@@ -6,8 +6,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.text.TextUtils;
 
-import com.zjrb.passport.constant.InnerConstant;
 import com.zjrb.passport.constant.ZbConstants;
+import com.zjrb.passport.util.InnerConstant;
 import com.zjrb.passport.util.Logger;
 
 /**

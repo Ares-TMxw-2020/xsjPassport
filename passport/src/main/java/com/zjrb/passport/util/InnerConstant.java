@@ -1,4 +1,4 @@
-package com.zjrb.passport.constant;
+package com.zjrb.passport.util;
 
 /**
  * Function: K

@@ -1,6 +1,6 @@
 package com.zjrb.passport.net.response;
 
-import com.zjrb.passport.constant.InnerConstant;
+import com.zjrb.passport.util.InnerConstant;
 import com.zjrb.passport.util.Logger;
 
 import java.io.UnsupportedEncodingException;

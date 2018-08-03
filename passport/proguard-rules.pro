@@ -53,6 +53,7 @@
 -keep class com.zjrb.passport.ZbPassport { *; }
 -keep class com.zjrb.passport.ZbConfig { *; }
 -keep class com.zjrb.passport.ZbConfig$Builder { *; }
+-keep class com.zjrb.passport.net.interfaces.Call { *; }
 
 
 -keepclassmembers enum * {

@@ -64,7 +64,7 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
-    implementation 'cn.daily.android:passport:0.0.0.14-SNAPSHOT'
+    implementation 'cn.daily.android:passport:0.0.0.17-SNAPSHOT'
     implementation('com.github.bumptech.glide:glide:4.7.1') {
         exclude group: "com.android.support"
     }

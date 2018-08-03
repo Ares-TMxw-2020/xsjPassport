@@ -1,5 +1,6 @@
 package com.zjrb.passport.Entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,7 +9,9 @@ import java.util.List;
  * Author: chen.h
  * Date: 2018/7/12
  */
-public class LoginInfo {
+public class LoginInfo implements Serializable{
+
+    private static final long serialVersionUID = 8205538219670503944L;
     private int passportId;
     private String phoneNumber;
     private String token;
