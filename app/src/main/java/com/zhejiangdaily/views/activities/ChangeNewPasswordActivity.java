@@ -14,7 +14,6 @@ import com.zhejiangdaily.R;
 import com.zhejiangdaily.contracts.ChangeNewPassWordContract;
 import com.zhejiangdaily.presenters.ChangeNewPasswordPresenterImpl;
 import com.zhejiangdaily.utils.ZbUtil;
-import com.zjrb.passport.util.Logger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,7 +47,6 @@ public class ChangeNewPasswordActivity extends AppCompatActivity implements Chan
         presenter = new ChangeNewPasswordPresenterImpl(this);
         Intent intent = getIntent();
         oldPassWord = intent.getStringExtra("oldPassWord");
-        Logger.d("oldPassword: " + oldPassWord);
     }
 
     @Override
