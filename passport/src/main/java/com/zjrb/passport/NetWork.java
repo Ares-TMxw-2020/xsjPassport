@@ -23,6 +23,7 @@ import com.zjrb.passport.processor.GetInfoProcessor;
 import com.zjrb.passport.processor.LoginProcessor;
 import com.zjrb.passport.processor.ResponseProcessor;
 import com.zjrb.passport.processor.VerifyJsonProcessor;
+import com.zjrb.passport.util.EncryptUtil;
 import com.zjrb.passport.util.RequestBuilder.ParamsBuilder;
 
 import java.io.IOException;
@@ -184,7 +185,7 @@ public class NetWork {
         ParamsBuilder builder = new ParamsBuilder().url(ApiManager.EndPoint.PASSPORT_REGISTER)
                                                    .inject()
                                                    .add("phone_number", phoneNumber)
-                                                   .add("password", password)
+                                                   .add("password", EncryptUtil.base64Encrypt(password))
                                                    .add("sms_token", captcha);
         return post(builder, new WrapListener(listener) {
             @Override
@@ -202,7 +203,7 @@ public class NetWork {
         ParamsBuilder builder = new ParamsBuilder().url(ApiManager.EndPoint.PASSPORT_PASSWORD_LOGIN)
                                                    .inject()
                                                    .add("phone_number", phoneNumber)
-                                                   .add("password", password);
+                                                   .add("password", EncryptUtil.base64Encrypt(password));
         return post(builder, new WrapListener(listener) {
             @Override
             public void onSuccess(Response response) {
@@ -220,7 +221,7 @@ public class NetWork {
         ParamsBuilder builder = new ParamsBuilder().url(ApiManager.EndPoint.PASSPORT_PASSWORD_LOGIN)
                                                    .inject()
                                                    .add("username", username)
-                                                   .add("password", password);
+                                                   .add("password", EncryptUtil.base64Encrypt(password));
         return post(builder, new WrapListener(listener) {
             @Override
             public void onSuccess(Response response) {
@@ -331,8 +332,8 @@ public class NetWork {
     public Call changePassword(String oldPassWord, String newPassWord, final ZbChangePasswordListener listener) {
         ParamsBuilder builder = new ParamsBuilder().url(ApiManager.EndPoint.PASSPORT_CHANGE_PASSWORD)
                                                    .injectWithToken()
-                                                   .add("old_password", oldPassWord)
-                                                   .add("new_password", newPassWord);
+                                                   .add("old_password", EncryptUtil.base64Encrypt(oldPassWord))
+                                                   .add("new_password", EncryptUtil.base64Encrypt(newPassWord));
         return post(builder, new WrapListener(listener) {
             @Override
             public void onSuccess(Response response) {
@@ -347,7 +348,7 @@ public class NetWork {
     public Call checkPassWord(String oldPassWord, final ZbCaptchaVerifyListener listener) {
         ParamsBuilder builder = new ParamsBuilder().url(ApiManager.EndPoint.PASSPORT_CHECK_PASSWORD)
                                                    .injectWithToken()
-                                                   .add("password", oldPassWord);
+                                                   .add("password", EncryptUtil.base64Encrypt(oldPassWord));
         return get(builder, new WrapListener(listener) {
             @Override
             public void onSuccess(Response response) {
@@ -365,7 +366,7 @@ public class NetWork {
                                                    .inject()
                                                    .add("phone_number", phoneNumber)
                                                    .add("sms_token", captcha)
-                                                   .add("new_password", newPassword);
+                                                   .add("new_password", EncryptUtil.base64Encrypt(newPassword));
         return post(builder, new WrapListener(listener) {
             @Override
             public void onSuccess(Response response) {

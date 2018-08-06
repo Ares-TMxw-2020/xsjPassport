@@ -1,9 +1,13 @@
 package com.zjrb.passport.util;
 
+import android.support.annotation.NonNull;
+import android.util.Base64;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
+
 
 /**
  * Function: EncryptUtil
@@ -57,4 +61,20 @@ public class EncryptUtil {
         }
         return sb.toString();
     }
+
+    /**
+     * base64 加密
+     * @param text
+     * @return
+     */
+    public static String base64Encrypt(@NonNull String text) {
+        byte[] bytes = new byte[0];
+        try {
+            bytes = text.getBytes(InnerConstant.DEF_CODE);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
+    }
+
 }
