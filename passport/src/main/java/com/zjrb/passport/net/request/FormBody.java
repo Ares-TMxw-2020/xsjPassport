@@ -56,7 +56,7 @@ public class FormBody extends RequestBody {
                 }
                 sb.append(URLEncoder.encode(s, InnerConstant.DEF_CODE));
                 sb.append("=");
-                sb.append(URLEncoder.encode(map.get(s) == null ? "" : map.get(s), InnerConstant.DEF_CODE));
+                sb.append(TextUtils.isEmpty(map.get(s)) ? "" : URLEncoder.encode(map.get(s), InnerConstant.DEF_CODE));
             }
             return sb.toString();
         }

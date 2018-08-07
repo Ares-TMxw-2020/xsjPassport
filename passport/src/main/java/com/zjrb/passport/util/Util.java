@@ -56,7 +56,11 @@ public class Util {
             if (TextUtils.isEmpty(key)) {
                 continue;
             }
-            sb = sb.append(key + "=" + URLEncoder.encode(TextUtils.isEmpty(params.get(key)) ? "" : params.get(key)) + "&");
+            try {
+                sb = sb.append(key + "=" + (TextUtils.isEmpty(params.get(key)) ? "" : URLEncoder.encode(params.get(key), "UTF-8")) + "&");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         }
 
         String paramsStr = sb.substring(0, sb.length() - 1);
