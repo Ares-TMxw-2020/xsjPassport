@@ -74,7 +74,7 @@ public class EncryptUtil {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        return Base64.encodeToString(bytes, Base64.DEFAULT);
+        return Base64.encodeToString(bytes, Base64.NO_WRAP); // NO_WRAP会略去换行符
     }
 
 }
