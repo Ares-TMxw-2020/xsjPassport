@@ -99,7 +99,7 @@ public class RequestBuilder {
         }
 
         public Map<String, String> build() {
-            map.put(InnerConstant.SIGN, EncryptUtil.encrypt(api, map));
+            map.put(InnerConstant.SIGN, EncryptUtil.encrypt(api, map)); // map中sign的计算先进行encode,然后sha256进行了加密(sha256只有数字和字符,所以sign可以不用再次encode)
             return map;
         }
 

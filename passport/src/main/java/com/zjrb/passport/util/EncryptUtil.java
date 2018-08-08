@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.util.Base64;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
@@ -22,7 +23,11 @@ public class EncryptUtil {
         sb.append(url).append("%%");
         if (params != null && !params.isEmpty()) {
             for (String s : params.keySet()) {
-                sb.append(s).append("=").append(params.get(s)).append("&");
+                try {
+                    sb.append(s).append("=").append(URLEncoder.encode(params.get(s), InnerConstant.DEF_CODE)).append("&"); // queryString拼接的时候value就需要进行encode
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
             }
             sb.setLength(sb.length() - 1);
             sb.append("%%");

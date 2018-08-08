@@ -56,7 +56,11 @@ public class FormBody extends RequestBody {
                 }
                 sb.append(URLEncoder.encode(s, InnerConstant.DEF_CODE));
                 sb.append("=");
-                sb.append(TextUtils.isEmpty(map.get(s)) ? "" : URLEncoder.encode(map.get(s), InnerConstant.DEF_CODE));
+                if (TextUtils.equals(s, InnerConstant.SIGN)) { // sign为sha256加密后的字串,不包含特殊字符,这里进不进行encode都行,这里跟ios逻辑保持一致,不再encode
+                    sb.append(TextUtils.isEmpty(map.get(s)) ? "" : map.get(s));
+                } else {
+                    sb.append(TextUtils.isEmpty(map.get(s)) ? "" : URLEncoder.encode(map.get(s), InnerConstant.DEF_CODE));
+                }
             }
             return sb.toString();
         }
