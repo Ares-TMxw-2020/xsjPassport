@@ -57,7 +57,11 @@ public class Util {
                 continue;
             }
             try {
-                sb = sb.append(key + "=" + (TextUtils.isEmpty(params.get(key)) ? "" : URLEncoder.encode(params.get(key), "UTF-8")) + "&");
+                if (TextUtils.equals(key, InnerConstant.SIGN)) { // sign为sha256加密后的字串,不包含特殊字符,这里进不进行encode都行,这里跟ios逻辑保持一致,不再encode
+                    sb = sb.append(key + "=" + (TextUtils.isEmpty(params.get(key)) ? "" : params.get(key)) + "&");
+                } else {
+                    sb = sb.append(key + "=" + (TextUtils.isEmpty(params.get(key)) ? "" : URLEncoder.encode(params.get(key), "UTF-8")) + "&");
+                }
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
