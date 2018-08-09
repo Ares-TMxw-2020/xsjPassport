@@ -11,6 +11,7 @@ import com.zhejiangdaily.utils.ToastUtil;
 import com.zhejiangdaily.utils.ZbUtil;
 import com.zjrb.passport.ZbConfig;
 import com.zjrb.passport.ZbPassport;
+import com.zjrb.passport.constant.ZbConstants;
 
 /**
  * Function: App
@@ -31,7 +32,11 @@ public class App extends Application {
     }
 
     private void initPassport() {
-        ZbPassport.init(this, new ZbConfig.Builder().setAppVersion("1.0").setAppUuid("uuid"));
+        ZbPassport.init(this,
+                        new ZbConfig.Builder().setEnvType(ZbConstants.Env.TEST)
+                                              .setDebug(true)
+                                              .setAppVersion("1.0")
+                                              .setAppUuid("uuid"));
 //        ZbPassport.setZbConfig(new ZbConfig.Builder().setAppId(1)
 //                                                     .setAppKey("appKey")
 //                                                     .setAppSecret("")

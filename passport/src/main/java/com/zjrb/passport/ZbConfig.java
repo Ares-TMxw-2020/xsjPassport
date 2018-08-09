@@ -181,10 +181,10 @@ public final class ZbConfig {
      * Function: ZbConfigBuilder
      */
     public static class Builder {
-        private int appId;
+        private int appId = -1;
         private String appKey;
         private String appSecret;
-        private int envType;
+        private int envType = -1;
         private boolean isDebug;
         private boolean isSetDebug;
         private String appVersion;
@@ -227,7 +227,7 @@ public final class ZbConfig {
         }
 
         public void build(ZbConfig zbConfig) {
-            if (appId != 0) {
+            if (appId != -1) {
                 zbConfig.setAppId(appId);
             }
             if (!TextUtils.isEmpty(appKey)) {
@@ -236,7 +236,9 @@ public final class ZbConfig {
             if (!TextUtils.isEmpty(appSecret)) {
                 zbConfig.setAppSecret(appSecret);
             }
-            zbConfig.setEnvType(envType);
+            if (envType != -1) {
+                zbConfig.setEnvType(envType);
+            }
             if (isSetDebug) {
                 zbConfig.setDebug(isDebug);
             }
