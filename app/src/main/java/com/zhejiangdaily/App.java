@@ -11,6 +11,7 @@ import com.zhejiangdaily.utils.ToastUtil;
 import com.zhejiangdaily.utils.ZbUtil;
 import com.zjrb.passport.ZbConfig;
 import com.zjrb.passport.ZbPassport;
+import com.zjrb.passport.constant.ZbConstants;
 
 /**
  * Function: App
@@ -31,7 +32,13 @@ public class App extends Application {
     }
 
     private void initPassport() {
-        ZbPassport.init(this, new ZbConfig.Builder().setAppVersion("1.0").setAppUuid("uuid"));
+        ZbPassport.init(this,
+                        new ZbConfig.Builder().setEnvType(ZbConstants.Env.DEV)
+                                              .setDebug(true)
+                                // TODO: 2018/9/19 删除
+                                .setData_bypass("test")
+                                              .setAppVersion("1.0")
+                                              .setAppUuid("uuid"));
 //        ZbPassport.setZbConfig(new ZbConfig.Builder().setAppId(1)
 //                                                     .setAppKey("appKey")
 //                                                     .setAppSecret("")
@@ -45,11 +52,13 @@ public class App extends Application {
      * 友盟第三方登录
      */
     private void initUmengLogin(Context context) {
+//        UMConfigure.setLogEnabled(true);
         UMShareConfig config = new UMShareConfig();
         config.isNeedAuthOnGetUserInfo(true);
         UMShareAPI.get(context).setShareConfig(config);
-        PlatformConfig.setWeixin("wx39f76de30d723809", "f5d53fadf9b28d4c5cee5993e1689d58");
-        PlatformConfig.setSinaWeibo("4252282571", "65de72c06aa125a5255e639875e927a0", "http://app.qjwb.com.cn/r/seirzoejehxs");
-        PlatformConfig.setQQZone("1101175950", "O0vk6yNN7yE7e82e");
+        PlatformConfig.setWeixin("wxc8bcb96e972bd147", "6bde68292c1295c7cf81d47a3a520030");
+        PlatformConfig.setSinaWeibo("287017146", "5113d5e528ae8335f230f025bcbd6fa1", "http://www.zjol.com.cn");
+        PlatformConfig.setQQZone("101096646", "da6306af99c94ba949029b563a69a9a4");
+        PlatformConfig.setDing("dingoahuzuxhqyb2jtypgm");
     }
 }
