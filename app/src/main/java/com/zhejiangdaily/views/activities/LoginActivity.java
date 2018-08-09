@@ -123,9 +123,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                 finish();
                 break;
             case R.id.iv_sina:
-                if (ZbUtil.checkInstall(this, SHARE_MEDIA.SINA)) {
-                    umPresenter.umLogin(SHARE_MEDIA.SINA);
-                }
+                umPresenter.umLogin(SHARE_MEDIA.SINA);
                 break;
             case R.id.iv_wechat:
                 if (ZbUtil.checkInstall(this, SHARE_MEDIA.WEIXIN)) {

@@ -195,12 +195,10 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
                 infoPresenter.intentBindPhone();
                 break;
             case R.id.ll_sina:
-                if (ZbUtil.checkInstall(this, SHARE_MEDIA.SINA)) {
-                    if ("已绑定".equals(tvSina.getText().toString())) {
-                        noticeUnbind(ZbConstants.ThirdLogin.SINA);
-                    } else {
-                        umPresenter.umLogin(SHARE_MEDIA.SINA);
-                    }
+                if ("已绑定".equals(tvSina.getText().toString())) {
+                    noticeUnbind(ZbConstants.ThirdLogin.SINA);
+                } else {
+                    umPresenter.umLogin(SHARE_MEDIA.SINA);
                 }
                 break;
             case R.id.ll_wechat:
