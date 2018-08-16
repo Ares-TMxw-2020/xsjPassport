@@ -1,6 +1,7 @@
 package com.zjrb.passport.util;
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Base64;
 
 import java.io.UnsupportedEncodingException;
@@ -24,7 +25,7 @@ public class EncryptUtil {
         if (params != null && !params.isEmpty()) {
             for (String s : params.keySet()) {
                 try {
-                    sb.append(s).append("=").append(URLEncoder.encode(params.get(s), InnerConstant.DEF_CODE)).append("&"); // queryString拼接的时候value就需要进行encode
+                    sb.append(s).append("=").append(TextUtils.isEmpty(params.get(s)) ? "" : URLEncoder.encode(params.get(s), InnerConstant.DEF_CODE)).append("&"); // queryString拼接的时候value就需要进行encode
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
