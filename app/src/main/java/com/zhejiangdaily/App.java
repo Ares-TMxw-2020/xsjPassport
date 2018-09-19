@@ -35,8 +35,6 @@ public class App extends Application {
         ZbPassport.init(this,
                         new ZbConfig.Builder().setEnvType(ZbConstants.Env.DEV)
                                               .setDebug(true)
-                                // TODO: 2018/9/19 删除
-                                .setData_bypass("test")
                                               .setAppVersion("1.0")
                                               .setAppUuid("uuid"));
 //        ZbPassport.setZbConfig(new ZbConfig.Builder().setAppId(1)
