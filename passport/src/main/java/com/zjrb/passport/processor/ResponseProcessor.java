@@ -21,7 +21,7 @@ public class ResponseProcessor {
     public static final int SUCCESS = 0;
 
     /**
-     * JSON 解析,返回结果只有code和message
+     * JSON 解析,返回结果只有code和message及data_bypass
      */
     public static void process(Response response, IResult iResult) {
         String jsonString = response.body().string();
@@ -29,8 +29,9 @@ public class ResponseProcessor {
         try {
             jsonObject = new JSONObject(jsonString);
             int code = jsonObject.optInt("code");
+            JSONObject passObject = jsonObject.optJSONObject("data_bypass");
             if (code == SUCCESS) {
-                iResult.onSuccess();
+                iResult.onSuccess(passObject);
             } else {
                 String message = jsonObject.optString("message");
                 iResult.onFailure(code, message);
@@ -41,7 +42,7 @@ public class ResponseProcessor {
     }
 
     /**
-     * JSON 解析,返回结果只有code和message，支持成功拦截
+     * JSON 解析,返回结果只有code和message及data_bypass，支持成功拦截
      */
     public static void process(Response response, IResult iResult, Interceptor interceptor) {
         String jsonString = response.body().string();
@@ -49,9 +50,10 @@ public class ResponseProcessor {
         try {
             jsonObject = new JSONObject(jsonString);
             int code = jsonObject.optInt("code");
+            JSONObject passObject = jsonObject.optJSONObject("data_bypass");
             if (code == SUCCESS) {
                 interceptor.onIntercept();
-                iResult.onSuccess();
+                iResult.onSuccess(passObject);
             } else {
                 String message = jsonObject.optString("message");
                 iResult.onFailure(code, message);
@@ -75,8 +77,9 @@ public class ResponseProcessor {
             int code = jsonObject.optInt("code");
             if (code == SUCCESS) {
                 JSONObject innerObject = jsonObject.optJSONObject("data");
+                JSONObject passObject = jsonObject.optJSONObject("data_bypass");
                 if (innerObject != null) {
-                    processor.process(innerObject);
+                    processor.process(innerObject, passObject);
                 } else {
                     //接口定义了data返回，当没有data返回就认为接口返回错误
                     iFailure.onFailure(ErrorCode.ERROR_INTERFACE_DATA, "错误的接口返回");
@@ -103,9 +106,10 @@ public class ResponseProcessor {
             int code = jsonObject.optInt("code");
             if (code == SUCCESS) {
                 JSONObject innerObject = jsonObject.optJSONObject("data");
+                JSONObject passObject = jsonObject.optJSONObject("data_bypass");
                 if (innerObject != null) {
                     interceptor.onIntercept();
-                    processor.process(innerObject);
+                    processor.process(innerObject, passObject);
                 } else {
                     //接口定义了data返回，当没有data返回就认为接口返回错误
                     iFailure.onFailure(ErrorCode.ERROR_INTERFACE_DATA, "错误的接口返回");

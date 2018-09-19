@@ -2,6 +2,7 @@ package com.zhejiangdaily;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -18,6 +19,8 @@ import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.listener.ZbCaptchaSendListener;
 import com.zjrb.passport.listener.ZbLoginListener;
+
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,14 +54,18 @@ public class MainActivity extends AppCompatActivity {
             default:
                 break;
             case R.id.tv_login: // 手机号验证码登录
-                if (ZbUtil.isMobileNum(mEtPhone.getText().toString())) { // 手机号验证码登录不需要先进行绑定的校验,因为该接口未注册的手机号会自动注册通行证
-                    doLogin(mEtPhone.getText().toString(), mEtCaptcha.getText().toString());
-                } else {
-                    if (TextUtils.isEmpty(mEtPhone.getText().toString())) {
-                        ToastUtil.show("请输入手机号");
+                if (!TextUtils.isEmpty(mEtCaptcha.getText().toString())) {
+                    if (ZbUtil.isMobileNum(mEtPhone.getText().toString())) { // 手机号验证码登录不需要先进行绑定的校验,因为该接口未注册的手机号会自动注册通行证
+                        doLogin(mEtPhone.getText().toString(), mEtCaptcha.getText().toString());
                     } else {
-                        ToastUtil.show("非手机号格式");
+                        if (TextUtils.isEmpty(mEtPhone.getText().toString())) {
+                            ToastUtil.show("请输入手机号");
+                        } else {
+                            ToastUtil.show("非手机号格式");
+                        }
                     }
+                } else {
+                    ToastUtil.show("请输入验证码");
                 }
                 break;
             case R.id.tv_password_login:
@@ -72,8 +79,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.tv_send:
                 if (ZbUtil.isMobileNum(mEtPhone.getText().toString())) {
                     ZbPassport.sendCaptcha(ZbConstants.Sms.LOGIN, mEtPhone.getText().toString(), new ZbCaptchaSendListener() {
+
                         @Override
-                        public void onSuccess() {
+                        public void onSuccess(@Nullable JSONObject passData) {
                             ToastUtil.show("下发登录短信验证码接口 success");
                         }
 
@@ -136,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         ZbPassport.loginCaptcha(phone, password, new ZbLoginListener() {
 
             @Override
-            public void onSuccess(LoginInfo loginInfo) {
+            public void onSuccess(LoginInfo loginInfo, @Nullable JSONObject passData) {
                 ToastUtil.show("登录成功");
                 startActivity(new Intent(MainActivity.this, UserInfoActivity.class));
             }

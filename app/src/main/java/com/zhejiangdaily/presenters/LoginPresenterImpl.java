@@ -1,6 +1,7 @@
 package com.zhejiangdaily.presenters;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zhejiangdaily.contracts.LoginContract;
@@ -8,11 +9,13 @@ import com.zhejiangdaily.utils.ToastUtil;
 import com.zhejiangdaily.utils.ZbUtil;
 import com.zhejiangdaily.views.activities.FindPassWordActivity;
 import com.zhejiangdaily.views.activities.RegisterActvity;
+import com.zjrb.passport.Entity.LoginInfo;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ZbConstants;
-import com.zjrb.passport.Entity.LoginInfo;
 import com.zjrb.passport.listener.ZbCheckPhoneListener;
 import com.zjrb.passport.listener.ZbLoginListener;
+
+import org.json.JSONObject;
 
 /**
  * Function: LoginPresenterImpl
@@ -75,7 +78,7 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
     private void checkBind(final String phone, final String password) {
         ZbPassport.checkBindState(phone, new ZbCheckPhoneListener() {
             @Override
-            public void onSuccess(boolean isBind) {
+            public void onSuccess(boolean isBind, @Nullable JSONObject passData) {
                 if (isBind) {
                     doLogin(phone, password);
                 } else {
@@ -119,7 +122,7 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
 
     private ZbLoginListener zbLoginListener = new ZbLoginListener() {
         @Override
-        public void onSuccess(LoginInfo info) {
+        public void onSuccess(LoginInfo info, @Nullable JSONObject passData) {
             view.login(true, null);
         }
 

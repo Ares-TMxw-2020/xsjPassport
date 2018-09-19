@@ -20,6 +20,7 @@ public final class ZbConfig {
     private int appId;
     private String appKey;
     private String appSecret;
+    private String data_bypass;
     private int envType;
     private String token;
     private boolean isDebug;
@@ -101,6 +102,10 @@ public final class ZbConfig {
         return appUuid;
     }
 
+    public String getData_bypass() {
+        return data_bypass;
+    }
+
     public void initUA() {
         StringBuilder sb = new StringBuilder();
         sb.append("ANDROID")
@@ -150,6 +155,9 @@ public final class ZbConfig {
         this.token = token;
     }
 
+    public void setData_bypass(String data_bypass) {
+        this.data_bypass = data_bypass;
+    }
 
     void setAppVersion(String appVersion) {
         this.appVersion = appVersion;
@@ -189,6 +197,12 @@ public final class ZbConfig {
         private boolean isSetDebug;
         private String appVersion;
         private String appUuid;
+        private String data_bypass;
+
+        public Builder setData_bypass(String data_bypass) {
+            this.data_bypass = data_bypass;
+            return this;
+        }
 
         public Builder setAppId(int appId) {
             this.appId = appId;
@@ -242,6 +256,7 @@ public final class ZbConfig {
             if (isSetDebug) {
                 zbConfig.setDebug(isDebug);
             }
+            zbConfig.setData_bypass(data_bypass);
             zbConfig.setAppVersion(appVersion);
             zbConfig.setAppUuid(appUuid);
             zbConfig.initUA();

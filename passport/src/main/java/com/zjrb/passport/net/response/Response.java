@@ -1,5 +1,7 @@
 package com.zjrb.passport.net.response;
 
+import com.zjrb.passport.util.Logger;
+
 /**
  * Date: 2018/6/28 下午3:19
  * Email: sisq@8531.cn
@@ -52,8 +54,8 @@ public class Response {
         }
 
         public Response build() {
-            if (message == null) throw new NullPointerException("response message == null");
-            if (body == null) throw new NullPointerException("response body == null");
+            if (message == null) Logger.e("response message == null");
+            if (body == null) Logger.e("response data == null");
             return new Response(this);
         }
 

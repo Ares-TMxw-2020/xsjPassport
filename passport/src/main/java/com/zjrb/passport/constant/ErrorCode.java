@@ -45,6 +45,10 @@ public class ErrorCode {
      */
     public static final int ERROR_SAME_PASSWORD = 400004;
     /**
+     该手机号已经注册浙报通行证，且可进行合并操作
+     */
+    public static final int ERROR_PHONE_REGISTERED_CAN_MERGE= 400005;
+    /**
      * 通行证ID不存在
      */
     public static final int ERROR_PASSPORT_NOT_EXIST = 500001;

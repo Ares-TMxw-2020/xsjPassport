@@ -1,6 +1,7 @@
 package com.zjrb.passport.processor;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.zjrb.passport.listener.ZbCheckPhoneListener;
 
@@ -22,10 +23,10 @@ public class CheckPhoneProcessor implements JsonProcessor {
     }
 
     @Override
-    public void process(JSONObject jsonObject) throws JSONException {
+    public void process(JSONObject jsonObject, @Nullable JSONObject passData) throws JSONException {
         String phone = jsonObject.optString("phone_number");
         boolean isBind = jsonObject.optBoolean("phone_number_taken");
-        listener.onSuccess(isBind);
+        listener.onSuccess(isBind, passData);
     }
 
 

@@ -1,11 +1,15 @@
 package com.zhejiangdaily.presenters;
 
+import android.support.annotation.Nullable;
+
 import com.zhejiangdaily.contracts.BindPhoneContract;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.listener.ZbBindPhoneListener;
 import com.zjrb.passport.listener.ZbCaptchaSendListener;
 import com.zjrb.passport.listener.ZbCheckPhoneListener;
+
+import org.json.JSONObject;
 
 /**
  * Function: BindPhonePresenter
@@ -23,7 +27,7 @@ public class BindPhonePresenterImpl implements BindPhoneContract.Presenter {
     public void checkPhone(String phoneNumber) {
         ZbPassport.checkBindState(phoneNumber, new ZbCheckPhoneListener() {
             @Override
-            public void onSuccess(boolean isBind) {
+            public void onSuccess(boolean isBind, @Nullable JSONObject passData) {
                 view.checkPhone(true, isBind, null);
             }
 
@@ -38,7 +42,7 @@ public class BindPhonePresenterImpl implements BindPhoneContract.Presenter {
     public void sendCaptcha(String phoneNumber) {
         ZbPassport.sendCaptcha(ZbConstants.Sms.BIND, phoneNumber, new ZbCaptchaSendListener() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(@Nullable JSONObject passData) {
                 view.sendCaptcha(true, null);
             }
 
@@ -53,7 +57,7 @@ public class BindPhonePresenterImpl implements BindPhoneContract.Presenter {
     public void bindPhone(String phoneNumber, String captcha) {
         ZbPassport.bindPhone(phoneNumber, captcha, new ZbBindPhoneListener() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(@Nullable JSONObject passData) {
                 view.bindPhone(true, null);
             }
 

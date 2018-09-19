@@ -1,6 +1,7 @@
 package com.zhejiangdaily.presenters;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.zhejiangdaily.R;
@@ -9,6 +10,8 @@ import com.zhejiangdaily.utils.ToastUtil;
 import com.zhejiangdaily.views.activities.ChangeNewPasswordActivity;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.listener.ZbCaptchaVerifyListener;
+
+import org.json.JSONObject;
 
 /**
  * Date: 2018/7/12 上午11:46
@@ -36,7 +39,7 @@ public class ChangePassWordPresenterImpl implements ChangePasswordContract.Prese
         }
         ZbPassport.checkPassword(passWord, new ZbCaptchaVerifyListener() { // 验证旧密码是否正确
             @Override
-            public void onSuccess(boolean isValid) {
+            public void onSuccess(boolean isValid, @Nullable JSONObject passData) {
                 if (isValid) {
                     Intent intent = new Intent(view.getIActivity(), ChangeNewPasswordActivity.class);
                     intent.putExtra("oldPassWord", passWord);

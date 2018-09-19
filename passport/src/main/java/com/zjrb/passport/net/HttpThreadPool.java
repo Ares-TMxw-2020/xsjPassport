@@ -1,5 +1,7 @@
 package com.zjrb.passport.net;
 
+import com.zjrb.passport.util.Logger;
+
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Future;
@@ -45,7 +47,7 @@ public class HttpThreadPool {
     }
 
     private HttpThreadPool() {
-        threadPoolExecutor = new ThreadPoolExecutor(CORE_POOL_SIZE, CORE_POOL_SIZE + 1, MAX_LIVE_TIME, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(4), rejectedExecutionHandler);
+        threadPoolExecutor = new ThreadPoolExecutor(CORE_POOL_SIZE, 2 * CORE_POOL_SIZE, MAX_LIVE_TIME, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(20));
         threadPoolExecutor.execute(runnable);
     }
 
@@ -69,7 +71,7 @@ public class HttpThreadPool {
 
     public void execute(FutureTask<?> task) {
         if (task == null) {
-            throw new NullPointerException("请求任务为空,不能执行");
+            Logger.e("请求任务为空,不能执行");
         }
         try {
             queue.put(task);

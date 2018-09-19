@@ -227,7 +227,7 @@ ZbPassport.loginCaptcha(String phoneNumber, String captcha, ZbLoginListener list
 ZbPassport.loginThird(@ZbConstants.ThirdType int thirdType, String thirdUniqueId, ZbLoginListener listener);
 ```
 其中第一个参数为ZbConstants.ThirdLogin.WECHAT，ZbConstants.ThirdLogin.QQ，ZbConstants.ThirdLogin.SINA分别代表微信，qq，微博登录
-第二个参数为三方平台的id,其中qq和sina 取openId，微信取unionId，用友盟的话，统一取友盟封装的uid
+第二个参数为三方平台的id,其中qq和sina取openId，微信取unionId，用友盟的话，统一取友盟封装的uid
 
 ### 获取通行证详情
 
@@ -343,12 +343,12 @@ ZbPassport.bindThird(@ZbConstants.ThirdType int thirdType, String thirdUnionId, 
 其中第一个参数为ZbConstants.ThirdLogin.WECHAT，ZbConstants.ThirdLogin.QQ，ZbConstants.ThirdLogin.SINA分别代表微信，qq，微博，
 第二个参数为三方平台的id，其中**qq和sina取openId，微信取unionId，用友盟的话，统一取友盟封装的uid**
 
-#### 解绑第三方账号
+#### 解绑第三方账号,注意个性化账户解绑也调用该方法
 
 ```java
-ZbPassport.unbindThird(@ZbConstants.ThirdType int thirdType, ZbUnBindThirdListener listener);
+ZbPassport.unbindThird(@ZbConstants.UnBindType int thirdType, ZbUnBindThirdListener listener);
 ```
-其中第一个参数为ZbConstants.ThirdLogin.WECHAT，ZbConstants.ThirdLogin.QQ，ZbConstants.ThirdLogin.SINA分别代表微信，qq，微博
+其中第一个参数为ZbConstants.ThirdLogin.WECHAT，ZbConstants.ThirdLogin.QQ，ZbConstants.ThirdLogin.SINA, ZbConstants.CUSTOM分别代表微信，qq，微博及个性化账户
 
 #### 退出登录接口
 
