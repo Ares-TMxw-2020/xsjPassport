@@ -66,6 +66,9 @@ public class RequestBuilder {
         public ParamsBuilder inject() {
             ZbConfig zbConfig = ZbPassport.getZbConfig();
             map.put(InnerConstant.APP_ID, "" + zbConfig.getAppId());
+            if (!TextUtils.isEmpty(zbConfig.getData_bypass())) {
+                map.put(InnerConstant.APP_PASSDATA, "" + zbConfig.getData_bypass());
+            }
             map.put(InnerConstant.APP_KEY, zbConfig.getAppKey());
             map.put(InnerConstant.APP_SECRET, zbConfig.getAppSecret());
             return this;
@@ -75,6 +78,9 @@ public class RequestBuilder {
             ZbConfig zbConfig = ZbPassport.getZbConfig();
             if (!TextUtils.isEmpty(zbConfig.getToken())) {
                 map.put(InnerConstant.TOKEN, zbConfig.getToken());
+            }
+            if (!TextUtils.isEmpty(zbConfig.getData_bypass())) {
+                map.put(InnerConstant.APP_PASSDATA, "" + zbConfig.getData_bypass());
             }
             map.put(InnerConstant.APP_ID, "" + zbConfig.getAppId());
             map.put(InnerConstant.APP_KEY, zbConfig.getAppKey());

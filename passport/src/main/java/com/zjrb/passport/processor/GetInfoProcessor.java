@@ -1,6 +1,7 @@
 package com.zjrb.passport.processor;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.zjrb.passport.Entity.LoginInfo;
 import com.zjrb.passport.Entity.ThirdInfo;
@@ -29,7 +30,7 @@ public class GetInfoProcessor implements JsonProcessor {
     }
 
     @Override
-    public void process(JSONObject jsonObject) throws JSONException {
+    public void process(JSONObject jsonObject, @Nullable JSONObject passData) throws JSONException {
         LoginInfo info = new LoginInfo();
 
         info.setPassportId(jsonObject.optInt("passport_id"));
@@ -54,6 +55,6 @@ public class GetInfoProcessor implements JsonProcessor {
             info.setBindList(list);
         }
 
-        loginResult.onSuccess(info);
+        loginResult.onSuccess(info, passData);
     }
 }

@@ -9,12 +9,12 @@ import static com.zjrb.passport.constant.ZbConstants.Env.DEV;
 import static com.zjrb.passport.constant.ZbConstants.Env.OFFICIAL;
 import static com.zjrb.passport.constant.ZbConstants.Env.PRE;
 import static com.zjrb.passport.constant.ZbConstants.Env.TEST;
-import static com.zjrb.passport.constant.ZbConstants.ThirdLogin.QQ;
-import static com.zjrb.passport.constant.ZbConstants.ThirdLogin.SINA;
-import static com.zjrb.passport.constant.ZbConstants.ThirdLogin.WECHAT;
 import static com.zjrb.passport.constant.ZbConstants.Sms.BIND;
 import static com.zjrb.passport.constant.ZbConstants.Sms.FIND;
 import static com.zjrb.passport.constant.ZbConstants.Sms.LOGIN;
+import static com.zjrb.passport.constant.ZbConstants.ThirdLogin.QQ;
+import static com.zjrb.passport.constant.ZbConstants.ThirdLogin.SINA;
+import static com.zjrb.passport.constant.ZbConstants.ThirdLogin.WECHAT;
 
 /**
  * Function: ZbConstants
@@ -63,6 +63,7 @@ public final class ZbConstants {
          * 新浪微博
          */
         public static final int SINA = 4;
+
     }
 
 
@@ -88,6 +89,11 @@ public final class ZbConstants {
         public static final int BIND = 4;
     }
 
+    /**
+     * 个性化
+     */
+    public static final int CUSTOM = 5;
+
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({DEV, TEST, PRE, OFFICIAL})
@@ -98,6 +104,11 @@ public final class ZbConstants {
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({WECHAT, QQ, SINA})
     public @interface ThirdType {
+    }
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({WECHAT, QQ, SINA, CUSTOM})
+    public @interface UnBindType {
     }
 
 

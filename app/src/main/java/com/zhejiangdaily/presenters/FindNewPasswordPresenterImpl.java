@@ -1,6 +1,7 @@
 package com.zhejiangdaily.presenters;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 
 import com.zhejiangdaily.R;
 import com.zhejiangdaily.contracts.FindNewPassWordContract;
@@ -8,6 +9,8 @@ import com.zhejiangdaily.utils.ToastUtil;
 import com.zhejiangdaily.views.activities.LoginActivity;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.listener.ZbFindPasswordListener;
+
+import org.json.JSONObject;
 
 /**
  * Date: 2018/7/12 下午6:02
@@ -27,7 +30,7 @@ public class FindNewPasswordPresenterImpl implements FindNewPassWordContract.Pre
     public void sendNewPassWord(String phoneNum, String sms, String password) {
         ZbPassport.findPassword(phoneNum, sms, password, new ZbFindPasswordListener() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(@Nullable JSONObject passData) {
                 ToastUtil.showTextWithImage(R.mipmap.ic_qq, "找回密码成功,请使用新密码登录");
                 Intent intent = new Intent(view.getIActivity(), LoginActivity.class);
                 view.getIActivity().startActivity(intent);

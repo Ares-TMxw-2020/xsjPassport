@@ -56,6 +56,14 @@ public class ZbPassport {
         zbConfig.setToken(token);
     }
 
+    /**
+     * 设置传递数据
+     * @param passData
+     */
+    public static void setPassData(String passData) {
+        zbConfig.setData_bypass(passData);
+    }
+
     public static ZbConfig getZbConfig() {
         return zbConfig;
     }
@@ -170,9 +178,9 @@ public class ZbPassport {
     /**
      * 第三方解绑
      *
-     * @param thirdType 微信，qq，微博
+     * @param thirdType 微信，qq，微博 个性化账号
      */
-    public static Call unbindThird(@ZbConstants.ThirdType int thirdType, ZbUnBindThirdListener listener) {
+    public static Call unbindThird(@ZbConstants.UnBindType int thirdType, ZbUnBindThirdListener listener) {
         return netWork.unbindThird(thirdType, listener);
     }
 

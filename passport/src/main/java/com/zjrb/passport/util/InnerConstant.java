@@ -14,6 +14,7 @@ public class InnerConstant {
     public static final String APP_ID = "app_id";
     public static final String APP_KEY = "app_key";
     public static final String APP_SECRET = "app_secret";
+    public static final String APP_PASSDATA = "data_bypass";
     public static final String SIGN = "signature";
 
 

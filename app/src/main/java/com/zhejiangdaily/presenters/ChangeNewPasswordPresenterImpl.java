@@ -1,6 +1,7 @@
 package com.zhejiangdaily.presenters;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.zhejiangdaily.R;
@@ -9,6 +10,8 @@ import com.zhejiangdaily.utils.ToastUtil;
 import com.zhejiangdaily.views.activities.UserInfoActivity;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.listener.ZbChangePasswordListener;
+
+import org.json.JSONObject;
 
 /**
  * Date: 2018/7/12 下午6:02
@@ -36,7 +39,7 @@ public class ChangeNewPasswordPresenterImpl implements ChangeNewPassWordContract
         }
         ZbPassport.changePassword(oldNum, newNum, new ZbChangePasswordListener() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(@Nullable JSONObject passData) {
                 ToastUtil.showTextWithImage(R.mipmap.ic_qq, "修改密码成功");
                 Intent intent = new Intent(view.getIActivity(), UserInfoActivity.class);
                 view.getIActivity().startActivity(intent);

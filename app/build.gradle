@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 android {
-    compileSdkVersion 26
+    compileSdkVersion 25
     defaultConfig {
         applicationId "com.cmstop.qjwb"
         minSdkVersion 18
-        targetSdkVersion 22
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -24,6 +24,7 @@ android {
 
 
     buildTypes {
+
 
         debug {
             buildConfigField "boolean", "API_DEBUG", "true"
@@ -58,7 +59,7 @@ android {
 dependencies {
     api project(':passport')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:26.+'
+    implementation 'com.android.support:appcompat-v7:25.+'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'

@@ -1,6 +1,10 @@
 package com.zjrb.passport.listener;
 
+import android.support.annotation.Nullable;
+
 import com.zjrb.passport.Entity.LoginInfo;
+
+import org.json.JSONObject;
 
 /**
  * Function: ILoginResult
@@ -10,5 +14,5 @@ import com.zjrb.passport.Entity.LoginInfo;
  */
 public interface ILoginResult extends IFailure {
 
-    void onSuccess(LoginInfo loginInfo);
+    void onSuccess(LoginInfo loginInfo, @Nullable JSONObject passData);
 }
