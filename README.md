@@ -55,14 +55,19 @@ dependencies {
 
 ```java
 //在Application中
-ZbPassport.setZbConfig(new ZbConfig.Builder().setAppId(1)
+ZbPassport.init(this,  new ZbConfig.Builder().setAppId(1)
                                              .setAppKey("appKey")
                                              .setAppSecret("appSecre")
+                                             .setEnvType(ZbConstants.Env.DEV)
                                              .setDebug(true)
-                                             .setEnvType(ZbConstants.ENV_TEST)
-                                             .setAppVersion("Your App version")
-                                             .setAppUuid("Your App uuid"));
+                                             .setAppVersion("1.0")
+                                             .setAppUuid("uuid"));
+
 ```
+参数说明：
+app_id：对于每一个 app 接入方，通行证后台都会分配一个 app_id ，客户端 sdk 调用 api 接口时，需要带上 app_id 。
+app_key和app_secret：对于每一个 app 接入方，除了分配 app_id 以外，还会额外分配 app_key 和 app_secret 用于身份匹配，调用接口时也需要带上 app_key 和 app_secret 。
+
 **代码设置与Manifest相同参数会覆盖Manifest配置的参数**
 
 ## 使用
@@ -70,15 +75,22 @@ ZbPassport.setZbConfig(new ZbConfig.Builder().setAppId(1)
 ### 初始化
 
 ```java
-//在Application中
-ZbPassport.init(Context context);
+//在Application中通过：
+ZbPassport.init(Context context); // 该方式会取清单中通过meta-data配置的参数
+
 //或者
-ZbPassport.init(Context context,ZbConfig.Builder builder);
+ZbPassport.init(Context context, ZbConfig.Builder builder);
 
 示例代码:
-ZbPassport.init(this, new ZbConfig.Builder().setAppVersion("1.0").setAppUuid("uuid"));
-
+ZbPassport.init(this,  new ZbConfig.Builder().setAppId(1)
+                                             .setAppKey("appKey")
+                                             .setAppSecret("appSecre")
+                                             .setEnvType(ZbConstants.Env.DEV)
+                                             .setDebug(true)
+                                             .setAppVersion("1.0")
+                                             .setAppUuid("uuid"));
 ```
+**代码设置与Manifest相同参数会覆盖Manifest配置的参数**
 
 ### 关于验证码
 验证码有效期为10分钟，且只能使用一次,且只能使用一次,且只能使用一次,重要的事情说三遍。
@@ -86,6 +98,41 @@ ZbPassport.init(this, new ZbConfig.Builder().setAppVersion("1.0").setAppUuid("uu
 ### 关于密码
 通行证密码为6-15位大小写字母,数字,特殊字符的组合,且过滤掉空格输入。
 
+### 关于data_bypass字段
+该字段主要是针对各个不同的客户端的特殊需求的预留字段，用于传递客户端/对接服务端的中继数据，服务端不会对中继数据做任何处理，客户端传的data_bypass数据，会在回调接口中以http body的形式回传给各自接入方的回调接口中。
+举例说明：比如某客户段绑定手机号成功后需要进行加积分的操作，可以通过data_bypass字段透传客户端与服务端约定好的字段，然后通行证会根据data_bypass字段同步用户信息，把需要的积分信息通过绑定手机号的请求回调中
+传回。
+客户端调用通行证sdk的每个请求，在请求成功的回调监听里都有一个可空的JSONObject passData对象，该对象就是通行证传回的相关数据。
+
+约定的透传字段：
+    {
+      "type": 1,
+      "data": 13965146707,
+      "session_id": "59a9272bf7bf513f18a7bf9b"
+    }
+客户端代码：
+```java
+       try {
+            JSONObject object = new JSONObject();
+            object.put("type", 1);
+            object.put("data", mobile);
+            object.put("session_id", UserBiz.get().getSessionId());
+            ZbPassport.getZbConfig().setData_bypass(object.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ZbPassport.bindPhone(phone, captcha, new ZbBindPhoneListener() {
+            @Override
+            public void onSuccess(@Nullable JSONObject passData) {// passData为返回的积分行为
+
+            }
+
+            @Override
+            public void onFailure(int errorCode, String errorMessage) {
+
+            }
+        });
+```
 ### 关于登录
 通行证sdk除支持手机号和三方登录外,为兼容老版本,也支持使用个性化账号进行登录(个性化账号:4-16位字母或数字,首位为字母),故需要支持个性化登录的客户端,可按如下方法进行登录
 ```java
@@ -141,7 +188,7 @@ ZbPassport.sendCaptcha(@ZbConstants.SmsType int smsType, String phoneNumber, ZbC
 ```java
 ZbPassport.sendCaptcha(ZbConstants.Sms.REGISTER, phoneNum, new ZbCaptchaSendListener() {
                     @Override
-                    public void onSuccess() {
+                    public void onSuccess(@Nullable JSONObject passData) {
                         ToastUtil.show("下发注册短信验证码接口 success");
                     }
 
@@ -169,7 +216,7 @@ ZbPassport.checkBindState(String phoneNumber, ZbCheckPhoneListener listener)
 ```java
 ZbPassport.checkBindState(phoneNumber, new ZbCheckPhoneListener() {
     @Override
-    public void onSuccess(boolean isBind) {
+    public void onSuccess(boolean isBind， @Nullable JSONObject passData) {
         view.checkPhone(true, isBind, null);
     }
 
@@ -191,7 +238,7 @@ ZbPassport.register(String phoneNumber, String password, String captcha, ZbRegis
 ```java
 ZbPassport.register(phone, "this_is_a_test_password", "498598", new ZbRegisterListener() {
     @Override
-    public void onSuccess(LoginInfo info) {
+    public void onSuccess(LoginInfo info, @Nullable JSONObject passData) {
         showToast("手机号注册浙报通行证接口 success");
     }
 
@@ -239,7 +286,7 @@ ZbPassport.getInfo(ZbGetInfoListener listener);
 ```java
 ZbPassport.getInfo(new ZbGetInfoListener() {
     @Override
-    public void onSuccess(LoginInfo info) {
+    public void onSuccess(LoginInfo info, @Nullable JSONObject passData) {
         showToast("获取通行证详情接口 success");
     }
 
@@ -261,7 +308,7 @@ ZbPassport.findPassword(String phoneNumber, String captcha, String newPassword, 
 ```java
 ZbPassport.findPassword(phoneNum, sms, password, new ZbFindPasswordListener() {
     @Override
-    public void onSuccess() {
+    public void onSuccess(, @Nullable JSONObject passData) {
         ToastUtil.showTextWithImage(R.mipmap.ic_qq, "找回密码成功,请使用新密码登录");
     }
 
@@ -284,7 +331,7 @@ ZbPassport.checkPassword(String oldPassword, final ZbCaptchaVerifyListener liste
 ```java
 ZbPassport.checkPassword(passWord, new ZbCaptchaVerifyListener() { // 验证旧密码是否正确
             @Override
-            public void onSuccess(boolean isValid) {
+            public void onSuccess(boolean isValid, @Nullable JSONObject passData) {
                 if (isValid) {
                     Intent intent = new Intent(view.getIActivity(), ChangeNewPasswordActivity.class);
                     intent.putExtra("oldPassWord", passWord);
@@ -312,7 +359,7 @@ ZbPassport.changePassword(String oldPassWord, String newPassWord, final ZbChange
 ```java
 ZbPassport.changePassword(oldNum, newNum, new ZbChangePasswordListener() {
     @Override
-    public void onSuccess() {
+    public void onSuccess(@Nullable JSONObject passData) {
         ToastUtil.showTextWithImage(R.mipmap.ic_qq, "修改密码成功");
     }
 
