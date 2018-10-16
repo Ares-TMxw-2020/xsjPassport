@@ -23,7 +23,7 @@ public class CheckPhoneProcessor implements JsonProcessor {
     }
 
     @Override
-    public void process(JSONObject jsonObject, @Nullable JSONObject passData) throws JSONException {
+    public void process(JSONObject jsonObject, @Nullable String passData) throws JSONException {
         String phone = jsonObject.optString("phone_number");
         boolean isBind = jsonObject.optBoolean("phone_number_taken");
         listener.onSuccess(isBind, passData);

@@ -11,8 +11,6 @@ import com.zhejiangdaily.views.activities.ChangeNewPasswordActivity;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.listener.ZbCaptchaVerifyListener;
 
-import org.json.JSONObject;
-
 /**
  * Date: 2018/7/12 上午11:46
  * Email: sisq@8531.cn
@@ -39,7 +37,7 @@ public class ChangePassWordPresenterImpl implements ChangePasswordContract.Prese
         }
         ZbPassport.checkPassword(passWord, new ZbCaptchaVerifyListener() { // 验证旧密码是否正确
             @Override
-            public void onSuccess(boolean isValid, @Nullable JSONObject passData) {
+            public void onSuccess(boolean isValid, @Nullable String passData) {
                 if (isValid) {
                     Intent intent = new Intent(view.getIActivity(), ChangeNewPasswordActivity.class);
                     intent.putExtra("oldPassWord", passWord);

@@ -21,8 +21,6 @@ import com.zjrb.passport.listener.ZbCaptchaSendListener;
 import com.zjrb.passport.listener.ZbCheckPhoneListener;
 import com.zjrb.passport.listener.ZbRegisterListener;
 
-import org.json.JSONObject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -82,7 +80,7 @@ public class RegisterActvity extends AppCompatActivity {
 
                 ZbPassport.register(phoneNum, passWord, captcha, new ZbRegisterListener() {
                     @Override
-                    public void onSuccess(LoginInfo info, @Nullable JSONObject passData) {
+                    public void onSuccess(LoginInfo info, @Nullable String passData) {
                         // todo屏幕中间的Toast
                         ToastUtil.showTextWithImage(R.mipmap.ic_qq, "注册成功");
                         Intent intent = new Intent(RegisterActvity.this, UserInfoActivity.class);
@@ -143,7 +141,7 @@ public class RegisterActvity extends AppCompatActivity {
     private void checkBind(final String phone) {
         ZbPassport.checkBindState(phone, new ZbCheckPhoneListener() {
             @Override
-            public void onSuccess(boolean isBind, @Nullable JSONObject passData) {
+            public void onSuccess(boolean isBind, @Nullable String passData) {
                 if (isBind) {
                     final ZBDialog dialog = new ZBDialog(RegisterActvity.this);
                     dialog.setBuilder(new ZBDialog.Builder().setTitle("提示")
@@ -170,7 +168,7 @@ public class RegisterActvity extends AppCompatActivity {
                 } else { // 未绑定过的手机号发送验证码
                     ZbPassport.sendCaptcha(ZbConstants.Sms.REGISTER, phone, new ZbCaptchaSendListener() {
                         @Override
-                        public void onSuccess(@Nullable JSONObject passData) {
+                        public void onSuccess(@Nullable String passData) {
                             ToastUtil.show("下发注册短信验证码接口 success");
                         }
 

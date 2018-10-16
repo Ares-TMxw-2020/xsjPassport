@@ -15,8 +15,6 @@ import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.listener.ZbCheckPhoneListener;
 import com.zjrb.passport.listener.ZbLoginListener;
 
-import org.json.JSONObject;
-
 /**
  * Function: LoginPresenterImpl
  * <p>
@@ -78,7 +76,7 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
     private void checkBind(final String phone, final String password) {
         ZbPassport.checkBindState(phone, new ZbCheckPhoneListener() {
             @Override
-            public void onSuccess(boolean isBind, @Nullable JSONObject passData) {
+            public void onSuccess(boolean isBind, @Nullable String passData) {
                 if (isBind) {
                     doLogin(phone, password);
                 } else {
@@ -122,7 +120,7 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
 
     private ZbLoginListener zbLoginListener = new ZbLoginListener() {
         @Override
-        public void onSuccess(LoginInfo info, @Nullable JSONObject passData) {
+        public void onSuccess(LoginInfo info, @Nullable String passData) {
             view.login(true, null);
         }
 

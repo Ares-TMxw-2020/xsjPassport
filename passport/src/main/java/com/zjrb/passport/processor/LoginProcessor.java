@@ -26,7 +26,7 @@ public class LoginProcessor implements JsonProcessor {
     }
 
     @Override
-    public void process(JSONObject jsonObject, @Nullable JSONObject passData) throws JSONException {
+    public void process(JSONObject jsonObject, @Nullable String passData) throws JSONException {
         LoginInfo info = new LoginInfo();
 
         info.setPassportId(jsonObject.optInt("passport_id"));

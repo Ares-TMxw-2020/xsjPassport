@@ -12,5 +12,5 @@ import org.json.JSONObject;
  * Date: 2018/7/12
  */
 public interface JsonProcessor {
-    void process(JSONObject jsonObject, @Nullable  JSONObject passData) throws JSONException;
+    void process(JSONObject jsonObject, @Nullable String passData) throws JSONException;
 }

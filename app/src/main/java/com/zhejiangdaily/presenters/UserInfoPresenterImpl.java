@@ -15,8 +15,6 @@ import com.zjrb.passport.listener.ZbGetInfoListener;
 import com.zjrb.passport.listener.ZbLogoutListener;
 import com.zjrb.passport.listener.ZbUnBindThirdListener;
 
-import org.json.JSONObject;
-
 import static android.app.Activity.RESULT_OK;
 
 /**
@@ -40,7 +38,7 @@ public class UserInfoPresenterImpl implements UserInfoContract.Presenter {
     public void getUserInfo() {
         ZbPassport.getInfo(new ZbGetInfoListener() {
             @Override
-            public void onSuccess(LoginInfo info, @Nullable JSONObject passData) {
+            public void onSuccess(LoginInfo info, @Nullable String passData) {
                 view.getUserInfo(true, info, null);
             }
 
@@ -55,7 +53,7 @@ public class UserInfoPresenterImpl implements UserInfoContract.Presenter {
     public void logout() {
         ZbPassport.logout(new ZbLogoutListener() {
             @Override
-            public void onSuccess(@Nullable JSONObject passData) {
+            public void onSuccess(@Nullable String passData) {
                 view.logout(true, null);
             }
 
@@ -116,7 +114,7 @@ public class UserInfoPresenterImpl implements UserInfoContract.Presenter {
         }
         ZbPassport.bindThird(type, uid, new ZbBindThirdListener() {
             @Override
-            public void onSuccess(@Nullable JSONObject passData) {
+            public void onSuccess(@Nullable String passData) {
                 view.bindThird(true, type, null);
             }
 
@@ -131,7 +129,7 @@ public class UserInfoPresenterImpl implements UserInfoContract.Presenter {
     public void unbindThird(final int platform) {
         ZbPassport.unbindThird(platform, new ZbUnBindThirdListener() {
             @Override
-            public void onSuccess(@Nullable JSONObject passData) {
+            public void onSuccess(@Nullable String passData) {
                 view.unBindThird(true, platform, null);
             }
 

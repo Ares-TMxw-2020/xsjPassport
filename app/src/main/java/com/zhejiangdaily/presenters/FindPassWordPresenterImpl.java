@@ -17,8 +17,6 @@ import com.zjrb.passport.listener.ZbCaptchaSendListener;
 import com.zjrb.passport.listener.ZbCaptchaVerifyListener;
 import com.zjrb.passport.listener.ZbCheckPhoneListener;
 
-import org.json.JSONObject;
-
 /**
  * Date: 2018/7/10 下午5:39
  * Email: sisq@8531.cn
@@ -38,11 +36,11 @@ public class FindPassWordPresenterImpl implements FindPasswordContract.Presenter
         if (ZbUtil.isMobileNum(phoneNum)) {
             ZbPassport.checkBindState(phoneNum, new ZbCheckPhoneListener() { // 发送验证码前先校验手机号是否注册过浙报通行证接口
                 @Override
-                public void onSuccess(boolean isBind, @Nullable JSONObject passData) {
+                public void onSuccess(boolean isBind, @Nullable String passData) {
                     if (isBind) {
                         ZbPassport.sendCaptcha(ZbConstants.Sms.FIND, phoneNum, new ZbCaptchaSendListener() {
                             @Override
-                            public void onSuccess(@Nullable JSONObject passData) {
+                            public void onSuccess(@Nullable String passData) {
 
                             }
 
@@ -93,7 +91,7 @@ public class FindPassWordPresenterImpl implements FindPasswordContract.Presenter
             if (ZbUtil.isMobileNum(phoneNum)) {
                 ZbPassport.verifyCaptcha(ZbConstants.Sms.FIND, phoneNum, sms, new ZbCaptchaVerifyListener() {
                     @Override
-                    public void onSuccess(boolean isValid, @Nullable JSONObject passData) {
+                    public void onSuccess(boolean isValid, @Nullable String passData) {
                         if (isValid) {
                             Intent intent = new Intent(view.getIActivity(), FindNewPassWordActivity.class);
                             intent.putExtra("phoneNum", phoneNum);

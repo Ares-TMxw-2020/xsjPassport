@@ -23,7 +23,7 @@ public class VerifyJsonProcessor implements JsonProcessor {
     }
 
     @Override
-    public void process(JSONObject jsonObject, @Nullable JSONObject passData) throws JSONException {
+    public void process(JSONObject jsonObject, @Nullable String passData) throws JSONException {
         boolean isValid = jsonObject.optBoolean("valid");
         listener.onSuccess(isValid, passData);
     }

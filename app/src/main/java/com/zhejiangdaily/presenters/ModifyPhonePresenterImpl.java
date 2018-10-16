@@ -9,8 +9,6 @@ import com.zjrb.passport.listener.ZbBindPhoneListener;
 import com.zjrb.passport.listener.ZbCaptchaSendListener;
 import com.zjrb.passport.listener.ZbCheckPhoneListener;
 
-import org.json.JSONObject;
-
 /**
  * Function: ModifyPhonePresenterImpl
  * <p>
@@ -28,7 +26,7 @@ public class ModifyPhonePresenterImpl implements ModifyPhoneContract.Presenter {
     public void checkPhone(String phone) {
         ZbPassport.checkBindState(phone, new ZbCheckPhoneListener() {
             @Override
-            public void onSuccess(boolean isBind, @Nullable JSONObject passData) {
+            public void onSuccess(boolean isBind, @Nullable String passData) {
                 view.checkPhone(true, isBind, "该手机已经注册浙报通行证");
             }
 
@@ -43,7 +41,7 @@ public class ModifyPhonePresenterImpl implements ModifyPhoneContract.Presenter {
     public void sendCaptcha(String phone) {
         ZbPassport.sendCaptcha(ZbConstants.Sms.BIND, phone, new ZbCaptchaSendListener() {
             @Override
-            public void onSuccess(@Nullable JSONObject passData) {
+            public void onSuccess(@Nullable String passData) {
                 view.sendCaptcha(true, null);
             }
 
@@ -58,7 +56,7 @@ public class ModifyPhonePresenterImpl implements ModifyPhoneContract.Presenter {
     public void modifyPhone(final String phone, String captcha) {
         ZbPassport.bindPhone(phone, captcha, new ZbBindPhoneListener() {
             @Override
-            public void onSuccess(@Nullable JSONObject passData) {
+            public void onSuccess(@Nullable String passData) {
                 view.modifyPhone(true, phone, null);
             }
 

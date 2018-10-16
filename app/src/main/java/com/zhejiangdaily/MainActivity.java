@@ -20,8 +20,6 @@ import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.listener.ZbCaptchaSendListener;
 import com.zjrb.passport.listener.ZbLoginListener;
 
-import org.json.JSONObject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -81,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                     ZbPassport.sendCaptcha(ZbConstants.Sms.LOGIN, mEtPhone.getText().toString(), new ZbCaptchaSendListener() {
 
                         @Override
-                        public void onSuccess(@Nullable JSONObject passData) {
+                        public void onSuccess(@Nullable String passData) {
                             ToastUtil.show("下发登录短信验证码接口 success");
                         }
 
@@ -144,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
         ZbPassport.loginCaptcha(phone, password, new ZbLoginListener() {
 
             @Override
-            public void onSuccess(LoginInfo loginInfo, @Nullable JSONObject passData) {
+            public void onSuccess(LoginInfo loginInfo, @Nullable String passData) {
                 ToastUtil.show("登录成功");
                 startActivity(new Intent(MainActivity.this, UserInfoActivity.class));
             }

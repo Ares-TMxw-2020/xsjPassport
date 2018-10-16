@@ -11,8 +11,6 @@ import com.zhejiangdaily.views.activities.UserInfoActivity;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.listener.ZbChangePasswordListener;
 
-import org.json.JSONObject;
-
 /**
  * Date: 2018/7/12 下午6:02
  * Email: sisq@8531.cn
@@ -39,7 +37,7 @@ public class ChangeNewPasswordPresenterImpl implements ChangeNewPassWordContract
         }
         ZbPassport.changePassword(oldNum, newNum, new ZbChangePasswordListener() {
             @Override
-            public void onSuccess(@Nullable JSONObject passData) {
+            public void onSuccess(@Nullable String passData) {
                 ToastUtil.showTextWithImage(R.mipmap.ic_qq, "修改密码成功");
                 Intent intent = new Intent(view.getIActivity(), UserInfoActivity.class);
                 view.getIActivity().startActivity(intent);

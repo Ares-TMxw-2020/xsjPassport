@@ -29,7 +29,7 @@ public class ResponseProcessor {
         try {
             jsonObject = new JSONObject(jsonString);
             int code = jsonObject.optInt("code");
-            JSONObject passObject = jsonObject.optJSONObject("data_bypass");
+            String passObject = jsonObject.optString("data_bypass");
             if (code == SUCCESS) {
                 iResult.onSuccess(passObject);
             } else {
@@ -50,7 +50,7 @@ public class ResponseProcessor {
         try {
             jsonObject = new JSONObject(jsonString);
             int code = jsonObject.optInt("code");
-            JSONObject passObject = jsonObject.optJSONObject("data_bypass");
+            String passObject = jsonObject.optString("data_bypass");
             if (code == SUCCESS) {
                 interceptor.onIntercept();
                 iResult.onSuccess(passObject);
@@ -77,7 +77,7 @@ public class ResponseProcessor {
             int code = jsonObject.optInt("code");
             if (code == SUCCESS) {
                 JSONObject innerObject = jsonObject.optJSONObject("data");
-                JSONObject passObject = jsonObject.optJSONObject("data_bypass");
+                String passObject = jsonObject.optString("data_bypass");
                 if (innerObject != null) {
                     processor.process(innerObject, passObject);
                 } else {
@@ -106,7 +106,7 @@ public class ResponseProcessor {
             int code = jsonObject.optInt("code");
             if (code == SUCCESS) {
                 JSONObject innerObject = jsonObject.optJSONObject("data");
-                JSONObject passObject = jsonObject.optJSONObject("data_bypass");
+                String passObject = jsonObject.optString("data_bypass");
                 if (innerObject != null) {
                     interceptor.onIntercept();
                     processor.process(innerObject, passObject);

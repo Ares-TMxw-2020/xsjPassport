@@ -68,6 +68,10 @@ public class ErrorCode {
      * 社交账号绑定信息验证失败
      */
     public static final int ERROR_THIRD_BIND_FAILED = 600003;
+    /**
+     * 该社交平台账号已被其他通行证绑定，且可进行账号合并操作
+     */
+    public static final int ERROR_THIRD_REGISTERED_CAN_MERGE = 600004;
 
     /**
      * Json解析异常
