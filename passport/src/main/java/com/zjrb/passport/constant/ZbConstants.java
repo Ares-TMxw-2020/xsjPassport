@@ -24,6 +24,8 @@ import static com.zjrb.passport.constant.ZbConstants.ThirdLogin.WECHAT;
  */
 public final class ZbConstants {
 
+    public static String PASSPORT_TOKEN = "PASSPORT_TOKEN";
+
     /**
      * 环境配置
      */

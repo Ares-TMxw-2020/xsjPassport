@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.util.InnerConstant;
 import com.zjrb.passport.util.Logger;
+import com.zjrb.passport.util.SharedPreferencesUtil;
 
 /**
  * Function: ZbConfig
@@ -28,6 +29,7 @@ public final class ZbConfig {
     private String appUuid;
     private String ua;
     private boolean isUseHttps; // 是否强制使用https
+    private SharedPreferencesUtil spUtil;
 
     ZbConfig(Context context) {
         if (context == null) {
@@ -40,6 +42,7 @@ public final class ZbConfig {
         } catch (PackageManager.NameNotFoundException e) {
             Logger.e(e.getMessage());
         }
+        spUtil = SharedPreferencesUtil.init(context.getApplicationContext());
         if (info != null) {
             appId = info.metaData.getInt(InnerConstant.META_ID);
             appKey = info.metaData.getString(InnerConstant.META_KEY);
@@ -91,7 +94,7 @@ public final class ZbConfig {
     }
 
     public String getToken() {
-        return token;
+        return spUtil.getString(ZbConstants.PASSPORT_TOKEN);
     }
 
     public String getAppVersion() {
@@ -153,6 +156,7 @@ public final class ZbConfig {
 
     void setToken(String token) {
         this.token = token;
+        spUtil.putString(ZbConstants.PASSPORT_TOKEN, token);
     }
 
     public void setData_bypass(String data_bypass) {

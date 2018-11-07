@@ -54,6 +54,7 @@ public class ZbPassport {
      */
     public static void setToken(String token) {
         zbConfig.setToken(token);
+
     }
 
     /**
