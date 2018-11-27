@@ -102,7 +102,7 @@ ZbPassport.init(this,  new ZbConfig.Builder().setAppId(1)
 该字段主要是针对各个不同的客户端的特殊需求的预留字段，用于传递客户端/对接服务端的中继数据，服务端不会对中继数据做任何处理，客户端传的data_bypass数据，会在回调接口中以http body的形式回传给各自接入方的回调接口中。
 举例说明：比如某客户段绑定手机号成功后需要进行加积分的操作，可以通过data_bypass字段透传客户端与服务端约定好的字段，然后通行证会根据data_bypass字段同步用户信息，把需要的积分信息通过绑定手机号的请求回调中
 传回。
-客户端调用通行证sdk的每个请求，在请求成功的回调监听里都有一个可空的JSONObject passData对象，该对象就是通行证传回的相关数据。
+客户端调用通行证sdk的每个请求，在请求成功的回调监听里都有一个可空的String passData对象，该对象就是通行证传回的相关数据。
 
 约定的透传字段：
     {
@@ -123,8 +123,13 @@ ZbPassport.init(this,  new ZbConfig.Builder().setAppId(1)
         }
         ZbPassport.bindPhone(phone, captcha, new ZbBindPhoneListener() {
             @Override
-            public void onSuccess(@Nullable JSONObject passData) {// passData为返回的积分行为
-
+            public void onSuccess(@Nullable String passData) {// passData为返回的积分行为
+                if (passData != null) {
+                    ZbBindEntity zbBindEntity = JsonUtils.parseObject(passData, ZbBindEntity.class);
+                    if (zbBindEntity != null) {
+                        ZBUtils.showPointDialog(zbBindEntity.data);
+                    }
+                }
             }
 
             @Override
@@ -188,7 +193,7 @@ ZbPassport.sendCaptcha(@ZbConstants.SmsType int smsType, String phoneNumber, ZbC
 ```java
 ZbPassport.sendCaptcha(ZbConstants.Sms.REGISTER, phoneNum, new ZbCaptchaSendListener() {
                     @Override
-                    public void onSuccess(@Nullable JSONObject passData) {
+                    public void onSuccess(@Nullable String passData) {
                         ToastUtil.show("下发注册短信验证码接口 success");
                     }
 
@@ -216,7 +221,7 @@ ZbPassport.checkBindState(String phoneNumber, ZbCheckPhoneListener listener)
 ```java
 ZbPassport.checkBindState(phoneNumber, new ZbCheckPhoneListener() {
     @Override
-    public void onSuccess(boolean isBind， @Nullable JSONObject passData) {
+    public void onSuccess(boolean isBind， @Nullable String passData) {
         view.checkPhone(true, isBind, null);
     }
 
@@ -238,7 +243,7 @@ ZbPassport.register(String phoneNumber, String password, String captcha, ZbRegis
 ```java
 ZbPassport.register(phone, "this_is_a_test_password", "498598", new ZbRegisterListener() {
     @Override
-    public void onSuccess(LoginInfo info, @Nullable JSONObject passData) {
+    public void onSuccess(LoginInfo info, @Nullable String passData) {
         showToast("手机号注册浙报通行证接口 success");
     }
 
@@ -286,7 +291,7 @@ ZbPassport.getInfo(ZbGetInfoListener listener);
 ```java
 ZbPassport.getInfo(new ZbGetInfoListener() {
     @Override
-    public void onSuccess(LoginInfo info, @Nullable JSONObject passData) {
+    public void onSuccess(LoginInfo info, @Nullable String passData) {
         showToast("获取通行证详情接口 success");
     }
 
@@ -308,7 +313,7 @@ ZbPassport.findPassword(String phoneNumber, String captcha, String newPassword, 
 ```java
 ZbPassport.findPassword(phoneNum, sms, password, new ZbFindPasswordListener() {
     @Override
-    public void onSuccess(, @Nullable JSONObject passData) {
+    public void onSuccess(, @Nullable String passData) {
         ToastUtil.showTextWithImage(R.mipmap.ic_qq, "找回密码成功,请使用新密码登录");
     }
 
@@ -331,7 +336,7 @@ ZbPassport.checkPassword(String oldPassword, final ZbCaptchaVerifyListener liste
 ```java
 ZbPassport.checkPassword(passWord, new ZbCaptchaVerifyListener() { // 验证旧密码是否正确
             @Override
-            public void onSuccess(boolean isValid, @Nullable JSONObject passData) {
+            public void onSuccess(boolean isValid, @Nullable String passData) {
                 if (isValid) {
                     Intent intent = new Intent(view.getIActivity(), ChangeNewPasswordActivity.class);
                     intent.putExtra("oldPassWord", passWord);
@@ -359,7 +364,7 @@ ZbPassport.changePassword(String oldPassWord, String newPassWord, final ZbChange
 ```java
 ZbPassport.changePassword(oldNum, newNum, new ZbChangePasswordListener() {
     @Override
-    public void onSuccess(@Nullable JSONObject passData) {
+    public void onSuccess(@Nullable String passData) {
         ToastUtil.showTextWithImage(R.mipmap.ic_qq, "修改密码成功");
     }
 
