@@ -255,7 +255,7 @@ ZbPassport.register(phone, "this_is_a_test_password", "498598", new ZbRegisterLi
 ```
 ### 登录
 
-#### 手机+密码
+#### 手机+密码 注意:返回码Code = 400009代表表示需要重置密码以后才能登陆(只有手机密码组合才会有这个提示)
 
 ```java
 ZbPassport.login(String phoneNumber, String password, ZbLoginListener listener);
