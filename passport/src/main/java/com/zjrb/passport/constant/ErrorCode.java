@@ -49,6 +49,10 @@ public class ErrorCode {
      */
     public static final int ERROR_PHONE_REGISTERED_CAN_MERGE= 400005;
     /**
+     表示需要重置密码以后才能登陆(手机密码组合才会有这个提示)
+     */
+    public static final int ERROR_PHONE_LGOIIN_NEED_RESET= 400009;
+    /**
      * 通行证ID不存在
      */
     public static final int ERROR_PASSPORT_NOT_EXIST = 500001;
