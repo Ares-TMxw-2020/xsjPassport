@@ -3,8 +3,8 @@ apply from: 'zjxw.gradle'
 
 buildscript {
     repositories {
-        jcenter()
         google()
+        jcenter()
         maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
     }
     dependencies {
@@ -18,11 +18,11 @@ buildscript {
 
 allprojects {
     repositories {
+        google()
         jcenter()
         mavenCentral()
         maven { url 'https://jitpack.io' }
         maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
-        google()
     }
 }
 
