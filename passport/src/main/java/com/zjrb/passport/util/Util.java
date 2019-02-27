@@ -88,4 +88,30 @@ public class Util {
         return newValue;
     }
 
+
+    /**
+     * 生成签名
+     * @param method
+     * @param api
+     * @param params
+     * @param requestId
+     * @param accessToken
+     * @param signatureKey
+     * @return
+     */
+    public static String generateSignature(String method, String api, Map<String, String> params, String requestId, String accessToken, String signatureKey) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(method.toLowerCase()).append("%%").append(api);
+        // 将上述 client_id / phone_number / passport_id / unbind 四个参数（参数值是未经过urlencode的）与url拼接成 request_uri，参数名的顺序按照字典排序，如果请求不带参数，则不需要加分割问号?
+        if (params != null && !params.isEmpty()) {
+            sb.append("?");
+            for (String s : params.keySet()) {
+                sb.append(s).append("=").append(TextUtils.isEmpty(params.get(s)) ? "" : params.get(s)).append("&"); // 值不需要进行encode
+            }
+            sb.setLength(sb.length() - 1); // 去掉最后一个&
+        }
+        sb.append("%%").append(requestId).append("%%").append(accessToken);
+        return EncryptUtil.sha256_HMAC(sb.toString(), signatureKey);
+    }
+
 }

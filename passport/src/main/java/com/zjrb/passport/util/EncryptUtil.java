@@ -10,6 +10,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
 
 /**
  * Function: EncryptUtil
@@ -65,7 +68,7 @@ public class EncryptUtil {
                 sb.append(temp);
             }
         }
-        return sb.toString();
+        return sb.toString().toLowerCase();
     }
 
     /**
@@ -82,5 +85,27 @@ public class EncryptUtil {
         }
         return Base64.encodeToString(bytes, Base64.NO_WRAP); // NO_WRAP会略去换行符
     }
+
+
+    /**
+     * sha256_HMAC加密
+     * @param message 消息
+     * @param secret  秘钥
+     * @return 加密后字符串
+     */
+    public static String sha256_HMAC(String message, String secret) {
+        String hash = "";
+        try {
+            Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
+            SecretKeySpec secret_key = new SecretKeySpec(secret.getBytes(), "HmacSHA256");
+            sha256_HMAC.init(secret_key);
+            byte[] bytes = sha256_HMAC.doFinal(message.getBytes());
+            hash = byte2Hex(bytes);
+        } catch (Exception e) {
+            System.out.println("Error HmacSHA256 ===========" + e.getMessage());
+        }
+        return hash;
+    }
+
 
 }
