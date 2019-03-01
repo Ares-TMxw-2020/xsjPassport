@@ -24,8 +24,8 @@ public class InnerConstant {
     public static final String OFFICIAL = "official";
 
 
-    public static final String META_ID = "ZBP_APP_ID";
-    public static final String META_KEY = "ZBP_APP_KEY";
-    public static final String META_SECRET = "ZBP_APP_SECRET";
+    public static final String META_ID = "ZBP_CLIENT_ID";
+//    public static final String META_KEY = "ZBP_APP_KEY";
+    public static final String META_SECRET = "ZBP_CLIENT_SECRET";
     public static final String META_ENV = "ZBP_APP_ENV";
 }

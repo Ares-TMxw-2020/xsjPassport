@@ -2,6 +2,7 @@ package com.zjrb.passport.util;
 
 import android.text.TextUtils;
 
+import com.zjrb.passport.net.ApiManager;
 import com.zjrb.passport.net.request.Request;
 import com.zjrb.passport.net.request.RequestBody;
 
@@ -112,6 +113,26 @@ public class Util {
         }
         sb.append("%%").append(requestId).append("%%").append(accessToken);
         return EncryptUtil.sha256_HMAC(sb.toString(), signatureKey);
+    }
+
+    /**
+     * 接口请求头是否需要添加X-SIGNATURE,会话初始化及图形验证码接口不需要
+     * @param api 请求接口
+     * @return
+     */
+    public static boolean isNeedSignature(String api) {
+        return !TextUtils.equals(api, ApiManager.EndPoint.INIT) && !TextUtils.equals(api, ApiManager.EndPoint.SMS_CAPTCHA_IMAGE);
+    }
+
+    /**
+     * 接口请求头是否需要添加X-AGENT-CREDENTIAL  获取账号详情接口,修改密码接口,修改手机号接口,绑定及解绑三方账号接口需要添加
+     * @param api 请求接口
+     * @return
+     */
+    public static boolean isNeedAccessToken(String api) {
+        return TextUtils.equals(api, ApiManager.EndPoint.PASSPORT_ACCOUNT_DETAIL) || TextUtils.equals(api, ApiManager.EndPoint.PASSPORT_ALTER_PASSWORD)
+                || TextUtils.equals(api, ApiManager.EndPoint.PASSPORT_ALTER_PHONE_NUM) || TextUtils.equals(api, ApiManager.EndPoint.PASSPORT_BIND_THIRD_PARTY)
+                || TextUtils.equals(api, ApiManager.EndPoint.PASSPORT_UNBIND_THIRD_PARTY);
     }
 
 }

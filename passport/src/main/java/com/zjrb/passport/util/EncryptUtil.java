@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Base64;
 
+import com.zjrb.passport.constant.ZbConstants;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
@@ -107,5 +109,20 @@ public class EncryptUtil {
         return hash;
     }
 
+    /**
+     * 对密码进行加密,先进行RSA加密,然后进行Base64编码
+     * @param password
+     * @return
+     */
+    public static String encryptPassWord(String password) {
+        if (password != null) {
+            try {
+                return Base64Utils.encode(RSAUtils.encryptByPublicKey(password.getBytes(), ZbConstants.PASSPORT_PUBLIC_KEY));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return "";
+    }
 
 }
