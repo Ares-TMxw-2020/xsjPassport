@@ -19,7 +19,7 @@ import com.zjrb.passport.util.SharedPreferencesUtil;
  */
 public final class ZbConfig {
     private int appId;
-    private String appKey;
+//    private String appKey;
     private String appSecret;
     private String data_bypass;
     private int envType;
@@ -29,7 +29,14 @@ public final class ZbConfig {
     private String appUuid;
     private String ua;
     private boolean isUseHttps; // 是否强制使用https
+    private String cookie; // 用于保存init接口下发的cookie
+
+    public SharedPreferencesUtil getSpUtil() {
+        return spUtil;
+    }
+
     private SharedPreferencesUtil spUtil;
+    private String signatureKey; // 会话初始化过程中下发的signature_key
 
     ZbConfig(Context context) {
         if (context == null) {
@@ -45,7 +52,7 @@ public final class ZbConfig {
         spUtil = SharedPreferencesUtil.init(context.getApplicationContext());
         if (info != null) {
             appId = info.metaData.getInt(InnerConstant.META_ID);
-            appKey = info.metaData.getString(InnerConstant.META_KEY);
+//            appKey = info.metaData.getString(InnerConstant.META_KEY);
             appSecret = info.metaData.getString(InnerConstant.META_SECRET);
             String env = info.metaData.getString(InnerConstant.META_ENV, InnerConstant.DEV);
             resolveEnv(env);
@@ -77,9 +84,9 @@ public final class ZbConfig {
         return appId;
     }
 
-    public String getAppKey() {
-        return appKey;
-    }
+//    public String getAppKey() {
+//        return appKey;
+//    }
 
     public String getAppSecret() {
         return appSecret;
@@ -93,8 +100,31 @@ public final class ZbConfig {
         return isDebug;
     }
 
+    void setToken(String token) {
+        this.token = token;
+        spUtil.putString(ZbConstants.PASSPORT_TOKEN, token);
+    }
+
     public String getToken() {
         return spUtil.getString(ZbConstants.PASSPORT_TOKEN);
+    }
+
+    public String getSignatureKey() {
+        return spUtil.getString(ZbConstants.PASSPORT_SIGNATURE_KEY);
+    }
+
+    public void setCookie(String cookie) {
+        this.cookie = cookie;
+        spUtil.putString(ZbConstants.PASSPORT_COOKIE, cookie);
+    }
+
+    public String getCookie() {
+        return spUtil.getString(ZbConstants.PASSPORT_COOKIE);
+    }
+
+    public void setSignatureKey(String signatureKey) {
+        this.signatureKey = signatureKey;
+        spUtil.putString(ZbConstants.PASSPORT_SIGNATURE_KEY, signatureKey);
     }
 
     public String getAppVersion() {
@@ -135,9 +165,9 @@ public final class ZbConfig {
         this.appId = appId;
     }
 
-    void setAppKey(String appKey) {
-        this.appKey = appKey;
-    }
+//    void setAppKey(String appKey) {
+//        this.appKey = appKey;
+//    }
 
     void setAppSecret(String appSecret) {
         this.appSecret = appSecret;
@@ -152,11 +182,6 @@ public final class ZbConfig {
         if (envType == ZbConstants.Env.OFFICIAL) {
             isDebug = false;
         }
-    }
-
-    void setToken(String token) {
-        this.token = token;
-        spUtil.putString(ZbConstants.PASSPORT_TOKEN, token);
     }
 
     public void setData_bypass(String data_bypass) {
@@ -196,6 +221,7 @@ public final class ZbConfig {
         private int appId = -1;
         private String appKey;
         private String appSecret;
+        private String token;
         private int envType = -1;
         private boolean isDebug;
         private boolean isSetDebug;
@@ -239,6 +265,13 @@ public final class ZbConfig {
             return this;
         }
 
+
+
+        public Builder setToken(String token) {
+            this.token = token;
+            return this;
+        }
+
         public Builder setAppUuid(String appUuid) {
             this.appUuid = appUuid;
             return this;
@@ -248,9 +281,9 @@ public final class ZbConfig {
             if (appId != -1) {
                 zbConfig.setAppId(appId);
             }
-            if (!TextUtils.isEmpty(appKey)) {
-                zbConfig.setAppKey(appKey);
-            }
+//            if (!TextUtils.isEmpty(appKey)) {
+//                zbConfig.setAppKey(appKey);
+//            }
             if (!TextUtils.isEmpty(appSecret)) {
                 zbConfig.setAppSecret(appSecret);
             }
@@ -264,6 +297,7 @@ public final class ZbConfig {
             zbConfig.setAppVersion(appVersion);
             zbConfig.setAppUuid(appUuid);
             zbConfig.initUA();
+            zbConfig.setToken(token);
         }
     }
 }
