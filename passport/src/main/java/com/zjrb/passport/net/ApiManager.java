@@ -14,7 +14,6 @@ import com.zjrb.passport.constant.ZbConstants;
 public class ApiManager {
 
     private static final class UrlConstant {
-        // TODO: 各环境url配置
         /**
          * 开发环境
          */
@@ -85,110 +84,100 @@ public class ApiManager {
     public static final class EndPoint {
 
         /**
-         * 下发注册短信验证码接口 post
+         * 会话初始化接口
+         * 该接口在用户打开通行证html5页面时全局调用的初始化接口 get
          */
-        public static final String SMS_SEND_REGISTER_TOKEN = "/api/sms/send_register_token";
+        public static final String INIT = "/web/init";
 
         /**
-         * 下发登录短信验证码接口 post
+         * 获取图形验证码接口
+         * 该接口在用户注册、密码登录、获取短信验证码等接口前需要获取图形验证码 post
          */
-        public static final String SMS_SEND_LOGIN_TOKEN = "/api/sms/send_login_token";
+        public static final String SMS_CAPTCHA_IMAGE = "/web/security/captcha_image";
 
         /**
-         * 下发绑定找回密码短信验证码接口 post
+         * 获取短信验证码接口
+         * 获取手机短信验证码 post
          */
-        public static final String SMS_SEND_RESET_TOKEN = "/api/sms/send_reset_token";
+        public static final String SMS_SEND_SECURITY_CODE = "/web/security/send_security_code";
 
         /**
-         * 下发绑定新手机号短信验证码接口 post
+         * 使用手机号注册通行证接口
+         * post
          */
-        public static final String SMS_SEND_BINDING_TOKEN = "/api/sms/send_binding_token";
-
-
-        /**
-         * 验证注册短信验证码接口 get
-         */
-        public static final String SMS_VALIDATE_REGISTER_TOKEN = "/api/sms/validate_register_token";
-        /**
-         * 验证登录短信验证码接口 get
-         */
-        public static final String SMS_VALIDATE_LOGIN_TOKEN = "/api/sms/validate_login_token";
-        /**
-         * 验证找回密码短信验证码接口 get
-         */
-        public static final String SMS_VALIDATE_RESET_TOKEN = "/api/sms/validate_reset_token";
-        /**
-         * 验证绑定手机号短信验证码接口 get
-         */
-        public static final String SMS_VALIDATE_BINDING_TOKEN = "/api/sms/validate_binding_token";
-
+        public static final String PASSPORT_PHONE_REGISTER= "/web/oauth/register";
 
         /**
-         * 手机号注册浙报通行证接口 post
+         * 验证码预检查接口
+         * get
          */
-        public static final String PASSPORT_REGISTER = "/api/passport/register";
+        public static final String SMS_CHECK_SECURITY_CODE= "/web/security/check_security_code";
 
         /**
-         * 手机号与密码登录浙报通行证接口 post
+         * 手机号和密码认证接口
+         * post
          */
-        public static final String PASSPORT_PASSWORD_LOGIN = "/api/passport/password_login";
+        public static final String PASSPORT_PHONENUM_PASSWORD = "/web/oauth/credential_auth";
 
         /**
-         * 手机号与短信验证码登录浙报通行证接口 post
+         * 手机号和短信验证码认证接口
+         * post
          */
-        public static final String PASSPORT_SMS_TOKEN_LOGIN = "/api/passport/sms_token_login";
+        public static final String PASSPORT_PHONENUM_CAPTCHA = "/web/oauth/security_code_auth";
 
         /**
-         * 获取通行证详情接口 Get
+         * 第三方账号登录认证接口
+         * post
          */
-        public static final String PASSPORT_DETAIL = "/api/passport/detail";
+        public static final String PASSPORT_THIRD_PARTY_AUTH = "/web/oauth/third_party_auth";
 
         /**
-         * 绑定浙报通行证手机号接口(社交账号绑定也使用该接口) post
+         * 密码重置接口(忘记密码)
+         * post
          */
-        public static final String PASSPORT_BIND_PHONE_NUMBER = "/api/passport/bind_phone_number";
+        public static final String PASSPORT_RESET_PASSWORD = "/web/oauth/reset_password";
 
         /**
-         * 更改浙报通行证密码接口 post
+         * 获取账号详情接口
+         * get
          */
-        public static final String PASSPORT_CHANGE_PASSWORD = "/api/passport/change_password";
+        public static final String PASSPORT_ACCOUNT_DETAIL = "/web/account/detail";
 
         /**
-         * 在修改密码时，检查原密码是否正确的接口 get
+         * 修改密码预检查接口
+         * GET
          */
-        public static final String PASSPORT_CHECK_PASSWORD = "/api/passport/check_password";
+        public static final String PASSPORT_CHECK_PASSWORDS = "/web/account/check_password";
 
         /**
-         * 重置浙报通行证密码接口 post
+         * 修改密码接口
+         * post
          */
-        public static final String PASSPORT_RESET_PASSWORD = "/api/passport/reset_password";
+        public static final String PASSPORT_ALTER_PASSWORD = "/web/account/alter_password";
 
         /**
-         * 检查手机号是否已绑定浙报通行证接口 Get
+         * 修改手机号接口
+         * post
          */
-        public static final String PASSPORT_CHECK_BINDING = "/api/passport/check_binding";
+        public static final String PASSPORT_ALTER_PHONE_NUM = "/web/account/alter_phone_number";
 
         /**
-         * 退出登录接口
+         * 绑定第三方登录接口
+         * post
          */
-        public static final String PASSPORT_LOGOUT = "/api/passport/logout";
-
+        public static final String PASSPORT_BIND_THIRD_PARTY = "/web/account/bind_third_party";
 
         /**
-         * 社交平台账号登录/注册接口 post
+         * 解绑第三方登录接口
+         * post
          */
-        public static final String THIRD_PARTY_LOGIN = "/api/third_party/login";
-
-
-        /**
-         * 浙报通行证绑定新的社交平台账号接口 post
-         */
-        public static final String THIRD_PARTY_BIND = "/api/third_party/bind";
+        public static final String PASSPORT_UNBIND_THIRD_PARTY = "/web/account/unbind_third_party";
 
         /**
-         * 浙报通行证解绑社交账号接口 post
+         * OAuth授权接口
+         * 仅在web端使用 post
          */
-        public static final String THIRD_PARTY_UNBIND = "/api/third_party/unbind";
+        public static final String PASSPORT_AUTHORIZE = "/api/account/authorize";
 
     }
 

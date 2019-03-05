@@ -1,12 +1,24 @@
 package com.zjrb.passport.net.request;
 
-import com.zjrb.passport.net.response.Response;
-import com.zjrb.passport.net.response.ResponseBody;
+import android.os.SystemClock;
+import android.text.TextUtils;
+
+import com.zjrb.passport.Entity.ClientInfo;
+import com.zjrb.passport.ZbPassport;
+import com.zjrb.passport.constant.ErrorCode;
+import com.zjrb.passport.constant.ZbConstants;
+import com.zjrb.passport.listener.ZbInitListener;
+import com.zjrb.passport.net.ApiManager;
 import com.zjrb.passport.net.interfaces.CallBack;
 import com.zjrb.passport.net.interfaces.IRequestHandler;
 import com.zjrb.passport.net.interfaces.IResponseHandler;
-import com.zjrb.passport.util.SslUtils;
+import com.zjrb.passport.net.response.Response;
+import com.zjrb.passport.net.response.ResponseBody;
 import com.zjrb.passport.util.Logger;
+import com.zjrb.passport.util.SslUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -27,7 +39,7 @@ public class RequestHandler implements IRequestHandler {
     private IResponseHandler responseHandler = IResponseHandler.RESPONSE_HANDLER;
 
     @Override
-    public void handleRequest(HttpCall call, CallBack callBack) {
+    public void handleRequest(final HttpCall call, final CallBack callBack) {
         if (call == null) {
             throw new NullPointerException("请求的call不能为空");
         }
@@ -56,9 +68,39 @@ public class RequestHandler implements IRequestHandler {
         Response response = null;
         try {
             int responseCode = connection.getResponseCode();
+            long currentTime = SystemClock.elapsedRealtime();
+            long lastTime = ZbPassport.getZbConfig().getSpUtil().getLong(ZbConstants.PASSPORT_NETTIME);
+            System.out.println("RequestHandler lastTime:" + lastTime);
+            System.out.println("RequestHandler currentTime:" + currentTime);
+            ZbPassport.getZbConfig().getSpUtil().putLong(ZbConstants.PASSPORT_NETTIME, SystemClock.elapsedRealtime());
+            long deltaTime = currentTime - lastTime;
+            if (lastTime != 0 && deltaTime >= ZbConstants.PASSPORT_SIGN_EXPIRED) { // 大于30分钟,重新请求init接口
+                ZbPassport.initApp(ZbPassport.getZbConfig().getAppId() + "", new ZbInitListener() {
+                    @Override
+                    public void onSuccess(ClientInfo info) {
+                        if (info != null) {
+                            ZbPassport.getZbConfig().setSignatureKey(info.getSignature_key()); // 设置签名密钥,30分钟有效期
+                            //todo 当前网络请求重试  处理 同步
+                            call.enqueue(callBack);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int errorCode, String errorMessage) {
+
+                    }
+                });
+                return; // 取消当前网络请求
+            }
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 byte[] bytes = new byte[1024];
                 int length;
+                if (call.request != null && TextUtils.equals(ApiManager.EndPoint.INIT, call.request.getApi())) { // init接口,获取cookie持久化
+                    // TODO: 2019/3/4 Cookie处理 只获取init接口下发的Cookie,添加到后续请求的请求头中
+                    String cookie = connection.getHeaderField("Set-Cookie");
+                    System.out.println("ssss INIT cookie: " + cookie);
+                    ZbPassport.getZbConfig().setCookie(connection.getHeaderField("Set-Cookie"));
+                }
                 InputStream inputStream = connection.getInputStream();
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 try {
@@ -66,12 +108,38 @@ public class RequestHandler implements IRequestHandler {
                         baos.write(bytes, 0, length);
                     }
                     response = new Response.Builder().code(responseCode)
-                                                     .message(connection.getResponseMessage())
-                                                     .body(new ResponseBody(baos.toByteArray()))
-                                                     .build();
+                            .message(connection.getResponseMessage())
+                            .body(new ResponseBody(baos.toByteArray()))
+                            .build();
                 } finally {
                     inputStream.close();
                     connection.disconnect();
+                }
+                // code 1002
+                String jsonString = response.body().string();
+                JSONObject jsonObject;
+                try {
+                    jsonObject = new JSONObject(jsonString);
+                    int code = jsonObject.optInt("code");
+                    if (code == ErrorCode.ERROR_SIGNATURE) {
+                        ZbPassport.initApp(ZbPassport.getZbConfig().getAppId() + "", new ZbInitListener() {
+                            @Override
+                            public void onSuccess(ClientInfo info) {
+                                if (info != null) {
+                                    ZbPassport.getZbConfig().setSignatureKey(info.getSignature_key()); // 设置签名密钥,30分钟有效期
+                                    //todo 当前网络请求重试  处理 同步
+                                    call.enqueue(callBack);
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(int errorCode, String errorMessage) {
+
+                            }
+                        });
+                        return; // 取消当前网络请求
+                    }
+                } catch (JSONException e) {
                 }
                 responseHandler.handleSuccess(callBack, response);
             } else {
@@ -87,10 +155,10 @@ public class RequestHandler implements IRequestHandler {
         Logger.d(call.request, response);
 
     }
-    
-    private HttpURLConnection setHttpConfig(HttpCall call) throws IOException{
+
+    private HttpURLConnection setHttpConfig(HttpCall call) throws IOException {
         URL url = new URL(call.request.url);
-        if("https".equalsIgnoreCase(url.getProtocol())){
+        if ("https".equalsIgnoreCase(url.getProtocol())) {
             try {
                 SslUtils.ignoreSsl();
             } catch (Exception e) {
@@ -107,7 +175,7 @@ public class RequestHandler implements IRequestHandler {
         return connection;
     }
 
-    private void writeContent(HttpURLConnection connection, RequestBody body) throws IOException{
+    private void writeContent(HttpURLConnection connection, RequestBody body) throws IOException {
         if (connection != null) {
             OutputStream outputStream = connection.getOutputStream();
             body.writeTo(outputStream);
@@ -116,6 +184,7 @@ public class RequestHandler implements IRequestHandler {
 
     /**
      * 添加请求头
+     *
      * @param connection
      * @param request
      */

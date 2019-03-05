@@ -9,6 +9,7 @@ import com.zjrb.passport.net.ApiManager;
 import com.zjrb.passport.util.Util;
 
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Date: 2018/6/28 下午3:34
@@ -24,12 +25,14 @@ public class Request {
     final Map<String, String> headers;
     final @Nullable RequestBody requestBody;
     final Object tag;
+    final String api;
 
     public Request(Builder builder) {
         this.method = builder.method;
         this.url = builder.url;
         this.headers = builder.headers;
         this.requestBody = builder.body;
+        this.api = builder.api;
         this.tag = builder.tag != null ? builder.tag : this;
     }
 
@@ -39,6 +42,10 @@ public class Request {
 
     public HttpMethod getMethod() {
         return method;
+    }
+
+    public String getApi() {
+        return api;
     }
 
     public String getUrl() {
@@ -63,16 +70,18 @@ public class Request {
         RequestBody body;
         String api; // 记录接口名
         Object tag;
+        String uuid;
 
         public Builder() {
             this.method = HttpMethod.GET; // 默认get请求
             this.headers = new ArrayMap<>();
             this.url = ApiManager.getBaseUri();
             this.paramsMap = new ArrayMap<>();
+            this.uuid = UUID.randomUUID().toString();
         }
 
         /**
-         * 支持直接传url的形式,不推荐使用
+         * 预留接口,支持直接传url的形式,不推荐使用 直接使用可能造成api为空的情况
          *
          * @param url
          * @return
@@ -117,9 +126,11 @@ public class Request {
             return this;
         }
 
-        public Builder post(RequestBody body) {
+        public Builder post(FormBody body) {
             if (body == null) { // post无参数的情况
                 body = new FormBody.Builder().build();
+            } else {
+                this.paramsMap = body.map; // post其实不需要记录该map,但因为sign签名计算要用到该map,所以记录一下
             }
             method(HttpMethod.POST, body);
             return this;
@@ -155,7 +166,7 @@ public class Request {
         }
 
         public Request build() {
-            if (url == null) throw new NullPointerException("url == null");
+            if (url == null) throw new NullPointerException("api == null");
             // 这里每个请求要根据get/post类型的不同,将querystring加到url或者requestbody中
             if (this.method.equals(HttpMethod.GET) && this.paramsMap != null && this.paramsMap.size() != 0) { // get请求url拼装
                 this.url = Util.buildGetUrl(url, this.paramsMap);
@@ -166,6 +177,28 @@ public class Request {
             }
             headers.put("UserAgent", Util.getValueEncoded(ZbPassport.getZbConfig().getUA()));
             headers.put("Cache-Control", "no-cache");
+            headers.put("X-REQUEST-ID", uuid); // 36位,不去掉4位的分割线
+            if (!TextUtils.equals(api, ApiManager.EndPoint.INIT)) {
+                headers.put("COOKIE", ZbPassport.getZbConfig().getCookie()); // 统一使用init接口下发的cookie
+            }
+
+            if (Util.isNeedSignature(api)) {
+                String methodStr = "get";
+                if (method.equals(HttpMethod.GET)) {
+                    methodStr = "get";
+                } else if (method.equals(HttpMethod.POST)) {
+                    methodStr = "post";
+                } else if (method.equals(HttpMethod.PUT)) {
+                    methodStr = "put";
+                } else if (method.equals(HttpMethod.DELETE)) {
+                    methodStr = "delete";
+                }
+                System.out.println("ssss sign: " + ZbPassport.getZbConfig().getSignatureKey());
+                headers.put("X-SIGNATURE", Util.generateSignature(methodStr, api, paramsMap, uuid, ZbPassport.getZbConfig().getToken(), ZbPassport.getZbConfig().getSignatureKey()));
+            }
+            if (Util.isNeedAccessToken(api)) {
+                headers.put("X-AGENT-CREDENTIAL", ZbPassport.getZbConfig().getToken()); // 传入access_token
+            }
             return new Request(this);
         }
 
