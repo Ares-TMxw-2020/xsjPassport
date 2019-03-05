@@ -1,7 +1,5 @@
 package com.zjrb.passport.listener;
 
-import android.support.annotation.Nullable;
-
 /**
  * Function: IResult
  * <p>
@@ -9,5 +7,5 @@ import android.support.annotation.Nullable;
  * Date: 2018/7/12
  */
 public interface IResult extends IFailure {
-    void onSuccess(@Nullable String passData);
+    void onSuccess();
 }
