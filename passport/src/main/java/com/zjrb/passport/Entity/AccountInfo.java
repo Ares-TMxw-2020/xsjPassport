@@ -84,18 +84,18 @@ public class AccountInfo implements Serializable{
          * auth_type : 1
          */
 
-        private int association_id;
+//        private int association_id;
         private String name;
-        private String logo;
+//        private String logo;
         private int auth_type;
 
-        public int getAssociation_id() {
-            return association_id;
-        }
-
-        public void setAssociation_id(int association_id) {
-            this.association_id = association_id;
-        }
+//        public int getAssociation_id() {
+//            return association_id;
+//        }
+//
+//        public void setAssociation_id(int association_id) {
+//            this.association_id = association_id;
+//        }
 
         public String getName() {
             return name;
@@ -105,13 +105,13 @@ public class AccountInfo implements Serializable{
             this.name = name;
         }
 
-        public String getLogo() {
-            return logo;
-        }
-
-        public void setLogo(String logo) {
-            this.logo = logo;
-        }
+//        public String getLogo() {
+//            return logo;
+//        }
+//
+//        public void setLogo(String logo) {
+//            this.logo = logo;
+//        }
 
         public int getAuth_type() {
             return auth_type;

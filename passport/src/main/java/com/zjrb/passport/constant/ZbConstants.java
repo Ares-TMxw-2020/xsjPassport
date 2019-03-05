@@ -25,6 +25,11 @@ import static com.zjrb.passport.constant.ZbConstants.ThirdLogin.WECHAT;
 public final class ZbConstants {
 
     public static String PASSPORT_TOKEN = "PASSPORT_TOKEN";
+    public static String PASSPORT_COOKIE = "PASSPORT_COOKIE";
+    public static String PASSPORT_SIGNATURE_KEY = "PASSPORT_SIGNATURE_KEY";
+    public static String PASSPORT_PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQD6XO7e9YeAOs+cFqwa7ETJ+WXizPqQeXv68i5vqw9pFREsrqiBTRcg7wB0RIp3rJkDpaeVJLsZqYm5TW7FWx/iOiXFc+zCPvaKZric2dXCw27EvlH5rq+zwIPDAJHGAfnn1nmQH7wR3PCatEIb8pz5GFlTHMlluw4ZYmnOwg+thwIDAQAB";
+    public static long PASSPORT_SIGN_EXPIRED = 30 * 60 * 1000; // sign 30分钟的有效期
+    public static String PASSPORT_NETTIME = "PASSPORT_NETTIME";
 
     /**
      * 环境配置
@@ -56,15 +61,15 @@ public final class ZbConstants {
         /**
          * 微信
          */
-        public static final int WECHAT = 2;
+        public static final int WECHAT = 1;
         /**
          * QQ
          */
-        public static final int QQ = 3;
+        public static final int QQ = 2;
         /**
          * 新浪微博
          */
-        public static final int SINA = 4;
+        public static final int SINA = 3;
 
     }
 
