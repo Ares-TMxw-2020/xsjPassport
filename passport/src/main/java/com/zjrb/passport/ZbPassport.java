@@ -45,7 +45,7 @@ public class ZbPassport {
         });
     }
 
-    public static void init(Context context, ZbConfig.Builder builder) {
+    public static void init(final Context context, ZbConfig.Builder builder) {
         zbConfig = new ZbConfig(context);
         netWork = new NetWork();
         setZbConfig(builder);
@@ -57,7 +57,13 @@ public class ZbPassport {
                     // todo 测试代码
                     String phoneNum = "18519123764";
                     String id = "1";
+                    String token = "J8BWUjBaYStIHqBu1g9pFjWv";
                     System.out.println("ssssss: " + ZbPassport.getGraphicsCode());
+                    try {
+                        Thread.sleep(4000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     ZbPassport.sendCaptcha("1", phoneNum, "", new ZbResultListener() {
                         @Override
                         public void onSuccess() {
@@ -91,6 +97,17 @@ public class ZbPassport {
 
                         }
                     });
+                    ZbPassport.checkCaptcha(id, phoneNum, "1234", new ZbResultListener() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onFailure(int errorCode, String errorMessage) {
+
+                        }
+                    });
                     ZbPassport.loginThird(id, "id", ZbConstants.ThirdLogin.QQ, "token", new ZbAuthListener() {
                         @Override
                         public void onSuccess(AuthInfo info) {
@@ -113,7 +130,18 @@ public class ZbPassport {
 
                         }
                     });
-                    ZbPassport.getAccountDetail(id, new ZbGetAccountInfoListener() {
+                    ZbPassport.register(id, phoneNum, "1234", new ZbResultListener() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onFailure(int errorCode, String errorMessage) {
+
+                        }
+                    });
+                    ZbPassport.getAccountDetail(id, token, new ZbGetAccountInfoListener() {
                         @Override
                         public void onSuccess(AccountInfo info) {
 
@@ -125,7 +153,7 @@ public class ZbPassport {
                         }
                     });
 
-                    ZbPassport.checkPassWord(id, "11", new ZbResultListener() {
+                    ZbPassport.checkPassWord(id, "11", token, new ZbResultListener() {
                         @Override
                         public void onSuccess() {
 
@@ -137,7 +165,7 @@ public class ZbPassport {
                         }
                     });
 
-                    ZbPassport.changePassword(id, "22", "11", new ZbResultListener() {
+                    ZbPassport.changePassword(id, "22", "11",token, new ZbResultListener() {
                         @Override
                         public void onSuccess() {
 
@@ -149,7 +177,7 @@ public class ZbPassport {
                         }
                     });
 
-                    ZbPassport.changePhoneNum(id, "11", "22", new ZbResultListener() {
+                    ZbPassport.changePhoneNum(id, "11", "22", token, new ZbResultListener() {
                         @Override
                         public void onSuccess() {
 
@@ -161,7 +189,7 @@ public class ZbPassport {
                         }
                     });
 
-                    ZbPassport.bindThirdParty(id, "uid", ZbConstants.ThirdLogin.QQ, "token", new ZbResultListener() {
+                    ZbPassport.bindThirdParty(id, "uid", ZbConstants.ThirdLogin.QQ, "token", token, new ZbResultListener() {
                         @Override
                         public void onSuccess() {
 
@@ -172,7 +200,7 @@ public class ZbPassport {
 
                         }
                     });
-                    ZbPassport.unBindThirdParty(id, ZbConstants.ThirdLogin.QQ, new ZbResultListener() {
+                    ZbPassport.unBindThirdParty(id, ZbConstants.ThirdLogin.QQ, token, new ZbResultListener() {
                         @Override
                         public void onSuccess() {
 
@@ -192,135 +220,6 @@ public class ZbPassport {
 
             }
         });
-//        // todo 测试代码
-//        String phoneNum = "18519123764";
-//        String id = "1";
-//        System.out.println("ssssss: " + ZbPassport.getGraphicsCode());
-//        ZbPassport.sendCaptcha("1", phoneNum, "", new ZbResultListener() {
-//            @Override
-//            public void onSuccess() {
-//
-//            }
-//
-//            @Override
-//            public void onFailure(int errorCode, String errorMessage) {
-//
-//            }
-//        });
-//        ZbPassport.loginCustom(id, phoneNum, "111", "", new ZbAuthListener() {
-//            @Override
-//            public void onSuccess(AuthInfo info) {
-//
-//            }
-//
-//            @Override
-//            public void onFailure(int errorCode, String errorMessage) {
-//
-//            }
-//        });
-//        ZbPassport.loginCaptcha(id, phoneNum, "11", new ZbAuthListener() {
-//            @Override
-//            public void onSuccess(AuthInfo info) {
-//
-//            }
-//
-//            @Override
-//            public void onFailure(int errorCode, String errorMessage) {
-//
-//            }
-//        });
-//        ZbPassport.loginThird(id, "id", ZbConstants.ThirdLogin.QQ, "token", new ZbAuthListener() {
-//            @Override
-//            public void onSuccess(AuthInfo info) {
-//
-//            }
-//
-//            @Override
-//            public void onFailure(int errorCode, String errorMessage) {
-//
-//            }
-//        });
-//        ZbPassport.resetPassword(id, phoneNum, "1234", "2222", new ZbResultListener() {
-//            @Override
-//            public void onSuccess() {
-//
-//            }
-//
-//            @Override
-//            public void onFailure(int errorCode, String errorMessage) {
-//
-//            }
-//        });
-//        ZbPassport.getAccountDetail(id, new ZbGetAccountInfoListener() {
-//            @Override
-//            public void onSuccess(AccountInfo info) {
-//
-//            }
-//
-//            @Override
-//            public void onFailure(int errorCode, String errorMessage) {
-//
-//            }
-//        });
-//
-//        ZbPassport.checkPassWord(id, "11", new ZbResultListener() {
-//            @Override
-//            public void onSuccess() {
-//
-//            }
-//
-//            @Override
-//            public void onFailure(int errorCode, String errorMessage) {
-//
-//            }
-//        });
-//
-//        ZbPassport.changePassword(id, "22", "11", new ZbResultListener() {
-//            @Override
-//            public void onSuccess() {
-//
-//            }
-//
-//            @Override
-//            public void onFailure(int errorCode, String errorMessage) {
-//
-//            }
-//        });
-//
-//        ZbPassport.changePhoneNum(id, "11", "22", new ZbResultListener() {
-//            @Override
-//            public void onSuccess() {
-//
-//            }
-//
-//            @Override
-//            public void onFailure(int errorCode, String errorMessage) {
-//
-//            }
-//        });
-//
-//        ZbPassport.bindThirdParty(id, "uid", ZbConstants.ThirdLogin.QQ, "token", new ZbResultListener() {
-//            @Override
-//            public void onSuccess() {
-//
-//            }
-//
-//            @Override
-//            public void onFailure(int errorCode, String errorMessage) {
-//
-//            }
-//        });
-//        ZbPassport.unBindThirdParty(id, ZbConstants.ThirdLogin.QQ, new ZbResultListener() {
-//            @Override
-//            public void onSuccess() {
-//
-//            }
-//
-//            @Override
-//            public void onFailure(int errorCode, String errorMessage) {
-//
-//            }
-//        });
 
     }
 
@@ -335,7 +234,6 @@ public class ZbPassport {
      */
     public static void setToken(String token) {
         zbConfig.setToken(token);
-
     }
 
 
@@ -395,11 +293,12 @@ public class ZbPassport {
      * 修改密码预检查接口 get请求
      * @param clientId 接入客户端id
      * @param old_password 旧密码
+     * @param accessToken 接入客户端accessToken
      * @param listener
      * @return
      */
-    public static Call checkPassWord(String clientId, String old_password, final ZbResultListener listener) {
-        return netWork.checkPassWord(clientId, old_password, listener);
+    public static Call checkPassWord(String clientId, String old_password, String accessToken, final ZbResultListener listener) {
+        return netWork.checkPassWord(clientId, old_password, accessToken, listener);
     }
 
 
@@ -477,11 +376,12 @@ public class ZbPassport {
      * 获取账号详情接口
      *
      * @param clientId 接入客户端id
+     * @param accessToken 接入客户端accessToken
      * @param listener
      * @return
      */
-    public static Call getAccountDetail(String clientId, final ZbGetAccountInfoListener listener) {
-        return netWork.getAccountDetail(clientId, listener);
+    public static Call getAccountDetail(String clientId, String accessToken, final ZbGetAccountInfoListener listener) {
+        return netWork.getAccountDetail(clientId, accessToken, listener);
     }
 
     /**
@@ -490,25 +390,27 @@ public class ZbPassport {
      * @param clientId     接入客户端id
      * @param new_password 新密码
      * @param old_password 旧密码
+     * @param accessToken 接入客户端accessToken
      * @param listener
      * @return
      */
-    public static Call changePassword(String clientId, String new_password, String old_password, final ZbResultListener listener) {
-        return netWork.changePassword(clientId, new_password, old_password, listener);
+    public static Call changePassword(String clientId, String new_password, String old_password, String accessToken, final ZbResultListener listener) {
+        return netWork.changePassword(clientId, new_password, old_password, accessToken, listener);
     }
 
 
     /**
-     * 修改(bind)手机号接口
+     * 修改(绑定)手机号接口
      *
      * @param clientId         接入客户端id
      * @param new_phone_number 新手机号
      * @param security_code    新手机下发的短信验证码
+     * @param accessToken 接入客户端accessToken
      * @param listener
      * @return
      */
-    public static Call changePhoneNum(String clientId, String new_phone_number, String security_code, final ZbResultListener listener) {
-        return netWork.changePhoneNum(clientId, new_phone_number, security_code, listener);
+    public static Call changePhoneNum(String clientId, String new_phone_number, String security_code, String accessToken, final ZbResultListener listener) {
+        return netWork.changePhoneNum(clientId, new_phone_number, security_code, accessToken, listener);
     }
 
     /**
@@ -517,12 +419,13 @@ public class ZbPassport {
      * @param clientId     接入客户端id
      * @param auth_uid     第三方用户唯一id标识
      * @param auth_type    第三方账户绑定类型
-     * @param access_token 第三方返回的access_token
+     * @param auth_token 第三方返回的auth_token
+     * @param accessToken 接入客户端accessToken
      * @param listener
      * @return
      */
-    public static Call bindThirdParty(String clientId, String auth_uid, @ZbConstants.ThirdType int auth_type, String access_token, final ZbResultListener listener) {
-        return netWork.bindThirdParty(clientId, auth_uid, auth_type, access_token, listener);
+    public static Call bindThirdParty(String clientId, String auth_uid, @ZbConstants.ThirdType int auth_type, String auth_token, String accessToken, final ZbResultListener listener) {
+        return netWork.bindThirdParty(clientId, auth_uid, auth_type, auth_token, accessToken, listener);
     }
 
 
@@ -531,11 +434,12 @@ public class ZbPassport {
      *
      * @param clientId  接入客户端id
      * @param auth_type 第三方账号绑定id
+     * @param accessToken 接入客户端accessToken
      * @param listener
      * @return
      */
-    public static Call unBindThirdParty(String clientId, @ZbConstants.ThirdType int auth_type, final ZbResultListener listener) {
-        return netWork.unBindThirdParty(clientId, auth_type, listener);
+    public static Call unBindThirdParty(String clientId, @ZbConstants.ThirdType int auth_type, String accessToken, final ZbResultListener listener) {
+        return netWork.unBindThirdParty(clientId, auth_type, accessToken, listener);
     }
 
 

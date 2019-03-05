@@ -19,7 +19,6 @@ import com.zjrb.passport.util.SharedPreferencesUtil;
  */
 public final class ZbConfig {
     private int appId;
-//    private String appKey;
     private String appSecret;
     private String data_bypass;
     private int envType;
@@ -52,7 +51,6 @@ public final class ZbConfig {
         spUtil = SharedPreferencesUtil.init(context.getApplicationContext());
         if (info != null) {
             appId = info.metaData.getInt(InnerConstant.META_ID);
-//            appKey = info.metaData.getString(InnerConstant.META_KEY);
             appSecret = info.metaData.getString(InnerConstant.META_SECRET);
             String env = info.metaData.getString(InnerConstant.META_ENV, InnerConstant.DEV);
             resolveEnv(env);
@@ -83,10 +81,6 @@ public final class ZbConfig {
     public int getAppId() {
         return appId;
     }
-
-//    public String getAppKey() {
-//        return appKey;
-//    }
 
     public String getAppSecret() {
         return appSecret;
@@ -165,10 +159,6 @@ public final class ZbConfig {
         this.appId = appId;
     }
 
-//    void setAppKey(String appKey) {
-//        this.appKey = appKey;
-//    }
-
     void setAppSecret(String appSecret) {
         this.appSecret = appSecret;
     }
@@ -219,7 +209,6 @@ public final class ZbConfig {
      */
     public static class Builder {
         private int appId = -1;
-        private String appKey;
         private String appSecret;
         private String token;
         private int envType = -1;
@@ -227,20 +216,9 @@ public final class ZbConfig {
         private boolean isSetDebug;
         private String appVersion;
         private String appUuid;
-        private String data_bypass;
-
-        public Builder setData_bypass(String data_bypass) {
-            this.data_bypass = data_bypass;
-            return this;
-        }
 
         public Builder setAppId(int appId) {
             this.appId = appId;
-            return this;
-        }
-
-        public Builder setAppKey(String appKey) {
-            this.appKey = appKey;
             return this;
         }
 
@@ -281,9 +259,6 @@ public final class ZbConfig {
             if (appId != -1) {
                 zbConfig.setAppId(appId);
             }
-//            if (!TextUtils.isEmpty(appKey)) {
-//                zbConfig.setAppKey(appKey);
-//            }
             if (!TextUtils.isEmpty(appSecret)) {
                 zbConfig.setAppSecret(appSecret);
             }
@@ -293,7 +268,6 @@ public final class ZbConfig {
             if (isSetDebug) {
                 zbConfig.setDebug(isDebug);
             }
-            zbConfig.setData_bypass(data_bypass);
             zbConfig.setAppVersion(appVersion);
             zbConfig.setAppUuid(appUuid);
             zbConfig.initUA();

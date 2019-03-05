@@ -2,8 +2,6 @@ package com.zjrb.passport.util;
 
 import android.text.TextUtils;
 
-import com.zjrb.passport.ZbConfig;
-import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.net.ApiManager;
 import com.zjrb.passport.net.request.FormBody;
 import com.zjrb.passport.net.request.Request;
@@ -30,7 +28,7 @@ public class RequestBuilder {
         Request request = null;
         try {
             FormBody body = new FormBody.Builder().map(builder.build()).build();
-            request = new Request.Builder().get(body).api(builder.getApi()).build();
+            request = new Request.Builder().get(body).api(builder.getApi()).token(builder.getToken()).build();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -47,7 +45,7 @@ public class RequestBuilder {
         Request request = null;
         try {
             FormBody body = new FormBody.Builder().map(builder.build()).build();
-            request = new Request.Builder().post(body).api(builder.getApi()).build();
+            request = new Request.Builder().post(body).api(builder.getApi()).token(builder.getToken()).build();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,46 +55,34 @@ public class RequestBuilder {
 
     public static class ParamsBuilder {
         private TreeMap<String, String> map;
-
-        public String getApi() {
-            return api;
-        }
-
+        private String token;
         private String api;
 
         public ParamsBuilder() {
             map = new TreeMap<>();
         }
 
-        // TODO: 2019/2/26
-        public ParamsBuilder inject() {
-            ZbConfig zbConfig = ZbPassport.getZbConfig();
-            map.put(InnerConstant.APP_ID, "" + zbConfig.getAppId());
-            if (!TextUtils.isEmpty(zbConfig.getData_bypass())) {
-                map.put(InnerConstant.APP_PASSDATA, "" + zbConfig.getData_bypass());
-            }
-//            map.put(InnerConstant.APP_KEY, zbConfig.getAppKey());
-            map.put(InnerConstant.APP_SECRET, zbConfig.getAppSecret());
-            return this;
-        }
-
-        public ParamsBuilder injectWithToken() {
-            ZbConfig zbConfig = ZbPassport.getZbConfig();
-            if (!TextUtils.isEmpty(zbConfig.getToken())) {
-                map.put(InnerConstant.TOKEN, zbConfig.getToken());
-            }
-            if (!TextUtils.isEmpty(zbConfig.getData_bypass())) {
-                map.put(InnerConstant.APP_PASSDATA, "" + zbConfig.getData_bypass());
-            }
-            map.put(InnerConstant.APP_ID, "" + zbConfig.getAppId());
-//            map.put(InnerConstant.APP_KEY, zbConfig.getAppKey());
-            map.put(InnerConstant.APP_SECRET, zbConfig.getAppSecret());
-            return this;
-        }
-
         public ParamsBuilder api(String api) {
             this.api = api;
             return this;
+        }
+
+        /**
+         * 某些请求请求头需要附加token,该方法用于进行token注入
+         * @param token
+         * @return
+         */
+        public ParamsBuilder injectToken(String token) {
+            this.token = token;
+            return this;
+        }
+
+        public String getToken() {
+            return token;
+        }
+
+        public String getApi() {
+            return api;
         }
 
         public ParamsBuilder add(String key, String value) {
@@ -111,7 +97,6 @@ public class RequestBuilder {
         }
 
         public Map<String, String> build() {
-//            map.put(InnerConstant.SIGN, EncryptUtil.encrypt(api, map)); // map中sign的计算先进行encode,然后sha256进行了加密(sha256只有数字和字符,所以sign可以不用再次encode)
             return map;
         }
 

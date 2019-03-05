@@ -23,9 +23,12 @@ public class Request {
     final HttpMethod method;
     final String url;
     final Map<String, String> headers;
-    final @Nullable RequestBody requestBody;
+    final @Nullable
+    RequestBody requestBody;
     final Object tag;
     final String api;
+    final Map<String, String> paramsMap;
+    final String token;
 
     public Request(Builder builder) {
         this.method = builder.method;
@@ -33,7 +36,9 @@ public class Request {
         this.headers = builder.headers;
         this.requestBody = builder.body;
         this.api = builder.api;
+        this.paramsMap = builder.paramsMap;
         this.tag = builder.tag != null ? builder.tag : this;
+        this.token = builder.token;
     }
 
     public Object tag() {
@@ -56,6 +61,31 @@ public class Request {
         return headers;
     }
 
+    /**
+     * init接口重新请求后,重试当前网络请求时,刷新header
+     * @param signature
+     */
+    public void refreshHeader(String signature) {
+        if (Util.isNeedSignature(api)) {
+            String methodStr = "get";
+            if (method.equals(HttpMethod.GET)) {
+                methodStr = "get";
+            } else if (method.equals(HttpMethod.POST)) {
+                methodStr = "post";
+            } else if (method.equals(HttpMethod.PUT)) {
+                methodStr = "put";
+            } else if (method.equals(HttpMethod.DELETE)) {
+                methodStr = "delete";
+            }
+            String uuid = UUID.randomUUID().toString();
+            headers.put("X-SIGNATURE", Util.generateSignature(methodStr, api, paramsMap, uuid, token, signature));
+            headers.put("X-REQUEST-ID", uuid); // 36位,不去掉4位的分割线
+            if (!TextUtils.equals(api, ApiManager.EndPoint.INIT)) { // COOKIE也重新取二次init接口下发的
+                headers.put("COOKIE", ZbPassport.getZbConfig().getCookie()); // 统一使用init接口下发的cookie
+            }
+        }
+    }
+
     @Nullable
     public RequestBody getRequestBody() {
         return requestBody;
@@ -71,6 +101,7 @@ public class Request {
         String api; // 记录接口名
         Object tag;
         String uuid;
+        String token;
 
         public Builder() {
             this.method = HttpMethod.GET; // 默认get请求
@@ -88,6 +119,11 @@ public class Request {
          */
         public Builder url(String url) {
             this.url = url;
+            return this;
+        }
+
+        public Builder token(String token) {
+            this.token = token;
             return this;
         }
 
@@ -193,11 +229,10 @@ public class Request {
                 } else if (method.equals(HttpMethod.DELETE)) {
                     methodStr = "delete";
                 }
-                System.out.println("ssss sign: " + ZbPassport.getZbConfig().getSignatureKey());
-                headers.put("X-SIGNATURE", Util.generateSignature(methodStr, api, paramsMap, uuid, ZbPassport.getZbConfig().getToken(), ZbPassport.getZbConfig().getSignatureKey()));
+                headers.put("X-SIGNATURE", Util.generateSignature(methodStr, api, paramsMap, uuid, token, ZbPassport.getZbConfig().getSignatureKey()));
             }
-            if (Util.isNeedAccessToken(api)) {
-                headers.put("X-AGENT-CREDENTIAL", ZbPassport.getZbConfig().getToken()); // 传入access_token
+            if (Util.isNeedAccessToken(api)) { // header中需要token
+                headers.put("X-AGENT-CREDENTIAL", token); // 传入access_token
             }
             return new Request(this);
         }

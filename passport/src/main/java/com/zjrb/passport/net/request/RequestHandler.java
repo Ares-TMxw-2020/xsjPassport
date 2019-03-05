@@ -64,41 +64,40 @@ public class RequestHandler implements IRequestHandler {
             return;
         }
 
+        long currentTime = SystemClock.elapsedRealtime();
+        long lastTime = ZbPassport.getZbConfig().getSpUtil().getLong(ZbConstants.PASSPORT_NETTIME);
+        ZbPassport.getZbConfig().getSpUtil().putLong(ZbConstants.PASSPORT_NETTIME, SystemClock.elapsedRealtime());
+        long deltaTime = currentTime - lastTime;
+        if (!TextUtils.equals(ApiManager.EndPoint.INIT, call.request.getApi()) && lastTime != 0 && deltaTime >= ZbConstants.PASSPORT_SIGN_EXPIRED) { // 当前请求非init接口请求,且两次请求间隔大于30分钟,重新请求init接口
+            ZbPassport.initApp(ZbPassport.getZbConfig().getAppId() + "", new ZbInitListener() {
+                @Override
+                public void onSuccess(ClientInfo info) {
+                    if (info != null) {
+                        ZbPassport.getZbConfig().setSignatureKey(info.getSignature_key()); // 设置签名密钥,30分钟有效期
+                        // 因为init接口重新请求后sign会重新下发,所以重新请求需要刷新header中sign及uuid及cookie信息,重新进行当前请求
+                        call.request.refreshHeader(info.getSignature_key());
+                        call.enqueue(callBack); // 重新进行当前请求
+                    }
+                }
+
+                @Override
+                public void onFailure(int errorCode, String errorMessage) {
+
+                }
+            });
+            return; // 取消当前网络请求
+        }
+
         // 返回内容解析
         Response response = null;
         try {
             int responseCode = connection.getResponseCode();
-            long currentTime = SystemClock.elapsedRealtime();
-            long lastTime = ZbPassport.getZbConfig().getSpUtil().getLong(ZbConstants.PASSPORT_NETTIME);
-            System.out.println("RequestHandler lastTime:" + lastTime);
-            System.out.println("RequestHandler currentTime:" + currentTime);
-            ZbPassport.getZbConfig().getSpUtil().putLong(ZbConstants.PASSPORT_NETTIME, SystemClock.elapsedRealtime());
-            long deltaTime = currentTime - lastTime;
-            if (lastTime != 0 && deltaTime >= ZbConstants.PASSPORT_SIGN_EXPIRED) { // 大于30分钟,重新请求init接口
-                ZbPassport.initApp(ZbPassport.getZbConfig().getAppId() + "", new ZbInitListener() {
-                    @Override
-                    public void onSuccess(ClientInfo info) {
-                        if (info != null) {
-                            ZbPassport.getZbConfig().setSignatureKey(info.getSignature_key()); // 设置签名密钥,30分钟有效期
-                            //todo 当前网络请求重试  处理 同步
-                            call.enqueue(callBack);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(int errorCode, String errorMessage) {
-
-                    }
-                });
-                return; // 取消当前网络请求
-            }
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 byte[] bytes = new byte[1024];
                 int length;
-                if (call.request != null && TextUtils.equals(ApiManager.EndPoint.INIT, call.request.getApi())) { // init接口,获取cookie持久化
+                if (TextUtils.equals(ApiManager.EndPoint.INIT, call.request.getApi())) { // init接口,获取cookie持久化
                     // TODO: 2019/3/4 Cookie处理 只获取init接口下发的Cookie,添加到后续请求的请求头中
                     String cookie = connection.getHeaderField("Set-Cookie");
-                    System.out.println("ssss INIT cookie: " + cookie);
                     ZbPassport.getZbConfig().setCookie(connection.getHeaderField("Set-Cookie"));
                 }
                 InputStream inputStream = connection.getInputStream();
@@ -127,7 +126,8 @@ public class RequestHandler implements IRequestHandler {
                             public void onSuccess(ClientInfo info) {
                                 if (info != null) {
                                     ZbPassport.getZbConfig().setSignatureKey(info.getSignature_key()); // 设置签名密钥,30分钟有效期
-                                    //todo 当前网络请求重试  处理 同步
+                                    // 因为init接口重新请求后sign会重新下发,所以重新请求需要刷新header中sign及uuid及cookie信息,重新进行当前请求
+                                    call.request.refreshHeader(info.getSignature_key());
                                     call.enqueue(callBack);
                                 }
                             }

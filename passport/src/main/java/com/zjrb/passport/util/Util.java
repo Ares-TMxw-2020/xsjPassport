@@ -116,7 +116,7 @@ public class Util {
         if (Util.isNeedAccessToken(api)) { // 请求头里面有accessToken的,拼接accessToken
             sb.append(accessToken);
         }
-        System.out.println("sssssss  SignString: " + sb.toString());
+        System.out.println("sssssss  :SignString " + sb.toString());
         return EncryptUtil.sha256_HMAC(sb.toString(), signatureKey);
     }
 
