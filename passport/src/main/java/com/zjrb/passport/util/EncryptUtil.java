@@ -1,16 +1,6 @@
 package com.zjrb.passport.util;
 
-import android.support.annotation.NonNull;
-import android.text.TextUtils;
-import android.util.Base64;
-
 import com.zjrb.passport.constant.ZbConstants;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Map;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -23,39 +13,6 @@ import javax.crypto.spec.SecretKeySpec;
  * Date: 2018/7/4
  */
 public class EncryptUtil {
-
-    public static String encrypt(String url, Map<String, String> params) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(url).append("%%");
-        if (params != null && !params.isEmpty()) {
-            for (String s : params.keySet()) {
-                try {
-                    sb.append(s).append("=").append(TextUtils.isEmpty(params.get(s)) ? "" : URLEncoder.encode(params.get(s), InnerConstant.DEF_CODE)).append("&"); // queryString拼接的时候value就需要进行encode
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-            }
-            sb.setLength(sb.length() - 1);
-            sb.append("%%");
-        }
-        sb.append(InnerConstant.SALT);
-        return encrypt(sb.toString());
-    }
-
-    public static String encrypt(String str) {
-        String result = str;
-        try {
-            MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
-            sha256.update(str.getBytes(InnerConstant.DEF_CODE));
-            byte[] r = sha256.digest();
-            result = byte2Hex(r);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
 
     private static String byte2Hex(byte[] bytes) {
         StringBuilder sb = new StringBuilder();
@@ -71,21 +28,6 @@ public class EncryptUtil {
             }
         }
         return sb.toString().toLowerCase();
-    }
-
-    /**
-     * base64 加密
-     * @param text
-     * @return
-     */
-    public static String base64Encrypt(@NonNull String text) {
-        byte[] bytes = new byte[0];
-        try {
-            bytes = text.getBytes(InnerConstant.DEF_CODE);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return Base64.encodeToString(bytes, Base64.NO_WRAP); // NO_WRAP会略去换行符
     }
 
 

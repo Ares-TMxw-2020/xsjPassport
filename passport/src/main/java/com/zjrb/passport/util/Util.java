@@ -58,6 +58,7 @@ public class Util {
                 continue;
             }
             try {
+                // TODO: 2019/3/4  
                 if (TextUtils.equals(key, InnerConstant.SIGN)) { // sign为sha256加密后的字串,不包含特殊字符,这里进不进行encode都行,这里跟ios逻辑保持一致,不再encode
                     sb = sb.append(key + "=" + (TextUtils.isEmpty(params.get(key)) ? "" : params.get(key)) + "&");
                 } else {
@@ -111,7 +112,11 @@ public class Util {
             }
             sb.setLength(sb.length() - 1); // 去掉最后一个&
         }
-        sb.append("%%").append(requestId).append("%%").append(accessToken);
+        sb.append("%%").append(requestId).append("%%");
+        if (Util.isNeedAccessToken(api)) { // 请求头里面有accessToken的,拼接accessToken
+            sb.append(accessToken);
+        }
+        System.out.println("sssssss  SignString: " + sb.toString());
         return EncryptUtil.sha256_HMAC(sb.toString(), signatureKey);
     }
 
@@ -132,7 +137,7 @@ public class Util {
     public static boolean isNeedAccessToken(String api) {
         return TextUtils.equals(api, ApiManager.EndPoint.PASSPORT_ACCOUNT_DETAIL) || TextUtils.equals(api, ApiManager.EndPoint.PASSPORT_ALTER_PASSWORD)
                 || TextUtils.equals(api, ApiManager.EndPoint.PASSPORT_ALTER_PHONE_NUM) || TextUtils.equals(api, ApiManager.EndPoint.PASSPORT_BIND_THIRD_PARTY)
-                || TextUtils.equals(api, ApiManager.EndPoint.PASSPORT_UNBIND_THIRD_PARTY);
+                || TextUtils.equals(api, ApiManager.EndPoint.PASSPORT_UNBIND_THIRD_PARTY) || TextUtils.equals(api, ApiManager.EndPoint.PASSPORT_CHECK_PASSWORDS);
     }
 
 }

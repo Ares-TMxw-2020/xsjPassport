@@ -30,7 +30,7 @@ public class RequestBuilder {
         Request request = null;
         try {
             FormBody body = new FormBody.Builder().map(builder.build()).build();
-            request = new Request.Builder().get(body).url(builder.getUrl()).build();
+            request = new Request.Builder().get(body).api(builder.getApi()).build();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -47,7 +47,7 @@ public class RequestBuilder {
         Request request = null;
         try {
             FormBody body = new FormBody.Builder().map(builder.build()).build();
-            request = new Request.Builder().post(body).url(builder.getUrl()).build();
+            request = new Request.Builder().post(body).api(builder.getApi()).build();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,19 +57,25 @@ public class RequestBuilder {
 
     public static class ParamsBuilder {
         private TreeMap<String, String> map;
+
+        public String getApi() {
+            return api;
+        }
+
         private String api;
 
         public ParamsBuilder() {
             map = new TreeMap<>();
         }
 
+        // TODO: 2019/2/26
         public ParamsBuilder inject() {
             ZbConfig zbConfig = ZbPassport.getZbConfig();
             map.put(InnerConstant.APP_ID, "" + zbConfig.getAppId());
             if (!TextUtils.isEmpty(zbConfig.getData_bypass())) {
                 map.put(InnerConstant.APP_PASSDATA, "" + zbConfig.getData_bypass());
             }
-            map.put(InnerConstant.APP_KEY, zbConfig.getAppKey());
+//            map.put(InnerConstant.APP_KEY, zbConfig.getAppKey());
             map.put(InnerConstant.APP_SECRET, zbConfig.getAppSecret());
             return this;
         }
@@ -83,12 +89,12 @@ public class RequestBuilder {
                 map.put(InnerConstant.APP_PASSDATA, "" + zbConfig.getData_bypass());
             }
             map.put(InnerConstant.APP_ID, "" + zbConfig.getAppId());
-            map.put(InnerConstant.APP_KEY, zbConfig.getAppKey());
+//            map.put(InnerConstant.APP_KEY, zbConfig.getAppKey());
             map.put(InnerConstant.APP_SECRET, zbConfig.getAppSecret());
             return this;
         }
 
-        public ParamsBuilder url(String api) {
+        public ParamsBuilder api(String api) {
             this.api = api;
             return this;
         }
@@ -105,7 +111,7 @@ public class RequestBuilder {
         }
 
         public Map<String, String> build() {
-            map.put(InnerConstant.SIGN, EncryptUtil.encrypt(api, map)); // map中sign的计算先进行encode,然后sha256进行了加密(sha256只有数字和字符,所以sign可以不用再次encode)
+//            map.put(InnerConstant.SIGN, EncryptUtil.encrypt(api, map)); // map中sign的计算先进行encode,然后sha256进行了加密(sha256只有数字和字符,所以sign可以不用再次encode)
             return map;
         }
 

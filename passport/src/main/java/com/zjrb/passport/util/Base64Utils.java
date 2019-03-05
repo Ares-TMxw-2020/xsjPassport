@@ -23,20 +23,20 @@ public class Base64Utils {
      */
     private static final int CACHE_SIZE = 1024;
 
-    public static byte[] decode(String base64) throws Exception {
-        return Base64.decode(base64.getBytes(), Base64.DEFAULT);
+    public static byte[] decode(String base64) {
+        return Base64.decode(base64.getBytes(), Base64.NO_WRAP); // 使用NO_WRAP不使用Default是为了配合后端,后端相应算法未进行换行
     }
 
-    public static String encode(byte[] bytes) throws Exception {
-        return new String(Base64.encode(bytes, Base64.DEFAULT));
+    public static String encode(byte[] bytes) {
+        return new String(Base64.encode(bytes, Base64.NO_WRAP));
     }
 
     public static String encodeToString(byte[] plain) {
-        return Base64.encodeToString(plain, Base64.DEFAULT);
+        return Base64.encodeToString(plain, Base64.NO_WRAP);
     }
 
     public static byte[] decode(byte[] text) {
-        return Base64.decode(text, Base64.DEFAULT);
+        return Base64.decode(text, Base64.NO_WRAP);
     }
 
     /**

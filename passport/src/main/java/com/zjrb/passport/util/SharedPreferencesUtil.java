@@ -53,6 +53,17 @@ public class SharedPreferencesUtil {
         return mPreferences.getString(key, "");
     }
 
+    // 存入数据
+    public void putLong(String key, long value) {
+        mEditor.putLong(key, value);
+        mEditor.commit();
+    }
+
+    // 获取数据
+    public long getLong(String key) {
+        return mPreferences.getLong(key,0l);
+    }
+
     // 移除数据
     public void remove(String key) {
         mEditor.remove(key);
