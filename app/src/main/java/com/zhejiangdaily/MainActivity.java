@@ -2,7 +2,6 @@ package com.zhejiangdaily;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,12 +12,10 @@ import com.zhejiangdaily.utils.ToastUtil;
 import com.zhejiangdaily.utils.ZbUtil;
 import com.zhejiangdaily.views.activities.LoginActivity;
 import com.zhejiangdaily.views.activities.RegisterActvity;
-import com.zhejiangdaily.views.activities.UserInfoActivity;
-import com.zjrb.passport.Entity.LoginInfo;
+import com.zjrb.passport.Entity.AuthInfo;
 import com.zjrb.passport.ZbPassport;
-import com.zjrb.passport.constant.ZbConstants;
-import com.zjrb.passport.listener.ZbCaptchaSendListener;
-import com.zjrb.passport.listener.ZbLoginListener;
+import com.zjrb.passport.listener.ZbAuthListener;
+import com.zjrb.passport.listener.ZbResultListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +41,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+//        String a = "get%%/api/some_resource?client_id=1111&passport_id=2000000&phone_number=13333333333&unbind=true%%64be2c39-ba09-443f-9aae-1a1f99004cbb%%bbbbbdddd8Tviqqqqeee";
+//        String s = "928aihvQETH08TviNX0C";
+//        String ss = EncryptUtil.sha256_HMAC(a, s);
+//        System.out.println("ssssss: " + ss);
+//        for (int i = 0; i < 10; i++) {
+//            System.out.println("llllll: " + EncryptUtil.encryptPassWord("mac"));
+//        }
     }
 
     @OnClick({R.id.tv_login, R.id.tv_password_login, R.id.tv_register, R.id.tv_send})
@@ -76,18 +80,31 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.tv_send:
                 if (ZbUtil.isMobileNum(mEtPhone.getText().toString())) {
-                    ZbPassport.sendCaptcha(ZbConstants.Sms.LOGIN, mEtPhone.getText().toString(), new ZbCaptchaSendListener() {
-
+                    ZbPassport.sendCaptcha(ZbPassport.getZbConfig().getAppId() + "", mEtPhone.getText().toString(), "", new ZbResultListener() {
                         @Override
-                        public void onSuccess(@Nullable String passData) {
+                        public void onSuccess() {
                             ToastUtil.show("下发登录短信验证码接口 success");
                         }
 
                         @Override
                         public void onFailure(int errorCode, String errorMessage) {
+                            // TODO: 2019/3/1 判断图形验证码code 封装
                             ToastUtil.show(errorMessage);
+
                         }
                     });
+//                    ZbPassport.sendCaptcha(ZbConstants.Sms.LOGIN, mEtPhone.getText().toString(), new ZbCaptchaSendListener() {
+//
+//                        @Override
+//                        public void onSuccess() {
+//                            ToastUtil.show("下发登录短信验证码接口 success");
+//                        }
+//
+//                        @Override
+//                        public void onFailure(int errorCode, String errorMessage) {
+//                            ToastUtil.show(errorMessage);
+//                        }
+//                    });
                 } else {
                     if (TextUtils.isEmpty(mEtPhone.getText().toString())) {
                         ToastUtil.show("请输入手机号");
@@ -136,22 +153,34 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 手机号验证码登录
      * @param phone
-     * @param password
+     * @param captcha
      */
-    private void doLogin(String phone, String password) {
-        ZbPassport.loginCaptcha(phone, password, new ZbLoginListener() {
-
+    private void doLogin(String phone, String captcha) {
+        ZbPassport.loginCaptcha(ZbPassport.getZbConfig().getAppId() + "", phone, captcha, new ZbAuthListener() {
             @Override
-            public void onSuccess(LoginInfo loginInfo, @Nullable String passData) {
-                ToastUtil.show("登录成功");
-                startActivity(new Intent(MainActivity.this, UserInfoActivity.class));
+            public void onSuccess(AuthInfo info) {
+                
             }
 
             @Override
             public void onFailure(int errorCode, String errorMessage) {
-                ToastUtil.show(errorMessage);
+
             }
         });
+        // TODO: 2019/3/1  
+//        ZbPassport.loginCaptcha(phone, password, new ZbLoginListener() {
+//
+//            @Override
+//            public void onSuccess(LoginInfo loginInfo) {
+//                ToastUtil.show("登录成功");
+//                startActivity(new Intent(MainActivity.this, UserInfoActivity.class));
+//            }
+//
+//            @Override
+//            public void onFailure(int errorCode, String errorMessage) {
+//                ToastUtil.show(errorMessage);
+//            }
+//        });
     }
 
 }

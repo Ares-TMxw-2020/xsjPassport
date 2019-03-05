@@ -24,20 +24,18 @@
         <!-- 友盟  end -->
 
         <meta-data
-            android:name="ZBP_APP_ID"
+            android:name="ZBP_CLIENT_ID"
             android:value="1"/>
+        <!--<meta-data-->
+            <!--android:name="ZBP_APP_KEY"-->
+            <!--android:value="fQNZBzR9ej"/>-->
         <meta-data
-            android:name="ZBP_APP_KEY"
-            android:value="fQNZBzR9ej"/>
-        <meta-data
-            android:name="ZBP_APP_SECRET"
+            android:name="ZBP_CLIENT_SECRET"
             android:value="E1v9TSMLLit2VHTTl0i9"/>
         <meta-data
             android:name="ZBP_APP_ENV"
             android:value="dev"/>
 
-        <activity android:name="com.zhejiangdaily.views.activities.TestActivity">
-        </activity>
         <activity android:name="com.zhejiangdaily.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

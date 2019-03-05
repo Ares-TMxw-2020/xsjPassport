@@ -4,7 +4,6 @@ import android.content.Intent;
 
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zhejiangdaily.presenters.BasePresenter;
-import com.zjrb.passport.Entity.LoginInfo;
 
 /**
  * Function: UserInfoContract
@@ -34,7 +33,7 @@ public interface UserInfoContract {
 
     interface View extends BaseView {
 
-        void getUserInfo(boolean isSuccess, LoginInfo info, String errorMsg);
+//        void getUserInfo(boolean isSuccess, LoginInfo info, String errorMsg);
 
         void unBindThird(boolean isSuccess, int platform, String errorMsg);
 

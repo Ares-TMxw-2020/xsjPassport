@@ -36,13 +36,10 @@ dependencies {
 <manifest ...>
 	<application ...>
 		<meta-data
-			android:name="ZBP_APP_ID"
+			android:name="ZBP_CLIENT_ID"
 			android:value="app_id" />
 		<meta-data
-			android:name="ZBP_APP_KEY"
-			android:value="app_key" />
-		<meta-data
-			android:name="ZBP_APP_SECRET"
+			android:name="ZBP_CLIENT_SECRET"
 			android:value="app_secret" />
 		<meta-data
 			android:name="ZBP_APP_ENV"

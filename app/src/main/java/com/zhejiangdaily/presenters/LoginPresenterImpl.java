@@ -1,7 +1,6 @@
 package com.zhejiangdaily.presenters;
 
 import android.content.Intent;
-import android.support.annotation.Nullable;
 
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zhejiangdaily.contracts.LoginContract;
@@ -9,11 +8,10 @@ import com.zhejiangdaily.utils.ToastUtil;
 import com.zhejiangdaily.utils.ZbUtil;
 import com.zhejiangdaily.views.activities.FindPassWordActivity;
 import com.zhejiangdaily.views.activities.RegisterActvity;
-import com.zjrb.passport.Entity.LoginInfo;
+import com.zjrb.passport.Entity.AuthInfo;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ZbConstants;
-import com.zjrb.passport.listener.ZbCheckPhoneListener;
-import com.zjrb.passport.listener.ZbLoginListener;
+import com.zjrb.passport.listener.ZbAuthListener;
 
 /**
  * Function: LoginPresenterImpl
@@ -53,13 +51,25 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
     public void loginThird(SHARE_MEDIA platform, String uid) {
         switch (platform) {
             case WEIXIN:
-                ZbPassport.loginThird(ZbConstants.ThirdLogin.WECHAT, uid, zbLoginListener);
+                // TODO: 2019/3/1 auth_token获取
+                ZbPassport.loginThird(ZbPassport.getZbConfig().getAppId() + "", uid, ZbConstants.ThirdLogin.WECHAT, "", new ZbAuthListener() {
+                    @Override
+                    public void onSuccess(AuthInfo info) {
+
+                    }
+
+                    @Override
+                    public void onFailure(int errorCode, String errorMessage) {
+
+                    }
+                });
+//                ZbPassport.loginThird(ZbConstants.ThirdLogin.WECHAT, uid, zbLoginListener);
                 break;
             case QQ:
-                ZbPassport.loginThird(ZbConstants.ThirdLogin.QQ, uid, zbLoginListener);
+//                ZbPassport.loginThird(ZbConstants.ThirdLogin.QQ, uid, zbLoginListener);
                 break;
             case SINA:
-                ZbPassport.loginThird(ZbConstants.ThirdLogin.SINA, uid, zbLoginListener);
+//                ZbPassport.loginThird(ZbConstants.ThirdLogin.SINA, uid, zbLoginListener);
                 break;
             default:
                 break;
@@ -74,21 +84,22 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
     }
 
     private void checkBind(final String phone, final String password) {
-        ZbPassport.checkBindState(phone, new ZbCheckPhoneListener() {
-            @Override
-            public void onSuccess(boolean isBind, @Nullable String passData) {
-                if (isBind) {
-                    doLogin(phone, password);
-                } else {
-                    view.onPhoneNotExist();
-                }
-            }
-
-            @Override
-            public void onFailure(int errorCode, String errorMessage) {
-
-            }
-        });
+        // TODO: 2019/3/5
+//        ZbPassport.checkBindState(phone, new ZbCheckPhoneListener() {
+//            @Override
+//            public void onSuccess(boolean isBind) {
+//                if (isBind) {
+//                    doLogin(phone, password);
+//                } else {
+//                    view.onPhoneNotExist();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(int errorCode, String errorMessage) {
+//
+//            }
+//        });
     }
 
     private void doLogin(String phone, String password) {
@@ -97,7 +108,19 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
         } else if (password.length() < 6) {
             view.login(false, "密码长度小于6位");
         } else {
-            ZbPassport.login(phone, password, zbLoginListener);
+            // TODO: 2019/3/1
+            ZbPassport.loginCustom(ZbPassport.getZbConfig().getAppId() + "", phone, password, "", new ZbAuthListener() {
+                @Override
+                public void onSuccess(AuthInfo info) {
+
+                }
+
+                @Override
+                public void onFailure(int errorCode, String errorMessage) {
+
+                }
+            });
+//            ZbPassport.login(phone, password, zbLoginListener);
         }
     }
 
@@ -112,21 +135,33 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
         } else if (password.length() < 6) {
             view.login(false, "密码长度小于6位");
         } else {
-            ZbPassport.loginCustom(username, password, zbLoginListener);
+            // TODO: 2019/3/1 合并
+            ZbPassport.loginCustom(ZbPassport.getZbConfig().getAppId() + "", username, password, "", new ZbAuthListener() {
+                @Override
+                public void onSuccess(AuthInfo info) {
+
+                }
+
+                @Override
+                public void onFailure(int errorCode, String errorMessage) {
+
+                }
+            });
+//            ZbPassport.loginCustom(username, password, zbLoginListener);
         }
     }
 
 
 
-    private ZbLoginListener zbLoginListener = new ZbLoginListener() {
-        @Override
-        public void onSuccess(LoginInfo info, @Nullable String passData) {
-            view.login(true, null);
-        }
-
-        @Override
-        public void onFailure(int errorCode, String errorMessage) {
-            view.login(false, errorMessage);
-        }
-    };
+//    private ZbLoginListener zbLoginListener = new ZbLoginListener() {
+//        @Override
+//        public void onSuccess(LoginInfo info) {
+//            view.login(true, null);
+//        }
+//
+//        @Override
+//        public void onFailure(int errorCode, String errorMessage) {
+//            view.login(false, errorMessage);
+//        }
+//    };
 }

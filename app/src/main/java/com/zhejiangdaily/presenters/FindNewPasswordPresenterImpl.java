@@ -1,14 +1,6 @@
 package com.zhejiangdaily.presenters;
 
-import android.content.Intent;
-import android.support.annotation.Nullable;
-
-import com.zhejiangdaily.R;
 import com.zhejiangdaily.contracts.FindNewPassWordContract;
-import com.zhejiangdaily.utils.ToastUtil;
-import com.zhejiangdaily.views.activities.LoginActivity;
-import com.zjrb.passport.ZbPassport;
-import com.zjrb.passport.listener.ZbFindPasswordListener;
 
 /**
  * Date: 2018/7/12 下午6:02
@@ -26,20 +18,21 @@ public class FindNewPasswordPresenterImpl implements FindNewPassWordContract.Pre
 
     @Override
     public void sendNewPassWord(String phoneNum, String sms, String password) {
-        ZbPassport.findPassword(phoneNum, sms, password, new ZbFindPasswordListener() {
-            @Override
-            public void onSuccess(@Nullable String passData) {
-                ToastUtil.showTextWithImage(R.mipmap.ic_qq, "找回密码成功,请使用新密码登录");
-                Intent intent = new Intent(view.getIActivity(), LoginActivity.class);
-                view.getIActivity().startActivity(intent);
-                view.getIActivity().finish();
-            }
-
-            @Override
-            public void onFailure(int errorCode, String errorMessage) {
-                ToastUtil.showTextWithImage(R.mipmap.ic_qq, errorMessage);
-
-            }
-        });
+        // TODO: 2019/3/5
+//        ZbPassport.findPassword(phoneNum, sms, password, new ZbFindPasswordListener() {
+//            @Override
+//            public void onSuccess() {
+//                ToastUtil.showTextWithImage(R.mipmap.ic_qq, "找回密码成功,请使用新密码登录");
+//                Intent intent = new Intent(view.getIActivity(), LoginActivity.class);
+//                view.getIActivity().startActivity(intent);
+//                view.getIActivity().finish();
+//            }
+//
+//            @Override
+//            public void onFailure(int errorCode, String errorMessage) {
+//                ToastUtil.showTextWithImage(R.mipmap.ic_qq, errorMessage);
+//
+//            }
+//        });
     }
 }

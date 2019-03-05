@@ -20,11 +20,7 @@ import com.zhejiangdaily.presenters.UserInfoPresenterImpl;
 import com.zhejiangdaily.utils.ToastUtil;
 import com.zhejiangdaily.utils.ZbUtil;
 import com.zhejiangdaily.views.dialogs.TipDialog;
-import com.zjrb.passport.Entity.LoginInfo;
-import com.zjrb.passport.Entity.ThirdInfo;
 import com.zjrb.passport.constant.ZbConstants;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,7 +49,7 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
 
     UserInfoContract.Presenter infoPresenter;
     UmLoginContract.Presenter umPresenter;
-    List<ThirdInfo> infoList;
+//    List<ThirdInfo> infoList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,41 +77,42 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
         }
     }
 
-    @Override
-    public void getUserInfo(boolean isSuccess, LoginInfo info, String errorMsg) {
-        if (isSuccess) {
-            String phoneNumber = info.getPhoneNumber();
-            if (TextUtils.isEmpty(phoneNumber)) {
-                tvPhone.setText("未绑定");
-                isBindPhone = false;
-            } else {
-                tvPhone.setText(phoneNumber);
-                isBindPhone = true;
-            }
-            infoList = info.getBindList();
-            if (infoList != null && !infoList.isEmpty()) {
-                for (ThirdInfo d : infoList) {
-                    switch (d.getLoginType()) {
-                        case ZbConstants.ThirdLogin.QQ:
-                            tvQQ.setText("已绑定");
-                            break;
-                        case ZbConstants.ThirdLogin.SINA:
-                            tvSina.setText("已绑定");
-                            break;
-                        case ZbConstants.ThirdLogin.WECHAT:
-                            tvWechat.setText("已绑定");
-                            break;
-                    }
-                }
-            } else {
-                tvWechat.setText("未绑定");
-                tvQQ.setText("未绑定");
-                tvSina.setText("未绑定");
-            }
-        } else {
-            ToastUtil.show(errorMsg);
-        }
-    }
+    // TODO: 2019/3/5
+//    @Override
+//    public void getUserInfo(boolean isSuccess, LoginInfo info, String errorMsg) {
+//        if (isSuccess) {
+//            String phoneNumber = info.getPhoneNumber();
+//            if (TextUtils.isEmpty(phoneNumber)) {
+//                tvPhone.setText("未绑定");
+//                isBindPhone = false;
+//            } else {
+//                tvPhone.setText(phoneNumber);
+//                isBindPhone = true;
+//            }
+//            infoList = info.getBindList();
+//            if (infoList != null && !infoList.isEmpty()) {
+//                for (ThirdInfo d : infoList) {
+//                    switch (d.getLoginType()) {
+//                        case ZbConstants.ThirdLogin.QQ:
+//                            tvQQ.setText("已绑定");
+//                            break;
+//                        case ZbConstants.ThirdLogin.SINA:
+//                            tvSina.setText("已绑定");
+//                            break;
+//                        case ZbConstants.ThirdLogin.WECHAT:
+//                            tvWechat.setText("已绑定");
+//                            break;
+//                    }
+//                }
+//            } else {
+//                tvWechat.setText("未绑定");
+//                tvQQ.setText("未绑定");
+//                tvSina.setText("未绑定");
+//            }
+//        } else {
+//            ToastUtil.show(errorMsg);
+//        }
+//    }
 
     @Override
     public void unBindThird(boolean isSuccess, int platform, String errorMsg) {
@@ -237,11 +234,12 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoContr
 
             @Override
             public void onRight() {
-                if (isBindPhone || (infoList != null && infoList.size() >= 2)) {
-                    infoPresenter.unbindThird(platform);
-                } else {
-                    noticePhone();
-                }
+                // TODO: 2019/3/5
+//                if (isBindPhone || (infoList != null && infoList.size() >= 2)) {
+//                    infoPresenter.unbindThird(platform);
+//                } else {
+//                    noticePhone();
+//                }
             }
         });
         dialog.show();

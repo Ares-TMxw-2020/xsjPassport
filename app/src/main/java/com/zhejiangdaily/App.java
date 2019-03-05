@@ -33,10 +33,11 @@ public class App extends Application {
 
     private void initPassport() {
         ZbPassport.init(this,
-                        new ZbConfig.Builder().setEnvType(ZbConstants.Env.DEV)
-                                              .setDebug(true)
-                                              .setAppVersion("1.0")
-                                              .setAppUuid("uuid"));
+                new ZbConfig.Builder().setEnvType(ZbConstants.Env.DEV)
+                        .setDebug(true)
+                        .setAppVersion("1.0")
+                        .setToken("J8BWUjBaYStIHqBu1g9pFjWv")
+                        .setAppUuid("uuid"));
 //        ZbPassport.setZbConfig(new ZbConfig.Builder().setAppId(1)
 //                                                     .setAppKey("appKey")
 //                                                     .setAppSecret("")

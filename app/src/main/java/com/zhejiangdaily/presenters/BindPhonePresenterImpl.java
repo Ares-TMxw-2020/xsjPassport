@@ -1,13 +1,8 @@
 package com.zhejiangdaily.presenters;
 
-import android.support.annotation.Nullable;
-
 import com.zhejiangdaily.contracts.BindPhoneContract;
 import com.zjrb.passport.ZbPassport;
-import com.zjrb.passport.constant.ZbConstants;
-import com.zjrb.passport.listener.ZbBindPhoneListener;
-import com.zjrb.passport.listener.ZbCaptchaSendListener;
-import com.zjrb.passport.listener.ZbCheckPhoneListener;
+import com.zjrb.passport.listener.ZbResultListener;
 
 /**
  * Function: BindPhonePresenter
@@ -23,46 +18,61 @@ public class BindPhonePresenterImpl implements BindPhoneContract.Presenter {
 
     @Override
     public void checkPhone(String phoneNumber) {
-        ZbPassport.checkBindState(phoneNumber, new ZbCheckPhoneListener() {
-            @Override
-            public void onSuccess(boolean isBind, @Nullable String passData) {
-                view.checkPhone(true, isBind, null);
-            }
-
-            @Override
-            public void onFailure(int errorCode, String errorMessage) {
-                view.checkPhone(false, false, errorMessage);
-            }
-        });
+        // TODO: 2019/3/5
+//        ZbPassport.checkBindState(phoneNumber, new ZbCheckPhoneListener() {
+//            @Override
+//            public void onSuccess(boolean isBind) {
+//                view.checkPhone(true, isBind, null);
+//            }
+//
+//            @Override
+//            public void onFailure(int errorCode, String errorMessage) {
+//                view.checkPhone(false, false, errorMessage);
+//            }
+//        });
     }
 
     @Override
     public void sendCaptcha(String phoneNumber) {
-        ZbPassport.sendCaptcha(ZbConstants.Sms.BIND, phoneNumber, new ZbCaptchaSendListener() {
+        ZbPassport.sendCaptcha(ZbPassport.getZbConfig().getAppId() + "", phoneNumber, "", new ZbResultListener() {
             @Override
-            public void onSuccess(@Nullable String passData) {
+            public void onSuccess() {
                 view.sendCaptcha(true, null);
             }
 
             @Override
             public void onFailure(int errorCode, String errorMessage) {
+                // TODO: 2019/3/1 判断图形验证码code 封装
                 view.sendCaptcha(false, errorMessage);
+
             }
         });
+//        ZbPassport.sendCaptcha(ZbConstants.Sms.BIND, phoneNumber, new ZbCaptchaSendListener() {
+//            @Override
+//            public void onSuccess() {
+//                view.sendCaptcha(true, null);
+//            }
+//
+//            @Override
+//            public void onFailure(int errorCode, String errorMessage) {
+//                view.sendCaptcha(false, errorMessage);
+//            }
+//        });
     }
 
     @Override
     public void bindPhone(String phoneNumber, String captcha) {
-        ZbPassport.bindPhone(phoneNumber, captcha, new ZbBindPhoneListener() {
-            @Override
-            public void onSuccess(@Nullable String passData) {
-                view.bindPhone(true, null);
-            }
-
-            @Override
-            public void onFailure(int errorCode, String errorMessage) {
-                view.bindPhone(false, errorMessage);
-            }
-        });
+        // TODO: 2019/3/5
+//        ZbPassport.bindPhone(phoneNumber, captcha, new ZbBindPhoneListener() {
+//            @Override
+//            public void onSuccess() {
+//                view.bindPhone(true, null);
+//            }
+//
+//            @Override
+//            public void onFailure(int errorCode, String errorMessage) {
+//                view.bindPhone(false, errorMessage);
+//            }
+//        });
     }
 }

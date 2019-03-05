@@ -1,19 +1,12 @@
 package com.zhejiangdaily.presenters;
 
 import android.content.Intent;
-import android.support.annotation.Nullable;
 
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zhejiangdaily.contracts.UserInfoContract;
 import com.zhejiangdaily.views.activities.BindPhoneActivity;
 import com.zhejiangdaily.views.activities.ModifyActivity;
-import com.zjrb.passport.Entity.LoginInfo;
-import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ZbConstants;
-import com.zjrb.passport.listener.ZbBindThirdListener;
-import com.zjrb.passport.listener.ZbGetInfoListener;
-import com.zjrb.passport.listener.ZbLogoutListener;
-import com.zjrb.passport.listener.ZbUnBindThirdListener;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -36,32 +29,34 @@ public class UserInfoPresenterImpl implements UserInfoContract.Presenter {
 
     @Override
     public void getUserInfo() {
-        ZbPassport.getInfo(new ZbGetInfoListener() {
-            @Override
-            public void onSuccess(LoginInfo info, @Nullable String passData) {
-                view.getUserInfo(true, info, null);
-            }
-
-            @Override
-            public void onFailure(int errorCode, String errorMessage) {
-                view.getUserInfo(false, null, errorMessage);
-            }
-        });
+        // TODO: 2019/3/5
+//        ZbPassport.getInfo(new ZbGetInfoListener() {
+//            @Override
+//            public void onSuccess(LoginInfo info) {
+//                view.getUserInfo(true, info, null);
+//            }
+//
+//            @Override
+//            public void onFailure(int errorCode, String errorMessage) {
+//                view.getUserInfo(false, null, errorMessage);
+//            }
+//        });
     }
 
     @Override
     public void logout() {
-        ZbPassport.logout(new ZbLogoutListener() {
-            @Override
-            public void onSuccess(@Nullable String passData) {
-                view.logout(true, null);
-            }
-
-            @Override
-            public void onFailure(int errorCode, String errorMessage) {
-                view.logout(false, errorMessage);
-            }
-        });
+        // TODO: 2019/3/5
+//        ZbPassport.logout(new ZbLogoutListener() {
+//            @Override
+//            public void onSuccess() {
+//                view.logout(true, null);
+//            }
+//
+//            @Override
+//            public void onFailure(int errorCode, String errorMessage) {
+//                view.logout(false, errorMessage);
+//            }
+//        });
     }
 
     @Override
@@ -112,31 +107,33 @@ public class UserInfoPresenterImpl implements UserInfoContract.Presenter {
             default:
                 return;
         }
-        ZbPassport.bindThird(type, uid, new ZbBindThirdListener() {
-            @Override
-            public void onSuccess(@Nullable String passData) {
-                view.bindThird(true, type, null);
-            }
-
-            @Override
-            public void onFailure(int errorCode, String errorMessage) {
-                view.bindThird(false, type, errorMessage);
-            }
-        });
+        // TODO: 2019/3/5  
+//        ZbPassport.bindThird(type, uid, new ZbBindThirdListener() {
+//            @Override
+//            public void onSuccess() {
+//                view.bindThird(true, type, null);
+//            }
+//
+//            @Override
+//            public void onFailure(int errorCode, String errorMessage) {
+//                view.bindThird(false, type, errorMessage);
+//            }
+//        });
     }
 
     @Override
     public void unbindThird(final int platform) {
-        ZbPassport.unbindThird(platform, new ZbUnBindThirdListener() {
-            @Override
-            public void onSuccess(@Nullable String passData) {
-                view.unBindThird(true, platform, null);
-            }
-
-            @Override
-            public void onFailure(int errorCode, String errorMessage) {
-                view.unBindThird(false, platform, errorMessage);
-            }
-        });
+        // TODO: 2019/3/5
+//        ZbPassport.unbindThird(platform, new ZbUnBindThirdListener() {
+//            @Override
+//            public void onSuccess() {
+//                view.unBindThird(true, platform, null);
+//            }
+//
+//            @Override
+//            public void onFailure(int errorCode, String errorMessage) {
+//                view.unBindThird(false, platform, errorMessage);
+//            }
+//        });
     }
 }
