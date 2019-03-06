@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.tv_send:
                 if (ZbUtil.isMobileNum(mEtPhone.getText().toString())) {
-                    ZbPassport.sendCaptcha(ZbPassport.getZbConfig().getAppId() + "", mEtPhone.getText().toString(), "", new ZbResultListener() {
+                    ZbPassport.sendCaptcha(mEtPhone.getText().toString(), "", new ZbResultListener() {
                         @Override
                         public void onSuccess() {
                             ToastUtil.show("下发登录短信验证码接口 success");
@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
      * @param captcha
      */
     private void doLogin(String phone, String captcha) {
-        ZbPassport.loginCaptcha(ZbPassport.getZbConfig().getAppId() + "", phone, captcha, new ZbAuthListener() {
+        ZbPassport.loginCaptcha(phone, captcha, new ZbAuthListener() {
             @Override
             public void onSuccess(AuthInfo info) {
                 

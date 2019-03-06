@@ -34,7 +34,7 @@ public class BindPhonePresenterImpl implements BindPhoneContract.Presenter {
 
     @Override
     public void sendCaptcha(String phoneNumber) {
-        ZbPassport.sendCaptcha(ZbPassport.getZbConfig().getAppId() + "", phoneNumber, "", new ZbResultListener() {
+        ZbPassport.sendCaptcha( phoneNumber, "", new ZbResultListener() {
             @Override
             public void onSuccess() {
                 view.sendCaptcha(true, null);

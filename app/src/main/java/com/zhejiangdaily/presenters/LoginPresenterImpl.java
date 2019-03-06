@@ -52,7 +52,7 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
         switch (platform) {
             case WEIXIN:
                 // TODO: 2019/3/1 auth_token获取
-                ZbPassport.loginThird(ZbPassport.getZbConfig().getAppId() + "", uid, ZbConstants.ThirdLogin.WECHAT, "", new ZbAuthListener() {
+                ZbPassport.loginThird(uid, ZbConstants.ThirdLogin.WECHAT, "", new ZbAuthListener() {
                     @Override
                     public void onSuccess(AuthInfo info) {
 
@@ -109,7 +109,7 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
             view.login(false, "密码长度小于6位");
         } else {
             // TODO: 2019/3/1
-            ZbPassport.loginCustom(ZbPassport.getZbConfig().getAppId() + "", phone, password, "", new ZbAuthListener() {
+            ZbPassport.loginCustom(phone, password, "", new ZbAuthListener() {
                 @Override
                 public void onSuccess(AuthInfo info) {
 
@@ -136,7 +136,7 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
             view.login(false, "密码长度小于6位");
         } else {
             // TODO: 2019/3/1 合并
-            ZbPassport.loginCustom(ZbPassport.getZbConfig().getAppId() + "", username, password, "", new ZbAuthListener() {
+            ZbPassport.loginCustom(username, password, "", new ZbAuthListener() {
                 @Override
                 public void onSuccess(AuthInfo info) {
 

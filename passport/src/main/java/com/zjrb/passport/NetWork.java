@@ -42,13 +42,13 @@ public class NetWork {
 
     /**
      * 初始化接口
-     * @param clientId 接入客户端id
+     *
      * @param listener
      * @return
      */
-    public Call initApp(String clientId, final ZbInitListener listener) {
+    public Call initApp(final ZbInitListener listener) {
         ParamsBuilder builder = new ParamsBuilder().api(ApiManager.EndPoint.INIT)
-                .add("client_id", clientId);
+                .add("client_id", ZbPassport.getZbConfig().getClientId() + "");
         return get(builder, new WrapListener(listener) {
             @Override
             public void onSuccess(Response response) {
@@ -60,6 +60,7 @@ public class NetWork {
 
     /**
      * 获取图形验证码接口
+     *
      * @return
      */
     public String getGraphicsCode() {
@@ -75,15 +76,15 @@ public class NetWork {
 
     /**
      * 获取手机短信验证码接口
-     * @param clientId 接入客户端id
+     *
      * @param phoneNumber 手机号
-     * @param captcha 图形验证码,非必传
+     * @param captcha     图形验证码,非必传
      * @param listener
      * @return
      */
-    public Call sendCaptcha(String clientId, String phoneNumber, String captcha, final ZbResultListener listener) {
+    public Call sendCaptcha(String phoneNumber, String captcha, final ZbResultListener listener) {
         ParamsBuilder builder = new ParamsBuilder().api(ApiManager.EndPoint.SMS_SEND_SECURITY_CODE)
-                .add("client_id", clientId)
+                .add("client_id", ZbPassport.getZbConfig().getClientId() + "")
                 .add("phone_number", phoneNumber);
         if (!TextUtils.isEmpty(captcha)) { // 非必传参数
             builder.add("captcha", captcha);
@@ -98,15 +99,15 @@ public class NetWork {
 
     /**
      * 使用手机号注册通行证接口 post
-     * @param clientId 接入客户端id
-     * @param phoneNumber 手机号
+     *
+     * @param phoneNumber   手机号
      * @param security_code 短信验证码
      * @param listener
      * @return
      */
-    public Call register(String clientId, String phoneNumber, String security_code, final ZbResultListener listener) {
+    public Call register(String phoneNumber, String security_code, final ZbResultListener listener) {
         ParamsBuilder builder = new ParamsBuilder().api(ApiManager.EndPoint.PASSPORT_PHONE_REGISTER)
-                .add("client_id", clientId)
+                .add("client_id", ZbPassport.getZbConfig().getClientId() + "")
                 .add("phone_number", phoneNumber)
                 .add("security_code", security_code);
         return post(builder, new WrapListener(listener) {
@@ -119,15 +120,15 @@ public class NetWork {
 
     /**
      * 验证码预检查接口 get请求
-     * @param clientId 接入客户端id
-     * @param phoneNumber 手机号
+     *
+     * @param phoneNumber   手机号
      * @param security_code 短信验证码
      * @param listener
      * @return
      */
-    public Call checkCaptcha(String clientId, String phoneNumber, String security_code, final ZbResultListener listener) {
+    public Call checkCaptcha(String phoneNumber, String security_code, final ZbResultListener listener) {
         ParamsBuilder builder = new ParamsBuilder().api(ApiManager.EndPoint.SMS_CHECK_SECURITY_CODE)
-                .add("client_id", clientId)
+                .add("client_id", ZbPassport.getZbConfig().getClientId() + "")
                 .add("phone_number", phoneNumber)
                 .add("security_code", security_code);
         return get(builder, new WrapListener(listener) {
@@ -140,15 +141,15 @@ public class NetWork {
 
     /**
      * 修改密码预检查接口 get请求
-     * @param clientId 接入客户端id
+     *
      * @param old_password 旧密码
-     * @param accessToken 接入客户端accessToken
+     * @param accessToken  接入客户端accessToken
      * @param listener
      * @return
      */
-    public Call checkPassWord(String clientId, String old_password, String accessToken, final ZbResultListener listener) {
+    public Call checkPassWord(String old_password, String accessToken, final ZbResultListener listener) {
         ParamsBuilder builder = new ParamsBuilder().api(ApiManager.EndPoint.PASSPORT_CHECK_PASSWORDS).injectToken(accessToken)
-                .add("client_id", clientId)
+                .add("client_id", ZbPassport.getZbConfig().getClientId() + "")
                 .add("old_password", old_password);
         return get(builder, new WrapListener(listener) {
             @Override
@@ -161,16 +162,16 @@ public class NetWork {
 
     /**
      * 手机号(邮箱)密码认证接口
-     * @param clientId 接入客户端id
+     *
      * @param phoneNumber 手机号
-     * @param password 密码
-     * @param captcha 验证码 没有传空
+     * @param password    密码
+     * @param captcha     验证码 没有传空
      * @param listener
      * @return
      */
-    public Call loginCustom(String clientId, String phoneNumber, String password, String captcha, final ZbAuthListener listener) {
+    public Call loginCustom(String phoneNumber, String password, String captcha, final ZbAuthListener listener) {
         ParamsBuilder builder = new ParamsBuilder().api(ApiManager.EndPoint.PASSPORT_PHONENUM_PASSWORD)
-                .add("client_id", clientId)
+                .add("client_id", ZbPassport.getZbConfig().getClientId() + "")
                 .add("phone_number", phoneNumber)
                 .add("password", EncryptUtil.encryptPassWord(password));
         if (!TextUtils.isEmpty(captcha)) { // 非必传参数
@@ -187,15 +188,15 @@ public class NetWork {
 
     /**
      * 手机号短信验证码认证接口
-     * @param clientId 接入客户端id
-     * @param phoneNumber 手机号
+     *
+     * @param phoneNumber   手机号
      * @param security_code 验证码
      * @param listener
      * @return
      */
-    public Call loginCaptcha(String clientId, String phoneNumber, String security_code, final ZbAuthListener listener) {
+    public Call loginCaptcha(String phoneNumber, String security_code, final ZbAuthListener listener) {
         ParamsBuilder builder = new ParamsBuilder().api(ApiManager.EndPoint.PASSPORT_PHONENUM_CAPTCHA)
-                .add("client_id", clientId)
+                .add("client_id", ZbPassport.getZbConfig().getClientId() + "")
                 .add("phone_number", phoneNumber)
                 .add("security_code", security_code);
         return post(builder, new WrapListener(listener) {
@@ -210,16 +211,16 @@ public class NetWork {
 
     /**
      * 第三方账号登录认证接口
-     * @param clientId
-     * @param auth_uid 第三方用户唯一id标识
-     * @param auth_type 第三方绑定类型
+     *
+     * @param auth_uid   第三方用户唯一id标识
+     * @param auth_type  第三方绑定类型
      * @param auth_token 第三方返回的access_token
      * @param listener
      * @return
      */
-    public Call loginThird(String clientId, String auth_uid, int auth_type, String auth_token, final ZbAuthListener listener) {
+    public Call loginThird(String auth_uid, int auth_type, String auth_token, final ZbAuthListener listener) {
         ParamsBuilder builder = new ParamsBuilder().api(ApiManager.EndPoint.PASSPORT_THIRD_PARTY_AUTH)
-                .add("client_id", clientId)
+                .add("client_id", ZbPassport.getZbConfig().getClientId() + "")
                 .add("auth_uid", auth_uid)
                 .add("auth_type", auth_type + "")
                 .add("auth_token", auth_token);
@@ -234,16 +235,16 @@ public class NetWork {
 
     /**
      * 重置密码接口
-     * @param clientId 接入客户端id
-     * @param phone_number 手机号
+     *
+     * @param phone_number  手机号
      * @param security_code 验证码
-     * @param new_password 新密码（需要使用服务端提供的公钥匙进行RSA加密，将加密结果以base64格式编码）
+     * @param new_password  新密码（需要使用服务端提供的公钥匙进行RSA加密，将加密结果以base64格式编码）
      * @param listener
      * @return
      */
-    public Call resetPassword(String clientId, String phone_number, String security_code, String new_password, final ZbResultListener listener) {
+    public Call resetPassword(String phone_number, String security_code, String new_password, final ZbResultListener listener) {
         ParamsBuilder builder = new ParamsBuilder().api(ApiManager.EndPoint.PASSPORT_RESET_PASSWORD)
-                .add("client_id", clientId)
+                .add("client_id", ZbPassport.getZbConfig().getClientId() + "")
                 .add("phone_number", phone_number)
                 .add("security_code", security_code)
                 .add("new_password", EncryptUtil.encryptPassWord(new_password));
@@ -257,14 +258,14 @@ public class NetWork {
 
     /**
      * 获取账号详情接口
-     * @param clientId 接入客户端id
+     *
      * @param accessToken 接入客户端accessToken
      * @param listener
      * @return
      */
-    public Call getAccountDetail(String clientId, String accessToken, final ZbGetAccountInfoListener listener) {
+    public Call getAccountDetail(String accessToken, final ZbGetAccountInfoListener listener) {
         ParamsBuilder builder = new ParamsBuilder().api(ApiManager.EndPoint.PASSPORT_ACCOUNT_DETAIL).injectToken(accessToken)
-                .add("client_id", clientId);
+                .add("client_id", ZbPassport.getZbConfig().getClientId() + "");
         return get(builder, new WrapListener(listener) {
             @Override
             public void onSuccess(Response response) {
@@ -276,16 +277,16 @@ public class NetWork {
 
     /**
      * 修改密码接口
-     * @param clientId 接入客户端id
+     *
      * @param new_password 新密码
      * @param old_password 旧密码
-     * @param accessToken 接入客户端accessToken
+     * @param accessToken  接入客户端accessToken
      * @param listener
      * @return
      */
-    public Call changePassword(String clientId, String new_password, String old_password, String accessToken, final ZbResultListener listener) {
+    public Call changePassword(String new_password, String old_password, String accessToken, final ZbResultListener listener) {
         ParamsBuilder builder = new ParamsBuilder().api(ApiManager.EndPoint.PASSPORT_ALTER_PASSWORD).injectToken(accessToken)
-                .add("client_id", clientId)
+                .add("client_id", ZbPassport.getZbConfig().getClientId() + "")
                 .add("new_password", EncryptUtil.encryptPassWord(new_password))
                 .add("old_password", EncryptUtil.encryptPassWord(old_password));
         return post(builder, new WrapListener(listener) {
@@ -299,16 +300,16 @@ public class NetWork {
 
     /**
      * 修改手机号接口
-     * @param clientId 接入客户端id
+     *
      * @param new_phone_number 新手机号
-     * @param security_code 新手机下发的短信验证码
-     * @param accessToken 接入客户端accessToken
+     * @param security_code    新手机下发的短信验证码
+     * @param accessToken      接入客户端accessToken
      * @param listener
      * @return
      */
-    public Call changePhoneNum(String clientId, String new_phone_number, String security_code, String accessToken, final ZbResultListener listener) {
+    public Call changePhoneNum(String new_phone_number, String security_code, String accessToken, final ZbResultListener listener) {
         ParamsBuilder builder = new ParamsBuilder().api(ApiManager.EndPoint.PASSPORT_ALTER_PHONE_NUM).injectToken(accessToken)
-                .add("client_id", clientId)
+                .add("client_id", ZbPassport.getZbConfig().getClientId() + "")
                 .add("new_phone_number", new_phone_number)
                 .add("security_code", security_code);
         return post(builder, new WrapListener(listener) {
@@ -321,17 +322,17 @@ public class NetWork {
 
     /**
      * 绑定第三方登录接口
-     * @param clientId 接入客户端id
-     * @param auth_uid 第三方用户唯一id标识
-     * @param auth_type 第三方账户绑定类型
-     * @param auth_token 第三方返回的auth_token
+     *
+     * @param auth_uid    第三方用户唯一id标识
+     * @param auth_type   第三方账户绑定类型
+     * @param auth_token  第三方返回的auth_token
      * @param accessToken 接入客户端accessToken
      * @param listener
      * @return
      */
-    public Call bindThirdParty(String clientId, String auth_uid, int auth_type,String auth_token, String accessToken, final ZbResultListener listener) {
+    public Call bindThirdParty(String auth_uid, int auth_type, String auth_token, String accessToken, final ZbResultListener listener) {
         ParamsBuilder builder = new ParamsBuilder().api(ApiManager.EndPoint.PASSPORT_BIND_THIRD_PARTY).injectToken(accessToken)
-                .add("client_id", clientId)
+                .add("client_id", ZbPassport.getZbConfig().getClientId() + "")
                 .add("auth_uid", auth_uid)
                 .add("auth_type", auth_type + "")
                 .add("auth_token", auth_token);
@@ -345,15 +346,15 @@ public class NetWork {
 
     /**
      * 解绑第三方登录接口
-     * @param clientId 接入客户端id
-     * @param auth_type 第三方绑定方式(1 微信，2 qq，3 微博)
+     *
+     * @param auth_type   第三方绑定方式(1 微信，2 qq，3 微博)
      * @param accessToken 接入客户端accessToken
      * @param listener
      * @return
      */
-    public Call unBindThirdParty(String clientId, int auth_type, String accessToken, final ZbResultListener listener) {
+    public Call unBindThirdParty(int auth_type, String accessToken, final ZbResultListener listener) {
         ParamsBuilder builder = new ParamsBuilder().api(ApiManager.EndPoint.PASSPORT_UNBIND_THIRD_PARTY).injectToken(accessToken)
-                .add("client_id", clientId)
+                .add("client_id", ZbPassport.getZbConfig().getClientId() + "")
                 .add("auth_type", auth_type + "");
         return post(builder, new WrapListener(listener) {
             @Override
@@ -362,7 +363,6 @@ public class NetWork {
             }
         });
     }
-
 
 
     /************* 历史版本  **************/
@@ -730,8 +730,6 @@ public class NetWork {
 //            }
 //        });
 //    }
-
-
     private Call get(ParamsBuilder builder, final WrapListener wrapListener) {
         Call httpCall = client.newCall(buildGetRequest(builder));
         httpCall.enqueue(new CallBack() {
@@ -769,7 +767,9 @@ public class NetWork {
 
         final IFailure iFailure;
 
-        WrapListener(IFailure iFailure) {this.iFailure = iFailure;}
+        WrapListener(IFailure iFailure) {
+            this.iFailure = iFailure;
+        }
 
         public abstract void onSuccess(Response response);
 

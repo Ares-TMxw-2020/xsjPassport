@@ -73,7 +73,7 @@ public class RegisterActvity extends AppCompatActivity {
                     return;
                 }
                 // TODO: 2019/3/1 注册流程存在问题
-                ZbPassport.loginCustom(ZbPassport.getZbConfig().getAppId() + "", phoneNum, passWord, "", new ZbAuthListener() {
+                ZbPassport.loginCustom(phoneNum, passWord, "", new ZbAuthListener() {
 
                     @Override
                     public void onSuccess(AuthInfo info) {
@@ -175,7 +175,7 @@ public class RegisterActvity extends AppCompatActivity {
 //                            }));
 //                    dialog.show();
 //                } else { // 未绑定过的手机号发送验证码
-//                    ZbPassport.sendCaptcha(ZbPassport.getZbConfig().getAppId() + "", phone, "", new ZbResultListener() {
+//                    ZbPassport.sendCaptcha(ZbPassport.getZbConfig().getClientId() + "", phone, "", new ZbResultListener() {
 //                        @Override
 //                        public void onSuccess() {
 //                            ToastUtil.show("下发注册短信验证码接口 success");

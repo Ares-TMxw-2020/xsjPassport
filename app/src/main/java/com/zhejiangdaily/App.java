@@ -36,9 +36,10 @@ public class App extends Application {
                 new ZbConfig.Builder().setEnvType(ZbConstants.Env.DEV)
                         .setDebug(true)
                         .setAppVersion("1.0")
+                        .setClientId(1)
 //                        .setToken("J8BWUjBaYStIHqBu1g9pFjWv")
                         .setAppUuid("uuid"));
-//        ZbPassport.setZbConfig(new ZbConfig.Builder().setAppId(1)
+//        ZbPassport.setZbConfig(new ZbConfig.Builder().setClientId(1)
 //                                                     .setAppKey("appKey")
 //                                                     .setAppSecret("")
 //                                                     .setDebug(true)

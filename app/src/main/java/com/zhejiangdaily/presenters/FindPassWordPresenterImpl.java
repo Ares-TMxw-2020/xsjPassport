@@ -31,7 +31,7 @@ public class FindPassWordPresenterImpl implements FindPasswordContract.Presenter
 //                @Override
 //                public void onSuccess(boolean isBind) {
 //                    if (isBind) {
-//                        ZbPassport.sendCaptcha(ZbPassport.getZbConfig().getAppId() + "", phoneNum, "", new ZbResultListener() {
+//                        ZbPassport.sendCaptcha(ZbPassport.getZbConfig().getClientId() + "", phoneNum, "", new ZbResultListener() {
 //                            @Override
 //                            public void onSuccess() {
 //                            }
@@ -95,7 +95,7 @@ public class FindPassWordPresenterImpl implements FindPasswordContract.Presenter
         if (!TextUtils.isEmpty(sms)) {
             if (ZbUtil.isMobileNum(phoneNum)) {
                 // TODO: 2019/3/1 验证接口手机号及验证码是否正确的接口
-                ZbPassport.loginCaptcha(ZbPassport.getZbConfig().getAppId() + "", phoneNum, sms, new
+                ZbPassport.loginCaptcha(phoneNum, sms, new
                         ZbAuthListener() {
                             @Override
                             public void onSuccess(AuthInfo info) {

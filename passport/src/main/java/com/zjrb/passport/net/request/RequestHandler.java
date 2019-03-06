@@ -69,7 +69,7 @@ public class RequestHandler implements IRequestHandler {
         ZbPassport.getZbConfig().getSpUtil().putLong(ZbConstants.PASSPORT_NETTIME, SystemClock.elapsedRealtime());
         long deltaTime = currentTime - lastTime;
         if (!TextUtils.equals(ApiManager.EndPoint.INIT, call.request.getApi()) && lastTime != 0 && deltaTime >= ZbConstants.PASSPORT_SIGN_EXPIRED) { // 当前请求非init接口请求,且两次请求间隔大于30分钟,重新请求init接口
-            ZbPassport.initApp(ZbPassport.getZbConfig().getAppId() + "", new ZbInitListener() {
+            ZbPassport.initApp(new ZbInitListener() {
                 @Override
                 public void onSuccess(ClientInfo info) {
                     if (info != null) {
@@ -121,7 +121,7 @@ public class RequestHandler implements IRequestHandler {
                     jsonObject = new JSONObject(jsonString);
                     int code = jsonObject.optInt("code");
                     if (code == ErrorCode.ERROR_SIGNATURE) {
-                        ZbPassport.initApp(ZbPassport.getZbConfig().getAppId() + "", new ZbInitListener() {
+                        ZbPassport.initApp(new ZbInitListener() {
                             @Override
                             public void onSuccess(ClientInfo info) {
                                 if (info != null) {

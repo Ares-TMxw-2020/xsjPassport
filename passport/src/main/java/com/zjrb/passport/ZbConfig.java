@@ -18,9 +18,8 @@ import com.zjrb.passport.util.SharedPreferencesUtil;
  * Date: 2018/6/28
  */
 public final class ZbConfig {
-    private int appId;
+    private int clientId;
     private String appSecret;
-    private String data_bypass;
     private int envType;
     private String token;
     private boolean isDebug;
@@ -50,7 +49,7 @@ public final class ZbConfig {
         }
         spUtil = SharedPreferencesUtil.init(context.getApplicationContext());
         if (info != null) {
-            appId = info.metaData.getInt(InnerConstant.META_ID);
+            clientId = info.metaData.getInt(InnerConstant.META_ID);
             appSecret = info.metaData.getString(InnerConstant.META_SECRET);
             String env = info.metaData.getString(InnerConstant.META_ENV, InnerConstant.DEV);
             resolveEnv(env);
@@ -78,8 +77,8 @@ public final class ZbConfig {
         }
     }
 
-    public int getAppId() {
-        return appId;
+    public int getClientId() {
+        return clientId;
     }
 
     public String getAppSecret() {
@@ -129,17 +128,13 @@ public final class ZbConfig {
         return appUuid;
     }
 
-    public String getData_bypass() {
-        return data_bypass;
-    }
-
     public void initUA() {
         StringBuilder sb = new StringBuilder();
         sb.append("ANDROID")
           .append(";")
           .append(Build.VERSION.RELEASE)
           .append(";")
-          .append(appId)
+          .append(clientId)
           .append(";")
           .append(appVersion)
           .append(";")
@@ -155,8 +150,8 @@ public final class ZbConfig {
         return ua;
     }
 
-    void setAppId(int appId) {
-        this.appId = appId;
+    void setClientId(int clientId) {
+        this.clientId = clientId;
     }
 
     void setAppSecret(String appSecret) {
@@ -174,9 +169,6 @@ public final class ZbConfig {
         }
     }
 
-    public void setData_bypass(String data_bypass) {
-        this.data_bypass = data_bypass;
-    }
 
     void setAppVersion(String appVersion) {
         this.appVersion = appVersion;
@@ -208,7 +200,7 @@ public final class ZbConfig {
      * Function: ZbConfigBuilder
      */
     public static class Builder {
-        private int appId = -1;
+        private int clientId = -1;
         private String appSecret;
         private String token;
         private int envType = -1;
@@ -217,8 +209,8 @@ public final class ZbConfig {
         private String appVersion;
         private String appUuid;
 
-        public Builder setAppId(int appId) {
-            this.appId = appId;
+        public Builder setClientId(int clientId) {
+            this.clientId = clientId;
             return this;
         }
 
@@ -256,8 +248,8 @@ public final class ZbConfig {
         }
 
         public void build(ZbConfig zbConfig) {
-            if (appId != -1) {
-                zbConfig.setAppId(appId);
+            if (clientId != -1) {
+                zbConfig.setClientId(clientId);
             }
             if (!TextUtils.isEmpty(appSecret)) {
                 zbConfig.setAppSecret(appSecret);
