@@ -9,9 +9,6 @@ import static com.zjrb.passport.constant.ZbConstants.Env.DEV;
 import static com.zjrb.passport.constant.ZbConstants.Env.OFFICIAL;
 import static com.zjrb.passport.constant.ZbConstants.Env.PRE;
 import static com.zjrb.passport.constant.ZbConstants.Env.TEST;
-import static com.zjrb.passport.constant.ZbConstants.Sms.BIND;
-import static com.zjrb.passport.constant.ZbConstants.Sms.FIND;
-import static com.zjrb.passport.constant.ZbConstants.Sms.LOGIN;
 import static com.zjrb.passport.constant.ZbConstants.ThirdLogin.QQ;
 import static com.zjrb.passport.constant.ZbConstants.ThirdLogin.SINA;
 import static com.zjrb.passport.constant.ZbConstants.ThirdLogin.WECHAT;
@@ -74,34 +71,6 @@ public final class ZbConstants {
     }
 
 
-    /**
-     * 短信类型
-     */
-    public static class Sms {
-        /**
-         * 注册短信
-         */
-        public static final int REGISTER = 1;
-        /**
-         * 登录短信
-         */
-        public static final int LOGIN = 2;
-        /**
-         * 找回密码短信
-         */
-        public static final int FIND = 3;
-        /**
-         * 绑定手机短信
-         */
-        public static final int BIND = 4;
-    }
-
-    /**
-     * 个性化
-     */
-    public static final int CUSTOM = 5;
-
-
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({DEV, TEST, PRE, OFFICIAL})
     public @interface EnvType {
@@ -113,14 +82,4 @@ public final class ZbConstants {
     public @interface ThirdType {
     }
 
-    @Retention(RetentionPolicy.SOURCE)
-    @IntDef({WECHAT, QQ, SINA, CUSTOM})
-    public @interface UnBindType {
-    }
-
-
-    @Retention(RetentionPolicy.SOURCE)
-    @IntDef({Sms.REGISTER, LOGIN, FIND, BIND})
-    public @interface SmsType {
-    }
 }

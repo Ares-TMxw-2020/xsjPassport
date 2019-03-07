@@ -82,6 +82,11 @@ public class ErrorCode {
     public static final int ERROR_THIRD_ALREADY_BIND = 100008;
 
     /**
+     * 该账号需要走账号合并流程
+     */
+    public static final int ERROR_NEED_MERGE = 100009;
+
+    /**
      * 验证码请求次数过于频繁
      */
     public static final int ERROR_VALIDATECODE_MORE = 200001;
