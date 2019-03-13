@@ -120,7 +120,7 @@ public class RequestHandler implements IRequestHandler {
                 try {
                     jsonObject = new JSONObject(jsonString);
                     int code = jsonObject.optInt("code");
-                    if (code == ErrorCode.ERROR_SIGNATURE) {
+                    if (code == ErrorCode.ERROR_SESSION_NEED_INIT) {
                         ZbPassport.initApp(new ZbInitListener() {
                             @Override
                             public void onSuccess(ClientInfo info) {

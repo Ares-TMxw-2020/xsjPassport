@@ -26,7 +26,7 @@ public class ErrorCode {
     public static final int ERROR_INTERNAL = 100;
 
     /**
-     * 当前会话非法（session需要初始化）
+     * 当前会话非法（session需要初始化）,需要重新请求init接口
      */
     public static final int ERROR_SESSION_NEED_INIT = 101;
 
@@ -82,9 +82,37 @@ public class ErrorCode {
     public static final int ERROR_THIRD_ALREADY_BIND = 100008;
 
     /**
-     * 该账号需要走账号合并流程
+     * 其他账号已经使用该登录认证信息
      */
-    public static final int ERROR_NEED_MERGE = 100009;
+    public static final int ERROR_AUTH_INFO_USED = 100009;
+
+    /**
+     * 账号信息被禁用
+     */
+    public static final int ERROR_ACCOUNT_INFO_FORBIDDEN = 100010;
+
+    /**
+     * 不支持该认证方式
+     */
+    public static final int ERROR_NOT_SUPPORT_AUTH = 100011;
+
+    /**
+     * 该手机号已被其他账号占用且可以进行账号合并
+     */
+    public static final int ERROR_PHONENUM_CAN_MERGE = 100012;
+
+    /**
+     * 第三方open id已经被其他账号占用且可以进行账号合并
+     */
+    public static final int ERROR_THIRD_PARTY_CAN_MERGE = 100013;
+
+    /**
+     * 需要重置密码
+     */
+    public static final int ERROR_NEED_RESET_PASSWORD = 100014;
+
+
+
 
     /**
      * 验证码请求次数过于频繁
