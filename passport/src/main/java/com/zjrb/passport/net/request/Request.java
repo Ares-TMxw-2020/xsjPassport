@@ -211,7 +211,7 @@ public class Request {
             if (body != null && !TextUtils.isEmpty(body.contentType())) {
                 headers.put("Content-Type", body.contentType());
             }
-            headers.put("UserAgent", Util.getValueEncoded(ZbPassport.getZbConfig().getUA()));
+            headers.put("User-Agent", Util.getValueEncoded(ZbPassport.getZbConfig().getUA()));
             headers.put("Cache-Control", "no-cache");
             headers.put("X-REQUEST-ID", uuid); // 36位,不去掉4位的分割线
             if (!TextUtils.equals(api, ApiManager.EndPoint.INIT)) {

@@ -2,8 +2,6 @@ package com.zjrb.passport;
 
 import android.content.Context;
 
-import com.zjrb.passport.Entity.AccountInfo;
-import com.zjrb.passport.Entity.AuthInfo;
 import com.zjrb.passport.Entity.ClientInfo;
 import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.listener.ZbAuthListener;
@@ -55,7 +53,7 @@ public class ZbPassport {
                 if (info != null) {
                     zbConfig.setSignatureKey(info.getSignature_key()); // 设置签名密钥,30分钟有效期
                     // todo 测试代码
-                    String phoneNum = "18519123764";
+           /*         String phoneNum = "18519123764";
                     String id = "1";
                     String token = "J8BWUjBaYStIHqBu1g9pFjWv";
                     System.out.println("ssssss: " + ZbPassport.getGraphicsCode());
@@ -210,7 +208,7 @@ public class ZbPassport {
                         public void onFailure(int errorCode, String errorMessage) {
 
                         }
-                    });
+                    });*/
 
                 }
             }

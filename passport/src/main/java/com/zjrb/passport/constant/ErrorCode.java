@@ -67,24 +67,24 @@ public class ErrorCode {
     public static final int ERROR_PHONENUM_EQUAL = 100005;
 
     /**
-     * 该手机号已经被其他账号占用
+     * 该手机号已被其他账号占用（注册手机号、修改手机号、绑定手机号被占用）
      */
     public static final int ERROR_PHONENUM_ALREADY_BIND = 100006;
 
     /**
-     * 开发平台账号认证失败
+     * 开放平台账号认证失败
      */
     public static final int ERROR_OPEN_AUTH_FAIL = 100007;
 
     /**
-     * 第三方openId已经被其他账号占用
+     * 第三方open id已经被其他账号占用（第三方账号绑定被占用）
      */
     public static final int ERROR_THIRD_ALREADY_BIND = 100008;
 
-    /**
-     * 其他账号已经使用该登录认证信息
-     */
-    public static final int ERROR_AUTH_INFO_USED = 100009;
+//    /**
+//     * 其他账号已经使用该登录认证信息(绑定时且无法账号合并的code,绑定手机号和三方都使用该code码判断)
+//     */
+//    public static final int ERROR_AUTH_INFO_USED = 100009;
 
     /**
      * 账号信息被禁用
@@ -97,14 +97,14 @@ public class ErrorCode {
     public static final int ERROR_NOT_SUPPORT_AUTH = 100011;
 
     /**
-     * 该手机号已被其他账号占用且可以进行账号合并
+     * 需要进行账号合并流程
      */
-    public static final int ERROR_PHONENUM_CAN_MERGE = 100012;
+    public static final int ERROR_CAN_MERGE = 100012;
 
-    /**
-     * 第三方open id已经被其他账号占用且可以进行账号合并
-     */
-    public static final int ERROR_THIRD_PARTY_CAN_MERGE = 100013;
+//    /**
+//     * 第三方open id已经被其他账号占用且可以进行账号合并
+//     */
+//    public static final int ERROR_THIRD_PARTY_CAN_MERGE = 100013;
 
     /**
      * 需要重置密码
