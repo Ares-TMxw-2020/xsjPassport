@@ -96,8 +96,7 @@ public class RequestHandler implements IRequestHandler {
                 byte[] bytes = new byte[1024];
                 int length;
                 if (TextUtils.equals(ApiManager.EndPoint.INIT, call.request.getApi())) { // init接口,获取cookie持久化
-                    // TODO: 2019/3/4 Cookie处理 只获取init接口下发的Cookie,添加到后续请求的请求头中
-                    String cookie = connection.getHeaderField("Set-Cookie");
+                    // Cookie处理 只获取init接口下发的Cookie,添加到后续请求的请求头中
                     ZbPassport.getZbConfig().setCookie(connection.getHeaderField("Set-Cookie"));
                 }
                 InputStream inputStream = connection.getInputStream();
@@ -114,7 +113,6 @@ public class RequestHandler implements IRequestHandler {
                     inputStream.close();
                     connection.disconnect();
                 }
-                // code 1002
                 String jsonString = response.body().string();
                 JSONObject jsonObject;
                 try {

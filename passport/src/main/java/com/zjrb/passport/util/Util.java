@@ -58,7 +58,6 @@ public class Util {
                 continue;
             }
             try {
-                // TODO: 2019/3/4  
                 if (TextUtils.equals(key, InnerConstant.SIGN)) { // sign为sha256加密后的字串,不包含特殊字符,这里进不进行encode都行,这里跟ios逻辑保持一致,不再encode
                     sb = sb.append(key + "=" + (TextUtils.isEmpty(params.get(key)) ? "" : params.get(key)) + "&");
                 } else {
@@ -116,7 +115,6 @@ public class Util {
         if (Util.isNeedAccessToken(api)) { // 请求头里面有accessToken的,拼接accessToken
             sb.append(accessToken);
         }
-        System.out.println("sssssss  :SignString " + sb.toString());
         return EncryptUtil.sha256_HMAC(sb.toString(), signatureKey);
     }
 

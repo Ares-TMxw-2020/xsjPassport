@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.text.TextUtils;
 
 import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.util.InnerConstant;
@@ -19,22 +18,18 @@ import com.zjrb.passport.util.SharedPreferencesUtil;
  */
 public final class ZbConfig {
     private int clientId;
-    private String appSecret;
     private int envType;
-    private String token;
     private boolean isDebug;
     private String appVersion;
     private String appUuid;
     private String ua;
     private boolean isUseHttps; // 是否强制使用https
-    private String cookie; // 用于保存init接口下发的cookie
 
     public SharedPreferencesUtil getSpUtil() {
         return spUtil;
     }
 
     private SharedPreferencesUtil spUtil;
-    private String signatureKey; // 会话初始化过程中下发的signature_key
 
     ZbConfig(Context context) {
         if (context == null) {
@@ -50,7 +45,6 @@ public final class ZbConfig {
         spUtil = SharedPreferencesUtil.init(context.getApplicationContext());
         if (info != null) {
             clientId = info.metaData.getInt(InnerConstant.META_ID);
-            appSecret = info.metaData.getString(InnerConstant.META_SECRET);
             String env = info.metaData.getString(InnerConstant.META_ENV, InnerConstant.DEV);
             resolveEnv(env);
         }
@@ -81,9 +75,6 @@ public final class ZbConfig {
         return clientId;
     }
 
-    public String getAppSecret() {
-        return appSecret;
-    }
 
     public int getEnvType() {
         return envType;
@@ -94,7 +85,6 @@ public final class ZbConfig {
     }
 
     void setToken(String token) {
-        this.token = token;
         spUtil.putString(ZbConstants.PASSPORT_TOKEN, token);
     }
 
@@ -107,7 +97,6 @@ public final class ZbConfig {
     }
 
     public void setCookie(String cookie) {
-        this.cookie = cookie;
         spUtil.putString(ZbConstants.PASSPORT_COOKIE, cookie);
     }
 
@@ -116,7 +105,6 @@ public final class ZbConfig {
     }
 
     public void setSignatureKey(String signatureKey) {
-        this.signatureKey = signatureKey;
         spUtil.putString(ZbConstants.PASSPORT_SIGNATURE_KEY, signatureKey);
     }
 
@@ -152,10 +140,6 @@ public final class ZbConfig {
 
     void setClientId(int clientId) {
         this.clientId = clientId;
-    }
-
-    void setAppSecret(String appSecret) {
-        this.appSecret = appSecret;
     }
 
     void setEnvType(int envType) {
@@ -201,7 +185,6 @@ public final class ZbConfig {
      */
     public static class Builder {
         private int clientId = -1;
-        private String appSecret;
         private String token;
         private int envType = -1;
         private boolean isDebug;
@@ -214,10 +197,6 @@ public final class ZbConfig {
             return this;
         }
 
-        public Builder setAppSecret(String appSecret) {
-            this.appSecret = appSecret;
-            return this;
-        }
 
         public Builder setEnvType(@ZbConstants.EnvType int envType) {
             this.envType = envType;
@@ -250,9 +229,6 @@ public final class ZbConfig {
         public void build(ZbConfig zbConfig) {
             if (clientId != -1) {
                 zbConfig.setClientId(clientId);
-            }
-            if (!TextUtils.isEmpty(appSecret)) {
-                zbConfig.setAppSecret(appSecret);
             }
             if (envType != -1) {
                 zbConfig.setEnvType(envType);

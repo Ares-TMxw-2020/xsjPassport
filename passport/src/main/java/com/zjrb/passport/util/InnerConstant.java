@@ -8,13 +8,6 @@ package com.zjrb.passport.util;
  */
 public class InnerConstant {
     public static final String DEF_CODE = "UTF-8";
-    public static final String SALT = "6tAn>tm*o7M+ba";
-
-    public static final String TOKEN = "access_token";
-    public static final String APP_ID = "app_id";
-    public static final String APP_KEY = "app_key";
-    public static final String APP_SECRET = "app_secret";
-    public static final String APP_PASSDATA = "data_bypass";
     public static final String SIGN = "signature";
 
 
@@ -25,7 +18,5 @@ public class InnerConstant {
 
 
     public static final String META_ID = "ZBP_CLIENT_ID";
-//    public static final String META_KEY = "ZBP_APP_KEY";
-    public static final String META_SECRET = "ZBP_CLIENT_SECRET";
     public static final String META_ENV = "ZBP_APP_ENV";
 }

@@ -27,7 +27,7 @@ public class ResponseBody {
         try {
             return new String(bytes(), InnerConstant.DEF_CODE);
         } catch (UnsupportedEncodingException e) {
-            Logger.e("字节流转为UTF-8格式的String异常");
+            Logger.e("字节流转为" + InnerConstant.DEF_CODE + "格式的String异常");
             return "";
         }
     }

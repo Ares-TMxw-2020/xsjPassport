@@ -11,10 +11,10 @@ import com.zjrb.passport.listener.ZbResultListener;
 import com.zjrb.passport.net.interfaces.Call;
 
 /**
- * Function: ZbPassport
- * <p>
- * Author: chen.h
- * Date: 2018/6/28
+ * Date: 2018/6/29 上午11:49
+ * Email: sisq@8531.cn
+ * Author: sishuqun
+ * Description: 通行证主要方法
  */
 public class ZbPassport {
 
@@ -52,164 +52,6 @@ public class ZbPassport {
             public void onSuccess(ClientInfo info) {
                 if (info != null) {
                     zbConfig.setSignatureKey(info.getSignature_key()); // 设置签名密钥,30分钟有效期
-                    // todo 测试代码
-           /*         String phoneNum = "18519123764";
-                    String id = "1";
-                    String token = "J8BWUjBaYStIHqBu1g9pFjWv";
-                    System.out.println("ssssss: " + ZbPassport.getGraphicsCode());
-                    try {
-                        Thread.sleep(4000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    ZbPassport.sendCaptcha(phoneNum, "", new ZbResultListener() {
-                        @Override
-                        public void onSuccess() {
-
-                        }
-
-                        @Override
-                        public void onFailure(int errorCode, String errorMessage) {
-
-                        }
-                    });
-                    ZbPassport.loginCustom(phoneNum, "111", "", new ZbAuthListener() {
-                        @Override
-                        public void onSuccess(AuthInfo info) {
-
-                        }
-
-                        @Override
-                        public void onFailure(int errorCode, String errorMessage) {
-
-                        }
-                    });
-                    ZbPassport.loginCaptcha(phoneNum, "11", new ZbAuthListener() {
-                        @Override
-                        public void onSuccess(AuthInfo info) {
-
-                        }
-
-                        @Override
-                        public void onFailure(int errorCode, String errorMessage) {
-
-                        }
-                    });
-                    ZbPassport.checkCaptcha(phoneNum, "1234", new ZbResultListener() {
-                        @Override
-                        public void onSuccess() {
-
-                        }
-
-                        @Override
-                        public void onFailure(int errorCode, String errorMessage) {
-
-                        }
-                    });
-                    ZbPassport.loginThird("id", ZbConstants.ThirdLogin.QQ, "token", new ZbAuthListener() {
-                        @Override
-                        public void onSuccess(AuthInfo info) {
-
-                        }
-
-                        @Override
-                        public void onFailure(int errorCode, String errorMessage) {
-
-                        }
-                    });
-                    ZbPassport.resetPassword(phoneNum, "1234", "2222", new ZbResultListener() {
-                        @Override
-                        public void onSuccess() {
-
-                        }
-
-                        @Override
-                        public void onFailure(int errorCode, String errorMessage) {
-
-                        }
-                    });
-                    ZbPassport.register(phoneNum, "1234", new ZbResultListener() {
-                        @Override
-                        public void onSuccess() {
-
-                        }
-
-                        @Override
-                        public void onFailure(int errorCode, String errorMessage) {
-
-                        }
-                    });
-                    ZbPassport.getAccountDetail(token, new ZbGetAccountInfoListener() {
-                        @Override
-                        public void onSuccess(AccountInfo info) {
-
-                        }
-
-                        @Override
-                        public void onFailure(int errorCode, String errorMessage) {
-
-                        }
-                    });
-
-                    ZbPassport.checkPassWord("11", token, new ZbResultListener() {
-                        @Override
-                        public void onSuccess() {
-
-                        }
-
-                        @Override
-                        public void onFailure(int errorCode, String errorMessage) {
-
-                        }
-                    });
-
-                    ZbPassport.changePassword("22", "11",token, new ZbResultListener() {
-                        @Override
-                        public void onSuccess() {
-
-                        }
-
-                        @Override
-                        public void onFailure(int errorCode, String errorMessage) {
-
-                        }
-                    });
-
-                    ZbPassport.changePhoneNum("11", "22", token, new ZbResultListener() {
-                        @Override
-                        public void onSuccess() {
-
-                        }
-
-                        @Override
-                        public void onFailure(int errorCode, String errorMessage) {
-
-                        }
-                    });
-
-                    ZbPassport.bindThirdParty("uid", ZbConstants.ThirdLogin.QQ, "token", token, new ZbResultListener() {
-                        @Override
-                        public void onSuccess() {
-
-                        }
-
-                        @Override
-                        public void onFailure(int errorCode, String errorMessage) {
-
-                        }
-                    });
-                    ZbPassport.unBindThirdParty(ZbConstants.ThirdLogin.QQ, token, new ZbResultListener() {
-                        @Override
-                        public void onSuccess() {
-
-                        }
-
-                        @Override
-                        public void onFailure(int errorCode, String errorMessage) {
-
-                        }
-                    });*/
-
                 }
             }
 

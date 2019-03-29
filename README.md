@@ -17,7 +17,7 @@ allprojects {
 
 ```
 dependencies {
-	compile 'cn.daily.android:passport:0.0.0.1-SNAPSHOT'
+	compile 'cn.daily.android:passport:0.0.0.17.new-SNAPSHOT'
 }
 
 ```
@@ -34,16 +34,13 @@ dependencies {
 
 ```
 <manifest ...>
-	<application ...>
-		<meta-data
-			android:name="ZBP_CLIENT_ID"
-			android:value="app_id" />
-		<meta-data
-			android:name="ZBP_CLIENT_SECRET"
-			android:value="app_secret" />
-		<meta-data
-			android:name="ZBP_APP_ENV"
-			android:value="app_env" />
+	<application>
+        <meta-data
+            android:name="ZBP_APP_ID"
+            android:value="1"/>
+        <meta-data
+            android:name="ZBP_APP_ENV"
+            android:value="dev"/>
 	</application>
 </manifest>
 ```
@@ -52,26 +49,23 @@ dependencies {
 
 ```java
 //在Application中
-ZbPassport.init(this,  new ZbConfig.Builder().setAppId(1)
-                                             .setAppKey("appKey")
-                                             .setAppSecret("appSecre")
-                                             .setEnvType(ZbConstants.Env.DEV)
-                                             .setDebug(true)
-                                             .setAppVersion("1.0")
-                                             .setAppUuid("uuid"));
+        ZbPassport.init(this,
+                new ZbConfig.Builder().setEnvType(ZbConstants.Env.TEST)
+                        .setDebug(true)
+                        .setAppVersion("1.0")
+                        .setClientId(1)
+                        .setToken("J8BWUjBaYStIHqBu1g9pFjWv")
+                        .setAppUuid("uuid"));
 
 ```
 参数说明：
-app_id：对于每一个 app 接入方，通行证后台都会分配一个 app_id ，客户端 sdk 调用 api 接口时，需要带上 app_id 。
-app_key和app_secret：对于每一个 app 接入方，除了分配 app_id 以外，还会额外分配 app_key 和 app_secret 用于身份匹配，调用接口时也需要带上 app_key 和 app_secret 。
+client_id：对于每一个app接入方，通行证后台都会分配一个client_id 。
 
-**代码设置与Manifest相同参数会覆盖Manifest配置的参数**
+**代码设置与Manifest同时配置代码配置会覆盖Manifest配置的参数**
 
-## 使用
+## 使用说明
 
 ### 初始化
-
-```java
 //在Application中通过：
 ZbPassport.init(Context context); // 该方式会取清单中通过meta-data配置的参数
 
@@ -79,9 +73,8 @@ ZbPassport.init(Context context); // 该方式会取清单中通过meta-data配�
 ZbPassport.init(Context context, ZbConfig.Builder builder);
 
 示例代码:
+```java
 ZbPassport.init(this,  new ZbConfig.Builder().setAppId(1)
-                                             .setAppKey("appKey")
-                                             .setAppSecret("appSecre")
                                              .setEnvType(ZbConstants.Env.DEV)
                                              .setDebug(true)
                                              .setAppVersion("1.0")
@@ -90,329 +83,559 @@ ZbPassport.init(this,  new ZbConfig.Builder().setAppId(1)
 **代码设置与Manifest相同参数会覆盖Manifest配置的参数**
 
 ### 关于验证码
-验证码有效期为10分钟，且只能使用一次,且只能使用一次,且只能使用一次,重要的事情说三遍。
+验证码为6位有效数字,非6位的数字服务端不会提示验证码错误(坑需求,需要客户端进行验证码位数的校验) 验证码有效期为10分钟，且只能使用一次,且只能使用一次,且只能使用一次,重要的事情说三遍。
+
+### 重要的Code码说明
+ErrorCode.ERROR_NEED_RESET_PASSWORD: 代表该操作需要重置密码
+ErrorCode.ERROR_NEED_GRRPHICS: 代表该操作需要进行图形验证码校验
+ErrorCode.ERROR_PHONENUM_ALREADY_BIND: 代表该手机号已被其他账号占用（注册手机号、修改手机号、绑定手机号时该手机号已被占用）
+ErrorCode.ERROR_THIRD_ALREADY_BIND: 第三方openid已经被其他帐号占用（第三方帐号绑定被占用）
+ErrorCode.ERROR_CAN_MERGE: 代表需要进行账号合并的操作
 
 ### 关于密码
-通行证密码为6-15位大小写字母,数字,特殊字符的组合,且过滤掉空格输入。
+通行证涉及到密码时密码需要使用RSA加密算法加密，并以BASE64编码方式编码成字符串进行传输,sdk内部已对密码进行加密处理。
 
-### 关于data_bypass字段
-该字段主要是针对各个不同的客户端的特殊需求的预留字段，用于传递客户端/对接服务端的中继数据，服务端不会对中继数据做任何处理，客户端传的data_bypass数据，会在回调接口中以http body的形式回传给各自接入方的回调接口中。
-举例说明：比如某客户段绑定手机号成功后需要进行加积分的操作，可以通过data_bypass字段透传客户端与服务端约定好的字段，然后通行证会根据data_bypass字段同步用户信息，把需要的积分信息通过绑定手机号的请求回调中
-传回。
-客户端调用通行证sdk的每个请求，在请求成功的回调监听里都有一个可空的String passData对象，该对象就是通行证传回的相关数据。
-
-约定的透传字段：
-    {
-      "type": 1,
-      "data": 13965146707,
-      "session_id": "59a9272bf7bf513f18a7bf9b"
-    }
-客户端代码：
+## ZbPassport中主要方法
+### 初始化接口,对接入方透明,接入方在调用ZbPassport.init(Context context, ZbConfig.Builder builder)方法时,会自动调用该方法,该接口主要用户获取signature_key根据相应的加密算法生成签名
 ```java
-       try {
-            JSONObject object = new JSONObject();
-            object.put("type", 1);
-            object.put("data", mobile);
-            object.put("session_id", UserBiz.get().getSessionId());
-            ZbPassport.getZbConfig().setData_bypass(object.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        ZbPassport.bindPhone(phone, captcha, new ZbBindPhoneListener() {
-            @Override
-            public void onSuccess(@Nullable String passData) {// passData为返回的积分行为
-                if (passData != null) {
-                    ZbBindEntity zbBindEntity = JsonUtils.parseObject(passData, ZbBindEntity.class);
-                    if (zbBindEntity != null) {
-                        ZBUtils.showPointDialog(zbBindEntity.data);
+    /**
+     * 初始化接口
+     *
+     * @param listener
+     * @return
+     */
+    public static Call initApp( final ZbInitListener listener) {
+        return netWork.initApp(listener);
+    }
+```
+
+### 注册接口
+```java
+    /**
+     * 使用手机号注册通行证接口 post
+     * @param phoneNumber 手机号
+     * @param security_code 短信验证码
+     * @param listener
+     * @return
+     */
+    public static Call register(String phoneNumber, String security_code, final ZbResultListener listener) {
+        return netWork.register(phoneNumber, security_code, listener);
+    }
+```
+
+
+### 关于登录认证的接口
+通行证涉及到登录相关的操作,请求通行证后台成功后会下发相应的授权码,客户端拿到此授权码到客户端对应后台换取accessToken进行登录认证.
+
+#### 手机号密码认证接口
+```java
+    /**
+     * 手机号密码认证接口
+     *
+     * @param phoneNumber 手机号
+     * @param password    密码
+     * @param captcha     图形验证码 没有传空
+     * @param listener
+     * @return
+     */
+    public static Call loginCustom(String phoneNumber, String password, String captcha, final ZbAuthListener listener) {
+        return netWork.loginCustom(phoneNumber, password, captcha, listener);
+    }
+```
+示例代码:
+```java
+ ZbPassport.loginCustom(text, password, "", new ZbAuthListener() {
+                @Override
+                public void onSuccess(AuthInfo info) {
+                    if (info != null) {
+                        loginValidate(text, info.getCode());
+                    } else {
+                        LoadingDialogUtils.newInstance().dismissLoadingDialog(false, getString(R.string.zb_login_error));
+                        T.showShortNow(ZBPasswordLoginActivity.this, getString(R.string.zb_login_error)); // 登录失败
                     }
                 }
-            }
 
-            @Override
-            public void onFailure(int errorCode, String errorMessage) {
+                @Override
+                public void onFailure(int errorCode, String errorMessage) {
+                    if (errorCode == ErrorCode.ERROR_NEED_RESET_PASSWORD) { // 需要重置密码才能登陆的情况
 
-            }
-        });
-```
-### 关于登录
-通行证sdk除支持手机号和三方登录外,为兼容老版本,也支持使用个性化账号进行登录(个性化账号:4-16位字母或数字,首位为字母),故需要支持个性化登录的客户端,可按如下方法进行登录
-```java
-    public void login(String phone, String password) {
-        if (ZbUtil.isNumeric(phone)) { // 纯数字
-            if (ZbUtil.isMobileNum(phone)) { // 手机号登录
-                doLogin(phone, password); // 调用手机号登录方法(调用手机号登录方法之前可根据情况调用判断手机号是否绑定通行证接口的方法)
-            } else {
-                ToastUtil.show("手机号格式错误");
-            }
-        } else { // 个性化账号,首位一定是字母
-            doCustomLogin(phone, password); // 调用个性化登录方法
-        }
-    }
+                    } else if (errorCode == ErrorCode.ERROR_NEED_GRRPHICS) {
 
-    private void doLogin(String phone, String password) {
-            if (password == null) {
-                view.login(false, "密码不能为空");
-            } else if (password.length() < 6) {
-                view.login(false, "密码长度小于6位");
-            } else {
-                ZbPassport.login(phone, password, zbLoginListener);
-            }
-        }
-
-
-        /**
-         * 个性化账户登录
-         * @param username
-         * @param password
-         */
-        private void doCustomLogin(String username, String password) {
-            if (password == null) {
-                view.login(false, "密码不能为空");
-            } else if (password.length() < 6) {
-                view.login(false, "密码长度小于6位");
-            } else {
-                ZbPassport.loginCustom(username, password, zbLoginListener);
-            }
-        }
-```
-
-
-### 获取短信验证码接口
-获取短信验证码接口使用如下方法,第一个参数smsType代表短信验证码的类型,其中ZbConstants.Sms.REGISTER代表注册短信,ZbConstants.Sms.LOGIN代表登录短信,ZbConstants.Sms.FIND代表找回密码短信,ZbConstants.Sms.BIND代表绑定手机号短信:
-
-```java
-ZbPassport.sendCaptcha(@ZbConstants.SmsType int smsType, String phoneNumber, ZbCaptchaSendListener listener)
-```
-
-#### 获取注册短信验证码示例代码(注:获取登录短信验证码,找回密码短信验证码及绑定手机号短信验证码使用方式同上,只需更改相关Type)
-
-```java
-ZbPassport.sendCaptcha(ZbConstants.Sms.REGISTER, phoneNum, new ZbCaptchaSendListener() {
-                    @Override
-                    public void onSuccess(@Nullable String passData) {
-                        ToastUtil.show("下发注册短信验证码接口 success");
+                    } else {
+                        LoadingDialogUtils.newInstance().dismissLoadingDialog(false, getString(R.string.zb_login_error));
+                        T.showShortNow(ZBPasswordLoginActivity.this, errorMessage);
                     }
-
-                    @Override
-                    public void onFailure(int errorCode, String errorMessage) {
-                        ToastUtil.show(errorMessage);
-                    }
-                });
-```
-
-### 验证短信验证码接口
-验证短信验证码接口使用如下方法,第一个参数smsType代表短信验证码的类型,其中ZbConstants.Sms.REGISTER代表注册短信,ZbConstants.Sms.LOGIN代表登录短信,ZbConstants.Sms.FIND代表找回密码短信,ZbConstants.Sms.BIND代表绑定手机号短信:
-
-```java
-ZbPassport.verifyCaptcha(@ZbConstants.SmsType int smsType, String phoneNumber, String captcha, ZbCaptchaVerifyListener listener);
-```
-
-### 验证手机是否绑定浙报通行证
-
-```java
-ZbPassport.checkBindState(String phoneNumber, ZbCheckPhoneListener listener)
-```
-示例代码
-
-```java
-ZbPassport.checkBindState(phoneNumber, new ZbCheckPhoneListener() {
-    @Override
-    public void onSuccess(boolean isBind， @Nullable String passData) {
-        view.checkPhone(true, isBind, null);
-    }
-
-    @Override
-    public void onFailure(int errorCode, String errorMessage) {
-        view.checkPhone(false, false, errorMessage);
-    }
-});
+                }
+            });
 ```
 
 
-### 注册
-
+#### 手机号和短信验证码认证接口
 ```java
-ZbPassport.register(String phoneNumber, String password, String captcha, ZbRegisterListener listener);
+      /**
+       * 手机号短信验证码认证接口
+       *
+       * @param phoneNumber   手机号
+       * @param security_code 验证码
+       * @param listener
+       * @return
+       */
+      public static Call loginCaptcha(String phoneNumber, String security_code, final ZbAuthListener listener) {
+          return netWork.loginCaptcha(phoneNumber, security_code, listener);
+      }
 ```
-示例代码：
-
+示例代码:
 ```java
-ZbPassport.register(phone, "this_is_a_test_password", "498598", new ZbRegisterListener() {
-    @Override
-    public void onSuccess(LoginInfo info, @Nullable String passData) {
-        showToast("手机号注册浙报通行证接口 success");
-    }
-
-    @Override
-    public void onFailure(int errorCode, String errorMessage) {
-        showToast(errorMessage);
-    }
-});
-```
-### 登录
-
-#### 手机+密码 注意:返回码Code = 400009代表表示需要重置密码以后才能登陆(只有手机密码组合才会有这个提示)
-
-```java
-ZbPassport.login(String phoneNumber, String password, ZbLoginListener listener);
-```
-
-#### 个性化账号登录
-
-```java
-ZbPassport.loginCustom(String phoneNumber, String password, ZbLoginListener listener);
-```
-
-#### 手机+验证码
-
-```java
-ZbPassport.loginCaptcha(String phoneNumber, String captcha, ZbLoginListener listener);
-```
-
-#### 第三方登录
-
-```java
-ZbPassport.loginThird(@ZbConstants.ThirdType int thirdType, String thirdUniqueId, ZbLoginListener listener);
-```
-其中第一个参数为ZbConstants.ThirdLogin.WECHAT，ZbConstants.ThirdLogin.QQ，ZbConstants.ThirdLogin.SINA分别代表微信，qq，微博登录
-第二个参数为三方平台的id,其中qq和sina取openId，微信取unionId，用友盟的话，统一取友盟封装的uid
-
-### 获取通行证详情
-
-```java
-ZbPassport.getInfo(ZbGetInfoListener listener);
-```
-示例代码：
-
-```java
-ZbPassport.getInfo(new ZbGetInfoListener() {
-    @Override
-    public void onSuccess(LoginInfo info, @Nullable String passData) {
-        showToast("获取通行证详情接口 success");
-    }
-
-    @Override
-    public void onFailure(int errorCode, String errorMessage) {
-        showToast(errorMessage);
-    }
-});
-```
-
-### 密码相关
-#### 找回密码
-
-```java
-ZbPassport.findPassword(String phoneNumber, String captcha, String newPassword, ZbFindPasswordListener listener)；
-```
-示例代码：
-
-```java
-ZbPassport.findPassword(phoneNum, sms, password, new ZbFindPasswordListener() {
-    @Override
-    public void onSuccess(, @Nullable String passData) {
-        ToastUtil.showTextWithImage(R.mipmap.ic_qq, "找回密码成功,请使用新密码登录");
-    }
-
-    @Override
-    public void onFailure(int errorCode, String errorMessage) {
-        ToastUtil.showTextWithImage(R.mipmap.ic_qq, errorMessage);
-
-    }
-});
-```
-
-#### 修改密码时，检查原密码是否正确的接口
-
-```java
-ZbPassport.checkPassword(String oldPassword, final ZbCaptchaVerifyListener listener);
-```
-请求的回调接口ZbCaptchaVerifyListener里onSuccess(boolean isValid)通过isValid来判断原密码是否正确,isValid为true,原密码验证正确,否则验证失败
-示例代码：
-
-```java
-ZbPassport.checkPassword(passWord, new ZbCaptchaVerifyListener() { // 验证旧密码是否正确
+        ZbPassport.loginCaptcha(phone, captcha, new ZbAuthListener() {
             @Override
-            public void onSuccess(boolean isValid, @Nullable String passData) {
-                if (isValid) {
-                    Intent intent = new Intent(view.getIActivity(), ChangeNewPasswordActivity.class);
-                    intent.putExtra("oldPassWord", passWord);
-                    view.getIActivity().startActivity(intent);
+            public void onSuccess(AuthInfo loginInfo) {
+                if (loginInfo != null) {
+                    // 登录认证
+                    loginValidate(phone, loginInfo.getCode());
                 } else {
-                    ToastUtil.showTextWithImage(R.mipmap.ic_qq, "原密码错误");
+                    LoadingDialogUtils.newInstance().dismissLoadingDialog(false, getString(R.string.zb_login_error));
+                    T.showShortNow(LoginMainActivity.this, getString(R.string.zb_login_error)); // 登录失败
                 }
             }
 
             @Override
             public void onFailure(int errorCode, String errorMessage) {
-                ToastUtil.show(errorMessage);
+                LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
+                T.showShort(LoginMainActivity.this, errorMessage);
+            }
+        });
+```
+
+#### 三方登录认证接口
+```java
+   /**
+     * 第三方账号登录认证接口
+     *
+     * @param auth_uid     第三方用户唯一id标识
+     * @param auth_type    第三方绑定类型
+     * @param auth_token 第三方返回的access_token
+     * @param listener
+     * @return
+     */
+    public static Call loginThird( String auth_uid, @ZbConstants.ThirdType int auth_type, String auth_token, final ZbAuthListener listener) {
+        return netWork.loginThird( auth_uid, auth_type, auth_token, listener);
+    }
+```
+示例代码:
+```java
+  public void onComplete(final SHARE_MEDIA platform, int action, Map<String, String> data) {
+            if (data != null) {
+                if (data.containsKey("errcode")) {
+                    mShareAPI.doOauthVerify(mActivity, platform, umUserInfoListener);
+                    return;
+                } else {
+                    mLoginMap = data;
+                    share_media = platform;
+                    String uid = data.get("uid");
+                    String accessToken = data.get("accessToken");
+                    int type = ZbConstants.ThirdLogin.WECHAT;
+                    switch (platform) {
+                        case QQ:
+                            type = ZbConstants.ThirdLogin.QQ;
+                            break;
+                        case SINA:
+                            type = ZbConstants.ThirdLogin.SINA;
+                            break;
+                        case WEIXIN:
+                            type = ZbConstants.ThirdLogin.WECHAT;
+                            break;
+                        default:
+                            break;
+                    }
+                    ZbPassport.loginThird(uid, type, accessToken, zbAuthListener);
+                }
+
+            }
+```
+
+
+
+### 获取图形验证码接口
+```java
+    /**
+     * 获取图形验证码接口
+     *
+     * @return url
+     */
+    public static String getGraphicsCode() {
+        return netWork.getGraphicsCode();
+    }
+```
+
+
+
+### 获取手机短信验证码接口 说明:获取手机短信验证码接口和校验图形验证码接口为同一个接口,若graphicCaptcha传"",代表获取短信验证码;若为非空串,则该接口为校验推行验证码接口,校验成功后自动发送短信验证码
+```java
+   /**
+     * 获取手机短信验证码接口
+     *
+     * @param phoneNumber 手机号
+     * @param graphicCaptcha     图形验证码,非必传
+     * @param listener
+     * @return
+     */
+    public static Call sendCaptcha(String phoneNumber, String graphicCaptcha, final ZbResultListener listener) {
+        return netWork.sendCaptcha(phoneNumber, graphicCaptcha, listener);
+    }
+```
+示例代码:
+```java
+             ZbPassport.sendCaptcha(mobile, "", new ZbResultListener() {
+                            @Override
+                            public void onSuccess() {
+                                startTimeCountDown();
+                                T.showShortNow(getActivity(), getString(R.string
+                                        .zb_sms_send));
+                            }
+
+                            @Override
+                            public void onFailure(int errorCode, String errorMessage) {
+                            }
+                        });
+```
+
+
+### 修改密码预校验接口,主要用于修改密码时对旧密码进行校验,浙江新闻客户端目前没有修改密码操作
+```java
+    /**
+     * 修改密码预检查接口 get请求
+     * @param old_password 旧密码
+     * @param accessToken 接入客户端accessToken
+     * @param listener
+     * @return
+     */
+    public static Call checkPassWord(String old_password, String accessToken, final ZbResultListener listener) {
+        return netWork.checkPassWord(old_password, accessToken, listener);
+    }
+```
+
+### 验证码预校验接口 主要用于重置密码操作,在输入新密码前对发送的短信验证码进行校验
+```java
+    /**
+     * 验证码预检查接口 get请求
+     * @param phoneNumber 手机号
+     * @param security_code 短信验证码
+     * @param listener
+     * @return
+     */
+    public static Call checkCaptcha(String phoneNumber, String security_code, final ZbResultListener listener) {
+        return netWork.checkCaptcha(phoneNumber, security_code, listener);
+    }
+```
+示例代码:
+```java
+       ZbPassport.checkCaptcha(phoneNum, sms, new ZbResultListener() {
+            @Override
+            public void onSuccess() {
+                if (bundle == null) {
+                    bundle = new Bundle();
+                }
+                bundle.putString("phoneNum", phoneNum);
+                bundle.putString("sms", sms);
+                Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager
+                        .ZB_RESET_NEW_PASSWORD);
+            }
+
+            @Override
+            public void onFailure(int errorCode, String errorMessage) {
+                T.showShort(ZBResetPasswordActivity.this, errorMessage);
             }
         });
 ```
 
 
-#### 修改密码(注:使用第三方登录时应隐藏掉修改密码的界面,否则输入原密码进行验证时会提示通行证ID不存在)
-
+### 重置密码接口
 ```java
-ZbPassport.changePassword(String oldPassWord, String newPassWord, final ZbChangePasswordListener listener);
-```
-示例代码：
-
-```java
-ZbPassport.changePassword(oldNum, newNum, new ZbChangePasswordListener() {
-    @Override
-    public void onSuccess(@Nullable String passData) {
-        ToastUtil.showTextWithImage(R.mipmap.ic_qq, "修改密码成功");
+    /**
+     * 重置密码接口
+     *
+     * @param phone_number  手机号
+     * @param security_code 验证码
+     * @param new_password  新密码（需要使用服务端提供的公钥匙进行RSA加密，将加密结果以base64格式编码）
+     * @param listener
+     * @return
+     */
+    public static Call resetPassword(String phone_number, String security_code, String new_password, final ZbResultListener listener) {
+        return netWork.resetPassword(phone_number, security_code, new_password, listener);
     }
+```
+示例代码:
+```java
+       ZbPassport.resetPassword(phoneNum, sms, etPasswordText.getText().toString(), new ZbResultListener() {
+            @Override
+            public void onSuccess() {
+                LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
+                // 跳转到账号密码登录页面,手机号自动填充,密码清空
+                finish();
+                // 关闭 密码登录页面
+                AppManager.get().finishActivity(ZBResetPasswordActivity.class);
+                AppManager.get().finishActivity(ZBPasswordLoginActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("mobile", phoneNum);
+                Nav.with(ZBResetNewPassWordActivity.this).setExtras(bundle).toPath(RouteManager.ZB_PASSWORD_LOGIN);
+            }
 
-    @Override
-    public void onFailure(int errorCode, String errorMessage) {
-        ToastUtil.showTextWithImage(R.mipmap.ic_qq, errorMessage);
+            @Override
+            public void onFailure(int errorCode, String errorMessage) {
+                LoadingDialogUtils.newInstance().dismissLoadingDialog(false, errorMessage);
+            }
+        });
+```
+
+### 获取账号详情接口
+```java
+  /**
+     * 获取账号详情接口
+     *
+     * @param accessToken 接入客户端accessToken
+     * @param listener
+     * @return
+     */
+    public static Call getAccountDetail(String accessToken, final ZbGetAccountInfoListener listener) {
+        return netWork.getAccountDetail(accessToken, listener);
     }
-});
 ```
-
-#### 检查手机号是否绑定浙报通行证
-
+示例代码:
 ```java
-ZbPassport.checkBindState(String phoneNumber, ZbCheckPhoneListener listener);
+                    ZbPassport.getAccountDetail(data.getAccess_token(), new ZbGetAccountInfoListener() {
+                        @Override
+                        public void onSuccess(AccountInfo info) {
+                            if (info != null) {
+                                infoList = info.getThird_parties();
+//                                if (infoList != null && infoList.size() == 1 && TextUtils.isEmpty(info.getPhone_number())) { // 只有当前三方帐号绑定,解绑时提示先绑定手机号码
+//                                    final ZBDialog zbDialog = new ZBDialog(AccountInfoActivity.this);
+//                                    zbDialog.setBuilder(new ZBDialog.Builder()
+//                                            .setTitle("还未绑定手机号")
+//                                            .setMessage("您还未绑定手机号,请先绑定手机号")
+//                                            .setOnClickListener(new View.OnClickListener() {
+//                                                @Override
+//                                                public void onClick(View v) {
+//                                                    if (v.getId() == R.id.btn_left) {
+//                                                        if (zbDialog.isShowing()) {
+//                                                            zbDialog.dismiss();
+//                                                        }
+//                                                    }
+//                                                    if (v.getId() == R.id.btn_right) {
+//                                                        // 绑定手机号成功后,自动将第三方解绑
+//                                                        isNeedUnBindThird = true;
+//                                                        Nav.with(getActivity()).toPath(RouteManager.ZB_MOBILE_BIND);
+//                                                    }
+//                                                }
+//                                            }));
+//                                    zbDialog.show();
+//                                }
+                                // 第三方个数大于等于2,或者第三方个数为1且绑定过手机号,则解绑第三方
+                                if ((infoList != null && infoList.size() >= 2) || (infoList.size() == 1 && !TextUtils.isEmpty(info.getPhone_number()))) {
+                                    unBindThird(platform);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(int errorCode, String errorMessage) {
+                            Toast.makeText(getApplication(), "解绑失败", Toast.LENGTH_SHORT).show();
+                        }
+                    });
 ```
 
-#### 绑定浙报通行证手机号
-
+### 修改密码接口  部分客户端没有修改密码功能,只有重置(忘记)密码功能
 ```java
-ZbPassport.bindPhone(String phoneNumber, String captcha, ZbBindPhoneListener listener);
+    /**
+     * 修改密码接口
+     *
+     * @param new_password 新密码
+     * @param old_password 旧密码
+     * @param accessToken 接入客户端accessToken
+     * @param listener
+     * @return
+     */
+    public static Call changePassword(String new_password, String old_password, String accessToken, final ZbResultListener listener) {
+        return netWork.changePassword( new_password, old_password, accessToken, listener);
+    }
 ```
 
-#### 绑定第三方账号
 
+### 修改(绑定)手机号接口,绑定手机号及修改手机号使用同一个接口
 ```java
-ZbPassport.bindThird(@ZbConstants.ThirdType int thirdType, String thirdUnionId, ZbBindThirdListener listener)
+    /**
+     * 修改(绑定)手机号接口
+     *
+     * @param new_phone_number 新手机号
+     * @param security_code    新手机下发的短信验证码
+     * @param accessToken 接入客户端accessToken
+     * @param listener
+     * @return
+     */
+    public static Call changePhoneNum(String new_phone_number, String security_code, String accessToken, final ZbResultListener listener) {
+        return netWork.changePhoneNum(new_phone_number, security_code, accessToken, listener);
+    }
 ```
-其中第一个参数为ZbConstants.ThirdLogin.WECHAT，ZbConstants.ThirdLogin.QQ，ZbConstants.ThirdLogin.SINA分别代表微信，qq，微博，
-第二个参数为三方平台的id，其中**qq和sina取openId，微信取unionId，用友盟的话，统一取友盟封装的uid**
-
-#### 解绑第三方账号,注意个性化账户解绑也调用该方法
-
+示例代码:
 ```java
-ZbPassport.unbindThird(@ZbConstants.UnBindType int thirdType, ZbUnBindThirdListener listener);
+ZbPassport.changePhoneNum(mobile, smsCode, token, new ZbResultListener() {
+                        @Override
+                        public void onSuccess() {
+                            isAuthSuccess = true;
+                            final ZBBindDialog zbBindDialog = new ZBBindDialog(ZBBindMobileActivity.this);
+                            zbBindDialog.setBuilder(new ZBBindDialog.Builder()
+                                    .setTitle("绑定成功!")
+                                    .setMessage("如果手机号有变动，可在个人中心账号管理页面进行更改")
+                                    .setOkText("知道了")
+                                    .setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            if (v.getId() == com.zjrb.core.R.id.btn_ok) {
+                                                if (zbBindDialog.isShowing()) {
+                                                    zbBindDialog.dismiss();
+                                                }
+                                                finish();
+                                                AppManager.get().finishActivity(LoginMainActivity.class);
+                                            }
+                                        }
+                                    }));
+                            zbBindDialog.show();
+                            // 更新手机号信息
+                            AccountBean account = UserBiz.get().getAccount();
+                            account.setPhone_number(mobile); // 实名认证账号
+                            UserBiz.get().setAccount(account);
+                            Intent intent = new Intent("bind_mobile_successful");
+                            LocalBroadcastManager.getInstance(ZBBindMobileActivity.this).sendBroadcast(intent);
+                        }
+
+                        @Override
+                        public void onFailure(int errorCode, String errorMessage) {
+                            if (errorCode == ErrorCode.ERROR_PHONENUM_ALREADY_BIND) { // 该手机号已被其他账号占用（注册手机号、修改手机号、绑定手机号被占用）
+                                final ZBBindDialog zbBindDialog = new ZBBindDialog(ZBBindMobileActivity.this);
+                                zbBindDialog.setBuilder(new ZBBindDialog.Builder()
+                                        .setTitle("绑定失败")
+                                        .setMessage("该手机号已注册，且绑定有同种类型的第三方帐号")
+                                        .setDesc("建议登录原帐号，在个人中心帐号管理页面进行解绑后，再重新进行绑定")
+                                        .setOkText("知道了")
+                                        .setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                if (v.getId() == com.zjrb.core.R.id.btn_ok) {
+                                                    if (zbBindDialog.isShowing()) {
+                                                        zbBindDialog.dismiss();
+                                                    }
+                                                }
+                                            }
+                                        }));
+                                zbBindDialog.show();
+                            } else if (errorCode == ErrorCode.ERROR_CAN_MERGE) { // 进行账号合并的情况
+                                new GetMuitiAccountTask(new APIExpandCallBack<MultiAccountBean>() {
+
+                                    @Override
+                                    public void onSuccess(MultiAccountBean data) {
+                                        if (data != null) {
+                                            if (timer != null) {
+                                                timer.onFinish();
+                                                timer.cancel();
+                                            }
+                                            Bundle bundle = new Bundle();
+                                            bundle.putSerializable("merge_data", data);
+                                            bundle.putString("merge_phone", mobile);
+                                            Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_ACCOUNT_MERGE);
+                                        } else {
+                                            T.showShortNow(ZBBindMobileActivity.this, "绑定失败");
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(String errMsg, int errCode) {
+                                        super.onError(errMsg, errCode);
+                                        T.showShortNow(ZBBindMobileActivity.this, errMsg);
+                                    }
+                                }).setTag(this).exe("phone_number", mobile, smsCode);
+                            } else {
+                                T.showShortNow(ZBBindMobileActivity.this, errorMessage);
+                            }
+                        }
+                    });
 ```
-其中第一个参数为ZbConstants.ThirdLogin.WECHAT，ZbConstants.ThirdLogin.QQ，ZbConstants.ThirdLogin.SINA, ZbConstants.CUSTOM分别代表微信，qq，微博及个性化账户
 
-#### 退出登录接口
 
+### 绑定第三方登录接口
 ```java
-ZbPassport.logout(ZbLogoutListener listener);
+    /**
+     * 绑定第三方登录接口
+     *
+     * @param auth_uid     第三方用户唯一id标识
+     * @param auth_type    第三方账户绑定类型
+     * @param auth_token 第三方返回的auth_token
+     * @param accessToken 接入客户端accessToken
+     * @param listener
+     * @return
+     */
+    public static Call bindThirdParty(String auth_uid, @ZbConstants.ThirdType int auth_type, String auth_token, String accessToken, final ZbResultListener listener) {
+        return netWork.bindThirdParty(auth_uid, auth_type, auth_token, accessToken, listener);
+    }
 ```
-
-#### 关于取消网络请求
-ZbPassport中的每个请求都会返回一个Call,调用当前Call的cancel方法可以取消该网络请求
-示例代码,以取消下发注册短信验证码的接口请求为例:
-
+示例代码:
 ```java
-Call call = ZbPassport.sendRegisterCaptcha(String phoneNumber, ZbCaptchaListener listener);
-call.cancel();
+          ZbPassport.bindThirdParty(uid, finalType, token, data.getAccess_token(), new ZbResultListener() {
+                                    @Override
+                                    public void onSuccess() {
+                                        if (mBindAccountListener != null) {
+                                            mBindAccountListener.onBindSuccess(finalAuthType);
+                                            LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(int errorCode, String errorMessage) {
+                                        if (mBindAccountListener != null) {
+                                            LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
+                                            mBindAccountListener.onBindFail(finalAuthType, uid, token, errorCode, errorMessage);
+                                        }
+                                    }
+                                });
 ```
 
+
+
+### 解绑第三方登录接口
+```java
+    /**
+     * 解绑第三方登录接口
+     *
+     * @param auth_type 第三方账号绑定id
+     * @param accessToken 接入客户端accessToken
+     * @param listener
+     * @return
+     */
+    public static Call unBindThirdParty( @ZbConstants.ThirdType int auth_type, String accessToken, final ZbResultListener listener) {
+        return netWork.unBindThirdParty(auth_type, accessToken, listener);
+    }
+```
+示例代码:
+```java
+    ZbPassport.unBindThirdParty(platform, data.getAccess_token(), new ZbResultListener() {
+        @Override
+        public void onSuccess() {
+             getAccountInfo();
+         }
+
+        @Override
+        public void onFailure(int errorCode, String errorMessage) {
+              etAccountInfo();
+        }
+    });
+```
+#### 注意事项:
+session失效处理,账号合并之后,未选取的账号会出现session失效的情况,处理
+
+
+升级到新版通行证后,使用历史账号登录的处理方式   弹出重置密码的对话框
+
+
+个性化账号,新版本通行证不支持个性化账号注册(浙江新闻5.6版本新用户不支持个性化账号注册,历史版本的个性化账号必须绑定手机号才算登录成功)
+
+退出登录接入方调用自己服务端的接口,sdk不提供退出登录接口
 
 

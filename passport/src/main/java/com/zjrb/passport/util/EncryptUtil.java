@@ -9,7 +9,7 @@ import javax.crypto.spec.SecretKeySpec;
 /**
  * Function: EncryptUtil
  * <p>
- * Author: chen.h
+ * Author: sishuqun
  * Date: 2018/7/4
  */
 public class EncryptUtil {
@@ -46,7 +46,7 @@ public class EncryptUtil {
             byte[] bytes = sha256_HMAC.doFinal(message.getBytes());
             hash = byte2Hex(bytes);
         } catch (Exception e) {
-            System.out.println("Error HmacSHA256 ===========" + e.getMessage());
+            e.printStackTrace();
         }
         return hash;
     }

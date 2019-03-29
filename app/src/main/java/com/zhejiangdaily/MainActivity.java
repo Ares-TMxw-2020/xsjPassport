@@ -41,13 +41,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-//        String a = "get%%/api/some_resource?client_id=1111&passport_id=2000000&phone_number=13333333333&unbind=true%%64be2c39-ba09-443f-9aae-1a1f99004cbb%%bbbbbdddd8Tviqqqqeee";
-//        String s = "928aihvQETH08TviNX0C";
-//        String ss = EncryptUtil.sha256_HMAC(a, s);
-//        System.out.println("ssssss: " + ss);
-//        for (int i = 0; i < 10; i++) {
-//            System.out.println("llllll: " + EncryptUtil.encryptPassWord("mac"));
-//        }
     }
 
     @OnClick({R.id.tv_login, R.id.tv_password_login, R.id.tv_register, R.id.tv_send})

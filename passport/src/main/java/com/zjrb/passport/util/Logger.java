@@ -47,7 +47,7 @@ public class Logger {
             }
             sb.append("response ->\t").append(response.body().string());
         } catch (Exception e) {
-            //
+            e.printStackTrace();
         }
         d(sb.toString());
     }
