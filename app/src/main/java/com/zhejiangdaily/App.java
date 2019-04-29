@@ -33,7 +33,7 @@ public class App extends Application {
 
     private void initPassport() {
         ZbPassport.init(this,
-                new ZbConfig.Builder().setEnvType(ZbConstants.Env.DEV)
+                new ZbConfig.Builder().setEnvType(ZbConstants.Env.TEST)
                         .setDebug(true)
                         .setAppVersion("1.0")
                         .setClientId(1)
