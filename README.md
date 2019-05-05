@@ -110,16 +110,35 @@ ErrorCode.ERROR_CAN_MERGE: 代表需要进行账号合并的操作
 ```
 
 ### 注册接口
+#### 注册接口复用手机号短信验证码认证接口
+```java
+      /**
+       * 手机号短信验证码认证接口
+       *
+       * @param phoneNumber   手机号
+       * @param security_code 验证码
+       * @param listener
+       * @return
+       */
+      public static Call loginCaptcha(String phoneNumber, String security_code, final ZbAuthListener listener) {
+          return netWork.loginCaptcha(phoneNumber, security_code, listener);
+      }
+```
+
+#### 使用手机号+第三方绑定注册通行证接口
 ```java
     /**
-     * 使用手机号注册通行证接口 post
-     * @param phoneNumber 手机号
-     * @param security_code 短信验证码
+     * 使用手机号+第三方绑定注册通行证接口 POST
+     * @param auth_uid   第三方用户唯一id标识
+     * @param auth_type  第三方绑定类型
+     * @param auth_token 第三方返回的access_token
+     * @param phoneNum 手机号
+     * @param smsCode 短信验证码
      * @param listener
      * @return
      */
-    public static Call register(String phoneNumber, String security_code, final ZbResultListener listener) {
-        return netWork.register(phoneNumber, security_code, listener);
+    public static Call registerThirdBindPhone(String phoneNum, String smsCode, String auth_uid, int auth_type, String auth_token, final ZbAuthListener listener) {
+        return netWork.registerThirdBindPhone(phoneNum, smsCode, auth_uid, auth_type, auth_token,listener);
     }
 ```
 

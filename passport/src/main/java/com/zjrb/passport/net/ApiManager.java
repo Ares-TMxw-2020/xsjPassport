@@ -29,7 +29,7 @@ public class ApiManager {
         /**
          * 正式域名
          */
-        private static final String OFFICIAL_URL = "http://10.100.64.69";
+        private static final String OFFICIAL_URL = "https://passport.8531.cn";
 
     }
 
@@ -102,10 +102,10 @@ public class ApiManager {
         public static final String SMS_SEND_SECURITY_CODE = "/web/security/send_security_code";
 
         /**
-         * 使用手机号注册通行证接口
+         * 使用手机号+第三方绑定注册通行证接口
          * post
          */
-        public static final String PASSPORT_PHONE_REGISTER= "/web/oauth/register";
+//        public static final String PASSPORT_PHONE_THRID_REGISTER= "/web/oauth/register";
 
         /**
          * 验证码预检查接口
@@ -130,6 +130,12 @@ public class ApiManager {
          * post
          */
         public static final String PASSPORT_THIRD_PARTY_AUTH = "/web/oauth/third_party_auth";
+
+        /**
+         * 第三方账号登录且强制绑定手机号接口(跟林参确认,可以去掉不用)
+         * post
+         */
+        public static final String PASSPORT_THIRD_PARTY_BIND_PHONE_AUTH = "/web/account/bind_phone_number_auth";
 
         /**
          * 密码重置接口(忘记密码)
@@ -174,10 +180,17 @@ public class ApiManager {
         public static final String PASSPORT_UNBIND_THIRD_PARTY = "/web/account/unbind_third_party";
 
         /**
-         * OAuth授权接口
-         * 仅在web端使用 post
+         * 检查手机号是否注册过通行证
+         * get
          */
-        public static final String PASSPORT_AUTHORIZE = "/api/account/authorize";
+        public static final String PASSPORT_CHECK_PHONE_NUMBER = "/web/account/check_phone_number";
+
+        /**
+         * 第三方账号是否已经绑定检查接口
+         * get
+         */
+        public static final String PASSPORT_CHECK_THIRD_PARTY = "/web/oauth/register_check";
+
 
     }
 

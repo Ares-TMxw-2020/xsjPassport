@@ -5,7 +5,10 @@ import android.content.Context;
 import com.zjrb.passport.Entity.ClientInfo;
 import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.listener.ZbAuthListener;
+import com.zjrb.passport.listener.ZbCheckPhoneListener;
+import com.zjrb.passport.listener.ZbCheckThirdListener;
 import com.zjrb.passport.listener.ZbGetAccountInfoListener;
+import com.zjrb.passport.listener.ZbGraphicListener;
 import com.zjrb.passport.listener.ZbInitListener;
 import com.zjrb.passport.listener.ZbResultListener;
 import com.zjrb.passport.net.interfaces.Call;
@@ -57,7 +60,6 @@ public class ZbPassport {
 
             @Override
             public void onFailure(int errorCode, String errorMessage) {
-
             }
         });
 
@@ -97,9 +99,19 @@ public class ZbPassport {
      *
      * @return
      */
-    public static String getGraphicsCode() {
-        return netWork.getGraphicsCode();
+//    public static String getGraphicsCode() {
+//        return netWork.getGraphicsCode();
+//    }
+
+    /**
+     * 获取图形验证码接口
+     *
+     * @return
+     */
+    public static Call getGraphics(ZbGraphicListener listener) {
+        return netWork.getGraphics(listener);
     }
+
 
 
     /**
@@ -152,15 +164,18 @@ public class ZbPassport {
     }
 
     /**
-     * 使用手机号注册通行证接口 post
-     * @param phoneNumber 手机号
-     * @param security_code 短信验证码
+     * 使用手机号+第三方绑定注册通行证接口 POST
+     * @param auth_uid   第三方用户唯一id标识
+     * @param auth_type  第三方绑定类型
+     * @param auth_token 第三方返回的access_token
+     * @param phoneNum 手机号
+     * @param smsCode 短信验证码
      * @param listener
      * @return
      */
-    public static Call register(String phoneNumber, String security_code, final ZbResultListener listener) {
-        return netWork.register(phoneNumber, security_code, listener);
-    }
+//    public static Call registerThirdBindPhone(String phoneNum, String smsCode, String auth_uid, int auth_type, String auth_token, final ZbAuthListener listener) {
+//        return netWork.registerThirdBindPhone(phoneNum, smsCode, auth_uid, auth_type, auth_token,listener);
+//    }
 
 
     /**
@@ -186,6 +201,21 @@ public class ZbPassport {
      */
     public static Call loginThird( String auth_uid, @ZbConstants.ThirdType int auth_type, String auth_token, final ZbAuthListener listener) {
         return netWork.loginThird( auth_uid, auth_type, auth_token, listener);
+    }
+
+    /**
+     * 第三方登录且强制绑定手机号接口  (跟林参确认,该接口可去掉,不使用)
+     * @param auth_uid   第三方用户唯一id标识
+     * @param auth_type  第三方绑定类型
+     * @param auth_token 第三方返回的access_token
+     * @param phoneNum 手机号
+     * @param smsCode 短信验证码
+     * @param listener
+     * @return
+     */
+    @Deprecated
+    public static Call loginThirdBindPhone(String auth_uid, int auth_type, String auth_token, String phoneNum, String smsCode, final ZbAuthListener listener) {
+        return netWork.loginThirdBindPhone(auth_uid, auth_type, auth_token, phoneNum, smsCode, listener);
     }
 
 
@@ -266,6 +296,29 @@ public class ZbPassport {
      */
     public static Call unBindThirdParty( @ZbConstants.ThirdType int auth_type, String accessToken, final ZbResultListener listener) {
         return netWork.unBindThirdParty(auth_type, accessToken, listener);
+    }
+
+    /**
+     * 检查手机号是否注册的接口
+     * @param phoneNumber 手机号
+     * @param listener
+     * @return
+     */
+    public static Call checkPhoneNumber(String phoneNumber, final ZbCheckPhoneListener listener) {
+        return netWork.checkPhoneNumber(phoneNumber, listener);
+    }
+
+
+    /**
+     * 第三方账号是否已经绑定检查接口
+     * @param auth_type    第三方账户绑定类型
+     * @param auth_uid     第三方用户唯一id标识
+     * @param auth_token 第三方返回的auth_token
+     * @param listener
+     * @return
+     */
+    public static Call checkThird(String auth_type, String auth_uid, String auth_token, final ZbCheckThirdListener listener) {
+        return netWork.checkThird(auth_type, auth_uid, auth_token, listener);
     }
 
 

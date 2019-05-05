@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.zjrb.passport.constant.ErrorCode;
 import com.zjrb.passport.listener.IFailure;
 import com.zjrb.passport.listener.IResult;
+import com.zjrb.passport.listener.ZbGraphicListener;
 import com.zjrb.passport.net.response.Response;
 
 import org.json.JSONException;
@@ -113,6 +114,20 @@ public class ResponseProcessor {
             }
         } catch (JSONException e) {
             iFailure.onFailure(ErrorCode.ERROR_JSON, e.getMessage());
+        }
+    }
+
+    /**
+     * 用于下发图形验证码字节流
+     * @param response
+     * @param listener
+     */
+    public static void processBytes(Response response, ZbGraphicListener listener) {
+        byte[] bytes = response.body().bytes();
+        if (bytes != null) {
+            listener.onSuccess(bytes);
+        } else {
+            listener.onSuccess(null);
         }
     }
 

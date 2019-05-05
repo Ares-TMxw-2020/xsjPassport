@@ -56,7 +56,8 @@ public class RequestHandler implements IRequestHandler {
                 connection.connect();
             }
         } catch (IOException e) {
-            responseHandler.handleFail(callBack, call.request, -1, "请求异常");
+            responseHandler.handleFail(callBack, call.request, ErrorCode.ERROR_HTTP, "网络请求异常,请检查网络连接状态");
+            return;
         }
 
         if (call.isCanceled()) {
@@ -97,6 +98,9 @@ public class RequestHandler implements IRequestHandler {
                 int length;
                 if (TextUtils.equals(ApiManager.EndPoint.INIT, call.request.getApi())) { // init接口,获取cookie持久化
                     // Cookie处理 只获取init接口下发的Cookie,添加到后续请求的请求头中
+                    ZbPassport.getZbConfig().setCookie(connection.getHeaderField("Set-Cookie"));
+                }
+                if (TextUtils.isEmpty(ZbPassport.getZbConfig().getCookie())) { // 容错,如果init接口下发的cookie为空,则取当前请求的cookie
                     ZbPassport.getZbConfig().setCookie(connection.getHeaderField("Set-Cookie"));
                 }
                 InputStream inputStream = connection.getInputStream();
@@ -144,11 +148,11 @@ public class RequestHandler implements IRequestHandler {
                 responseHandler.handleFail(callBack, call.request, responseCode, connection.getResponseMessage());
             }
         } catch (IOException e) {
-            responseHandler.handleFail(callBack, call.request, -1, "返回内容解析异常");
+            responseHandler.handleFail(callBack, call.request, ErrorCode.ERROR_HTTP, "返回内容解析异常");
         }
 
         if (response == null) {
-            response = new Response.Builder().code(-1).message("请求异常").body(new ResponseBody(null)).build();
+            response = new Response.Builder().code(-1).message("网络请求异常").body(new ResponseBody(null)).build();
         }
         Logger.d(call.request, response);
 

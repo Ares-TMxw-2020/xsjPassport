@@ -8,6 +8,7 @@ package com.zjrb.passport.constant;
  */
 public class ErrorCode {
 
+    public static final int ERROR_HTTP = -1; // 自定义, 无网络, 网络处理异常使用
 
     /**
      * Json解析异常
