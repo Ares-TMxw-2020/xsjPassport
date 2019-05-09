@@ -52,9 +52,7 @@ public class RequestHandler implements IRequestHandler {
             if (call.request.requestBody != null) { // 上传表单
                 writeContent(connection, call.request.requestBody);
             }
-            if (!connection.getDoOutput()) {
-                connection.connect();
-            }
+            connection.connect();
         } catch (IOException e) {
             responseHandler.handleFail(callBack, call.request, ErrorCode.ERROR_HTTP, "网络请求异常,请检查网络连接状态");
             return;
@@ -172,6 +170,7 @@ public class RequestHandler implements IRequestHandler {
         // connection.setReadTimeout not mean read complete, it mean when wait for timeout, when there're no more data read in, will throw a timeoutexception
         connection.setReadTimeout(call.config.readTimeout);
         connection.setDoInput(true);
+        connection.setUseCaches(false);
         if (call.request.requestBody != null && Request.HttpMethod.checkNeedBody(call.request.method)) {
         // 设置是否向httpUrlConnection输出，因为这个是post请求，参数要放在http正文内，因此需要设为true, 默认情况下是false;
             connection.setDoOutput(true);

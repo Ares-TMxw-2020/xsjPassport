@@ -41,9 +41,9 @@ public class ZbHttpClient {
 
         public Builder() {
             // 参考浙江新闻超时时长的设置
-            this.connTimeout = 5 * 1000;
-            this.readTimeout = 5 * 1000;
-            this.writeTimeout = 5 * 1000;
+            this.connTimeout = 5000;
+            this.readTimeout = 5000;
+            this.writeTimeout = 5000;
         }
 
 

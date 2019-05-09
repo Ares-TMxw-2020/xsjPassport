@@ -3,8 +3,6 @@ package com.zjrb.passport.net.response;
 import com.zjrb.passport.util.InnerConstant;
 import com.zjrb.passport.util.Logger;
 
-import java.io.UnsupportedEncodingException;
-
 /**
  * Date: 2018/6/28 下午5:53
  * Email: sisq@8531.cn
@@ -26,7 +24,7 @@ public class ResponseBody {
     public String string() {
         try {
             return new String(bytes(), InnerConstant.DEF_CODE);
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             Logger.e("字节流转为" + InnerConstant.DEF_CODE + "格式的String异常");
             return "";
         }
