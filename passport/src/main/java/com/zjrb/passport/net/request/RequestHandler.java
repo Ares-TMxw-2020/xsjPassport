@@ -169,9 +169,11 @@ public class RequestHandler implements IRequestHandler {
         }
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setConnectTimeout(call.config.connTimeout);
+        // connection.setReadTimeout not mean read complete, it mean when wait for timeout, when there're no more data read in, will throw a timeoutexception
         connection.setReadTimeout(call.config.readTimeout);
         connection.setDoInput(true);
         if (call.request.requestBody != null && Request.HttpMethod.checkNeedBody(call.request.method)) {
+        // 设置是否向httpUrlConnection输出，因为这个是post请求，参数要放在http正文内，因此需要设为true, 默认情况下是false;
             connection.setDoOutput(true);
         }
         return connection;
