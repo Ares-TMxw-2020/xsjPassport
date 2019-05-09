@@ -30,8 +30,7 @@ dependencies {
 ```
 
 ### 参数配置
-#### Manifest配置
-
+#### 方式一: Manifest配置
 ```
 <manifest ...>
 	<application>
@@ -45,7 +44,7 @@ dependencies {
 </manifest>
 ```
 
-#### 代码配置
+#### 方式二:代码配置 推荐使用代码配置方式
 
 ```java
 //在Application中
@@ -54,14 +53,14 @@ dependencies {
                         .setDebug(true)
                         .setAppVersion("1.0")
                         .setClientId(1)
-                        .setToken("J8BWUjBaYStIHqBu1g9pFjWv")
                         .setAppUuid("uuid"));
 
 ```
 参数说明：
 client_id：对于每一个app接入方，通行证后台都会分配一个client_id 。
+env_type: 通行证sdk提供的接入环境,分别为ZbConstants.Env.DEV(开发)  ZbConstants.Env.TEST(测试) ZbConstants.Env.PRE(预发)  ZbConstants.Env.OFFICIAL(正式环境)
 
-**代码设置与Manifest同时配置代码配置会覆盖Manifest配置的参数**
+**代码设置与Manifest同时配置代码配置会覆盖Manifest配置的参数,推荐使用代码配置方式**
 
 ## 使用说明
 
@@ -80,7 +79,7 @@ ZbPassport.init(this,  new ZbConfig.Builder().setAppId(1)
                                              .setAppVersion("1.0")
                                              .setAppUuid("uuid"));
 ```
-**代码设置与Manifest相同参数会覆盖Manifest配置的参数**
+**代码设置与Manifest相同参数会覆盖Manifest配置的参数,推荐使用代码配置方式**
 
 ### 关于验证码
 验证码为6位有效数字,非6位的数字服务端不会提示验证码错误(坑需求,需要客户端进行验证码位数的校验) 验证码有效期为10分钟，且只能使用一次,且只能使用一次,且只能使用一次,重要的事情说三遍。
@@ -274,19 +273,33 @@ ErrorCode.ERROR_CAN_MERGE: 代表需要进行账号合并的操作
 
 
 
-### 获取图形验证码接口
+### 获取图形验证码接口,回调接口返回byte[]数组供接入方使用
 ```java
     /**
      * 获取图形验证码接口
      *
-     * @return url
+     * @return
      */
-    public static String getGraphicsCode() {
-        return netWork.getGraphicsCode();
+    public static Call getGraphics(ZbGraphicListener listener) {
+        return netWork.getGraphics(listener);
     }
 ```
+示例代码:
+```java
+         ZbPassport.getGraphics(new ZbGraphicListener() {
+                                                        @Override
+                                                        public void onSuccess(byte[] bytes) {
+                                                            if (bytes != null) {
+                                                                GlideApp.with(LoginMainActivity.this).load(bytes).diskCacheStrategy(DiskCacheStrategy.NONE).into(zbGraphicDialog.getIvGrahpic());
+                                                            }
+                                                        }
 
-
+                                                        @Override
+                                                        public void onFailure(int errorCode, String errorMessage) {
+                                                            ZBToast.showShort(LoginMainActivity.this, errorMessage);
+                                                        }
+                                                    });
+```
 
 ### 获取手机短信验证码接口 说明:获取手机短信验证码接口和校验图形验证码接口为同一个接口,若graphicCaptcha传"",代表获取短信验证码;若为非空串,则该接口为校验推行验证码接口,校验成功后自动发送短信验证码
 ```java
@@ -646,12 +659,72 @@ ZbPassport.changePhoneNum(mobile, smsCode, token, new ZbResultListener() {
         }
     });
 ```
+
+### 检查手机号是否注册的接口
+```java
+    /**
+     * 检查手机号是否注册的接口
+     * @param phoneNumber 手机号
+     * @param listener
+     * @return
+     */
+    public static Call checkPhoneNumber(String phoneNumber, final ZbCheckPhoneListener listener) {
+        return netWork.checkPhoneNumber(phoneNumber, listener);
+    }
+```
+示例代码:
+```java
+ZbPassport.checkPhoneNumber(phoneNum, new ZbCheckPhoneListener() {
+            @Override
+            public void onSuccess(CheckPhoneInfo info) {
+                if (info != null && info.isExist()) { // 账号存在
+                    sendSms(phoneNum, true, false); // 跳登录输入验证码界面
+                } else { // 不存在,跳注册界面
+                    // 对话框
+                    XSBDialog.createDialog(v.getMyContext(), "该手机号尚未注册是否已有其他账号？", "", "其他账号登录", "现在注册").setOnDialogClickListener(new XSBDialog.OnDialogClickListener() {
+                        @Override
+                        public void onClick(XSBDialog dialog, boolean isRight) {
+                            if (isRight) {
+                                showPhoneExistDialog(phoneNum);
+                                if (dialog.isShowing()) {
+                                    dialog.dismiss();
+                                }
+                            } else {
+                                if (dialog.isShowing()) {
+                                    v.clearPhoneNumber();
+                                    dialog.dismiss();
+                                }
+                            }
+                        }
+                    }).show();
+                }
+            }
+
+            @Override
+            public void onFailure(int errorCode, String errorMessage) {
+                showErrorMsg(errorCode, errorMessage);
+            }
+        });
+```
+
+### 第三方账号是否已经绑定检查接口
+```java
+    /**
+     * 第三方账号是否已经绑定检查接口
+     * @param auth_type    第三方账户绑定类型
+     * @param auth_uid     第三方用户唯一id标识
+     * @param auth_token 第三方返回的auth_token
+     * @param listener
+     * @return
+     */
+    public static Call checkThird(String auth_type, String auth_uid, String auth_token, final ZbCheckThirdListener listener) {
+        return netWork.checkThird(auth_type, auth_uid, auth_token, listener);
+    }
+```
 #### 注意事项:
 session失效处理,账号合并之后,未选取的账号会出现session失效的情况,处理
 
-
 升级到新版通行证后,使用历史账号登录的处理方式   弹出重置密码的对话框
-
 
 个性化账号,新版本通行证不支持个性化账号注册(浙江新闻5.6版本新用户不支持个性化账号注册,历史版本的个性化账号必须绑定手机号才算登录成功)
 
