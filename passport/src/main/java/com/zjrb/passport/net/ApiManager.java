@@ -48,7 +48,7 @@ public class ApiManager {
             case ZbConstants.Env.OFFICIAL:
                 return UrlConstant.OFFICIAL_URL;
             default:
-                return UrlConstant.DEVELOP_URL;
+                return UrlConstant.OFFICIAL_URL;
         }
     }
 
