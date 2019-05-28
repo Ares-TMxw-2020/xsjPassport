@@ -1,5 +1,7 @@
 package com.zjrb.passport.util;
 
+import android.text.TextUtils;
+
 import com.zjrb.passport.constant.ZbConstants;
 
 import javax.crypto.Mac;
@@ -38,6 +40,9 @@ public class EncryptUtil {
      * @return 加密后字符串
      */
     public static String sha256_HMAC(String message, String secret) {
+        if (TextUtils.isEmpty(message) || TextUtils.isEmpty(secret)) {
+            return "";
+        }
         String hash = "";
         try {
             Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
