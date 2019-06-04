@@ -47,6 +47,8 @@ public class ApiManager {
                 return UrlConstant.PRE_URL;
             case ZbConstants.Env.OFFICIAL:
                 return UrlConstant.OFFICIAL_URL;
+            case  ZbConstants.Env.CUSTOM:
+                return ZbPassport.getZbConfig().getHost();
             default:
                 return UrlConstant.OFFICIAL_URL;
         }

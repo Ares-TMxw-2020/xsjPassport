@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.text.TextUtils;
 
 import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.util.InnerConstant;
@@ -24,6 +25,7 @@ public final class ZbConfig {
     private String appUuid;
     private String ua;
     private boolean isUseHttps; // 是否强制使用https
+    private String host;
 
     public SharedPreferencesUtil getSpUtil() {
         return spUtil;
@@ -75,6 +77,13 @@ public final class ZbConfig {
         return clientId;
     }
 
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public String getHost() {
+        return host;
+    }
 
     public int getEnvType() {
         return envType;
@@ -191,6 +200,7 @@ public final class ZbConfig {
         private boolean isSetDebug;
         private String appVersion;
         private String appUuid;
+        private String host;
 
         public Builder setClientId(int clientId) {
             this.clientId = clientId;
@@ -214,10 +224,13 @@ public final class ZbConfig {
             return this;
         }
 
-
-
         public Builder setToken(String token) {
             this.token = token;
+            return this;
+        }
+
+        public Builder setHost(String host) {
+            this.host = host;
             return this;
         }
 
@@ -240,6 +253,11 @@ public final class ZbConfig {
             zbConfig.setAppUuid(appUuid);
             zbConfig.initUA();
             zbConfig.setToken(token);
+            if (!TextUtils.isEmpty(host)) {
+                if (envType == ZbConstants.Env.CUSTOM) { // 自定义类型的,设置host
+                    zbConfig.setHost(host);
+                }
+            }
         }
     }
 }

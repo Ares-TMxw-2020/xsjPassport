@@ -5,6 +5,7 @@ import android.support.annotation.IntDef;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import static com.zjrb.passport.constant.ZbConstants.Env.CUSTOM;
 import static com.zjrb.passport.constant.ZbConstants.Env.DEV;
 import static com.zjrb.passport.constant.ZbConstants.Env.OFFICIAL;
 import static com.zjrb.passport.constant.ZbConstants.Env.PRE;
@@ -48,6 +49,10 @@ public final class ZbConstants {
          * 正式环境
          */
         public static final int OFFICIAL = 3;
+        /**
+         * 自定义环境
+         */
+        public static final int CUSTOM = 4;
     }
 
 
@@ -72,7 +77,7 @@ public final class ZbConstants {
 
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({DEV, TEST, PRE, OFFICIAL})
+    @IntDef({DEV, TEST, PRE, OFFICIAL, CUSTOM})
     public @interface EnvType {
     }
 
