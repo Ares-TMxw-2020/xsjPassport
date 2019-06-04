@@ -17,7 +17,7 @@ public class ApiManager {
         /**
          * 开发环境
          */
-        private static final String DEVELOP_URL = "http://10.100.64.69";
+        private static final String DEVELOP_URL = "https://passport-test.8531.cn";
         /**
          * 测试环境
          */
@@ -25,7 +25,7 @@ public class ApiManager {
         /**
          * 预发布环境
          */
-        private static final String PRE_URL = "https://passport-test.8531.cn";
+        private static final String PRE_URL = "https://passport.8531.cn";
         /**
          * 正式域名
          */
