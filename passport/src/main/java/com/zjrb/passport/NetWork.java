@@ -277,7 +277,7 @@ public class NetWork {
     }
 
     /**
-     * 使用手机号+第三方绑定注册通行证接口 POST
+     * 第三方账号同时绑定手机号接口 POST
      * @param auth_uid   第三方用户唯一id标识
      * @param auth_type  第三方绑定类型
      * @param auth_token 第三方返回的access_token
@@ -286,22 +286,22 @@ public class NetWork {
      * @param listener
      * @return
      */
-//    public Call registerThirdBindPhone(String phoneNum, String smsCode, String auth_uid, int auth_type, String auth_token, final ZbAuthListener listener) {
-//        ParamsBuilder builder = new ParamsBuilder().api(ApiManager.EndPoint.PASSPORT_PHONE_THRID_REGISTER)
-//                .add("client_id", ZbPassport.getZbConfig().getClientId() + "")
-//                .add("phone_number", phoneNum)
-//                .add("security_code", smsCode)
-//                .add("auth_type", auth_type + "")
-//                .add("auth_uid", auth_uid)
-//                .add("auth_token", auth_token);
-//        return post(builder, new WrapListener(listener) {
-//            @Override
-//            public void onSuccess(Response response) {
-//                AuthProcessor processor = new AuthProcessor(listener);
-//                ResponseProcessor.process(response, processor, listener);
-//            }
-//        });
-//    }
+    public Call registerThirdBindPhone(String phoneNum, String smsCode, String auth_uid, int auth_type, String auth_token, final ZbAuthListener listener) {
+        ParamsBuilder builder = new ParamsBuilder().api(ApiManager.EndPoint.PASSPORT_PHONE_THRID_REGISTER)
+                .add("client_id", ZbPassport.getZbConfig().getClientId() + "")
+                .add("phone_number", phoneNum)
+                .add("security_code", smsCode)
+                .add("auth_type", auth_type + "")
+                .add("auth_uid", auth_uid)
+                .add("auth_token", auth_token);
+        return post(builder, new WrapListener(listener) {
+            @Override
+            public void onSuccess(Response response) {
+                AuthProcessor processor = new AuthProcessor(listener);
+                ResponseProcessor.process(response, processor, listener);
+            }
+        });
+    }
 
     /**
      * 重置密码接口

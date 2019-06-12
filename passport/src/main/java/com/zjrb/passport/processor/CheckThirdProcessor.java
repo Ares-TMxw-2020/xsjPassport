@@ -25,7 +25,7 @@ public class CheckThirdProcessor implements JsonProcessor {
     @Override
     public void process(JSONObject jsonObject) throws JSONException {
         CheckPhoneInfo info = new CheckPhoneInfo();
-        boolean exists = jsonObject.optBoolean("exist");// data里面还有一层authorization_code
+        boolean exists = jsonObject.optBoolean("exist");
         info.setExist(exists);
         listener.onSuccess(info);
     }

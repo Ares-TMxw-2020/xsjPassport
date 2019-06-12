@@ -124,10 +124,10 @@ ErrorCode.ERROR_CAN_MERGE: 代表需要进行账号合并的操作
       }
 ```
 
-#### 使用手机号+第三方绑定注册通行证接口
+#### 第三方账号同时绑定手机号接口
 ```java
     /**
-     * 使用手机号+第三方绑定注册通行证接口 POST
+     * 第三方账号同时绑定手机号接口 POST
      * @param auth_uid   第三方用户唯一id标识
      * @param auth_type  第三方绑定类型
      * @param auth_token 第三方返回的access_token

@@ -164,7 +164,7 @@ public class ZbPassport {
     }
 
     /**
-     * 使用手机号+第三方绑定注册通行证接口 POST
+     * 第三方账号同时绑定手机号接口 POST
      * @param auth_uid   第三方用户唯一id标识
      * @param auth_type  第三方绑定类型
      * @param auth_token 第三方返回的access_token
@@ -173,9 +173,9 @@ public class ZbPassport {
      * @param listener
      * @return
      */
-//    public static Call registerThirdBindPhone(String phoneNum, String smsCode, String auth_uid, int auth_type, String auth_token, final ZbAuthListener listener) {
-//        return netWork.registerThirdBindPhone(phoneNum, smsCode, auth_uid, auth_type, auth_token,listener);
-//    }
+    public static Call registerThirdBindPhone(String phoneNum, String smsCode, String auth_uid, int auth_type, String auth_token, final ZbAuthListener listener) {
+        return netWork.registerThirdBindPhone(phoneNum, smsCode, auth_uid, auth_type, auth_token,listener);
+    }
 
 
     /**

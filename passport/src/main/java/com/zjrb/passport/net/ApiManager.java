@@ -104,10 +104,10 @@ public class ApiManager {
         public static final String SMS_SEND_SECURITY_CODE = "/web/security/send_security_code";
 
         /**
-         * 使用手机号+第三方绑定注册通行证接口
+         * 第三方账号同时绑定手机号接口
          * post
          */
-//        public static final String PASSPORT_PHONE_THRID_REGISTER= "/web/oauth/register";
+        public static final String PASSPORT_PHONE_THRID_REGISTER= "/web/oauth/register";
 
         /**
          * 验证码预检查接口
