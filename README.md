@@ -707,7 +707,7 @@ ZbPassport.checkPhoneNumber(phoneNum, new ZbCheckPhoneListener() {
         });
 ```
 
-### 第三方账号是否已经绑定检查接口
+### 第三方账号是否已经绑定检查接口(该接口只是判断三方账号是否在通行证中存在,林参设计的该接口跟是否已绑定手机号没有关系)  返回true,代表已存在通行证id,仍然调用loginThird接口,然后请求各自后端登录认证接口,拿到loginBean,根据phoneNumber判断是否需要进入绑定手机号界面;返回false,进入绑定手机号界面,如需绑定手机号,调用registerThirdBindPhone接口()
 ```java
     /**
      * 第三方账号是否已经绑定检查接口
