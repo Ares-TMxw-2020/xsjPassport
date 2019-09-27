@@ -10,6 +10,7 @@ import static com.zjrb.passport.constant.ZbConstants.Env.DEV;
 import static com.zjrb.passport.constant.ZbConstants.Env.OFFICIAL;
 import static com.zjrb.passport.constant.ZbConstants.Env.PRE;
 import static com.zjrb.passport.constant.ZbConstants.Env.TEST;
+import static com.zjrb.passport.constant.ZbConstants.ThirdLogin.DINGDING;
 import static com.zjrb.passport.constant.ZbConstants.ThirdLogin.QQ;
 import static com.zjrb.passport.constant.ZbConstants.ThirdLogin.SINA;
 import static com.zjrb.passport.constant.ZbConstants.ThirdLogin.WECHAT;
@@ -72,6 +73,10 @@ public final class ZbConstants {
          * 新浪微博
          */
         public static final int SINA = 3;
+        /**
+         * 钉钉
+         */
+        public static final int DINGDING = 4;
 
     }
 
@@ -83,7 +88,7 @@ public final class ZbConstants {
 
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({WECHAT, QQ, SINA})
+    @IntDef({WECHAT, QQ, SINA, DINGDING})
     public @interface ThirdType {
     }
 
