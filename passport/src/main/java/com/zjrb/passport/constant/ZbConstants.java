@@ -76,7 +76,7 @@ public final class ZbConstants {
         /**
          * 钉钉
          */
-        public static final int DINGDING = 4;
+        public static final int DINGDING = 5;
 
     }
 
