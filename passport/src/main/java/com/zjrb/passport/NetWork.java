@@ -7,6 +7,7 @@ import com.zjrb.passport.listener.ZbAuthListener;
 import com.zjrb.passport.listener.ZbCheckPhoneListener;
 import com.zjrb.passport.listener.ZbCheckThirdListener;
 import com.zjrb.passport.listener.ZbGetAccountInfoListener;
+import com.zjrb.passport.listener.ZbGetUidListener;
 import com.zjrb.passport.listener.ZbGraphicListener;
 import com.zjrb.passport.listener.ZbInitListener;
 import com.zjrb.passport.listener.ZbResultListener;
@@ -19,6 +20,7 @@ import com.zjrb.passport.processor.AccountProcessor;
 import com.zjrb.passport.processor.AuthProcessor;
 import com.zjrb.passport.processor.CheckPhoneProcessor;
 import com.zjrb.passport.processor.CheckThirdProcessor;
+import com.zjrb.passport.processor.GetUidProcessor;
 import com.zjrb.passport.processor.InitProcessor;
 import com.zjrb.passport.processor.ResponseProcessor;
 import com.zjrb.passport.util.EncryptUtil;
@@ -243,6 +245,46 @@ public class NetWork {
             @Override
             public void onSuccess(Response response) {
                 AuthProcessor processor = new AuthProcessor(listener);
+                ResponseProcessor.process(response, processor, listener);
+            }
+        });
+    }
+
+    /**
+     * 钉钉登录接口
+     * @param code
+     * @param listener
+     * @return
+     */
+    public Call loginDingding(String code, final ZbAuthListener listener) {
+        // POST /web/oauth/dingding_login?client_id=1&code=111111
+        ParamsBuilder builder = new ParamsBuilder().api(ApiManager.EndPoint.PASSPORT_DINGDING_LOGIN)
+                .add("client_id", ZbPassport.getZbConfig().getClientId() + "")
+                .add("code", code);
+        return post(builder, new WrapListener(listener) {
+            @Override
+            public void onSuccess(Response response) {
+                AuthProcessor processor = new AuthProcessor(listener);
+                ResponseProcessor.process(response, processor, listener);
+            }
+        });
+    }
+
+    /**
+     * 获取钉钉UID
+     * @param code
+     * @param listener
+     * @return
+     */
+    public Call getDingdingUid(String code, final ZbGetUidListener listener) {
+        // POST /web/oauth/get_dingding_uid?client_id=1&code=111111
+        ParamsBuilder builder = new ParamsBuilder().api(ApiManager.EndPoint.PASSPORT_GET_DINGDING_UID)
+                .add("client_id", ZbPassport.getZbConfig().getClientId() + "")
+                .add("code", code);
+        return post(builder, new WrapListener(listener) {
+            @Override
+            public void onSuccess(Response response) {
+                GetUidProcessor processor = new GetUidProcessor(listener);
                 ResponseProcessor.process(response, processor, listener);
             }
         });

@@ -8,6 +8,7 @@ import com.zjrb.passport.listener.ZbAuthListener;
 import com.zjrb.passport.listener.ZbCheckPhoneListener;
 import com.zjrb.passport.listener.ZbCheckThirdListener;
 import com.zjrb.passport.listener.ZbGetAccountInfoListener;
+import com.zjrb.passport.listener.ZbGetUidListener;
 import com.zjrb.passport.listener.ZbGraphicListener;
 import com.zjrb.passport.listener.ZbInitListener;
 import com.zjrb.passport.listener.ZbResultListener;
@@ -201,6 +202,26 @@ public class ZbPassport {
      */
     public static Call loginThird( String auth_uid, @ZbConstants.ThirdType int auth_type, String auth_token, final ZbAuthListener listener) {
         return netWork.loginThird( auth_uid, auth_type, auth_token, listener);
+    }
+
+    /**
+     * 钉钉登录接口
+     * @param code
+     * @param listener
+     * @return
+     */
+    public static Call loginDingding(String code, final ZbAuthListener listener) {
+            return netWork.loginDingding(code, listener);
+    }
+
+    /**
+     * 获取钉钉UID
+     * @param code
+     * @param listener
+     * @return
+     */
+    public static Call getDingdingUid(String code, final ZbGetUidListener listener) {
+        return netWork.getDingdingUid(code, listener);
     }
 
     /**

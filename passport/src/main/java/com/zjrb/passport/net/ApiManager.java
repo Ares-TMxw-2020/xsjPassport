@@ -134,6 +134,18 @@ public class ApiManager {
         public static final String PASSPORT_THIRD_PARTY_AUTH = "/web/oauth/third_party_auth";
 
         /**
+         * 钉钉登录认证接口
+         * post
+         */
+        public static final String PASSPORT_DINGDING_LOGIN = "/web/oauth/dingding_login";
+
+        /**
+         * 获取钉钉UID
+         * post
+         */
+        public static final String PASSPORT_GET_DINGDING_UID = "/web/oauth/get_dingding_uid";
+
+        /**
          * 第三方账号登录且强制绑定手机号接口(跟林参确认,可以去掉不用)
          * post
          */
