@@ -742,6 +742,6 @@ session失效处理,账号合并之后,未选取的账号会出现session失效�
 
 ### 版本记录
 0.0.3.xsb-SNAPSHOT  增加钉钉登录类型支持
-0.0.4.xsb-SNAPSHOT  支持易盾一键登录
+0.0.1.common-SNAPSHOT  在0.0.3.xsb-SNAPSHOT的基础上,支持易盾一键登录
 
 
