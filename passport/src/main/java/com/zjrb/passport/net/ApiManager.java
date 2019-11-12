@@ -128,6 +128,12 @@ public class ApiManager {
         public static final String PASSPORT_PHONENUM_CAPTCHA = "/web/oauth/security_code_auth";
 
         /**
+         * 网易易盾一键登录认证
+         * GET
+         */
+        public static final String PASSPORT_ONE_CLICK = "/web/oauth/one_click";
+
+        /**
          * 第三方账号登录认证接口
          * post
          */

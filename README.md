@@ -270,8 +270,18 @@ ErrorCode.ERROR_CAN_MERGE: 代表需要进行账号合并的操作
 
             }
 ```
-
-
+#### 网易易盾一键登录认证
+```java
+    /**
+     * 网易易盾一键登录认证 
+     * @param yd_token 网易易盾token
+     * @param mobile_access_token 手机运营商返回token
+     * @param listener
+     * @return
+     */
+    public static Call loginYiDun(String yd_token, String mobile_access_token, final ZbAuthListener listener) {
+        return netWork.loginYiDun(yd_token, mobile_access_token, listener);
+```
 
 ### 获取图形验证码接口,回调接口返回byte[]数组供接入方使用
 ```java
@@ -729,5 +739,9 @@ session失效处理,账号合并之后,未选取的账号会出现session失效�
 个性化账号,新版本通行证不支持个性化账号注册(浙江新闻5.6版本新用户不支持个性化账号注册,历史版本的个性化账号必须绑定手机号才算登录成功)
 
 退出登录接入方调用自己服务端的接口,sdk不提供退出登录接口
+
+### 版本记录
+0.0.3.xsb-SNAPSHOT  增加钉钉登录类型支持
+0.0.4.xsb-SNAPSHOT  支持易盾一键登录
 
 

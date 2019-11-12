@@ -225,6 +225,26 @@ public class NetWork {
         });
     }
 
+    /**
+     * 网易易盾一键登录认证
+     * @param yd_token 网易易盾token
+     * @param mobile_access_token 手机运营商返回token
+     * @param listener
+     * @return
+     */
+    public Call loginYiDun(String yd_token, String mobile_access_token, final ZbAuthListener listener) {
+        ParamsBuilder builder = new ParamsBuilder().api(ApiManager.EndPoint.PASSPORT_ONE_CLICK)
+                .add("client_id", ZbPassport.getZbConfig().getClientId() + "")
+                .add("yd_token", yd_token)
+                .add("mobile_access_token", mobile_access_token);
+        return get(builder, new WrapListener(listener) {
+            @Override
+            public void onSuccess(Response response) {
+                AuthProcessor processor = new AuthProcessor(listener);
+                ResponseProcessor.process(response, processor, listener);
+            }
+        });
+    }
 
     /**
      * 第三方账号登录认证接口
@@ -277,11 +297,11 @@ public class NetWork {
      * @return
      */
     public Call getDingdingUid(String code, final ZbGetUidListener listener) {
-        // POST /web/oauth/get_dingding_uid?client_id=1&code=111111
+        // GET /web/oauth/get_dingding_uid?client_id=1&code=111111
         ParamsBuilder builder = new ParamsBuilder().api(ApiManager.EndPoint.PASSPORT_GET_DINGDING_UID)
                 .add("client_id", ZbPassport.getZbConfig().getClientId() + "")
                 .add("code", code);
-        return post(builder, new WrapListener(listener) {
+        return get(builder, new WrapListener(listener) {
             @Override
             public void onSuccess(Response response) {
                 GetUidProcessor processor = new GetUidProcessor(listener);

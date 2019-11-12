@@ -205,6 +205,17 @@ public class ZbPassport {
     }
 
     /**
+     * 网易易盾一键登录认证
+     * @param yd_token 网易易盾token
+     * @param mobile_access_token 手机运营商返回token
+     * @param listener
+     * @return
+     */
+    public static Call loginYiDun(String yd_token, String mobile_access_token, final ZbAuthListener listener) {
+        return netWork.loginYiDun(yd_token, mobile_access_token, listener);
+    }
+
+    /**
      * 钉钉登录接口
      * @param code
      * @param listener
