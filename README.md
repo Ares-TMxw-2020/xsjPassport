@@ -270,6 +270,113 @@ ErrorCode.ERROR_CAN_MERGE: 代表需要进行账号合并的操作
 
             }
 ```
+
+##### 钉钉登录  钉钉登录的流程比较特别,在友盟三方授权之后,需要先判断是钉钉登录类型,然后调用获取钉钉Uid的方法,然后再调用loginThird方法,其中loginThird方法中的accessToken传"123456"
+```java
+    /**
+     * 获取钉钉UID
+     * @param code 钉钉的accessToken
+     * @param listener
+     * @return
+     */
+    public static Call getDingdingUid(String code, final ZbGetUidListener listener) {
+        return netWork.getDingdingUid(code, listener);
+    }
+```    
+示例代码:
+```java
+public void onComplete(PlatformType platformType, UMengOAuthUserInfo oAuthUserInfo) {
+                        v.showProgressDialog("正在登录...");
+                        final String uid = oAuthUserInfo.getUid();
+                        final String accessToken = oAuthUserInfo.getAccessToken();
+                        int type = ZbConstants.ThirdLogin.WECHAT;
+                        switch (platformType) {
+                            case QQ:
+                                type = ZbConstants.ThirdLogin.QQ;
+                                break;
+                            case SINA:
+                                type = ZbConstants.ThirdLogin.SINA;
+                                break;
+                            case WEIXIN:
+                                type = ZbConstants.ThirdLogin.WECHAT;
+                                break;
+                            case DINGDING:
+                                type = ZbConstants.ThirdLogin.DINGDING;
+                                break;
+                            default:
+                                break;
+                        }
+
+                        final int finalType = type;
+                        // 钉钉登录类型需要单独去获取uid
+                        if (finalType == ZbConstants.ThirdLogin.DINGDING) {
+                            ZbPassport.getDingdingUid(accessToken, new ZbGetUidListener() {
+                                @Override
+                                public void onSuccess(UidInfo info) {
+                                    if (info != null) {
+                                        String uid = info.getUid();
+                                        checkThird(uid, "123456", finalType); // 钉钉登录auth_token传123456
+                                    } else {
+                                        ToastUtils.showBottom((Context) v, "授权登录失败");
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(int errorCode, String errorMessage) {
+                                    v.disMissProgress();
+                                    ToastUtils.showBottom((Context) v, errorMessage);
+                                }
+                            });
+                        } else {
+                            checkThird(uid, accessToken, finalType);
+                        }
+
+                    }
+                    
+    /**                
+     * 检测三方账号是否注册过通行证
+     * @param uid
+     * @param accessToken
+     * @param finalType
+     */
+    private void checkThird(final String uid, final String accessToken, final int finalType) {
+        ZbPassport.checkThird(finalType + "", uid, accessToken, new ZbCheckThirdListener() {
+            @Override
+            public void onSuccess(CheckPhoneInfo info) {
+                if (info.isExist()) {//三方存在通行证
+                    ZbPassport.loginThird(uid, finalType, accessToken, thirdAuthListener);
+                } else {//不存在通行证，直接跳到绑定手机页面
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean(Constants.AUTO_REGISTER, true);
+                    bundle.putString("uid", uid);
+                    bundle.putInt("type", finalType);
+                    bundle.putString("accessToken", accessToken);
+                    v.disMissProgress();
+                    BindPhoneNumberActivity.routeToThisActivity((Context) v, v.getClass(), bundle);
+                }
+            }
+
+            @Override
+            public void onFailure(int errorCode, String errorMessage) {
+                getActivity().generalNetError(errorCode, errorMessage, false, true, true);
+            }
+        });
+    }
+```
+#### 第三方账号是否已经绑定检查接口(该接口只是判断三方账号是否在通行证中存在,林参设计的该接口跟是否已绑定手机号没有关系)  返回true,代表已存在通行证id,仍然调用loginThird接口,然后请求各自后端登录认证接口,拿到loginBean,根据phoneNumber判断是否需要进入绑定手机号界面;返回false,进入绑定手机号界面,如需绑定手机号,调用registerThirdBindPhone接口()
+```java
+    /**
+     * 第三方账号是否已经绑定检查接口
+     * @param auth_type    第三方账户绑定类型
+     * @param auth_uid     第三方用户唯一id标识
+     * @param auth_token 第三方返回的auth_token
+     * @param listener
+     * @return
+     */
+    public static Call checkThird(String auth_type, String auth_uid, String auth_token, final ZbCheckThirdListener listener) {
+        return netWork.checkThird(auth_type, auth_uid, auth_token, listener);
+    }
+```
 #### 网易易盾一键登录认证
 ```java
     /**
@@ -717,20 +824,7 @@ ZbPassport.checkPhoneNumber(phoneNum, new ZbCheckPhoneListener() {
         });
 ```
 
-### 第三方账号是否已经绑定检查接口(该接口只是判断三方账号是否在通行证中存在,林参设计的该接口跟是否已绑定手机号没有关系)  返回true,代表已存在通行证id,仍然调用loginThird接口,然后请求各自后端登录认证接口,拿到loginBean,根据phoneNumber判断是否需要进入绑定手机号界面;返回false,进入绑定手机号界面,如需绑定手机号,调用registerThirdBindPhone接口()
-```java
-    /**
-     * 第三方账号是否已经绑定检查接口
-     * @param auth_type    第三方账户绑定类型
-     * @param auth_uid     第三方用户唯一id标识
-     * @param auth_token 第三方返回的auth_token
-     * @param listener
-     * @return
-     */
-    public static Call checkThird(String auth_type, String auth_uid, String auth_token, final ZbCheckThirdListener listener) {
-        return netWork.checkThird(auth_type, auth_uid, auth_token, listener);
-    }
-```
+
 #### 注意事项:
 session失效处理,账号合并之后,未选取的账号会出现session失效的情况,处理
 
