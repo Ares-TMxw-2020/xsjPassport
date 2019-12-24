@@ -342,7 +342,7 @@ public class ZbPassport {
 
 
     /**
-     * 第三方账号是否已经绑定检查接口
+     * 第三方账号是否已经绑定检查接口(该接口只是判断三方账号是否在通行证中存在,林参设计的该接口跟是否已绑定手机号没有关系)
      * @param auth_type    第三方账户绑定类型
      * @param auth_uid     第三方用户唯一id标识
      * @param auth_token 第三方返回的auth_token
